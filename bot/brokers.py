@@ -1,0 +1,220 @@
+"""Execution layer — one interface, two implementations.
+
+LiveExec : real orders on Wallex (challenge account)
+PaperExec: shadow test — real live order books, simulated fills, no orders sent.
+
+Paper fill model is conservative: a resting BUY only fills when the opposite
+side of the live book (best ask) moves to/through our price, and only for the
+quantity actually offered there; marketable sells fill against the live bids
+(VWAP) with taker fees.
+"""
+from __future__ import annotations
+
+import time
+import uuid
+import logging
+from dataclasses import dataclass, field
+
+from .wallex_client import WallexClient, WallexError, MarketInfo, vwap_sell
+
+log = logging.getLogger("exec")
+
+
+@dataclass
+class Fill:
+    side: str
+    symbol: str
+    qty: float = 0.0          # base qty executed (gross)
+    quote: float = 0.0        # quote amount executed (gross)
+    fee_quote: float = 0.0
+    orders: list = field(default_factory=list)
+    note: str = ""
+
+    @property
+    def avg_price(self):
+        return self.quote / self.qty if self.qty else 0.0
+
+
+def _cid(prefix="Q"):
+    return f"{prefix}-{uuid.uuid4().hex[:22]}"
+
+
+class LiveExec:
+    def __init__(self, client: WallexClient, fees_by_symbol: dict):
+        self.c = client
+        self.fees = fees_by_symbol
+
+    def balances(self):
+        return self.c.balances()
+
+    def place_limit(self, m: MarketInfo, side: str, qty: float, price: float, prefix="Q") -> dict:
+        qty, price = m.round_qty(qty), m.round_price(price, side)
+        cid = _cid(prefix)
+        o = self.c.place_order(m.symbol, side, qty, price, "LIMIT", client_id=cid)
+        o.setdefault("clientOrderId", cid)
+        return o
+
+    def cancel(self, cid: str):
+        try:
+            self.c.cancel_order(cid)
+        except WallexError as e:
+            log.info("cancel %s: %s", cid, e)
+
+    def get(self, cid: str) -> dict:
+        return self.c.get_order(cid)
+
+    def open_orders(self) -> dict[str, dict]:
+        return {o.get("clientOrderId"): o for o in self.c.open_orders()}
+
+    def on_books(self, books):  # live fills happen on the exchange
+        return None
+
+    def market_sell(self, m: MarketInfo, qty: float, books: dict, fee: float, attempts: int = 3) -> Fill:
+        """Marketable limit SELL, re-priced up to `attempts` times; executed qty read back."""
+        fill = Fill("SELL", m.symbol)
+        remaining = m.round_qty(qty)
+        for k in range(attempts):
+            if remaining <= 0 or remaining < m.min_qty:
+                break
+            b = books.get(m.symbol) if k == 0 else self.c.depth(m.symbol)
+            bids = b["bids"] if b else []
+            if not bids:
+                time.sleep(1)
+                continue
+            px = bids[0][0] * (1 - 0.002 * (k + 1))
+            if remaining * px < m.min_notional:
+                fill.note = "below min notional"
+                break
+            try:
+                o = self.place_limit(m, "SELL", remaining, px, prefix="H")
+            except WallexError as e:
+                fill.note = f"place failed: {e}"
+                time.sleep(1)
+                continue
+            cid = o.get("clientOrderId")
+            for _ in range(8):
+                time.sleep(0.7)
+                try:
+                    o = self.get(cid)
+                except WallexError:
+                    continue
+                if not o.get("active", True):
+                    break
+            if o.get("active", True):
+                self.cancel(cid)
+                time.sleep(0.5)
+                try:
+                    o = self.get(cid)
+                except WallexError:
+                    pass
+            q, s = float(o.get("executedQty", 0) or 0), float(o.get("executedSum", 0) or 0)
+            fill.orders.append({"cid": cid, "status": o.get("status"), "qty": q, "sum": s})
+            if q > 0:
+                fill.qty += q
+                fill.quote += s
+                fill.fee_quote += s * fee
+                remaining = m.round_qty(remaining - q)
+        return fill
+
+
+class PaperExec:
+    def __init__(self, start: dict, fees_by_symbol: dict, default_fee: dict):
+        self.bal = {k: {"free": v, "total": v, "locked": 0.0} for k, v in start.items()}
+        self.orders: dict[str, dict] = {}
+        self.fees = fees_by_symbol
+        self.default_fee = default_fee
+        self.markets: dict[str, MarketInfo] = {}
+
+    def _fee(self, sym, kind):
+        return self.fees.get(sym, {}).get(kind) or self.default_fee[("tmn_" if sym.endswith("TMN") else "usdt_") + kind]
+
+    def _add(self, asset, free=0.0, locked=0.0):
+        b = self.bal.setdefault(asset, {"free": 0.0, "total": 0.0, "locked": 0.0})
+        b["free"] += free
+        b["locked"] += locked
+        b["total"] = b["free"] + b["locked"]
+
+    def balances(self):
+        return {k: dict(v) for k, v in self.bal.items()}
+
+    def place_limit(self, m: MarketInfo, side: str, qty: float, price: float, prefix="Q") -> dict:
+        qty, price = m.round_qty(qty), m.round_price(price, side)
+        self.markets[m.symbol] = m
+        cid = _cid(prefix)
+        if side == "BUY":
+            cost = qty * price
+            if cost > self.bal.get(m.quote, {}).get("free", 0) + 1e-9:
+                raise WallexError("paper: insufficient balance")
+            self._add(m.quote, -cost, cost)
+        else:
+            if qty > self.bal.get(m.base, {}).get("free", 0) + 1e-12:
+                raise WallexError("paper: insufficient base balance")
+            self._add(m.base, -qty, qty)
+        o = {"clientOrderId": cid, "symbol": m.symbol, "side": side, "price": price, "origQty": qty,
+             "executedQty": 0.0, "executedSum": 0.0, "active": True, "status": "NEW", "created": time.time()}
+        self.orders[cid] = o
+        return dict(o)
+
+    def cancel(self, cid):
+        o = self.orders.get(cid)
+        if not o or not o["active"]:
+            return
+        m = self.markets[o["symbol"]]
+        rem = o["origQty"] - o["executedQty"]
+        if o["side"] == "BUY":
+            amt = rem * o["price"]
+            self._add(m.quote, amt, -amt)
+        else:
+            self._add(m.base, rem, -rem)
+        o["active"], o["status"] = False, "CANCELED"
+
+    def get(self, cid):
+        return dict(self.orders[cid])
+
+    def open_orders(self):
+        return {k: dict(v) for k, v in self.orders.items() if v["active"]}
+
+    def on_books(self, books: dict):
+        """Simulate maker fills: BUY fills when the live best ask <= our price."""
+        for o in self.orders.values():
+            if not o["active"]:
+                continue
+            b = books.get(o["symbol"])
+            if not b:
+                continue
+            m = self.markets[o["symbol"]]
+            rem = o["origQty"] - o["executedQty"]
+            if o["side"] == "BUY":
+                avail = sum(q for p, q in b["asks"] if p <= o["price"])
+            else:
+                avail = sum(q for p, q in b["bids"] if p >= o["price"])
+            q = m.round_qty(min(rem, avail))
+            if q <= 0:
+                continue
+            fee = self._fee(o["symbol"], "maker")
+            amt = q * o["price"]
+            if o["side"] == "BUY":
+                self._add(m.quote, 0, -amt)
+                self._add(m.base, q * (1 - fee))
+            else:
+                self._add(m.base, 0, -q)
+                self._add(m.quote, amt * (1 - fee))
+            o["executedQty"] += q
+            o["executedSum"] += amt
+            if o["origQty"] - o["executedQty"] <= 10 ** -m.qty_decimals / 2:
+                o["active"], o["status"] = False, "FILLED"
+            else:
+                o["status"] = "PARTIALLY_FILLED"
+
+    def market_sell(self, m: MarketInfo, qty: float, books: dict, fee: float, attempts: int = 3) -> Fill:
+        self.markets[m.symbol] = m
+        b = books.get(m.symbol)
+        qty = m.round_qty(min(qty, self.bal.get(m.base, {}).get("free", 0)))
+        if not b or not b["bids"] or qty <= 0:
+            return Fill("SELL", m.symbol, note="nothing to sell / empty book")
+        px, got = vwap_sell(b["bids"], qty)
+        if px is None or got < m.min_notional:
+            return Fill("SELL", m.symbol, note="book too thin or below min notional")
+        self._add(m.base, -qty)
+        self._add(m.quote, got * (1 - fee))
+        return Fill("SELL", m.symbol, qty=qty, quote=got, fee_quote=got * fee, note="paper taker")
