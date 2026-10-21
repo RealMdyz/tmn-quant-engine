@@ -31,7 +31,7 @@ fi
 
 # secrets: ~/tmn.env (created by the account owner) -> .env used by the bot
 if [ -f "$HOME/tmn.env" ] && [ ! -f .env ]; then
-  grep -v '^GITHUB_TOKEN' "$HOME/tmn.env" > .env
+  grep -v '^GITHUB_TOKEN' "$HOME/tmn.env" | tr -d '\r' > .env
   chmod 600 .env
 fi
 
