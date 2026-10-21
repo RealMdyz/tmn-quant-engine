@@ -100,19 +100,33 @@ class SupervisorAgent:
         self.calls = deque()
         self.usage = {"calls": 0, "failures": 0, "prompt_tokens": 0, "completion_tokens": 0, "by_provider": {}}
 
+    def spent_usd(self) -> float:
+        p = self.cfg.get("price_per_million_usd", {"input": 0.30, "output": 2.50})
+        return (self.usage["prompt_tokens"] * p["input"] + self.usage["completion_tokens"] * p["output"]) / 1e6
+
     def _budget_ok(self):
+        """Hard guards for the LLM budget: calls per hour AND total estimated dollars."""
         now = time.time()
         while self.calls and now - self.calls[0] > 3600:
             self.calls.popleft()
+        if self.spent_usd() >= self.cfg.get("budget_usd", 2.0):
+            return False
         return len(self.calls) < self.cfg.get("max_calls_per_hour", 6)
 
     def _chat(self, prov, messages, use_tools):
-        body = {"model": prov["model"], "messages": messages}
+        body = {"model": prov["model"], "messages": messages,
+                "max_completion_tokens": self.cfg.get("max_output_tokens", 2500),
+                "reasoning_effort": self.cfg.get("reasoning_effort", "low")}   # cheap: little hidden reasoning
         if use_tools:
             body["tools"] = TOOLS
             body["tool_choice"] = "auto"
-        r = requests.post(f"{prov['base']}/chat/completions", json=body, timeout=self.cfg.get("timeout_s", 60),
-                          headers={"Authorization": f"Bearer {prov['key']}"})
+        hdr = {"Authorization": f"Bearer {prov['key']}"}
+        url = f"{prov['base']}/chat/completions"
+        r = requests.post(url, json=body, timeout=self.cfg.get("timeout_s", 60), headers=hdr)
+        if r.status_code == 400:            # provider does not accept the optional params -> plain request
+            body.pop("reasoning_effort", None)
+            body.pop("max_completion_tokens", None)
+            r = requests.post(url, json=body, timeout=self.cfg.get("timeout_s", 60), headers=hdr)
         r.raise_for_status()
         data = r.json()
         u = data.get("usage") or {}
@@ -121,7 +135,7 @@ class SupervisorAgent:
         self.usage["by_provider"][prov["name"]] = self.usage["by_provider"].get(prov["name"], 0) + 1
         return data["choices"][0]["message"]
 
-    def _run(self, system, user, max_steps=5):
+    def _run(self, system, user, max_steps=4):
         if not self.enabled or not self._budget_ok():
             return None, [], None
         self.calls.append(time.time())
@@ -149,7 +163,7 @@ class SupervisorAgent:
                             res = {"error": str(e)[:200]}
                         trace.append({"tool": name, "args": args})
                         messages.append({"role": "tool", "tool_call_id": tc["id"],
-                                         "content": json.dumps(res, ensure_ascii=False, default=str)[:5000]})
+                                         "content": json.dumps(res, ensure_ascii=False, default=str)[:self.cfg.get("tool_output_chars", 2500)]})
             except Exception as e:
                 self.usage["failures"] += 1
                 log.warning("LLM provider %s failed: %s", prov["name"], e)
@@ -179,7 +193,7 @@ class SupervisorAgent:
 
 
 # ------------------------------------------------------------------ news tool
-def fetch_headlines(feeds: list[dict], topic: str = "all", limit: int = 12) -> list[dict]:
+def fetch_headlines(feeds: list[dict], topic: str = "all", limit: int = 8) -> list[dict]:
     out = []
     for f in feeds:
         if topic != "all" and f.get("topic") != topic:
@@ -195,4 +209,4 @@ def fetch_headlines(feeds: list[dict], topic: str = "all", limit: int = 12) -> l
                                 "date": d.group(1).strip() if d else ""})
         except Exception as e:
             out.append({"source": f["name"], "error": str(e)[:100]})
-    return out[: limit * 2]
+    return out[:limit]

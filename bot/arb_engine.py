@@ -116,6 +116,7 @@ class ArbEngine:
     def save_state(self):
         st = {"quotes": self.quotes, "usdt_order": self.usdt_order, "risk": self.risk.state.__dict__,
               "stats": self.stats, "coin_stats": self.coin_stats, "policy": self.policy,
+              "llm_usage": self.agent.usage,
               "bandits": {k: [a.__dict__ for a in b.arms] for k, b in self.bandits.items()},
               "paper": getattr(self.ex, "bal", None) if self.mode == "shadow" else None,
               "paper_orders": getattr(self.ex, "orders", None) if self.mode == "shadow" else None}
@@ -133,6 +134,8 @@ class ArbEngine:
         self.stats.update(st.get("stats") or {})
         self.coin_stats = st.get("coin_stats") or {}
         self.policy = st.get("policy") or {}
+        if st.get("llm_usage"):
+            self.agent.usage.update(st["llm_usage"])
         for coin, arms in (st.get("bandits") or {}).items():
             if coin in self.bandits:
                 for a, saved in zip(self.bandits[coin].arms, arms):
@@ -223,7 +226,8 @@ class ArbEngine:
         self.policy = self.agent.decide(ctx, self.coins)
         self.last_policy = now
         self.anomaly_flag = None
-        self.dlog.write("policy", policy=self.policy, context=ctx)
+        self.dlog.write("policy", policy=self.policy, context=ctx,
+                        llm_spent_usd=round(self.agent.spent_usd(), 4), llm_usage=self.agent.usage)
 
     def detect_anomaly(self, coin, dev):
         """Persistent dislocation (e.g. withdrawals halted) -> ask the agent now."""
