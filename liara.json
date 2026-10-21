@@ -1,0 +1,5 @@
+{
+  "platform": "docker",
+  "port": 8080,
+  "disks": [{ "name": "botlogs", "mountTo": "/app/logs" }]
+}

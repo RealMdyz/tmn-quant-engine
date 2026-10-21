@@ -60,6 +60,8 @@ def stop(p):
 
 
 def pull():
+    if os.getenv("DISABLE_PULL"):          # container deploys (Liara) are updated by CI, not by git pull
+        return False
     sh("git fetch -q origin main")
     local, remote = sh("git rev-parse HEAD"), sh("git rev-parse origin/main")
     if remote and local != remote:
@@ -69,8 +71,17 @@ def pull():
     return False
 
 
+def remote_url():
+    tok, repo = os.getenv("GITHUB_TOKEN"), os.getenv("GITHUB_REPO", "RealMdyz/tmn-quant-engine")
+    if tok:
+        return f"https://x-access-token:{tok}@github.com/{repo}.git"
+    return sh("git remote get-url origin")
+
+
 def sync_logs():
-    url = sh("git remote get-url origin")
+    url = remote_url()
+    if not url:
+        return
     if not os.path.isdir(os.path.join(SYNC_DIR, ".git")):
         os.makedirs(SYNC_DIR, exist_ok=True)
         sh("git init -q", SYNC_DIR)
@@ -99,8 +110,44 @@ def sync_logs():
     say("logs synced" + (f" ({out[-200:]})" if out else ""))
 
 
+def status_server():
+    """Tiny read-only status page (Liara needs an HTTP port; also handy for the demo video)."""
+    import http.server
+    import threading
+
+    class H(http.server.BaseHTTPRequestHandler):
+        def do_GET(self):
+            body = ""
+            try:
+                if self.path.startswith("/report"):
+                    body = open(os.path.join(LOGS, "report.md"), encoding="utf-8").read()
+                else:
+                    m = mode()
+                    eq = os.path.join(LOGS, f"equity_{m}.csv")
+                    tail = open(eq, encoding="utf-8").read().splitlines()[-15:] if os.path.exists(eq) else []
+                    body = f"mode: {m}\n\n" + "\n".join(tail) + "\n\n/report for the full report"
+            except Exception as e:
+                body = f"no data yet ({e})"
+            data = body.encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+        def log_message(self, *a):
+            pass
+
+    port = int(os.getenv("PORT", "0") or 0)
+    if port:
+        srv = http.server.ThreadingHTTPServer(("0.0.0.0", port), H)
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
+        say(f"status page on :{port}")
+
+
 def main():
     os.makedirs(LOGS, exist_ok=True)
+    status_server()
     cur_mode, proc = mode(), None
     proc = start(cur_mode)
     last_pull = last_sync = 0.0
