@@ -67,15 +67,15 @@ agent:
   providers:                    # tried in order (failover); cheapest capable model first
     - {name: boxapi, base_url_env: LLM_BASE_URL, api_key_env: LLM_API_KEY, model: gpt-5-mini}
     - {name: avalai, base_url_env: LLM2_BASE_URL, api_key_env: LLM2_API_KEY, model: gpt-5-mini}
-  # LLM budget: the whole hackathon has ~3 USD of credit. Hard caps below keep us far under it:
-  # ~1 policy call/hour (+ anomalies) x ~10k tokens ~= 0.005 USD/call -> ~0.3 USD for 3 days.
-  budget_usd: 2.0               # stop calling the LLM (use fallback policy) once this is spent
+  # LLM budget for this project: 1.5 USD for the whole 3 days (hard cap, then fallback policy).
+  # policy every 20 min + anomaly reviews ~= 160 calls x ~0.007 USD ~= 1.1 USD expected.
+  budget_usd: 1.5               # stop calling the LLM (use fallback policy) once this is spent
   price_per_million_usd: {input: 0.30, output: 2.50}   # conservative estimate for gpt-5-mini via BoxAPI
-  policy_every_minutes: 60
-  max_calls_per_hour: 3
+  policy_every_minutes: 20
+  max_calls_per_hour: 6
   max_output_tokens: 2500
   reasoning_effort: low
-  tool_output_chars: 2500
+  tool_output_chars: 4000
   timeout_s: 60
   margin_mult_bounds: [0.9, 2.5]
   usdt_hold_max: 0.30           # agent may keep at most 30% of equity in USDT (rial hedge)
