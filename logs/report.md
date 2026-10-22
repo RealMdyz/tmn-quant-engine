@@ -2,8 +2,8 @@
 
 ## SHADOW
 
-- Equity: **4,974,820 TMN** (-0.504%)
-- Max drawdown: **0.504%**
+- Equity: **4,977,083 TMN** (-0.458%)
+- Max drawdown: **0.668%**
 - Traded volume: 0 TMN
 
 ![equity](equity_shadow.png)
@@ -15,19 +15,19 @@
 | BNB | 1 | 0 | 0 | 0 |
 | FIL | 2 | 1 | 1 | -10,984 |
 
-- AI supervisor decisions: 30 (sources: {'fallback': 1, 'llm:boxapi': 29})
-- Events: {'startup': 40, 'policy': 30, 'quote': 1272, 'state_restored': 37, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 860, 'buy_unblocked': 695, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 56, 'regime': 8, 'sleeve_order': 56, 'sleeve_order_failed': 5, 'sleeve_fill': 26, 'state_reset': 1}
+- AI supervisor decisions: 31 (sources: {'fallback': 1, 'llm:boxapi': 30})
+- Events: {'startup': 41, 'policy': 31, 'quote': 1281, 'state_restored': 38, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 909, 'buy_unblocked': 736, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 63, 'regime': 9, 'sleeve_order': 56, 'sleeve_order_failed': 5, 'sleeve_fill': 26, 'state_reset': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "ARB": 1.3,
-    "SUI": 1.1,
-    "FIL": 1.2
+    "FIL": 0.9,
+    "AVAX": 1.1,
+    "GALA": 1.3
   },
   "pause": false,
-  "reasoning": "Select ARB because it has a very wide Toman spread (167.3 bps) and high 24h volume (35,059M TMN) with a positive premium (+20.6 bps), so we can sit wide (h=1.3%). Add SUI: spread 90.8 bps and decent volume (6,539M TMN) so a conservative h=1.1% fits its profile. Include FIL because its Toman spread is >50 bps (52.2 bps) and premium is large (+174.9 bps) with moderate volume (5,787M TMN), so h=1.2% balances pickoff risk and earning spread. Do not quote broken books (HYPE/IMX flagged) and avoid low-spread pairs (XRP/SOL). Keep sleeves fully in the rial regime (rial exposure 1.0 because USDT/TMN 48h +4.28% and regime cap=1.0) and nearly-full beta (0.9) to capture the rial-weakening lift while trimming some beta risk; beta assets = PEPE/ADA/LINK per portfolio weights and momentum.",
+  "reasoning": "Selected FIL because its Toman spread is 52.2 bps (above our 50 bps floor), very low FV volatility (fv_vol_bps 7.9) and a large premium (+169.2 bps) — so set a relatively tight half-spread h=0.9% to capture flow. Selected AVAX for its very wide Toman spread (169.1 bps), moderate fv_vol (48.9 bps) and decent 24h volume (3.2k M TMN) — set h=1.1% to be conservative against adverse selection. Selected GALA because spread is wide (99.4 bps) with good volume (2.3k M TMN) but higher fv volatility (296.5 bps) so use h=1.3% to avoid being picked off. No market-wide pause: no Iran/USDT shock or major crypto crash flagged. Sleeves: keep the rial sleeve at full exposure 1.0 because USDT/TMN 48h is +4.28% (regime cap=1.0) and the rial sleeve is already scaled_now=1.0; reduce beta to 0.8 (from scale_now 0.9) because beta has lost -1.25% and is higher-risk despite the favorable USDT/TMN regime — retain the three existing beta assets (PEPE, ADA, LINK) for momentum and simplicity.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }

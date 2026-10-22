@@ -101,3 +101,5 @@ superseded by a newer instance
 2026-10-22 17:55:59,328 INFO mm: market maker running in SHADOW mode
 2026-10-22 17:57:08,080 INFO mm: MM coins=['SOL', 'SUI', 'S', 'XRP', 'BNB', 'AAVE', 'HYPE', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
 2026-10-22 17:57:08,081 INFO mm: market maker running in SHADOW mode
+2026-10-22 18:15:56,857 INFO mm: MM coins=['SOL', 'SUI', 'S', 'XRP', 'BNB', 'AAVE', 'HYPE', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-22 18:15:56,858 INFO mm: market maker running in SHADOW mode
