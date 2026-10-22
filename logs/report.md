@@ -35,24 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,993,242 TMN** (-0.135%)
-- Max drawdown: **0.293%**
+- Equity: **4,992,529 TMN** (-0.149%)
+- Max drawdown: **0.462%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 3 (sources: {'llm:boxapi': 3})
-- Events: {'coin_skipped': 385, 'live_self_test': 55, 'cancel_all': 3, 'startup': 3, 'regime': 3, 'policy': 3, 'sleeve_order': 68, 'quote': 5, 'buy_blocked': 210, 'buy_unblocked': 194, 'state_restored': 54, 'sleeve_fill': 5}
+- AI supervisor decisions: 4 (sources: {'llm:boxapi': 4})
+- Events: {'coin_skipped': 385, 'live_self_test': 55, 'cancel_all': 3, 'startup': 3, 'regime': 3, 'policy': 4, 'sleeve_order': 68, 'quote': 5, 'buy_blocked': 252, 'buy_unblocked': 238, 'state_restored': 54, 'sleeve_fill': 5}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
     "SUI": 0.9,
+    "GALA": 1.0,
     "AVAX": 1.3
   },
   "pause": false,
-  "reasoning": "I pick SUI and AVAX because they are the only attractive candidates with Toman spread >=80 bps that are not buy-blocked: SUI spread 141.4 bps, vol24h 6,056 M TNM and low fv_vol 52.5 bps so I can quote relatively tight (h=0.9%). AVAX has spread 97.7 bps, vol24h 3,350 M TNM and higher fv_vol 117.2 bps so I set a wider half-spread (h=1.3%). I avoid HYPE/CHZ/IMX/UNI which show buy_blocked or unstable Toman books, and skip low-spread busy markets (SOL/BNB/FIL) since spread_bps <80 would waste the slot. Sleeves stay fully exposed (rial=1.0, beta=1.0) because USDT/TMN 48h +4.34% gives full regime cap and the rial/beta sleeves are currently scale_now=1.0 with modest recent returns (rial -0.22%, beta +0.41%); I keep beta assets PEPE/ADA/LINK per the current weights and momentum.",
+  "reasoning": "I pick SUI (spread 185.3 bps, vol24h 5,790M TMN, fv_vol 83.6 bps) because its Toman spread is wide and book is currently quoted; set h=0.9% to be reasonably aggressive given the wide spread. GALA has a 100.2 bps spread and very large USDT/TMN spread (446.9 bps) with decent activity (vol24h 2,225M TMN) so I quote at h=1.0% to capture that premium while remaining cautious. AVAX meets the 80 bps minimum (93.4 bps) but has higher fv volatility (140.9 bps), so I set h=1.3% to avoid being picked off; it is quoted now and vol24h 3,064M TMN. No market pause — no headline shock detected and several suitable wide spreads exist. Sleeves: USDT/TMN 48h +4.38% gives full exposure cap (1.0), so keep rial at 1.0 (benefits from rial weakness) and keep beta at 1.0; beta_assets are PEPE/ADA/LINK (the current sleeve weights and highest momentum names in the beta universe).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
