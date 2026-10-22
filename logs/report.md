@@ -8,21 +8,21 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 18 (sources: {'fallback': 1, 'llm:boxapi': 17})
-- Events: {'startup': 16, 'policy': 18, 'quote': 514, 'state_restored': 14, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 72, 'buy_unblocked': 37, 'instance_superseded': 6}
+- AI supervisor decisions: 19 (sources: {'fallback': 1, 'llm:boxapi': 18})
+- Events: {'startup': 16, 'policy': 19, 'quote': 537, 'state_restored': 14, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 99, 'buy_unblocked': 58, 'instance_superseded': 6}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "ARB": 2.0,
-    "S": 1.9,
-    "SOL": 1.5,
-    "ETH": 1.2,
-    "DOGE": 1.3
+    "SOL": 1.2,
+    "BNB": 1.0,
+    "S": 1.3,
+    "SUI": 0.9,
+    "ARB": 1.1
   },
   "pause": false,
-  "reasoning": "Select markets with large Toman spreads and decent activity while avoiding any with buy guards or bad live fills (none reported). ARB has a wide spread (57.6 bps) and high volume (33,981M TMN) so I use a wide half‑spread 2.0% to protect vs adverse selection. S shows an especially wide spread (87.9 bps) and solid volume (12,907M TMN) so I set h=1.9% to capture the premium (premium 37.6 bps) while being cautious. SOL (spread 30.4 bps, vol 29,639M TMN) and DOGE (15.8 bps, vol 41,479M TMN) are active — I use medium h of 1.5% and 1.3% respectively. ETH is the busiest (76,934M TMN) with a moderate spread (15.7 bps) and calm premium (-4.5 bps), so I place a tighter h=1.2% to try to earn safe round trips while keeping fees/adverse selection in mind.",
+  "reasoning": "Select up to five liquid markets with wide Toman spreads and stable FV: SOL (vol24h 29,651M TMN, spread 35.3 bps, fv_vol 24.8 bps) gets a conservative half-spread h=1.2% because volume is high but FV volatility is moderate. BNB (vol24h 58,071M, spread 31.1 bps, fv_vol 17.5 bps) is very busy and relatively stable so h=1.0% to be competitive. S (vol24h 12,987M, spread 63.5 bps, fv_vol 21.2 bps) has a large Toman spread so we set h=1.3% to protect against adverse selection. SUI (vol24h 7,402M, spread 105.9 bps, fv_vol 1.9 bps) has the widest spread and very low FV volatility so we quote tighter with h=0.9%. ARB (vol24h 34,203M, spread 25.5 bps, fv_vol 27.7 bps) is liquid but slightly more volatile so h=1.1% to balance spread capture and adverse-selection risk.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
