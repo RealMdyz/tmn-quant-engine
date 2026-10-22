@@ -7,10 +7,12 @@ supervisor starts `python run.py probe` on every deploy and syncs logs/probe/ to
 Output (logs/probe/):
   meta.json        time, package rules (raw), account fees, balances, open orders, own recent trades
   markets.json     every market: bid/ask/last/24h volume, tick/step, min notional, allowed flag
-  depth_all.json   full order books of every market (one /v2/depth/all call)
+  depth_all.json   top 10 levels of every allowed order book (one /v2/depth/all call)
   trades.json      latest trade tape of the most active allowed markets
-  candles_1m.json  1-minute OHLCV, last `days` days, for the most active allowed TMN markets,
-                   their USDT pairs and USDTTMN
+  candles_tmn.json / candles_usdt.json
+                   1-minute OHLCV, last `days` days, for the most active allowed TMN markets
+                   (+ USDTTMN) and their USDT pairs. Files are kept small (the logs are pushed
+                   from Iran to GitHub, which is slow).
 """
 from __future__ import annotations
 
@@ -32,7 +34,11 @@ def _dump(path, obj):
     os.replace(tmp, path)
 
 
-def run_probe(cfg: dict, api_key: str | None, out_dir: str = "logs/probe", days: float = 3, top: int = 30):
+def _r(x):
+    return float(f"{x:.7g}")
+
+
+def run_probe(cfg: dict, api_key: str | None, out_dir: str = "logs/probe", days: float = 2, top: int = 20):
     os.makedirs(out_dir, exist_ok=True)
     c = WallexClient(api_key, per_sec=cfg["execution"].get("max_requests_per_sec", 5))
     meta = {"started": time.strftime("%Y-%m-%d %H:%M:%S"), "errors": {}}
@@ -60,6 +66,8 @@ def run_probe(cfg: dict, api_key: str | None, out_dir: str = "logs/probe", days:
     _dump(os.path.join(out_dir, "markets.json"), markets)
 
     books = safe("depth_all", c.depth_all) or {}
+    books = {s: {k: [[_r(p), _r(q)] for p, q in b[k][:10]] for k in ("bids", "asks")}
+             for s, b in books.items() if markets.get(s, {}).get("allowed")}
     _dump(os.path.join(out_dir, "depth_all.json"), {"t": time.time(), "books": books})
 
     tmn = sorted((s for s, m in markets.items() if m["quote"] == "TMN" and m["allowed"] and s != "USDTTMN"),
@@ -72,12 +80,14 @@ def run_probe(cfg: dict, api_key: str | None, out_dir: str = "logs/probe", days:
         trades[s] = safe(f"trades {s}", lambda s=s: c.trades(s))
     _dump(os.path.join(out_dir, "trades.json"), trades)
 
-    candles = {}
-    for s in syms:
-        df = safe(f"candles {s}", lambda s=s: minute_bars(c, s, days))
-        if df is not None and len(df):
-            candles[s] = {"t": df.index.tolist(), **{k: df[k].astype(float).tolist() for k in "ohlcv" if k in df}}
-    _dump(os.path.join(out_dir, "candles_1m.json"), candles)
+    for name, group in (("candles_tmn.json", ["USDTTMN"] + tmn), ("candles_usdt.json", usdt)):
+        candles = {}
+        for s in group:
+            df = safe(f"candles {s}", lambda s=s: minute_bars(c, s, days))
+            if df is not None and len(df):
+                candles[s] = {"t": df.index.tolist(),
+                              **{k: [_r(x) for x in df[k].astype(float)] for k in "ohlcv" if k in df}}
+        _dump(os.path.join(out_dir, name), candles)
 
     meta["finished"] = time.strftime("%Y-%m-%d %H:%M:%S")
     meta["requests"] = c.stats

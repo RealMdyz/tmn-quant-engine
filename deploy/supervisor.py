@@ -12,6 +12,7 @@ import os
 import shutil
 import subprocess
 import sys
+import threading
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,11 +20,18 @@ LOGS = os.path.join(ROOT, "logs")
 SYNC_DIR = os.path.join(os.path.dirname(ROOT), "tmn-runtime-logs")
 PULL_EVERY = int(os.getenv("PULL_EVERY", "180"))
 SYNC_EVERY = int(os.getenv("SYNC_EVERY", "600"))
+SYNC_MAX_BYTES = int(os.getenv("SYNC_MAX_BYTES", "8000000"))
 PY = sys.executable
 
 
-def sh(cmd, cwd=ROOT, check=False):
-    r = subprocess.run(cmd, cwd=cwd, shell=True, capture_output=True, text=True)
+def sh(cmd, cwd=ROOT, check=False, timeout=120):
+    try:
+        r = subprocess.run(cmd, cwd=cwd, shell=True, capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        if check:
+            raise RuntimeError(f"{cmd}: timed out after {timeout}s")
+        say(f"timeout after {timeout}s: {cmd.split(' origin')[0][:60]}")
+        return ""
     if check and r.returncode:
         raise RuntimeError(f"{cmd}: {r.stderr[-400:]}")
     return r.stdout.strip()
@@ -100,13 +108,13 @@ def sync_logs():
             if f.endswith((".jsonl", ".csv", ".md", ".png", ".json", ".out", ".log")) and not f.startswith("state_"):
                 src = os.path.join(root, f)
                 rel = os.path.relpath(src, LOGS)
-                if os.path.getsize(src) > 45_000_000:
+                if os.path.getsize(src) > SYNC_MAX_BYTES:     # GitHub from Iran is slow: keep pushes small
                     continue
                 os.makedirs(os.path.dirname(os.path.join(dst, rel)), exist_ok=True)
                 shutil.copy2(src, os.path.join(dst, rel))
     sh("git add -A", SYNC_DIR)
     sh(f'git commit -q -m "logs {time.strftime("%Y-%m-%d %H:%M")} ({mode()})"', SYNC_DIR)
-    out = sh("git push -q origin runtime-logs 2>&1", SYNC_DIR)
+    out = sh("git push -q origin runtime-logs 2>&1", SYNC_DIR, timeout=240)
     say("logs synced" + (f" ({out[-200:]})" if out else ""))
 
 
@@ -156,6 +164,13 @@ def status_server():
         say(f"status page on :{port}")
 
 
+def safe_sync():
+    try:
+        sync_logs()
+    except Exception as e:
+        say(f"sync failed: {e}")
+
+
 def main():
     os.makedirs(LOGS, exist_ok=True)
     status_server()
@@ -165,6 +180,7 @@ def main():
     probe = subprocess.Popen([sys.executable, "run.py", "probe"], cwd=ROOT,
                              stdout=open(os.path.join(LOGS, "probe.out"), "a"), stderr=subprocess.STDOUT)
     last_pull = last_sync = 0.0
+    syncer = None
     while True:
         now = time.time()
         if probe and probe.poll() is not None:
@@ -188,12 +204,10 @@ def main():
             say(f"bot exited with {proc.returncode}; restarting in 10s")
             time.sleep(10)
             proc = start(cur_mode)
-        if now - last_sync > SYNC_EVERY:
+        if now - last_sync > SYNC_EVERY and not (syncer and syncer.is_alive()):
             last_sync = now
-            try:
-                sync_logs()
-            except Exception as e:
-                say(f"sync failed: {e}")
+            syncer = threading.Thread(target=safe_sync, daemon=True)   # a slow push must never block supervision
+            syncer.start()
         time.sleep(5)
 
 

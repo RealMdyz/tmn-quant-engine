@@ -166,7 +166,7 @@ def main():
         cmd_flatten(cfg)
     elif args.command == "probe":
         from bot.probe import run_probe
-        meta = run_probe(cfg, os.getenv("WALLEX_API_KEY"), days=min(args.days, 3))
+        meta = run_probe(cfg, os.getenv("WALLEX_API_KEY"), days=min(args.days, 2))
         print("probe done:", meta.get("finished"), "errors:", meta.get("errors"))
     elif args.command == "report":
         from bot.report import build_report
