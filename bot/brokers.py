@@ -3,10 +3,11 @@
 LiveExec : real orders on Wallex (challenge account)
 PaperExec: shadow test — real live order books, simulated fills, no orders sent.
 
-Paper fill model is conservative: a resting BUY only fills when the opposite
-side of the live book (best ask) moves to/through our price, and only for the
-quantity actually offered there; marketable sells fill against the live bids
-(VWAP) with taker fees.
+Paper fill model is conservative: a resting BUY fills when (a) the opposite side
+of the live book (best ask) moves to/through our price, for the quantity offered
+there, or (b) the real trade tape prints a trade strictly BELOW our price (a seller
+swept the book through our level), for that trade's quantity. Marketable sells
+fill against the live bids (VWAP) with taker fees.
 """
 from __future__ import annotations
 
@@ -33,6 +34,23 @@ class Fill:
     @property
     def avg_price(self):
         return self.quote / self.qty if self.qty else 0.0
+
+
+def _trade_ts(t: dict) -> float | None:
+    """Epoch seconds of a /v1/trades row (ISO string or epoch s/ms); None if unparseable."""
+    v = t.get("timestamp") or t.get("time")
+    if v is None:
+        return None
+    try:
+        x = float(v)
+        return x / 1000 if x > 1e11 else x
+    except (TypeError, ValueError):
+        pass
+    try:
+        from datetime import datetime
+        return datetime.fromisoformat(str(v).replace("Z", "+00:00")).timestamp()
+    except ValueError:
+        return None
 
 
 def _cid(prefix="Q"):
@@ -192,29 +210,62 @@ class PaperExec:
             b = books.get(o["symbol"])
             if not b:
                 continue
-            m = self.markets[o["symbol"]]
             rem = o["origQty"] - o["executedQty"]
             if o["side"] == "BUY":
                 avail = sum(q for p, q in b["asks"] if p <= o["price"])
             else:
                 avail = sum(q for p, q in b["bids"] if p >= o["price"])
-            q = m.round_qty(min(rem, avail))
-            if q <= 0:
+            self._fill(o, min(rem, avail))
+
+    def on_trades(self, symbol: str, trades: list[dict], seen: set):
+        """Simulate maker fills from the market's real trade tape. Our bid is not in the real book, so a
+        seller who sweeps the book down to our price leaves no resting ask behind (on_books cannot see
+        it) — but the sweep prints trades. Any NEW trade strictly below our bid price means our (higher)
+        bid would have been hit first in reality; it fills us for at most that trade's quantity.
+        `seen` holds trade keys already processed for this symbol (the first poll is only a baseline)."""
+        fresh = []
+        for t in trades:
+            key = (t.get("timestamp") or t.get("time"), str(t.get("price")), str(t.get("quantity")))
+            if key not in seen:
+                seen.add(key)
+                fresh.append(t)
+        for o in self.orders.values():
+            if not o["active"] or o["symbol"] != symbol or o["side"] != "BUY":
                 continue
-            fee = self._fee(o["symbol"], "taker" if o.get("taker") else "maker")
-            amt = q * o["price"]
-            if o["side"] == "BUY":
-                self._add(m.quote, 0, -amt)
-                self._add(m.base, q * (1 - fee))
-            else:
-                self._add(m.base, 0, -q)
-                self._add(m.quote, amt * (1 - fee))
-            o["executedQty"] += q
-            o["executedSum"] += amt
-            if o["origQty"] - o["executedQty"] <= 10 ** -m.qty_decimals / 2:
-                o["active"], o["status"] = False, "FILLED"
-            else:
-                o["status"] = "PARTIALLY_FILLED"
+            for t in fresh:
+                try:
+                    p, q = float(t["price"]), float(t["quantity"])
+                except (KeyError, TypeError, ValueError):
+                    continue
+                ts = _trade_ts(t)
+                if ts is not None and ts < o["created"] - 1:
+                    continue                    # printed before our order existed
+                rem = o["origQty"] - o["executedQty"]
+                if rem <= 0 or not o["active"]:
+                    break
+                if p < o["price"] * (1 - 1e-9):
+                    self._fill(o, min(rem, q))
+                    o["fill_source"] = "trade_tape"
+
+    def _fill(self, o: dict, qty: float):
+        m = self.markets[o["symbol"]]
+        q = m.round_qty(qty)
+        if q <= 0:
+            return
+        fee = self._fee(o["symbol"], "taker" if o.get("taker") else "maker")
+        amt = q * o["price"]
+        if o["side"] == "BUY":
+            self._add(m.quote, 0, -amt)
+            self._add(m.base, q * (1 - fee))
+        else:
+            self._add(m.base, 0, -q)
+            self._add(m.quote, amt * (1 - fee))
+        o["executedQty"] += q
+        o["executedSum"] += amt
+        if o["origQty"] - o["executedQty"] <= 10 ** -m.qty_decimals / 2:
+            o["active"], o["status"] = False, "FILLED"
+        else:
+            o["status"] = "PARTIALLY_FILLED"
 
     def market_sell(self, m: MarketInfo, qty: float, books: dict, fee: float, attempts: int = 3) -> Fill:
         self.markets[m.symbol] = m

@@ -43,11 +43,15 @@ rose ~17% in the last month but can fall 2-3% in a day on political news).
 Competition context: 3 days, ranked by net % return in Toman, drawdown is penalised,
 everything must be back in Toman at the end.
 
+UNITS: every deviation you see is in BASIS POINTS (bps): 1 bps = 0.01%, 100 bps = 1%. A value of
+-32.5 means -0.325%, NOT -32.5%. Typical live deviations are within +-100 bps; round-trip fees are ~68 bps.
+
 IMPORTANT: the CURRENT deviation of a coin is mostly noise and is NOT an entry signal — the bot's
-resting bids already sit below fair value and only fill on sudden dumps. Every coin in the list was
-pre-selected by a walk-forward backtest, so the DEFAULT is to keep ALL coins enabled. Disable a coin
+resting bids sit 2-5% below fair value and only fill on sudden flash dumps. Deterministic guards
+already stop a coin from quoting while its Toman book is sliding, its USDT price is falling, or its
+reference books are stale (see "blocked"). The DEFAULT is to keep ALL coins enabled. Disable a coin
 only with concrete evidence: (a) its Toman price has been far from liquidation value for a long time
-(minutes_below_-2pct large) = likely deposit/withdrawal halt, (b) its live fills lose money on average
+(minutes_below_-200bps large) = likely deposit/withdrawal halt, (b) its live fills lose money on average
 (avg_fill_bps < 0 with >= 3 fills), or (c) news specifically about that coin (delisting, hack, halt).
 Use pause only for market-wide shocks. Note: 1 USDT ~ the USDT/TMN price in Toman.
 
@@ -61,7 +65,7 @@ Use the tools to check what you need, then answer ONLY with JSON:
 TOOLS = [
     {"type": "function", "function": {
         "name": "get_market_stats",
-        "description": "For one coin: current deviation of the Toman bid from liquidation value, its mean/std/min over the last hours, minutes spent below -2%, live fills and realised PnL, bandit margins.",
+        "description": "For one coin (all deviations in bps): current deviation of the Toman bid from liquidation value, its median/std/min over the last hours, minutes spent below -200 bps, whether a guard blocks quoting now, live fills and realised PnL, bandit margins.",
         "parameters": {"type": "object", "properties": {"coin": {"type": "string"}}, "required": ["coin"]}}},
     {"type": "function", "function": {
         "name": "get_account_state",

@@ -15,9 +15,10 @@ fees:                                   # account tier 1 (overridden by /v1/acco
   usdt_taker: 0.0013
 
 arb:
-  # Coins quoted (both XTMN and XUSDT allowed for package 183). Selected by the walk-forward backtest:
-  # only markets with positive net edge after ALL fees at some margin. Rejected (adverse selection /
-  # no edge): ETH, XRP, PEPE, BTC, ARB, ENA, S, SUI, LTC, USOON, XAUT.
+  # Coins quoted (both XTMN and XUSDT allowed for package 183). NOTE: this list came from the first
+  # backtest, whose profits were an artefact (hedge priced at stale USDT candles — see RESEARCH.md §5).
+  # The corrected per-coin samples are too small to rank coins, so the list is kept and every coin is
+  # treated alike (pooled prior below); the guards decide per moment whether a coin may quote.
   coins: [FIL, PENGU, AAVE, GALA, ADA, TRX, CAKE, AVAX, WLD, APE, HYPE, SHIB, LINK, DOGE, UNI, PUMP, BNB, SOL]
   max_active_quotes: 8         # quote the 8 markets with the highest expected profit/hour
   quote_tmn: 1000000           # upper bound per resting bid (actual = equity / active, >= hedge minimum)
@@ -30,28 +31,25 @@ arb:
   max_probes: 2
   anomaly_dev: 0.02            # Toman bid persistently >2% below liquidation value ...
   anomaly_minutes: 20          # ... for 20 min -> AI review (likely deposit/withdraw halt)
-  use_backtest_priors: false   # true: refresh priors from logs/backtest/arb_summary.json
-  # priors: [margin %, expected net bps per fill, fills per 10 days] — walk-forward backtest on
-  # 10 days of real Wallex 1-minute data (2026-10-12..22), pessimistic fill/hedge model
-  priors:
-    FIL: [[0.4, 9.6, 622.8], [0.6, 28.7, 515.8], [0.8, 47.0, 420.9], [1.0, 65.6, 386.9], [1.3, 95.4, 303.9]]
-    PENGU: [[0.4, 21.9, 483.8], [0.6, 41.7, 435.8], [0.8, 60.9, 374.9], [1.0, 73.7, 242.9], [1.3, 105.5, 154.9]]
-    AAVE: [[0.4, 18.8, 257.9], [0.6, 38.2, 219.9], [0.8, 62.5, 198.9], [1.0, 84.1, 152.9], [1.3, 90.4, 49.0]]
-    GALA: [[0.4, 6.3, 275.9], [0.6, 22.7, 221.9], [0.8, 38.3, 180.9], [1.0, 58.4, 146.9], [1.3, 84.6, 114.0]]
-    ADA: [[0.4, -15.2, 212.9], [0.6, 1.4, 188.9], [0.8, 16.8, 149.9], [1.0, 31.8, 131.0], [1.3, 63.3, 109.0]]
-    TRX: [[0.4, 25.6, 172.9], [0.6, 50.0, 132.0], [0.8, 70.0, 84.0], [1.0, 86.3, 42.0], [1.3, 132.8, 29.0]]
-    CAKE: [[0.4, 15.6, 191.9], [0.6, 36.3, 150.9], [0.8, 58.7, 110.0], [1.0, 60.6, 55.0], [1.3, 81.4, 40.0]]
-    AVAX: [[0.4, 6.5, 224.9], [0.6, 20.9, 169.9], [0.8, 36.0, 128.0], [1.0, 54.8, 111.0], [1.3, 20.4, 30.0]]
-    WLD: [[0.4, -6.6, 268.9], [0.6, 3.5, 193.9], [0.8, 17.2, 159.9], [1.0, 10.5, 99.0], [1.3, 41.3, 81.0]]
-    APE: [[0.4, -28.6, 458.8], [0.6, -7.8, 298.9], [0.8, -6.7, 170.9], [1.0, 23.7, 116.0], [1.3, 23.6, 44.0]]
-    HYPE: [[0.4, 13.6, 85.0], [0.6, 41.8, 60.0], [0.8, 44.9, 30.0], [1.0, 52.1, 17.0], [1.3, -64.6, 3.0]]
-    SHIB: [[0.4, 9.8, 81.0], [0.6, 22.0, 52.0], [0.8, 36.1, 39.0], [1.0, 70.3, 26.0], [1.3, 122.6, 4.0]]
-    LINK: [[0.4, -25.9, 53.0], [0.6, -17.9, 28.0], [0.8, 16.7, 24.0], [1.0, 38.4, 18.0], [1.3, 132.4, 13.0]]
-    DOGE: [[0.4, -20.7, 72.0], [0.6, 3.3, 51.0], [0.8, 19.9, 41.0], [1.0, 47.6, 34.0], [1.3, 62.5, 22.0]]
-    UNI: [[0.4, -10.7, 120.0], [0.6, -3.2, 70.0], [0.8, 17.2, 54.0], [1.0, 35.0, 43.0], [1.3, 43.0, 26.0]]
-    PUMP: [[0.4, -42.8, 228.9], [0.6, -32.6, 167.9], [0.8, -23.5, 127.0], [1.0, -6.6, 104.0], [1.3, 19.4, 69.0]]
-    BNB: [[0.4, -16.1, 24.0], [0.6, 4.2, 23.0], [0.8, 19.8, 21.0], [1.0, -12.9, 9.0], [1.3, 8.6, 4.0]]
-    SOL: [[0.4, -33.2, 17.0], [0.6, 9.5, 11.0], [0.8, 29.9, 11.0], [1.0, -40.0, 4.0], [1.3, -5.1, 3.0]]
+  # ---- guards (a coin may quote only while all pass; evidence in RESEARCH.md §5) ----
+  calm_baseline_s: 1800        # baseline = median Toman-bid deviation over the last 30 min
+  calm_window_s: 120           # block if, in the last 2 min, the deviation fell ...
+  calm_drop: 0.003             # ... more than 0.3% below that baseline (book already sliding = informed)
+  max_baseline_discount: 0.01  # block if the baseline itself is < -1% (dislocated market)
+  lv_drop_window_s: 60         # block if the coin/USDT fair value fell ...
+  lv_drop: 0.005               # ... more than 0.5% within 60 s (falling market)
+  ref_stale_s: 900             # block if the coin/USDT top of book has not changed for 15 min
+  usdt_check_every_s: 60       # cross-check USDT/TMN: /v2/depth/all vs /v1/depth vs trade tape
+  usdt_max_mismatch: 0.003     # > 0.3% v1/v2 mismatch -> use the /v1 book
+  usdt_trade_tolerance: 0.01   # recent USDT/TMN trades > 1% outside the book -> block all quoting
+  paper_trades_every_s: 6      # shadow: poll the trade tape of quoted markets this often (fill simulator)
+  # Bandit prior for EVERY coin: [margin %, expected net bps per fill, fills per coin per 10 days].
+  # Pooled over 29 coins, corrected walk-forward backtest (flash-dip guard, hedge at the next REAL
+  # coin/USDT trade, worst of close/low): 1.3% -54 bps (62 fills), 2% -33 (24), 3% +42 (12), 4% n=3.
+  # Shallow margins lose; only rare deep flash dips have shown a (small-sample) edge. prior_n is 3,
+  # so live fills dominate quickly.
+  prior_default: [[1.3, -54.0, 2.1], [2.0, -33.0, 0.83], [3.0, 40.0, 0.41], [4.0, 40.0, 0.1]]
+  priors: {}                   # optional per-coin overrides, same shape as prior_default
 
 risk:
   max_position_pct: 0.25        # a single quote never exceeds 25% of equity
@@ -92,3 +90,4 @@ agent:
 
 logging:
   dir: logs
+  books_every_s: 10            # top of book of every market -> logs/books_<mode>.csv (edge measurement)

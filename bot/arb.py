@@ -131,10 +131,15 @@ class MarketBandit:
         return out
 
 
-def build_bandits(priors: dict) -> dict[str, MarketBandit]:
-    """priors: {coin: [[margin, mean_bps, fills_per_10d], ...]} from config/backtest."""
+def build_bandits(priors: dict, default: list | None = None, coins: list[str] | None = None) -> dict[str, MarketBandit]:
+    """priors: {coin: [[margin %, mean_bps, fills_per_10d], ...]} per-coin overrides; `default` is the
+    same shape and is used for every coin in `coins` without an override (pooled realistic backtest)."""
     out = {}
-    for coin, rows in priors.items():
+    rows_by_coin = dict(priors or {})
+    for coin in coins or []:
+        if coin not in rows_by_coin and default:
+            rows_by_coin[coin] = default
+    for coin, rows in rows_by_coin.items():
         arms = [Arm(margin=m / 100, prior_mean=mb / 1e4, prior_n=max(3.0, min(20.0, f / 4)),
                     fill_rate=max(0.01, f / 240.0)) for m, mb, f in rows]
         out[coin] = MarketBandit(coin, arms)

@@ -6,7 +6,8 @@ Cycle (every `loop_seconds`, ~2s):
   2. reconcile our resting quotes     -> detect (partial) fills
   3. hedge every fill immediately on the coin/USDT book; score it; teach the bandit
   4. manage USDT inventory (maker sell to Toman, minus what the agent wants to hold)
-  5. re-quote: one maker BUY per enabled coin at  LV * (1 - fees - margin)
+  5. re-quote: one maker BUY per enabled coin at  LV * (1 - fees - margin), only while the coin passes
+     the guards (Toman book calm, coin/USDT price not falling, reference books fresh)
   6. risk: equity, drawdown kill-switch, daily loss limit, end-of-challenge flatten
   7. AI supervisor every N minutes (or immediately on an anomaly)
   8. log every decision (JSONL) + equity curve + deviation recorder; persist state
@@ -24,7 +25,7 @@ from collections import deque
 
 from .agent import SupervisorAgent, fetch_headlines
 from .arb import Fees, build_bandits, liquidation_value
-from .brokers import LiveExec, PaperExec
+from .brokers import LiveExec, PaperExec, _trade_ts
 from .decision_log import DecisionLog
 from .risk import RiskManager
 from .wallex_client import WallexClient, WallexError
@@ -44,6 +45,7 @@ class ArbEngine:
         self.state_path = os.path.join(ld, f"state_{mode}.json")
         self.equity_path = os.path.join(ld, f"equity_{mode}.csv")
         self.dev_path = os.path.join(ld, f"deviations_{mode}.csv")
+        self.books_path = os.path.join(ld, f"books_{mode}.csv")
         self.risk = RiskManager(cfg["risk"], cfg["challenge"])
         self.rng = random.Random(cfg.get("seed", 7))
         self.quotes: dict[str, dict] = {}          # coin -> {cid, price, qty, margin, lv, t, exec_seen}
@@ -55,7 +57,15 @@ class ArbEngine:
         self.stats = {"fills": 0, "hedges": 0, "hedge_failures": 0, "pnl_tmn": 0.0, "cycles": 0, "errors": 0,
                       "volume_tmn": 0.0, "requotes": 0}
         self.coin_stats: dict[str, dict] = {}
-        self.last_equity_log = self.last_dev_log = 0.0
+        self.last_equity_log = self.last_dev_log = self.last_books_log = 0.0
+        self.lv_hist: dict[str, deque] = {}
+        self.ref_changed: dict[str, tuple] = {}     # symbol -> (top-of-book, time it last changed)
+        self.blocked: dict[str, str] = {}          # coin -> reason it may not quote right now
+        self.trade_seen: dict[str, set] = {}       # shadow: trade-tape keys already processed
+        self.last_trade_poll: dict[str, float] = {}
+        self.usdt_check_t = 0.0
+        self.usdt_override = None                  # (time, /v1/depth book) when /v2/depth/all looked stale
+        self.usdt_ref_bad: str | None = None
         self.anomaly_flag = None
         self._bal = None
         self._oo = None
@@ -96,11 +106,9 @@ class ArbEngine:
             self.ex = LiveExec(self.client, fees_by_symbol)
         else:
             self.ex = PaperExec({"TMN": c["challenge"]["initial_capital_tmn"]}, fees_by_symbol, self.fees.__dict__)
-        priors = c["arb"]["priors"]
-        pfile = os.path.join(self.ld, "backtest", "arb_summary.json")
-        if c["arb"].get("use_backtest_priors") and os.path.exists(pfile):
-            priors = {k: v for k, v in json.load(open(pfile))["priors"].items() if k in self.coins} or priors
-        self.bandits = build_bandits({k: v for k, v in priors.items() if k in self.coins})
+        priors = c["arb"].get("priors") or {}
+        self.bandits = build_bandits({k: v for k, v in priors.items() if k in self.coins},
+                                     c["arb"].get("prior_default"), self.coins)
         self.agent = SupervisorAgent(c["agent"], {
             "get_market_stats": self.tool_market_stats,
             "get_account_state": self.tool_account_state,
@@ -181,10 +189,12 @@ class ArbEngine:
         out = {"coin": coin, "samples": len(devs)}
         if devs:
             import statistics as st
-            out.update({"dev_now_pct": round(devs[-1] * 100, 3), "dev_mean_pct": round(st.mean(devs) * 100, 3),
-                        "dev_std_pct": round(st.pstdev(devs) * 100, 3), "dev_min_pct": round(min(devs) * 100, 3),
-                        "minutes_below_-2pct": round(sum(1 for d in devs if d < -0.02) *
-                                                     self.cfg["execution"]["loop_seconds"] / 60, 1)})
+            out.update({"units": "bps (1 bps = 0.01%)",
+                        "dev_now_bps": round(devs[-1] * 1e4, 1), "dev_median_bps": round(st.median(devs) * 1e4, 1),
+                        "dev_std_bps": round(st.pstdev(devs) * 1e4, 1), "dev_min_bps": round(min(devs) * 1e4, 1),
+                        "minutes_below_-200bps": round(sum(1 for d in devs if d < -0.02) *
+                                                       self.cfg["execution"]["loop_seconds"] / 60, 1)})
+        out["quote_blocked_now"] = self.blocked.get(coin)
         out.update({"live_fills": cs.get("fills", 0), "realised_pnl_tmn": round(cs.get("pnl", 0)),
                     "avg_fill_bps": round(cs.get("pnl_bps_sum", 0) / cs["fills"], 1) if cs.get("fills") else None,
                     "bandit": self.bandits[coin].summary() if coin in self.bandits else None})
@@ -221,8 +231,11 @@ class ArbEngine:
         ctx = {"time": time.strftime("%Y-%m-%d %H:%M"), "coins": self.coins,
                "trigger": self.anomaly_flag or ("startup" if not self.policy else "scheduled"),
                "round_trip_fee_pct": round(self.fees.round_trip * 100, 3),
-               "snapshot": {c: {"dev_now_pct": round(self.dev_hist[c][-1][1] * 100, 3) if self.dev_hist.get(c) else None,
-                                "fills": self.coin_stats.get(c, {}).get("fills", 0)} for c in self.coins},
+               "units": "all deviations in bps (1 bps = 0.01%); 100 bps = 1%",
+               "snapshot": {c: {"dev_now_bps": round(self.dev_hist[c][-1][1] * 1e4, 1) if self.dev_hist.get(c) else None,
+                                "fills": self.coin_stats.get(c, {}).get("fills", 0),
+                                "blocked": self.blocked.get(c)} for c in self.coins},
+               "usdt_reference_problem": self.usdt_ref_bad,
                "account": self.tool_account_state()}
         self.policy = self.agent.decide(ctx, self.coins)
         self.last_policy = now
@@ -236,7 +249,7 @@ class ArbEngine:
         win = int(self.cfg["arb"]["anomaly_minutes"] * 60 / self.cfg["execution"]["loop_seconds"])
         if len(h) >= win and all(d < -self.cfg["arb"]["anomaly_dev"] for _, d in list(h)[-win:]):
             if coin in (self.policy.get("enabled_coins") or []) and not self.anomaly_flag:
-                self.anomaly_flag = f"{coin} Toman price persistently {dev*100:.2f}% below liquidation value"
+                self.anomaly_flag = f"{coin} Toman price persistently {dev*1e4:.0f} bps below liquidation value"
                 if not self.agent.enabled:      # deterministic fallback: disable the coin
                     self.policy["enabled_coins"] = [c for c in self.policy.get("enabled_coins", []) if c != coin]
 
@@ -421,12 +434,25 @@ class ArbEngine:
         locked_in_quotes = sum(q["qty"] * q["price"] for q in self.quotes.values())
         per_quote = max(0.0, (tmn_free_total + locked_in_quotes) * 0.97 / max(1, len(active) + len(probes)))
         per_quote *= self.risk.size_factor()
+
+        def eligible(coin):
+            tb = books.get(f"{coin}TMN")
+            return (liquidation_value(books, coin) and tb and tb["asks"] and tb["bids"] and can_trade
+                    and (coin in active or coin in probes) and coin not in self.blocked)
+
+        # cancel quotes that must go BEFORE placing new ones, so freed Toman is available this cycle
+        for coin in [co for co in self.quotes if not eligible(co)]:
+            q = self.quotes[coin]
+            self.ex.cancel(q["cid"]); self.dirty(); self._oo = None
+            self.process_quote(coin, books)
+            self.quotes.pop(coin, None)
+        tmn_free_total = self.bal().get("TMN", {}).get("free", 0.0)
         for coin in self.coins:
             q = self.quotes.get(coin)
             lv = liquidation_value(books, coin)
             tb = books.get(f"{coin}TMN")
             is_probe = coin in probes and coin not in active
-            if not lv or not tb or not tb["asks"] or not tb["bids"] or not (coin in active or is_probe) or not can_trade:
+            if not eligible(coin):
                 if q:
                     self.ex.cancel(q["cid"]); self.dirty(); self._oo = None
                     self.process_quote(coin, books)
@@ -524,7 +550,129 @@ class ArbEngine:
         self.manage_usdt(books, 0, flatten=True)
 
     # ================================================================= loop
+    # =============================================================== guards
+    def update_guard(self, coin, now):
+        """Decide whether `coin` may quote now. Evidence (RESEARCH.md §5): Toman dips that happen while the
+        Toman book is already sliding below fair value, or while the coin/USDT price is falling, are
+        informed selling and lose money after the hedge; only sudden dips out of a calm book pay."""
+        a = self.cfg["arb"]
+        reason = None
+        h = self.dev_hist.get(coin)
+        if h:
+            base_w, calm_w = a.get("calm_baseline_s", 1800), a.get("calm_window_s", 120)
+            base = sorted(d for t, d in h if t >= now - base_w)
+            recent = [d for t, d in h if t >= now - calm_w]
+            med = base[len(base) // 2] if base else 0.0
+            if med < -a.get("max_baseline_discount", 0.01):
+                reason = f"Toman bid has sat {med*1e4:.0f} bps below fair value for {base_w//60} min (dislocated)"
+            elif recent and min(recent) < med - a.get("calm_drop", 0.003):
+                reason = (f"Toman book sliding: {min(recent)*1e4:.0f} bps vs {med*1e4:.0f} bps baseline "
+                          f"in the last {calm_w}s (informed sellers)")
+        lh = self.lv_hist.get(coin)
+        if not reason and lh:
+            w = a.get("lv_drop_window_s", 60)
+            old = next((v for t, v in lh if t >= now - w), None)
+            if old and lh[-1][1] / old - 1 < -a.get("lv_drop", 0.005):
+                reason = f"{coin}/USDT fair value fell {(lh[-1][1]/old-1)*1e4:.0f} bps in {w}s (falling market)"
+        ref = self.ref_changed.get(f"{coin}USDT")
+        if not reason and ref and now - ref[1] > a.get("ref_stale_s", 900):
+            reason = f"{coin}USDT book unchanged for {(now-ref[1])/60:.0f} min: fair value cannot be trusted"
+        if not reason and self.usdt_ref_bad:
+            reason = self.usdt_ref_bad
+        if (reason is not None) != (coin in self.blocked):        # log transitions only
+            self.dlog.write("quote_blocked" if reason else "quote_unblocked", coin=coin, why=reason or "guards pass")
+        if reason:
+            self.blocked[coin] = reason
+        else:
+            self.blocked.pop(coin, None)
+
+    def track_reference_books(self, books, now):
+        for sym in [f"{c}USDT" for c in self.coins] + ["USDTTMN"]:
+            b = books.get(sym)
+            if not b:
+                continue
+            top = (tuple(b["bids"][0]) if b["bids"] else None, tuple(b["asks"][0]) if b["asks"] else None)
+            prev = self.ref_changed.get(sym)
+            if not prev or prev[0] != top:
+                self.ref_changed[sym] = (top, now)
+
+    def check_usdt_reference(self, books, now):
+        """USDT/TMN prices EVERY coin's fair value. Cross-check /v2/depth/all against /v1/depth and the
+        trade tape once a minute; use the /v1 book while v2 looks stale, block quoting if trades print
+        far outside the book (the book we see is not the real market)."""
+        a = self.cfg["arb"]
+        if self.usdt_override and now - self.usdt_override[0] < a.get("usdt_check_every_s", 60) * 1.5:
+            books["USDTTMN"] = self.usdt_override[1]
+        if now - self.usdt_check_t < a.get("usdt_check_every_s", 60):
+            return
+        self.usdt_check_t = now
+        v2 = books.get("USDTTMN") or {"bids": [], "asks": []}
+        try:
+            v1 = self.client.depth("USDTTMN")
+            trades = sorted(self.client.trades("USDTTMN"), key=lambda t: _trade_ts(t) or 0, reverse=True)[:20]
+        except (WallexError, KeyError, TypeError) as e:
+            log.warning("USDT reference check failed: %s", e)
+            return
+        if not v1["bids"] or not v2["bids"]:
+            return
+        mism = abs(v1["bids"][0][0] / v2["bids"][0][0] - 1)
+        prices = [float(t["price"]) for t in trades if t.get("price") is not None]
+        lo, hi = v1["bids"][0][0], (v1["asks"][0][0] if v1["asks"] else v1["bids"][0][0])
+        tol = a.get("usdt_trade_tolerance", 0.01)
+        outside = [p for p in prices[:5] if p < lo * (1 - tol) or p > hi * (1 + tol)]
+        ref = self.ref_changed.get("USDTTMN")
+        unchanged_min = round((now - ref[1]) / 60, 1) if ref else None
+        bad = (f"USDT/TMN trades ({outside[0]:.0f}) print >{tol*100:.0f}% outside the book "
+               f"{lo:.0f}/{hi:.0f}: fair value unreliable") if outside else None
+        if mism > a.get("usdt_max_mismatch", 0.003):
+            self.usdt_override = (now, v1)
+            books["USDTTMN"] = v1
+        else:
+            self.usdt_override = None
+        if bad != self.usdt_ref_bad or mism > a.get("usdt_max_mismatch", 0.003) or now - getattr(self, "_usdt_log_t", 0) > 600:
+            self._usdt_log_t = now
+            self.dlog.write("usdt_ref_check", v2_bid=v2["bids"][0][0], v1_bid=lo, v1_ask=hi, mismatch_bps=round(mism * 1e4, 1),
+                            last_trades=prices[:5], last_trade_time=(trades[0].get("timestamp") if trades else None),
+                            v2_top_unchanged_min=unchanged_min, using_v1=self.usdt_override is not None, problem=bad)
+        self.usdt_ref_bad = bad
+
+    def poll_trade_tape(self, now):
+        """Shadow only: feed the real trade tape of every market we have a paper bid on to the simulator."""
+        every = self.cfg["arb"].get("paper_trades_every_s", 6)
+        syms = sorted({o["symbol"] for o in self.ex.orders.values() if o["active"] and o["side"] == "BUY"})
+        due = [s_ for s_ in syms if now - self.last_trade_poll.get(s_, 0) >= every][:3]
+        for sym in due:
+            self.last_trade_poll[sym] = now
+            try:
+                trades = self.client.trades(sym)
+            except (WallexError, KeyError, TypeError) as e:
+                log.info("trades %s: %s", sym, e)
+                continue
+            if sym not in self.trade_seen:      # first look = baseline, older prints never fill us
+                self.trade_seen[sym] = {(t.get("timestamp") or t.get("time"), str(t.get("price")), str(t.get("quantity")))
+                                        for t in trades}
+                continue
+            self.ex.on_trades(sym, trades, self.trade_seen[sym])
+            if len(self.trade_seen[sym]) > 5000:
+                self.trade_seen[sym] = {(t.get("timestamp") or t.get("time"), str(t.get("price")), str(t.get("quantity")))
+                                        for t in trades}
+
     def log_rows(self, now, books, eq, parts):
+        if now - self.last_books_log >= self.cfg["logging"].get("books_every_s", 10):
+            new = not os.path.exists(self.books_path)
+            syms = [f"{c}{q}" for c in self.coins for q in ("TMN", "USDT")] + ["USDTTMN"]
+            with open(self.books_path, "a", newline="") as f:
+                w = csv.writer(f)
+                if new:
+                    w.writerow(["ts"] + [f"{s_}_{k}" for s_ in syms for k in ("bid", "bidq", "ask", "askq")])
+                row = [int(now)]
+                for s_ in syms:
+                    b = books.get(s_) or {"bids": [], "asks": []}
+                    bb = b["bids"][0] if b["bids"] else ("", "")
+                    aa = b["asks"][0] if b["asks"] else ("", "")
+                    row += [bb[0], bb[1], aa[0], aa[1]]
+                w.writerow(row)
+            self.last_books_log = now
         if now - self.last_dev_log >= 30:
             new = not os.path.exists(self.dev_path)
             with open(self.dev_path, "a", newline="") as f:
@@ -548,8 +696,11 @@ class ArbEngine:
     def step(self):
         now = time.time()
         books = self.client.depth_all()
+        self.check_usdt_reference(books, now)
         self._last_books = books
         self.ex.on_books(books)
+        if self.mode == "shadow":
+            self.poll_trade_tape(now)
         self.stats["cycles"] += 1
         self._bal = None
         try:
@@ -560,13 +711,19 @@ class ArbEngine:
         if not ut or not ut["bids"]:
             return
         self.usdt_hist.append((now, ut["bids"][0][0]))
+        self.track_reference_books(books, now)
+        hist_len = 6 * 3600 // self.cfg["execution"]["loop_seconds"]
         for coin in self.coins:
             lv = liquidation_value(books, coin)
             tb = books.get(f"{coin}TMN")
             if lv and tb and tb["bids"]:
                 dev = tb["bids"][0][0] / lv - 1
-                self.dev_hist.setdefault(coin, deque(maxlen=6 * 3600 // self.cfg["execution"]["loop_seconds"])).append((now, dev))
+                self.lv_hist.setdefault(coin, deque(maxlen=hist_len)).append((now, lv))
+                if abs(dev) > 0.2:          # book glitch (fat-finger order / empty side): not a price
+                    continue
+                self.dev_hist.setdefault(coin, deque(maxlen=hist_len)).append((now, dev))
                 self.detect_anomaly(coin, dev)
+            self.update_guard(coin, now)
         for coin in list(self.quotes):
             self.process_quote(coin, books)
         eq, parts, _ = self.equity(books)

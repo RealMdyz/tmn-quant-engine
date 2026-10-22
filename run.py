@@ -98,7 +98,8 @@ def cmd_check(cfg):
 
 def cmd_backtest(cfg, args):
     """Walk-forward backtest. --cached uses the two research datasets shipped in data/ (real Wallex
-    1-minute data aggregated to 5 minutes, 2026-10-12..22); otherwise fresh data is downloaded."""
+    1-minute data aggregated to 5 minutes, 2026-10-12..22); otherwise fresh data is downloaded.
+    pooled_by_margin = [margin %, mean net bps per fill, fills per coin per 10 days] over all coins."""
     import numpy as np
     import pandas as pd
     from bot.data import load_or_fetch
@@ -123,11 +124,11 @@ def cmd_backtest(cfg, args):
         out = os.path.join("logs", "backtest", os.path.splitext(os.path.basename(name))[0])
         res = run_arb_backtest(frames, coins, fees, out_dir=out)
         combined["datasets"][name] = res["summary"]
-        combined["priors"].update(res["priors"])
+        combined["priors"][name] = res["priors"]["_pooled"]
         print(f"\n=== {name} ===")
         print(json.dumps({k: res["summary"][k] for k in ("chosen_margins_from_train", "test_days", "test_fills",
                           "test_avg_net_bps_per_fill", "test_win_rate_pct", "test_return_pct",
-                          "test_max_drawdown_pct")}, indent=2, ensure_ascii=False))
+                          "test_max_drawdown_pct", "pooled_by_margin")}, indent=2, ensure_ascii=False))
     os.makedirs("logs/backtest", exist_ok=True)
     json.dump({"summary": combined["datasets"], "priors": combined["priors"]},
               open("logs/backtest/arb_summary.json", "w"), indent=2, ensure_ascii=False)
