@@ -35,25 +35,24 @@
 
 ## LIVE
 
-- Equity: **4,967,086 TMN** (-0.658%)
+- Equity: **4,963,525 TMN** (-0.730%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 7 (sources: {'llm:boxapi': 7})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 7, 'sleeve_order': 68, 'quote': 35, 'buy_blocked': 546, 'buy_unblocked': 513, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 8 (sources: {'llm:boxapi': 8})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 8, 'sleeve_order': 68, 'quote': 37, 'buy_blocked': 589, 'buy_unblocked': 546, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CAKE": 0.9,
     "SUI": 1.4,
-    "GALA": 1.5
+    "BNB": 1.3
   },
   "pause": false,
-  "reasoning": "I pick CAKE, SUI and GALA (max 3). CAKE has a very wide Toman spread 105.0 bps and extremely low fv_vol_bps 4.9 so I quote tighter (h=0.9%) to capture the rich spread with low adverse-vol risk; CAKE is already quoted_now true so continuity matters. SUI has spread 83.3 bps with decent volume 5,796M TMN but high fv_vol_bps 124.8 and a positive premium 32.5 bps, so I set a wide h=1.4% to avoid being picked off. GALA has spread 100.6 bps and high usdt_spread_bps 391.1 (quoted_now true); fv_vol_bps 165.3 is elevated so I place the widest h=1.5% to protect against informed flow. I do not quote markets with spread_bps <80 (SOL/XRP/etc) or those with buy_blocked flags (AAVE/DOT/IMX). Sleeves: USDT/TMN 48h +4.54% gives full exposure cap 1.0, so keep the rial sleeve at 1.0 (current scale 1.0) and keep beta at 0.9 (current scale_now) given its small recent negative return (-1.07%) and higher risk; I keep the beta assets as the existing PEPE/ADA/LINK basket.",
+  "reasoning": "I pick SUI and BNB because they are the only liquid markets above our 80 bps Toman-spread threshold without persistent buy blocks: SUI spread_bps=82.0 with vol24h_mtmn=5753 and fv_vol_bps=168.1 (still busy but somewhat noisy), so I set a wide half-spread h=1.4% to protect against adverse selection. BNB has high activity (vol24h_mtmn=81910) and spread_bps=81.4 with fv_vol_bps=131.5 so I quote slightly tighter at h=1.3% to capture flow while respecting our caution. I avoid GALA and CHZ because both show Toman-book sliding alerts (GALA: premium 6bps vs 52bps baseline; CHZ buy-blocked), and many other coins have spread_bps <80 so they are wasted slots. For sleeves I keep 'rial' at full exposure 1.0 (USDT/TMN 48h +4.64% gives cap=1.0 and rial sleeve return is only -0.28%) and keep 'beta' at current 0.9 (beta sleeve is already scaled 0.9, return -0.64%) selecting PEPE/ADA/LINK which are the current weights and fit the high-momentum preference. Overall I favor being wide and cautious (h near the top of 0.8–1.5) because fv_vol and past fills indicate adverse selection risk.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
