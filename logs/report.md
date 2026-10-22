@@ -8,20 +8,21 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 22 (sources: {'fallback': 1, 'llm:boxapi': 21})
-- Events: {'startup': 25, 'policy': 22, 'quote': 766, 'state_restored': 23, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 308, 'buy_unblocked': 232, 'instance_superseded': 13}
+- AI supervisor decisions: 23 (sources: {'fallback': 1, 'llm:boxapi': 22})
+- Events: {'startup': 25, 'policy': 23, 'quote': 823, 'state_restored': 23, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 337, 'buy_unblocked': 259, 'instance_superseded': 13}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "ETH": 0.6,
-    "XRP": 0.6,
-    "SOL": 0.7,
-    "DOGE": 0.9
+    "FIL": 0.3,
+    "LINK": 0.3,
+    "AVAX": 0.3,
+    "UNI": 0.5,
+    "AAVE": 0.25
   },
   "pause": false,
-  "reasoning": "Select 4 markets that are liquid and have stable FV: ETH (vol24h 75,194M TMN, spread 27.2 bps, fv_vol 21.9 bps) and XRP (35,781M, spread 28.1 bps, fv_vol 31.4 bps) are top liquidity with low fv volatility so we quote tighter at h=0.6%. SOL (vol24h 28,740M, spread 21.0 bps, fv_vol 58.6 bps) is moderately volatile so we widen to h=0.7%. DOGE (vol24h 42,271M, spread 21.9 bps) has high fv volatility (259.7 bps) so we use a conservative wide h=0.9%. We avoid any markets with Toman-book sliding / buy_blocked (e.g. BNB, SUI, ARB) and avoid markets with frozen USDT books; no pause because no market-wide shock is present.",
+  "reasoning": "Select up to 5 markets with wide Toman spreads and reasonable volume while avoiding books flagged as sliding. FIL (spread 90.8 bps, vol 4,881M TMN, fv_vol 11.1 bps) looks prime so quote tight at h=0.3% to sit near top of book. LINK (71.7 bps, vol 3,269M, fv_vol 14.1) and AVAX (72.8 bps, vol 3,651M, fv_vol 11.6) also show healthy spread and low FV volatility -> h=0.3%. UNI (67.2 bps, vol 8,528M, fv_vol 81.9) is liquid but more FV movement, widen to h=0.5%. AAVE (50.3 bps, vol 2,827M, fv_vol 9.6) has just-above-fee spread and very low fv_vol so we quote more aggressively at h=0.25%. I avoid any markets with buy_blocked flags (e.g. ARB, DOT, PENGU, ENA, IMX, CHZ) and avoid very tight-spread or high FV-volatility coins (e.g. ETH/XRP/DOGE/SOL with spreads <45 bps or extreme fv_vol) to reduce adverse selection.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
