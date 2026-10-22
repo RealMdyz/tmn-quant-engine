@@ -56,3 +56,14 @@ superseded by a newer instance
 2026-10-22 15:38:19,126 INFO mm: MM coins=['SOL', 'SUI', 'S', 'LTC', 'XRP', 'BNB', 'ADA', 'LINK', 'AAVE', 'HYPE', 'ETH', 'DOGE', 'TRX', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'SHIB', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
 2026-10-22 15:38:19,126 INFO mm: market maker running in SHADOW mode
 superseded by a newer instance
+2026-10-22 15:38:30,756 INFO mm: MM coins=['SOL', 'SUI', 'S', 'LTC', 'XRP', 'BNB', 'ADA', 'LINK', 'AAVE', 'HYPE', 'ETH', 'DOGE', 'TRX', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'SHIB', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-22 15:38:30,757 INFO mm: market maker running in SHADOW mode
+superseded by a newer instance
+superseded by a newer instance
+2026-10-22 15:38:44,925 INFO mm: MM coins=['SOL', 'SUI', 'S', 'LTC', 'XRP', 'BNB', 'ADA', 'LINK', 'AAVE', 'HYPE', 'ETH', 'DOGE', 'TRX', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'SHIB', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-22 15:38:44,926 INFO mm: market maker running in SHADOW mode
+2026-10-22 15:38:47,679 INFO mm: MM coins=['SOL', 'SUI', 'S', 'LTC', 'XRP', 'BNB', 'ADA', 'LINK', 'AAVE', 'HYPE', 'ETH', 'DOGE', 'TRX', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'SHIB', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-22 15:38:47,679 INFO mm: market maker running in SHADOW mode
+superseded by a newer instance
+2026-10-22 15:39:00,845 INFO mm: MM coins=['SOL', 'SUI', 'S', 'LTC', 'XRP', 'BNB', 'ADA', 'LINK', 'AAVE', 'HYPE', 'ETH', 'DOGE', 'TRX', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'SHIB', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-22 15:39:00,846 INFO mm: market maker running in SHADOW mode
