@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,946,357 TMN** (-1.073%)
-- Max drawdown: **1.288%**
+- Equity: **4,946,879 TMN** (-1.062%)
+- Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 4 (sources: {'llm:boxapi': 4})
-- Events: {'coin_skipped': 392, 'live_self_test': 56, 'cancel_all': 4, 'startup': 4, 'regime': 4, 'policy': 4, 'sleeve_order': 68, 'quote': 5, 'buy_blocked': 330, 'buy_unblocked': 300, 'state_restored': 55, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 5 (sources: {'llm:boxapi': 5})
+- Events: {'coin_skipped': 392, 'live_self_test': 56, 'cancel_all': 4, 'startup': 4, 'regime': 4, 'policy': 5, 'sleeve_order': 68, 'quote': 5, 'buy_blocked': 375, 'buy_unblocked': 347, 'state_restored': 55, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9,
-    "GALA": 1.0,
-    "AVAX": 1.3
+    "CAKE": 0.9,
+    "CHZ": 1.2,
+    "GALA": 1.4
   },
   "pause": false,
-  "reasoning": "I pick SUI (spread 185.3 bps, vol24h 5,790M TMN, fv_vol 83.6 bps) because its Toman spread is wide and book is currently quoted; set h=0.9% to be reasonably aggressive given the wide spread. GALA has a 100.2 bps spread and very large USDT/TMN spread (446.9 bps) with decent activity (vol24h 2,225M TMN) so I quote at h=1.0% to capture that premium while remaining cautious. AVAX meets the 80 bps minimum (93.4 bps) but has higher fv volatility (140.9 bps), so I set h=1.3% to avoid being picked off; it is quoted now and vol24h 3,064M TMN. No market pause — no headline shock detected and several suitable wide spreads exist. Sleeves: USDT/TMN 48h +4.38% gives full exposure cap (1.0), so keep rial at 1.0 (benefits from rial weakness) and keep beta at 1.0; beta_assets are PEPE/ADA/LINK (the current sleeve weights and highest momentum names in the beta universe).",
+  "reasoning": "I pick CAKE/CHZ/GALA because the bot never quotes where spread_bps < 80: CAKE has the largest Toman spread 143.7 bps (fv_vol 22 bps, calm), CHZ 84.4 bps (fv_vol 87 bps) and GALA 80.5 bps (fv_vol 163.5 bps) are the only candidates ≥80 bps with no buy_blocked. I set CAKE h=0.9% because its fv_vol is very low (22 bps) and volume is reasonable (vol24h 2.14kM TMN) so we can tighten; CHZ h=1.2% because spread is just above threshold (84 bps) with moderate fv_vol (87 bps); GALA h=1.4% because it is quoted_now, has higher fv_vol (163.5 bps) and we want wider protection. pause=false since there is no market-wide shock in news and USDT/TMN is in a rial-weakening regime (48h +4.36%) so sleeves remain active. For sleeves I keep rial at 1.0 (regime cap 1.0, USDT/TMN 48h +4.36%) and reduce beta to 0.9 to be slightly conservative given its recent return -1.39% and higher volatility; beta assets chosen PEPE/ADA/LINK follow the sleeve weights and momentum within the beta universe.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
