@@ -35,21 +35,24 @@
 
 ## LIVE
 
-- Equity: **4,942,903 TMN** (-1.142%)
+- Equity: **4,952,721 TMN** (-0.946%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 16 (sources: {'llm:boxapi': 16})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 16, 'sleeve_order': 68, 'quote': 137, 'buy_blocked': 1253, 'buy_unblocked': 1216, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 17 (sources: {'llm:boxapi': 17})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 17, 'sleeve_order': 98, 'quote': 166, 'buy_blocked': 1279, 'buy_unblocked': 1243, 'state_restored': 57, 'sleeve_fill': 6, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {},
+  "markets": {
+    "FIL": 1.4,
+    "GALA": 1.35
+  },
   "pause": false,
-  "reasoning": "I open no market-making quotes because only GALA clears the bot's minimum Toman spread filter (141.4 bps) but its book is flagged (buy_blocked: fair value fell -125 bps in 60s) and is currently quoted — too risky to post maker quotes. All other candidates have Toman spreads <80 bps (e.g. SOL 31.6, BNB 5.0, AAVE 62.0, UNI 62.5, FIL 61.0) so quoting them would violate the rule and be a wasted slot. I keep the rial sleeve at full exposure 1.0 because USDT/TMN 48h is +4.33% (regime cap=1.0) which historically supported positive sleeve returns. I keep beta at 0.9 (current scale_now=0.9) rather than 1.0 to remain slightly conservative: beta returned -1.09% recently but benefits from the rial-weakening regime; I retain the existing beta assets PEPE, ADA, LINK as they are the sleeve weights and have the desired momentum/no coin-specific negative flags.",
+  "reasoning": "I pick FIL and GALA because the bot never quotes where Toman spread <80 bps and these two clear that threshold: FIL spread 93.2 bps with decent liquidity (vol24h 4,932M TMN) and USDT spread 79 bps; GALA spread 80.3 bps with USDT spread 393 bps and premium 71.6 bps. Both show elevated fv_vol (FIL fv_vol_bps 278, GALA fv_vol_bps 315) so I set wide half-spreads to control adverse selection (h=1.4% for FIL, 1.35% for GALA). I avoid IMX and DOT because IMX's Toman book is flagged as broken and DOT has active buy_blocked sliding alerts. Portfolio: keep the rial sleeve at full exposure 1.0 because USDT/TMN 48h +4.33% (regime cap 1.0) and 24h +1.84% supports staying invested; reduce beta to 0.8 (was 0.9) because beta sleeve return is slightly negative (-0.96%) and coins are volatile, so trim risk while keeping upside. I keep beta assets to the current weighted trio (PEPE, ADA, LINK) which match the sleeve weights and universe.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
