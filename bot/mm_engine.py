@@ -167,7 +167,8 @@ class MMEngine:
                       and all(s in self.markets and s not in unavailable for s in (f"{co}TMN", f"{co}USDT"))]
         for co in m["coins"]:
             if co not in self.coins:
-                self.dlog.write("coin_skipped", coin=co, reason="market missing or not allowed for the package")
+                self.dlog.write("coin_skipped", coin=co, reason="held or tradable by a holding sleeve" if co in reserved
+                                else "market missing or not allowed for the package")
         self.vol24 = {co: self.markets[f"{co}TMN"].quote_volume_24h for co in self.coins}
         self.last_vol_refresh = time.time()
         f = c["fees"]
