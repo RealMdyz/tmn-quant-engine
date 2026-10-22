@@ -2,7 +2,7 @@
 
 ## SHADOW
 
-- Equity: **4,992,751 TMN** (-0.145%)
+- Equity: **4,988,232 TMN** (-0.235%)
 - Max drawdown: **0.441%**
 - Traded volume: 3,977,145 TMN
 
@@ -16,7 +16,7 @@
 | FIL | 2 | 1 | 1 | -10,984 |
 
 - AI supervisor decisions: 28 (sources: {'fallback': 1, 'llm:boxapi': 27})
-- Events: {'startup': 36, 'policy': 28, 'quote': 1229, 'state_restored': 34, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 662, 'buy_unblocked': 536, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 28, 'regime': 4, 'sleeve_order': 25, 'sleeve_order_failed': 5, 'sleeve_fill': 16}
+- Events: {'startup': 37, 'policy': 28, 'quote': 1239, 'state_restored': 35, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 734, 'buy_unblocked': 597, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 35, 'regime': 5, 'sleeve_order': 36, 'sleeve_order_failed': 5, 'sleeve_fill': 17}
 
 ### Latest AI decision
 ```json
