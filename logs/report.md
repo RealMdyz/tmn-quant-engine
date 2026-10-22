@@ -9,7 +9,7 @@
 ![equity](equity_shadow.png)
 
 - AI supervisor decisions: 23 (sources: {'fallback': 1, 'llm:boxapi': 22})
-- Events: {'startup': 26, 'policy': 23, 'quote': 851, 'state_restored': 24, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 352, 'buy_unblocked': 272, 'instance_superseded': 14}
+- Events: {'startup': 28, 'policy': 23, 'quote': 852, 'state_restored': 26, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 356, 'buy_unblocked': 273, 'instance_superseded': 16}
 
 ### Latest AI decision
 ```json
