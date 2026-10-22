@@ -119,13 +119,24 @@ def status_server():
         def do_GET(self):
             body = ""
             try:
+                m = mode()
                 if self.path.startswith("/report"):
+                    subprocess.run([PY, "run.py", "report"], cwd=ROOT, capture_output=True, timeout=120)
                     body = open(os.path.join(LOGS, "report.md"), encoding="utf-8").read()
+                elif self.path.startswith("/decisions"):
+                    n = 60
+                    lines = open(os.path.join(LOGS, f"decisions_{m}.jsonl"), encoding="utf-8").read().splitlines()
+                    skip = ("quote",) if "all" not in self.path else ()
+                    keep = [l for l in lines if not any(f'"event": "{e}"' in l for e in skip)]
+                    body = "\n\n".join(keep[-n:])
+                elif self.path.startswith("/bot"):
+                    body = "\n".join(open(os.path.join(LOGS, f"bot_{m}.out"), encoding="utf-8").read().splitlines()[-80:])
+                elif self.path.startswith("/deviations"):
+                    body = "\n".join(open(os.path.join(LOGS, f"deviations_{m}.csv"), encoding="utf-8").read().splitlines()[-40:])
                 else:
-                    m = mode()
                     eq = os.path.join(LOGS, f"equity_{m}.csv")
                     tail = open(eq, encoding="utf-8").read().splitlines()[-15:] if os.path.exists(eq) else []
-                    body = f"mode: {m}\n\n" + "\n".join(tail) + "\n\n/report for the full report"
+                    body = f"mode: {m}\n\n" + "\n".join(tail) + "\n\n/report  /decisions  /decisions?all  /bot  /deviations"
             except Exception as e:
                 body = f"no data yet ({e})"
             data = body.encode("utf-8")
