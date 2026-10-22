@@ -9,7 +9,7 @@
 ![equity](equity_shadow.png)
 
 - AI supervisor decisions: 3 (sources: {'fallback': 1, 'llm:boxapi': 2})
-- Events: {'startup': 3, 'policy': 3, 'quote': 19, 'state_restored': 2}
+- Events: {'startup': 4, 'policy': 3, 'quote': 25, 'state_restored': 3}
 
 ### Latest AI decision
 ```json
