@@ -64,12 +64,13 @@ YOU decide, every ~20 minutes, using the tools:
      volatile or our fills there lost money; narrower only when it is calm, spreads are wide and our
      live round trips there made money.
   3. pause=true only for a market-wide shock (major news, crash).
-  4. The PORTFOLIO (tool get_portfolio): besides the market maker, the account runs two holding sleeves,
-     each with its own third of the capital: "rial" (USDT/BTC/ETH, medium risk) and "beta" (high-volatility
-     coins, high risk). Both earn mainly from the rial weakening: Toman prices of USDT and coins rose
-     15-19% in 29 days. Backtest (27 h holds, net of fees, entered while USDT/TMN 48h >= +1%): rial +0.73%
-     (P(loss) 37%, worst -3.6%), beta +1.09% (35%, worst -6.6%); entered at 0..+1% or below 0 they LOST
+  4. The PORTFOLIO (tool get_portfolio): besides the market maker (20% of the capital), the account runs two
+     holding sleeves: "rial" (35%, BTC/ETH, medium risk) and "beta" (45%, high-volatility coins, high risk).
+     Both earn mainly from the rial weakening: Toman prices of USDT and coins rose 15-19% in 29 days.
+     Backtest (27 h holds, net of fees, entered while USDT/TMN 48h >= +1%): rial +0.88% (P(loss) 34%,
+     worst -2.9%), beta PEPE/ADA/LINK +1.28% (30%, worst -4.3%); entered at 0..+1% or below 0 they LOST
      (-0.8..-2%). For each sleeve choose an exposure in [0, 1]; the deterministic regime cap is applied on top.
+     In the last 4 hours the engine sells the sleeves in steps on its own (end_wind_down); no buying then.
      Cut exposure on news that the rial may strengthen (deal/negotiation progress, central-bank action,
      sharp USDT/TMN drop) or on crypto-crash news; keep it when the trend and news support it. For "beta"
      you may pick 2-4 coins from its universe (prefer high recent momentum, avoid coin-specific bad news).
@@ -338,7 +339,10 @@ class MMEngine:
 
     def tool_portfolio(self) -> dict:
         books = self._books
-        out = {"regime": self.regime, "sleeves": {}}
+        out = {"regime": self.regime, "sleeves": {},
+               "end_wind_down": {"share_still_held": self.risk.wind_down(time.time()),
+                                 "schedule": "sleeves sold in 4 steps from 4 h before the end (Fri 19:50, 20:40, 21:30, "
+                                             "22:20); the rest is sold as taker 40 min before the end"}}
         for k, sl in self.sleeves.items():
             v, c = sl.value(books)
             out["sleeves"][k] = {"capital_tmn": round(sl.capital), "weights": sl.weights, "scale_now": sl.scale,
@@ -523,7 +527,7 @@ class MMEngine:
             held = sl.value(self._books)[1] > 0
             changed = set(pick) != {a for a, w in sl.weights.items() if w > 0}
             # every switch costs ~0.55% in fees: once built, the coin set may change at most every 3 hours
-            if (uni and 2 <= len(pick) <= 4 and not sl.stopped and changed
+            if (uni and 2 <= len(pick) <= 4 and not sl.stopped and changed and self.risk.wind_down(time.time()) >= 1
                     and (not held or time.time() - sl.last_reweight > sl.cfg.get("min_reweight_s", 10800))):
                 new = {c: round(1 / len(pick), 4) for c in pick}
                 for old in sl.weights:
@@ -882,6 +886,11 @@ class MMEngine:
                              ("kill_switch" if self.risk.state.killed else "circuit_breaker_pause"))
             self.save_state()
             return
+        wd = self.risk.wind_down(now)
+        if self.sleeves and wd != getattr(self, "_last_wind", 1.0):
+            self._last_wind = wd
+            self.dlog.write("wind_down_step", share_still_held=wd,
+                            why="end of challenge: holding sleeves are sold in steps, not all at once")
         self.maybe_supervise(now)
         self.apply_sleeve_policy()
         for sl in self.sleeves.values():

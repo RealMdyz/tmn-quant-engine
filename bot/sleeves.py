@@ -2,18 +2,19 @@
 
 Evidence (python run.py regime-study, 29 days of hourly Wallex data): Toman prices of USDT and of every
 coin rose ~15-19% in 29 days, almost all of it the rial weakening. 27-hour holds entered while USDT/TMN
-had risen >= 1% in 48 h, net of fees (0.25% in, 0.30% out), no trailing stop:
-    USDT only                  +0.52%  P(loss) 46%  worst -2.75%
-    rial  USDT/BTC/ETH         +0.74%  P(loss) 37%  worst -2.48%
-    beta  ADA/PEPE/SHIB/DOGE   +1.12%  P(loss) 35%  worst -3.70%
-Outside that regime the same holds LOST (-0.3% / -0.8%), so exposure is gated by the regime (and the AI).
-Tight stops and trailing stops cut the winners (rial +0.13% with a 1.5% stop and 2/1 trail), so the
-sleeves only carry a wide disaster stop.
+had risen >= 1% in 48 h, net of fees (0.25% in, 0.30% out), no trailing stop (best risk-adjusted basket
+of each class, see STRATEGY.md):
+    rial  BTC/ETH              +0.88%  P(loss) 34%  worst -2.93%   (USDT/BTC/ETH +0.74%, USDT only +0.52%)
+    beta  PEPE/ADA/LINK        +1.28%  P(loss) 30%  worst -4.28%   (ADA/PEPE/SHIB/DOGE +1.12%)
+Outside that regime the same holds LOST, so exposure is gated by the regime (and the AI). Tight stops and
+trailing stops cut the winners, so the sleeves only carry a wide disaster stop.
 
 Each sleeve owns a fixed budget (capital_pct of the initial capital), a target weight per asset, a
 stop-loss and a trailing stop on the sleeve as a whole. Entries are maker bids at the best bid that
 turn into taker orders after `maker_timeout_s`; exits on a stop are taker. USDT can only be traded
 while the USDT/TMN market is open (08:00-21:00 Tehran), so a USDT holding is closed by `usdt_exit_at`.
+At the end of the challenge the sleeves are sold in steps (RiskManager.wind_down: 4 steps from 4 h before
+the end) with maker asks, taker after `wind_down_taker_after_s`; the forced flatten only sells leftovers.
 """
 from __future__ import annotations
 
@@ -38,12 +39,13 @@ class HoldingSleeve:
         self.scale = 0.0                       # 0..1, set from regime cap and AI decision
         self.last_act = 0.0
         self.last_reweight = 0.0
+        self.trim_t0: dict[str, float] = {}    # asset -> when the current trim/wind-down sale started
 
     # -------------------------------------------------------------- state
     def to_state(self):
         return {"pos": self.pos, "orders": self.orders, "realised": self.realised, "peak_ret": self.peak_ret,
                 "stopped": self.stopped, "scale": self.scale, "weights": self.weights,
-                "last_reweight": self.last_reweight}
+                "last_reweight": self.last_reweight, "trim_t0": self.trim_t0}
 
     def from_state(self, s):
         self.pos = s.get("pos") or {}
@@ -54,6 +56,7 @@ class HoldingSleeve:
         self.scale = s.get("scale", 0.0)
         self.weights = s.get("weights") or self.weights
         self.last_reweight = s.get("last_reweight", 0.0)
+        self.trim_t0 = s.get("trim_t0") or {}
 
     # ------------------------------------------------------------ helpers
     def assets(self):
@@ -161,6 +164,7 @@ class HoldingSleeve:
         if now - self.last_act < self.cfg.get("act_every_s", 20) and not self.stopped:
             return
         self.last_act = now
+        wind = self.e.risk.wind_down(now)
         for a in sorted(self.assets()):
             sym = f"{a}TMN"
             b = books.get(sym)
@@ -171,7 +175,7 @@ class HoldingSleeve:
             bid, ask = b["bids"][0][0], b["asks"][0][0]
             p = self.pos.get(a, {"qty": 0.0, "cost": 0.0})
             exit_now = self.stopped or self.must_exit(a, now)
-            target = 0.0 if exit_now else self.capital * self.weights.get(a, 0.0) * self.scale
+            target = 0.0 if exit_now else self.capital * self.weights.get(a, 0.0) * self.scale * wind
             cur = p["qty"] * bid
             o = self.orders.get(a)
             if not self.market_open(a, now):
@@ -179,23 +183,12 @@ class HoldingSleeve:
             if exit_now and p["qty"] > 0:
                 if o:
                     self.cancel(a)
-                free = self.e.bal().get(a, {}).get("free", 0.0)
-                q = min(p["qty"], free)
-                if q * bid >= m.min_notional:
-                    f = self.e.ex.market_sell(m, q, books, self.e.fees.tmn_taker)
-                    self.e.dirty()
-                    if f.qty:
-                        part = p["cost"] * min(1.0, f.qty / p["qty"]) if p["qty"] else 0.0
-                        self.realised += (f.quote - f.fee_quote) - part
-                        p["qty"] = max(0.0, p["qty"] - f.qty)
-                        p["cost"] -= part
-                        self.pos[a] = p
-                        self.e.dlog.write("sleeve_exit", sleeve=self.name, asset=a, qty=f.qty, avg_price=f.avg_price,
-                                          why=self.stopped or "scheduled exit (USDT market hours / challenge end)")
+                self.sell_now(a, m, books, self.stopped or "scheduled exit (USDT market hours / challenge end)")
                 continue
             deficit = target - cur
             min_step = max(m.min_notional, 60_000, 0.03 * target)
-            if deficit > min_step and self.e.entries_allowed(now):
+            if deficit > min_step and wind >= 1 and self.e.entries_allowed(now):
+                self.trim_t0.pop(a, None)
                 age = now - o["t"] if o else 0
                 if o and o["side"] == "BUY" and age < self.cfg.get("maker_timeout_s", 300):
                     if o["price"] < bid - tick / 2:            # outbid: move up to the new best bid
@@ -210,7 +203,43 @@ class HoldingSleeve:
                            f"{self.name}: build {a} toward {target:,.0f} TMN ({'taker after maker timeout' if taker else 'maker at the best bid'})",
                            now)
             elif deficit < -max(min_step, 0.15 * target) and not exit_now:
-                if not o:
-                    q = min(p["qty"], -deficit / bid)
-                    self.place(a, "SELL", q, max(ask - tick, bid + tick), False,
-                               f"{self.name}: trim {a} to target {target:,.0f} TMN (AI/regime lowered exposure)", now)
+                # trim: maker ask at the top of the book, re-placed when undercut; during the end-of-challenge
+                # wind-down a step not sold within wind_down_taker_after_s is sold as taker (schedule is kept)
+                since = self.trim_t0.setdefault(a, now)
+                taker = wind < 1 and now - since >= self.cfg.get("wind_down_taker_after_s", 900)
+                if o and o["side"] == "SELL" and not taker and o["price"] <= ask + tick / 2:
+                    continue                                   # our ask is still the best ask
+                if o:
+                    self.cancel(a)
+                    p = self.pos.get(a, p)
+                    deficit = target - p["qty"] * bid
+                    if deficit >= -min_step:
+                        continue
+                why = (f"{self.name}: end-of-challenge wind-down, {wind*100:.0f}% of the sleeve still held"
+                       if wind < 1 else f"{self.name}: trim {a} to target {target:,.0f} TMN (AI/regime lowered exposure)")
+                if taker:
+                    self.sell_now(a, m, books, why + f" (maker ask unfilled for {(now - since)/60:.0f} min -> taker)",
+                                  qty=-deficit / bid)
+                else:
+                    self.place(a, "SELL", min(p["qty"], -deficit / bid), max(ask - tick, bid + tick), False, why, now)
+            else:
+                self.trim_t0.pop(a, None)
+
+    def sell_now(self, a, m, books, why, qty=None):
+        """Taker sale of `qty` (default: the whole position) at the live bids."""
+        p = self.pos.get(a)
+        if not p or p["qty"] <= 0:
+            return
+        free = self.e.bal().get(a, {}).get("free", 0.0)
+        q = min(p["qty"], free, qty if qty is not None else p["qty"])
+        b = books.get(f"{a}TMN", {}).get("bids") or [[0, 0]]
+        if q * b[0][0] < m.min_notional:
+            return
+        f = self.e.ex.market_sell(m, q, books, self.e.fees.tmn_taker)
+        self.e.dirty()
+        if f.qty:
+            part = p["cost"] * min(1.0, f.qty / p["qty"])
+            self.realised += (f.quote - f.fee_quote) - part
+            p["qty"] = max(0.0, p["qty"] - f.qty)
+            p["cost"] -= part
+            self.e.dlog.write("sleeve_exit", sleeve=self.name, asset=a, qty=f.qty, avg_price=f.avg_price, why=why)

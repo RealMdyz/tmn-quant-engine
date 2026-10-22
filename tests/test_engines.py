@@ -174,6 +174,44 @@ def test_portfolio_three_sleeves():
     assert e.sleeves["rial"].pos.get("USDT", {}).get("qty", 0) * USDT < 60_000, "USDT closed by its deadline"
 
 
+def test_end_of_challenge_wind_down_in_steps():
+    random.seed(7)
+    tmp = tempfile.mkdtemp()
+    coins = {"SOL": 180.0, "SUI": 3.2, "BTC": 108000.0, "ETH": 3900.0, "ADA": 0.65, "PEPE": 0.00001, "LINK": 17.5}
+    fake = FakeWallex(coins)
+    fake.candles = lambda sym, res, a, b: {"t": [b - 3600 * k for k in range(60, -1, -1)],
+                                           "c": [USDT * (1 - 0.0004 * k) for k in range(60, -1, -1)]}
+    e = mm_engine.MMEngine(_cfg(tmp, coins, "mm"), "shadow", None, client=fake)
+    e.setup()
+    CLOCK[0] = 1_790_000_000.0 + 3600 * 19.5
+
+    def run(n, dt=2):
+        for _ in range(n):
+            e.step()
+            CLOCK[0] += dt
+    run(400)
+    built = {k: e.sleeves[k].value(e._books)[0] for k in ("rial", "beta")}
+    assert all(v > 0.8 * e.sleeves[k].capital for k, v in built.items()), built
+    stop = CLOCK[0] + 3 * 3600 + 20 * 60 - 30            # 4 h before the end: first step (75% still held)
+    e.risk.end_ts = stop + 40 * 60
+    n_ev = len(_events(tmp))
+    run(1)
+    assert e.risk.wind_down(CLOCK[0]) == 0.75
+    run(45, dt=30)                                        # 22 min: maker asks, then taker after 15 min
+    ev = _events(tmp)[n_ev:]
+    assert any(x["event"] == "wind_down_step" and x["share_still_held"] == 0.75 for x in _events(tmp))
+    assert any(x["event"] == "sleeve_order" and x["side"] == "SELL" and not x["taker"] for x in ev), "maker asks first"
+    assert not any(x["event"] == "sleeve_order" and x["side"] == "BUY" for x in ev), "no buying in the wind-down"
+    for k, v in built.items():
+        now_v = e.sleeves[k].value(e._books)[0]
+        assert 0.6 * v < now_v < 0.85 * v, f"{k}: {now_v:,.0f} of {v:,.0f} still held after the first step"
+    CLOCK[0] = stop - 45 * 60                             # last step: 0% held, 50 min of selling before the flatten
+    run(45, dt=30)
+    assert not e.risk.must_flatten(CLOCK[0])
+    for k in ("rial", "beta"):
+        assert e.sleeves[k].value(e._books)[0] < 100_000, f"{k} sold before the forced flatten"
+
+
 def test_live_self_test_with_paper_executor():
     tmp = tempfile.mkdtemp()
     fake = FakeWallex({"SOL": 180.0})

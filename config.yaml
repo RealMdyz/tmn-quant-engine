@@ -6,8 +6,10 @@ challenge:
   package_id: 183                       # trade-credit package of the challenge (unavailable markets come from here)
   initial_capital_tmn: 5000000
   end_time: "2026-10-23T23:50:00+03:30" # official end (Friday 23:50 Tehran)
-  stop_new_entries_minutes_before_end: 75
-  force_flatten_minutes_before_end: 40  # everything back to Toman by then
+  stop_new_entries_minutes_before_end: 150  # market maker: last buy 21:20, so its 90-min hold ends before the flatten
+  wind_down_start_hours_before_end: 4   # holding sleeves are sold in steps from 19:50 (not all at once at 23:10):
+  wind_down_steps: 4                    # 75% held at 19:50, 50% at 20:40, 25% at 21:30, 0% at 22:20 (maker sells)
+  force_flatten_minutes_before_end: 40  # everything back to Toman by then (taker for whatever is left)
 
 fees:                                   # account tier 1 (overridden by /v1/account/fee in live mode)
   tmn_maker: 0.0025
@@ -103,6 +105,7 @@ portfolio:
       trail_start_pct: 99      # worst -3.9% vs -2.9%); trailing stop OFF
       trail_gap_pct: 99
       maker_timeout_s: 300     # entry: maker at the best bid, taker after 5 min (shadow: makers filled in 1-3 min)
+      wind_down_taker_after_s: 900  # end wind-down: a step unsold by maker ask in 15 min is sold as taker
       usdt_exit_at: "2026-10-23T20:00:00+03:30"   # only used if USDT is ever added (USDT/TMN closes 21:00)
     beta:                      # HIGH risk
       capital_pct: 45
@@ -113,6 +116,7 @@ portfolio:
       trail_start_pct: 99
       trail_gap_pct: 99
       maker_timeout_s: 300
+      wind_down_taker_after_s: 900
 
 risk:
   max_position_pct: 0.40        # a single quote never exceeds 40% of equity

@@ -42,6 +42,19 @@ class RiskManager:
     def must_flatten(self, now: float) -> bool:
         return now >= self.end_ts - self.ch["force_flatten_minutes_before_end"] * 60
 
+    def wind_down(self, now: float) -> float:
+        """Share of the holding sleeves still held. Steps down from 1 to 0 in `wind_down_steps` equal steps
+        between `wind_down_start_hours_before_end` and the forced flatten (4 h, 4 steps: 19:50 -> 75%,
+        20:40 -> 50%, 21:30 -> 25%, 22:20 -> 0%), so the exit is spread over hours with maker sells instead of
+        one taker sale of everything 40 minutes before the end."""
+        start = self.end_ts - self.ch.get("wind_down_start_hours_before_end", 0) * 3600
+        stop = self.end_ts - self.ch["force_flatten_minutes_before_end"] * 60
+        n = self.ch.get("wind_down_steps", 4)
+        if now < start or stop <= start:
+            return 1.0
+        k = min(n, int((now - start) // ((stop - start) / n)) + 1)
+        return round(1 - k / n, 4)
+
     # ------------------------------------------------------ circuit breaker
     def halted(self, now: float) -> bool:
         return self.state.killed or now < self.state.paused_until
