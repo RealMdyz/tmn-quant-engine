@@ -2,9 +2,9 @@
 
 ## SHADOW
 
-- Equity: **4,983,557 TMN** (-0.329%)
+- Equity: **4,994,116 TMN** (-0.118%)
 - Max drawdown: **0.445%**
-- Traded volume: 3,977,145 TMN
+- Traded volume: 0 TMN
 
 ![equity](equity_shadow.png)
 
@@ -15,19 +15,19 @@
 | BNB | 1 | 0 | 0 | 0 |
 | FIL | 2 | 1 | 1 | -10,984 |
 
-- AI supervisor decisions: 29 (sources: {'fallback': 1, 'llm:boxapi': 28})
-- Events: {'startup': 37, 'policy': 29, 'quote': 1245, 'state_restored': 35, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 762, 'buy_unblocked': 625, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 35, 'regime': 5, 'sleeve_order': 40, 'sleeve_order_failed': 5, 'sleeve_fill': 19}
+- AI supervisor decisions: 30 (sources: {'fallback': 1, 'llm:boxapi': 29})
+- Events: {'startup': 38, 'policy': 30, 'quote': 1251, 'state_restored': 35, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 810, 'buy_unblocked': 660, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 42, 'regime': 6, 'sleeve_order': 54, 'sleeve_order_failed': 5, 'sleeve_fill': 22, 'state_reset': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.0,
-    "ENA": 1.1,
-    "WLD": 1.0
+    "ARB": 1.3,
+    "SUI": 1.1,
+    "FIL": 1.2
   },
   "pause": false,
-  "reasoning": "I pick BCH/ENA/WLD because they have spreads >50 bps (BCH 52.8, ENA 64.2, WLD 67.7) while higher-liquidity names are either <50 bps or have buy-blocks or frozen USDT books. I avoid FIL despite its wide Toman spread (90.8 bps) because our live round trips there lost -10,984 TMN (avg RT 3.5 bps) — that signals adverse selection. I set half-spreads wide (h=1.0–1.1%) because fv_vol is elevated (BCH 102.5, ENA 233.8, WLD 126.4 bps) and the backtest shows losses with narrow quotes; wider quoting reduces pick-off risk. Sleeves: USDT/TMN is +3.47% over 48h so the rial-weakening regime allows full rial exposure (1.0) given sleeve performance (rial return -0.03% recently but regime supportive). I keep beta scaled back to 0.8 (not full 1.0) to limit drawdown after recent beta PnL -12,024 TMN while selecting ADA/PEPE/LINK (high momentum names in the beta universe) and no coin-specific bad headlines.",
+  "reasoning": "Select ARB because it has a very wide Toman spread (167.3 bps) and high 24h volume (35,059M TMN) with a positive premium (+20.6 bps), so we can sit wide (h=1.3%). Add SUI: spread 90.8 bps and decent volume (6,539M TMN) so a conservative h=1.1% fits its profile. Include FIL because its Toman spread is >50 bps (52.2 bps) and premium is large (+174.9 bps) with moderate volume (5,787M TMN), so h=1.2% balances pickoff risk and earning spread. Do not quote broken books (HYPE/IMX flagged) and avoid low-spread pairs (XRP/SOL). Keep sleeves fully in the rial regime (rial exposure 1.0 because USDT/TMN 48h +4.28% and regime cap=1.0) and nearly-full beta (0.9) to capture the rial-weakening lift while trimming some beta risk; beta assets = PEPE/ADA/LINK per portfolio weights and momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
