@@ -21,14 +21,21 @@ import pandas as pd
 ENTRY, EXIT = 0.0025, 0.003
 
 
-def load_hourly(path="data/hourly.json") -> pd.DataFrame:
+def load_hourly(path="data/hourly.json", extra="data/m1_tmn_2026-10-20_22.json") -> pd.DataFrame:
+    """29 days of hourly Toman closes, extended with the 1-minute probe data (to 2026-10-22) when present."""
     h = json.load(open(path))
     out = {}
     for s, d in h.items():
         if s.endswith("TMN"):
             t = pd.to_datetime(d["t0"] + np.array(d["t"]) * 3600, unit="s")
             out[s[:-3]] = pd.Series(d["c"], index=t)
-    return pd.DataFrame(out).ffill()
+    px = pd.DataFrame(out).ffill()
+    if extra and os.path.exists(extra):
+        m = json.load(open(extra))
+        ext = pd.DataFrame({s[:-3]: pd.Series(d["c"], index=pd.to_datetime(np.array(d["t"], dtype="int64"), unit="s"))
+                            .resample("1h").last() for s, d in m.items() if s[:-3] in px.columns})
+        px = pd.concat([px, ext[ext.index > px.index[-1]]]).sort_index().ffill()
+    return px
 
 
 def sleeve_path(px, i, weights, hours, stop, trail_start, trail_gap):
@@ -54,7 +61,9 @@ def run_regime_study(cfg: dict, out_dir="logs/regime_study", hours=27):
     pf = cfg["portfolio"]
     usd48 = px["USDT"] / px["USDT"].shift(48) - 1
     sl = pf["sleeves"]
-    rows = {"rial": [], "beta": [], "portfolio": [], "rial_always": [], "beta_always": []}
+    rows = {"rial": [], "beta": [], "portfolio": [], "rial_always": [], "beta_always": [],
+            "portfolio_in_regime": [], "portfolio_in_regime_1st_half": [], "portfolio_in_regime_2nd_half": []}
+    split = px.index[len(px) // 2]
     for i in range(48, len(px) - hours):
         g = usd48.iloc[i]
         cap = 1.0 if g >= pf["regime_full_pct"] / 100 else (0.5 if g >= pf["regime_half_pct"] / 100 else 0.0)
@@ -69,7 +78,11 @@ def run_regime_study(cfg: dict, out_dir="logs/regime_study", hours=27):
             res[name] = r * cap
             rows[name].append(r * cap)
         if len(res) == 2:
-            rows["portfolio"].append((res["rial"] + res["beta"]) * 0.33)     # MM third counted at 0
+            pr = sum(res[k] * sl[k]["capital_pct"] / 100 for k in res)       # MM share counted at 0
+            rows["portfolio"].append(pr)
+            if cap > 0:
+                rows["portfolio_in_regime"].append(pr)
+                rows["portfolio_in_regime_1st_half" if px.index[i] < split else "portfolio_in_regime_2nd_half"].append(pr)
     summary = {}
     for k, v in rows.items():
         a = np.array(v)
@@ -79,6 +92,6 @@ def run_regime_study(cfg: dict, out_dir="logs/regime_study", hours=27):
                       "worst_pct": round(float(a.min()) * 100, 2), "best_pct": round(float(a.max()) * 100, 2)}
     out = {"hours_held": hours, "data": f"{px.index[0]:%Y-%m-%d} .. {px.index[-1]:%Y-%m-%d}", "results": summary,
            "notes": "rial/beta = regime-gated sleeve return; *_always = without the regime rule; portfolio = "
-                    "1/3 rial + 1/3 beta + 1/3 market maker at 0%, as a share of total capital; net of fees"}
+                    "sleeves weighted by capital_pct, market-maker share counted at 0%, as a share of total capital; net of fees"}
     json.dump(out, open(os.path.join(out_dir, "regime_summary.json"), "w"), indent=2)
     return out
