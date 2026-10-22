@@ -57,6 +57,15 @@ class MarketInfo:
         return float(Decimal(str(p)).quantize(step, rounding=rnd))
 
 
+def _fmt(x: float, decimals: int | None) -> str:
+    """Plain decimal string for the API: never scientific notation (1e-05) and no spurious '.0' on
+    integer-tick Toman prices."""
+    if decimals is None:
+        d = Decimal(repr(float(x))).normalize()
+        return format(d, "f")
+    return f"{x:.{max(0, int(decimals))}f}"
+
+
 def _f(x, default=0.0) -> float:
     try:
         return float(x)
@@ -217,10 +226,11 @@ class WallexClient:
                 for s, v in res.items() if isinstance(v, dict)}
 
     def place_order(self, symbol: str, side: str, qty: float, price: float,
-                    order_type: str = "LIMIT", client_id: str | None = None) -> dict:
+                    order_type: str = "LIMIT", client_id: str | None = None,
+                    qty_decimals: int | None = None, price_decimals: int | None = None) -> dict:
         client_id = client_id or f"AIB-{uuid.uuid4().hex[:20]}"
         body = {"symbol": symbol, "type": order_type, "side": side,
-                "price": f"{price}", "quantity": f"{qty}", "client_id": client_id}
+                "price": _fmt(price, price_decimals), "quantity": _fmt(qty, qty_decimals), "client_id": client_id}
         data = self._request("POST", "/v1/account/orders", json=body, auth=True)
         return data["result"]
 

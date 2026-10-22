@@ -94,7 +94,7 @@ class MMEngine:
         self.dlog = DecisionLog(os.path.join(ld, f"decisions_{mode}.jsonl"), mode)
         self.state_path = os.path.join(ld, f"state_mm_{mode}.json")
         self.equity_path = os.path.join(ld, f"equity_{mode}.csv")
-        self.books_path = os.path.join(ld, f"books_{mode}.csv")
+        self.books_path = os.path.join(ld, f"books_mm_{mode}.csv")   # own file: different column set
         self.lock = InstanceLock(os.path.join(ld, f"instance_{mode}.lock"))
         self.risk = RiskManager(cfg["risk"], cfg["challenge"])
         self.orders: dict[str, dict] = {}      # coin -> {"BUY": order|None, "SELL": order|None}

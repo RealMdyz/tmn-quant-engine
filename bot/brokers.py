@@ -68,7 +68,8 @@ class LiveExec:
     def place_limit(self, m: MarketInfo, side: str, qty: float, price: float, prefix="Q", taker=False) -> dict:
         qty, price = m.round_qty(qty), m.round_price(price, side)
         cid = _cid(prefix)
-        o = self.c.place_order(m.symbol, side, qty, price, "LIMIT", client_id=cid)
+        o = self.c.place_order(m.symbol, side, qty, price, "LIMIT", client_id=cid,
+                               qty_decimals=m.qty_decimals, price_decimals=m.price_decimals)
         o.setdefault("clientOrderId", cid)
         return o
 
