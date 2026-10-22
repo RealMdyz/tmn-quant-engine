@@ -35,25 +35,24 @@
 
 ## LIVE
 
-- Equity: **4,950,466 TMN** (-0.991%)
+- Equity: **4,962,140 TMN** (-0.757%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 11 (sources: {'llm:boxapi': 11})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 11, 'sleeve_order': 68, 'quote': 58, 'buy_blocked': 795, 'buy_unblocked': 757, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 12 (sources: {'llm:boxapi': 12})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 12, 'sleeve_order': 68, 'quote': 73, 'buy_blocked': 816, 'buy_unblocked': 781, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.2,
-    "GALA": 1.4,
-    "BCH": 1.3
+    "CHZ": 0.9,
+    "BCH": 1.1
   },
   "pause": false,
-  "reasoning": "Pick SUI/GALA/BCH because the bot never quotes where spread_bps <80 and these three pass: SUI spread 114 bps with usdt_spread 62.6 and fv_vol 93 bps (relatively stable fair value) so I quote at h=1.2%. GALA has spread 101 bps, huge USDT/TMN dislocation (usdt_spread 393 bps) and premium +81.5 bps; fair-value volatility 202.7 bps so I go wider at h=1.4% to avoid being picked off. BCH has spread 88.4 bps, usdt_spread 55.7 and fv_vol 201.5 bps so I set h=1.3% to balance spread capture and volatility. I avoid markets with buy_blocked or frozen USDT books (FIL, DOT, CHZ, CAKE, etc.) and any spread <80 bps (SOL, XRP, ARB, …). Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +4.42% (regime cap 1.0) and rial sleeve scale_now=1.0; keep beta at 0.9 (its scale_now 0.9) and select PEPE/ADA/LINK (current beta weights/universe) to retain momentum exposure while not increasing risk ahead of the wind-down schedule.",
+  "reasoning": "Pick CHZ and BCH because both have Toman spreads above our 80 bps floor (CHZ 83.9 bps, BCH 84.4 bps) and no buy blocks; CHZ shows low fair‑value volatility (fv_vol_bps 34.0) so we quote more aggressively at h=0.9%, while BCH has moderate fv volatility (97.5 bps) so we widen to h=1.1% to avoid pick‑offs. Avoided FIL, GALA and CAKE because their Toman books are sliding or the USDT fair value is frozen (buy_blocked present). Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +4.42% (regime cap 1.0) and rial sleeve scale_now is 1.0; keep beta at 0.9 matching its current scale_now (2227k value vs 2250k capital) to preserve momentum exposure without increasing risk. Beta assets limited to PEPE/ADA/LINK (the sleeve weights) which are the current high‑momentum selections and avoid adding other universe names with book sliding warnings.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
