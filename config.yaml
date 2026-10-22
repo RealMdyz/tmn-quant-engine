@@ -28,6 +28,7 @@ arb:
   probe_every_minutes: 30      # a sidelined market (negative learned edge) is re-tested this often ...
   probe_duration_minutes: 15   # ... with one small quote at the widest margin for this long
   max_probes: 2
+  max_abs_deviation: 0.05     # never quote a coin whose Toman and USDT prices disagree by >5% (stale book)
   anomaly_dev: 0.02            # Toman bid persistently >2% below liquidation value ...
   anomaly_minutes: 20          # ... for 20 min -> AI review (likely deposit/withdraw halt)
   use_backtest_priors: false   # true: refresh priors from logs/backtest/arb_summary.json

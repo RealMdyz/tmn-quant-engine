@@ -426,6 +426,8 @@ class ArbEngine:
             lv = liquidation_value(books, coin)
             tb = books.get(f"{coin}TMN")
             is_probe = coin in probes and coin not in active
+            if lv and tb and tb["bids"] and abs(tb["bids"][0][0] / lv - 1) > c["arb"].get("max_abs_deviation", 0.05):
+                lv = None          # books disagree by >5%: stale/illiquid USDT book or halted coin -> never quote
             if not lv or not tb or not tb["asks"] or not tb["bids"] or not (coin in active or is_probe) or not can_trade:
                 if q:
                     self.ex.cancel(q["cid"]); self.dirty(); self._oo = None
@@ -550,6 +552,16 @@ class ArbEngine:
         books = self.client.depth_all()
         self._last_books = books
         self.ex.on_books(books)
+        if self.mode == "shadow" and self.quotes:      # shadow: fill from the real trade tape (2 markets/cycle)
+            syms = sorted(f"{c}TMN" for c in self.quotes)
+            self._tape_i = getattr(self, "_tape_i", 0)
+            for k in range(min(2, len(syms))):
+                sym = syms[(self._tape_i + k) % len(syms)]
+                try:
+                    self.ex.on_trades(sym, self.client.trades(sym))
+                except WallexError:
+                    pass
+            self._tape_i += 2
         self.stats["cycles"] += 1
         self._bal = None
         try:

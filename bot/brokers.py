@@ -184,6 +184,43 @@ class PaperExec:
     def open_orders(self):
         return {k: dict(v) for k, v in self.orders.items() if v["active"]}
 
+    def on_trades(self, symbol: str, trades: list[dict]):
+        """Shadow fill from the REAL trade tape: a resting BUY at price P is (conservatively) filled by
+        executed SELL trades priced <= P that happened after the order was placed. A snapshot of the
+        order book cannot see these fills: an impatient seller eats the bids down to our level and the
+        next snapshot looks normal again. Quantity filled = the traded quantity (capped)."""
+        from datetime import datetime
+        for o in self.orders.values():
+            if not o["active"] or o["symbol"] != symbol or o["side"] != "BUY":
+                continue
+            m = self.markets[symbol]
+            seen = o.setdefault("tape_seen", [])
+            for t in trades:
+                try:
+                    ts = datetime.fromisoformat(t["timestamp"].replace("Z", "+00:00")).timestamp()
+                    px, q = float(t["price"]), float(t["quantity"])
+                except Exception:
+                    continue
+                key = f'{t["timestamp"]}|{px}|{q}'
+                if t.get("isBuyOrder") or ts < o["created"] or px > o["price"] or key in seen:
+                    continue
+                seen.append(key)
+                rem = o["origQty"] - o["executedQty"]
+                fq = m.round_qty(min(rem, q))
+                if fq <= 0:
+                    continue
+                fee = self._fee(symbol, "taker" if o.get("taker") else "maker")
+                amt = fq * o["price"]
+                self._add(m.quote, 0, -amt)
+                self._add(m.base, fq * (1 - fee))
+                o["executedQty"] += fq
+                o["executedSum"] += amt
+                o["fill_source"] = "trade_tape"
+                if o["origQty"] - o["executedQty"] <= 10 ** -m.qty_decimals / 2:
+                    o["active"], o["status"] = False, "FILLED"
+                    break
+                o["status"] = "PARTIALLY_FILLED"
+
     def on_books(self, books: dict):
         """Simulate maker fills: BUY fills when the live best ask <= our price."""
         for o in self.orders.values():
