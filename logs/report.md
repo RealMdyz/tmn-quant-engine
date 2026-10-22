@@ -2,7 +2,7 @@
 
 ## SHADOW
 
-- Equity: **4,964,629 TMN** (-0.707%)
+- Equity: **4,964,229 TMN** (-0.715%)
 - Max drawdown: **0.866%**
 - Traded volume: 0 TMN
 
@@ -16,7 +16,7 @@
 | FIL | 2 | 1 | 1 | -10,984 |
 
 - AI supervisor decisions: 33 (sources: {'fallback': 1, 'llm:boxapi': 32})
-- Events: {'startup': 41, 'policy': 33, 'quote': 1315, 'state_restored': 38, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 1077, 'buy_unblocked': 903, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 63, 'regime': 9, 'sleeve_order': 56, 'sleeve_order_failed': 5, 'sleeve_fill': 26, 'state_reset': 1}
+- Events: {'startup': 41, 'policy': 33, 'quote': 1318, 'state_restored': 38, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 1081, 'buy_unblocked': 909, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 63, 'regime': 9, 'sleeve_order': 56, 'sleeve_order_failed': 5, 'sleeve_fill': 26, 'state_reset': 1}
 
 ### Latest AI decision
 ```json
@@ -35,4 +35,26 @@
 
 ## LIVE
 
-_No records yet._
+- Equity: **5,000,000 TMN** (+0.000%)
+- Max drawdown: **0.000%**
+- Traded volume: 0 TMN
+
+![equity](equity_live.png)
+
+- AI supervisor decisions: 1 (sources: {'llm:boxapi': 1})
+- Events: {'coin_skipped': 7, 'live_self_test': 1, 'cancel_all': 1, 'startup': 1, 'regime': 1, 'policy': 1, 'sleeve_order': 12, 'quote': 5, 'buy_blocked': 2, 'buy_unblocked': 1}
+
+### Latest AI decision
+```json
+{
+  "markets": {
+    "FIL": 1.4,
+    "AVAX": 1.4,
+    "SUI": 1.2
+  },
+  "pause": false,
+  "reasoning": "I pick FIL, AVAX and SUI because they clear the minimum Toman spread requirement and show a mix of width and activity: FIL spread 111.1 bps with vol24h 5,725M TMN and premium +32.6bps; AVAX spread 116.1 bps with vol24h 3,478M TMN and premium +4.4bps; SUI spread 97.7 bps with vol24h 6,074M TMN and premium -8.6bps. I set wide half-spreads (h 1.4% for FIL and AVAX, 1.2% for SUI) because we have no profitable live round trips yet and historical backtests show narrow quotes are picked off — so prefer the top of the allowed h range to protect vs adverse selection. pause=false because there is no market-wide shock or news trigger. Sleeves: the USDT/TMN regime shows ch48 +4.08% (usdt_tmn 272,056) so the rial is weakening and the exposure cap is 1.0; therefore I keep both sleeves fully allocated (rial=1.0, beta=1.0) and select PEPE/ADA/LINK for beta as they are the current weighted universe and suit high-momentum exposure.",
+  "tool_trace": [],
+  "source": "llm:boxapi"
+}
+```
