@@ -8,3 +8,5 @@
 2026-10-22 20:16:33,888 INFO mm: market maker running in LIVE mode
 2026-10-22 20:53:02,630 INFO mm: MM coins=['SOL', 'SUI', 'S', 'XRP', 'BNB', 'AAVE', 'HYPE', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
 2026-10-22 20:53:02,631 INFO mm: market maker running in LIVE mode
+2026-10-22 20:54:29,988 INFO mm: MM coins=['SOL', 'SUI', 'S', 'XRP', 'BNB', 'AAVE', 'HYPE', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-22 20:54:29,988 INFO mm: market maker running in LIVE mode
