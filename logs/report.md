@@ -8,54 +8,25 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 2 (sources: {'fallback': 1, 'llm:boxapi': 1})
-- Events: {'startup': 3, 'policy': 2, 'quote': 11, 'state_restored': 2}
+- AI supervisor decisions: 3 (sources: {'fallback': 1, 'llm:boxapi': 2})
+- Events: {'startup': 3, 'policy': 3, 'quote': 19, 'state_restored': 2}
 
 ### Latest AI decision
 ```json
 {
   "enabled_coins": [
     "LINK",
-    "AVAX",
-    "SOL",
     "PENGU",
-    "BNB"
+    "SOL",
+    "BNB",
+    "AVAX",
+    "AAVE"
   ],
   "margin_mult": 1.15,
-  "usdt_hold_frac": 0.05,
+  "usdt_hold_frac": 0.08,
   "pause": false,
-  "reasoning": "Equity is 5,000,000 TMN with USDT/TMN = 266,720 TMN (we'll keep 5% in USDT ≈ 250 USDT) to hedge rial moves; round-trip fees are 0.68% so I increase margins slightly. I enable coins that show Toman bids below liquidation (LINK -0.335%, AVAX -0.271%, SOL -0.252%, PENGU -0.189%, BNB -0.031%) where we have potential entry edge. I set margin_mult to 1.15 to demand ~15% more edge than learned margins given tail risks (suspended withdrawals/adverse selection) and zero recent fills across books; minutes to contest end = 2255 so we can run a measured strategy.",
+  "reasoning": "Equity is 5,000,000 TMN and we currently hold no USDT, while USDT/TMN is ~266,720 TMN — keep a small USDT reserve (8%) to absorb FX moves. Focus on coins showing negative Toman deviation: LINK -32.5%, PENGU -27.2%, SOL -22.3%, BNB -12.8%, AVAX -10.2% and AAVE -9.5% where our strategy historically finds buys below liquidation. Use a slightly conservative margin multiplier 1.15 (vs learned 1.0) because drawdown is penalised and structural dislocations are a real tail risk; round-trip fees are 0.68% so require extra edge. No pause — market shows no news-driven break but keep sizing/tight margins to limit adverse-selection risk.",
   "tool_trace": [
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "LINK"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "AVAX"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "FIL"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "TRX"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "UNI"
-      }
-    },
     {
       "tool": "get_account_state",
       "args": {}
@@ -65,9 +36,33 @@
       "args": {}
     },
     {
-      "tool": "get_news",
+      "tool": "get_market_stats",
       "args": {
-        "topic": "all"
+        "coin": "LINK"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "SOL"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "PENGU"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "BNB"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "AVAX"
       }
     }
   ],
