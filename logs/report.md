@@ -35,23 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,963,510 TMN** (-0.730%)
+- Equity: **4,963,846 TMN** (-0.723%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 13 (sources: {'llm:boxapi': 13})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 13, 'sleeve_order': 68, 'quote': 89, 'buy_blocked': 1006, 'buy_unblocked': 969, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 14 (sources: {'llm:boxapi': 14})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 14, 'sleeve_order': 68, 'quote': 104, 'buy_blocked': 1031, 'buy_unblocked': 996, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "GALA": 1.4
+    "CAKE": 0.9,
+    "CHZ": 0.9,
+    "AVAX": 1.3
   },
   "pause": false,
-  "reasoning": "I select only GALA because its Toman spread is very wide at 121 bps with a huge USDT-side spread (393.3 bps) and healthy 24h TMN volume (2,140M), while fv_vol_bps is moderate (249.1) and there is no buy_blocked flag — a good wide+busy candidate. I set h=1.4% (near the top of allowed range) to keep quotes wide and avoid being picked off given the market’s large spreads and elevated volatility. I avoid CHZ (spread 106.1 bps) because CHZUSDT book is frozen (fair value unverifiable) and skip BNB/ARB/UNI/DOT which show Toman-book sliding or buy_blocked warnings. For sleeves I keep rial at 1.0 and beta at 0.9 because USDT/TMN 48h = +4.43% (regime cap=1.0) — this supports maintaining full rial exposure and the current beta scale (0.9) while beta’s universe and current weights (PEPE/ADA/LINK) remain valid. No market-wide pause: no Iran/crypto headline or USDT/TMN collapse flagged; live fills show no realised losses to force a stop.",
+  "reasoning": "I pick only markets with Toman spread >=80 bps: CAKE (spread 89.7 bps, fv_vol 19.0 bps) and CHZ (92.3 bps, fv_vol 20.0 bps) are the calmest (low fv_vol) so I quote tighter at h=0.9% to capture spread without too much adverse selection. AVAX has good spread (95.1 bps) but higher fv_vol (165.8 bps), so I widen to h=1.3% to protect against volatility. I avoid markets with buy_blocked (FIL, DOT, ENA, IMX, GALA) and very low spreads (<80 bps), per the rule that we never bid where spread_bps <80. For sleeves I keep rial at full exposure 1.0 because USDT/TMN 48h +4.43% (regime cap=1.0) and the rial sleeve historically performed when entered in this regime; beta stays at 0.9 matching the engine's current scale (and its capital/weights are PEPE/ADA/LINK).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
