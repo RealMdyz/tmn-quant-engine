@@ -35,25 +35,24 @@
 
 ## LIVE
 
-- Equity: **4,988,344 TMN** (-0.233%)
+- Equity: **5,002,398 TMN** (+0.048%)
 - Max drawdown: **0.293%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 2 (sources: {'llm:boxapi': 2})
-- Events: {'coin_skipped': 385, 'live_self_test': 55, 'cancel_all': 3, 'startup': 3, 'regime': 3, 'policy': 2, 'sleeve_order': 68, 'quote': 5, 'buy_blocked': 97, 'buy_unblocked': 86, 'state_restored': 54, 'sleeve_fill': 5}
+- AI supervisor decisions: 3 (sources: {'llm:boxapi': 3})
+- Events: {'coin_skipped': 385, 'live_self_test': 55, 'cancel_all': 3, 'startup': 3, 'regime': 3, 'policy': 3, 'sleeve_order': 68, 'quote': 5, 'buy_blocked': 164, 'buy_unblocked': 148, 'state_restored': 54, 'sleeve_fill': 5}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.1,
-    "HYPE": 1.4,
-    "CAKE": 0.95
+    "SUI": 0.9,
+    "AVAX": 1.3
   },
   "pause": false,
-  "reasoning": "Pick FIL, HYPE and CAKE because the bot never quotes where spread_bps <80 and these have wide Toman spreads: FIL 95.0 bps, HYPE 103.9 bps, CAKE 99.0 bps. FIL gets a moderate h=1.1% because it is busy (vol24h 5,555M TMN), has very wide USDT spread 212.7 bps and low fv_vol 21.2 bps (stable FV). HYPE gets the widest h=1.4%: spread 103.9 bps, good volume (4,221M) and premium +15.1 bps; widen to avoid being picked off. CAKE is calm (fv_vol 3.8 bps) with spread 99.0 bps so we quote a bit tighter at h=0.95% to capture spread while FV is stable. Do not pause: no market-wide shock detected. Keep full sleeve exposures (rial=1.0, beta=1.0) because USDT/TMN 48h +4.09% (regime cap 1.0) and both sleeves are already scaled (rial value 872,036 TMN, beta value 1,496,155 TMN) and recent strategy shows sleeves profit when rial weakens.",
+  "reasoning": "I pick SUI and AVAX because they are the only attractive candidates with Toman spread >=80 bps that are not buy-blocked: SUI spread 141.4 bps, vol24h 6,056 M TNM and low fv_vol 52.5 bps so I can quote relatively tight (h=0.9%). AVAX has spread 97.7 bps, vol24h 3,350 M TNM and higher fv_vol 117.2 bps so I set a wider half-spread (h=1.3%). I avoid HYPE/CHZ/IMX/UNI which show buy_blocked or unstable Toman books, and skip low-spread busy markets (SOL/BNB/FIL) since spread_bps <80 would waste the slot. Sleeves stay fully exposed (rial=1.0, beta=1.0) because USDT/TMN 48h +4.34% gives full regime cap and the rial/beta sleeves are currently scale_now=1.0 with modest recent returns (rial -0.22%, beta +0.41%); I keep beta assets PEPE/ADA/LINK per the current weights and momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
