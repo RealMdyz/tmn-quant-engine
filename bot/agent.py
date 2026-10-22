@@ -148,7 +148,7 @@ class SupervisorAgent:
             return None, [], None
         self.calls.append(time.time())
         self.usage["calls"] += 1
-        for prov in self.providers:              # provider failover (BoxAPI -> AvalAI ...)
+        for prov in [p for p in self.providers for _ in range(2)]:   # 2 tries per provider, then failover
             messages = [{"role": "system", "content": system},
                         {"role": "user", "content": json.dumps(user, ensure_ascii=False, default=str)}]
             trace = []
@@ -175,6 +175,7 @@ class SupervisorAgent:
             except Exception as e:
                 self.usage["failures"] += 1
                 log.warning("LLM provider %s failed: %s", prov["name"], e)
+                time.sleep(3)
                 continue
         return None, [], None
 

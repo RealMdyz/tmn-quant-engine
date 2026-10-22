@@ -59,6 +59,7 @@ class ArbEngine:
         self.anomaly_flag = None
         self._bal = None
         self._oo = None
+        self.last_probe: dict[str, float] = {}
 
     # ================================================================ setup
     def setup(self):
@@ -139,7 +140,7 @@ class ArbEngine:
         for coin, arms in (st.get("bandits") or {}).items():
             if coin in self.bandits:
                 for a, saved in zip(self.bandits[coin].arms, arms):
-                    a.n, a.sum_r, a.sum_r2 = saved["n"], saved["sum_r"], saved["sum_r2"]
+                    a.obs = [tuple(x) for x in saved.get("obs", [])]
         self.quotes = st.get("quotes") or {}
         self.usdt_order = st.get("usdt_order")
         if self.mode == "shadow" and st.get("paper"):
@@ -268,16 +269,34 @@ class ArbEngine:
         cost_tmn = gross_qty * q["price"]
         self.stats["fills"] += 1
         self.stats["volume_tmn"] += cost_tmn
+        entry_fee = self.fees.tmn_taker if q.get("taker") else self.fees.tmn_maker
         # hedge everything we hold of this coin (includes earlier dust)
-        bal = self.bal()
+        bal = self.bal(fresh=True)
         free = bal.get(coin, {}).get("free", 0.0)
+        ub = (books.get(mu.symbol, {}).get("bids") or [[0, 0]])[0][0]
+        if free * ub < mu.min_notional * 1.02 or free < mu.min_qty:
+            # too small for the USDT book (partial fill): unwind on the Toman book right away so no
+            # directional exposure is left; small, known cost instead of open price risk
+            tb = (books.get(mt.symbol, {}).get("bids") or [[0, 0]])[0][0]
+            if free * tb >= mt.min_notional:
+                f = self.ex.market_sell(mt, free, books, self.fees.tmn_taker)
+                self.dirty()
+                pnl = f.quote - f.fee_quote - cost_tmn
+                self.stats["pnl_tmn"] += pnl
+                self.dlog.write("dust_unwind", coin=coin, qty=f.qty, proceeds_tmn=round(f.quote), pnl_tmn=round(pnl),
+                                why="partial fill below the USDT-market minimum -> sold back on the Toman book",
+                                orders=f.orders)
+            else:
+                self.dlog.write("hedge_pending", coin=coin, qty=free,
+                                why="fill below both market minimums; accumulates until hedgeable (inventory sweep)")
+            return
         hedge = self.ex.market_sell(mu, free, books, self.fees.usdt_taker)
         self.dirty()
         ut_bid = (books.get("USDTTMN", {}).get("bids") or [[0, 0]])[0][0]
         if hedge.qty > 0:
             usdt_net = hedge.quote - hedge.fee_quote
             tmn_value = usdt_net * ut_bid * (1 - self.fees.tmn_taker)        # conservative conversion
-            spent = cost_tmn * hedge.qty / max(gross_qty * (1 - self.fees.tmn_maker), 1e-12)
+            spent = cost_tmn * hedge.qty / max(gross_qty * (1 - entry_fee), 1e-12)
             r = tmn_value / spent - 1 if spent else 0.0
             pnl = tmn_value - spent
             self.stats["hedges"] += 1
@@ -288,7 +307,7 @@ class ArbEngine:
             cs["pnl_bps_sum"] += r * 1e4
             self.bandits[coin].update(q["margin"], r)
             self.dlog.write("fill_hedged", coin=coin, quote_price=q["price"], gross_qty=gross_qty,
-                            liquidation_value_at_quote=q["lv"], margin=q["margin"],
+                            liquidation_value_at_quote=q["lv"], margin=q["margin"], entry="taker" if q.get("taker") else "maker",
                             hedge_qty=hedge.qty, hedge_avg_usdt=hedge.avg_price, usdt_tmn_bid=ut_bid,
                             net_return_bps=round(r * 1e4, 1), pnl_tmn=round(pnl),
                             why=f"Toman seller hit our bid {((q['price']/q['lv'])-1)*100:.2f}% below liquidation value; "
@@ -380,28 +399,44 @@ class ArbEngine:
     def requote(self, books, eq, now):
         c = self.cfg
         enabled = set(self.policy.get("enabled_coins") or []) if not self.policy.get("pause") else set()
-        can_trade = (self.risk.entries_allowed_by_time(now) and not self.risk.state.killed
+        can_trade = (self.risk.entries_allowed_by_time(now) and not self.risk.halted(now)
                      and not self.risk.daily_loss_hit(eq))
         tmn_free_total = self.bal().get("TMN", {}).get("free", 0.0)
         # active set: the K enabled markets with the highest expected profit per hour (posterior, no sampling)
-        def expected(coin):
-            return max(a.posterior()[0] * a.fill_rate for a in self.bandits[coin].arms)
-        ranked = sorted((co for co in self.coins if co in enabled and expected(co) > 0), key=expected, reverse=True)
-        active = set(ranked[: c["arb"].get("max_active_quotes", 8)])
+        expected = {co: self.bandits[co].expected_per_hour() for co in self.coins}
+        ranked = sorted((co for co in self.coins if co in enabled and expected[co] > 0),
+                        key=lambda co: expected[co], reverse=True)
+        k = c["arb"].get("max_active_quotes", 8)
+        active = set(ranked[:k])
+        # probes: a sidelined market (negative learned edge) gets one small, extra-safe quote every
+        # `probe_every_minutes`, so a coin that recovers can earn its way back (no permanent switch-off)
+        probe_gap = c["arb"].get("probe_every_minutes", 30) * 60
+        probes = set()
+        for co in self.coins:
+            resting_probe = (co in self.quotes and self.quotes[co].get("probe")
+                             and now - self.last_probe.get(co, 0) < c["arb"].get("probe_duration_minutes", 15) * 60)
+            if co in enabled and expected[co] <= 0 and (resting_probe or now - self.last_probe.get(co, 0) > probe_gap):
+                probes.add(co)
+        probes = set(sorted(probes)[: c["arb"].get("max_probes", 2)])
         locked_in_quotes = sum(q["qty"] * q["price"] for q in self.quotes.values())
-        per_quote = max(0.0, (tmn_free_total + locked_in_quotes) * 0.97 / max(1, len(active)))
+        per_quote = max(0.0, (tmn_free_total + locked_in_quotes) * 0.97 / max(1, len(active) + len(probes)))
+        per_quote *= self.risk.size_factor()
         for coin in self.coins:
             q = self.quotes.get(coin)
             lv = liquidation_value(books, coin)
             tb = books.get(f"{coin}TMN")
-            if not lv or not tb or not tb["asks"] or not tb["bids"] or coin not in active or not can_trade:
+            is_probe = coin in probes and coin not in active
+            if not lv or not tb or not tb["asks"] or not tb["bids"] or not (coin in active or is_probe) or not can_trade:
                 if q:
                     self.ex.cancel(q["cid"]); self.dirty(); self._oo = None
                     self.process_quote(coin, books)
                     self.quotes.pop(coin, None)
                 continue
             bandit = self.bandits[coin]
-            if not q or now - q.get("t_choice", 0) > c["arb"]["rechoose_margin_s"]:
+            if is_probe:
+                margin = bandit.safest_margin() * float(self.policy.get("margin_mult", 1.0))
+                scores, choice_t = {"probe": True}, (q or {}).get("t_choice", now)
+            elif not q or q.get("probe") or now - q.get("t_choice", 0) > c["arb"]["rechoose_margin_s"]:
                 margin, scores = bandit.choose(self.rng, float(self.policy.get("margin_mult", 1.0)))
                 choice_t = now
                 if margin is None:
@@ -415,43 +450,57 @@ class ArbEngine:
             mt = self.markets[f"{coin}TMN"]
             target = lv * (1 - self.fees.round_trip - margin)
             best_ask = tb["asks"][0][0]
+            taker = False
             if target >= best_ask:
                 # the book already offers a price below liquidation value: take it (taker fee instead of maker)
-                taker_ok = best_ask <= lv * (1 - (self.fees.tmn_taker + self.fees.usdt_taker + self.fees.tmn_taker) - margin)
-                target = best_ask if taker_ok else best_ask - 10 ** -mt.price_decimals
+                taker = best_ask <= lv * (1 - (self.fees.tmn_taker + self.fees.usdt_taker + self.fees.tmn_taker) - margin)
+                target = best_ask if taker else best_ask - 10 ** -mt.price_decimals
             price = mt.round_price(target, "BUY")
             if q:
-                safe = price >= q["price"]          # existing bid not above the new safe level?
-                moved = abs(price / q["price"] - 1) > c["arb"]["requote_threshold"]
-                stale = now - q["t"] > c["arb"]["max_quote_age_s"]
-                if not (moved or stale or not safe):
-                    continue
+                if price < q["price"] * (1 - 1e-9):
+                    pass                            # fair value fell: our bid is too high -> requote NOW (safety)
+                else:
+                    up = price / q["price"] - 1     # fair value rose: our bid is merely conservative -> be lazy
+                    stale = now - q["t"] > c["arb"]["max_quote_age_s"]
+                    if not (up > c["arb"].get("requote_up_threshold", 0.003) or stale or taker):
+                        continue
                 self.ex.cancel(q["cid"]); self.dirty(); self._oo = None
                 self.process_quote(coin, books)          # capture any fill that happened before cancel
                 self.quotes.pop(coin, None)
                 self.stats["requotes"] += 1
                 tmn_free_total = self.bal().get("TMN", {}).get("free", 0.0)
-            size_tmn = min(c["arb"]["quote_tmn"], eq * c["risk"]["max_position_pct"], per_quote,
-                           tmn_free_total * 0.98)
             ut_bid = books["USDTTMN"]["bids"][0][0]
             min_hedge_tmn = self.markets[f"{coin}USDT"].min_notional * ut_bid * 1.2
-            if size_tmn < max(c["risk"]["min_order_tmn"], mt.min_notional, min_hedge_tmn):
+            floor = max(c["risk"]["min_order_tmn"], mt.min_notional, min_hedge_tmn)
+            size_tmn = min(c["arb"]["quote_tmn"], eq * c["risk"]["max_position_pct"], per_quote,
+                           tmn_free_total * 0.98)
+            if is_probe:
+                size_tmn = min(size_tmn, floor * 1.1)
+            if size_tmn < floor:
+                if scores is not None:
+                    self.dlog.write("quote_skipped", coin=coin, size_tmn=round(size_tmn), min_required_tmn=round(floor),
+                                    why="quote would be below the USDT-market hedge minimum")
                 continue
             qty = mt.round_qty(size_tmn / price)
             try:
-                o = self.ex.place_limit(mt, "BUY", qty, price)
+                o = self.ex.place_limit(mt, "BUY", qty, price, taker=taker)
                 self.dirty()
             except WallexError as e:
                 self.dlog.write("quote_failed", coin=coin, error=str(e)[:200])
                 continue
             self.quotes[coin] = {"cid": o["clientOrderId"], "price": price, "qty": qty, "margin": margin,
-                                 "lv": lv, "t": now, "t_choice": choice_t, "exec_seen": 0.0}
+                                 "lv": lv, "t": now, "t_choice": choice_t, "exec_seen": 0.0,
+                                 "taker": taker, "probe": is_probe}
+            if is_probe and scores is not None:
+                self.last_probe[coin] = now
             tmn_free_total -= qty * price
             if scores is not None:
                 self.dlog.write("quote", coin=coin, price=price, qty=qty, size_tmn=round(qty * price),
                                 liquidation_value=round(lv, 6), discount_pct=round((price / lv - 1) * 100, 3),
                                 margin_pct=round(margin * 100, 3), bandit_scores_bps_per_hour=scores,
-                                why="resting maker bid below liquidation value minus fees+margin (Thompson-sampled)")
+                                probe=is_probe, entry="taker" if taker else "maker",
+                                why=("PROBE: small extra-safe quote on a sidelined market to re-test its edge" if is_probe else
+                                     "resting bid below liquidation value minus fees+margin (Thompson-sampled margin)"))
 
     # ============================================================== flatten
     def flatten(self, books, reason):
@@ -522,10 +571,15 @@ class ArbEngine:
             self.process_quote(coin, books)
         eq, parts, _ = self.equity(books)
         for ev in self.risk.on_equity(eq, now):
-            self.dlog.write(ev, equity=eq, reason=self.risk.state.kill_reason)
+            self.dlog.write(ev, equity=eq, reason=self.risk.state.kill_reason,
+                            paused_until=self.risk.state.paused_until)
         self.log_rows(now, books, eq, parts)
-        if self.risk.must_flatten(now) or self.risk.state.killed:
-            self.flatten(books, "challenge_end" if self.risk.must_flatten(now) else "kill_switch")
+        if self.risk.must_flatten(now) or self.risk.halted(now):
+            if self.quotes or any(self.bal().get(co, {}).get("total", 0) > 0 for co in self.coins) \
+                    or self.bal().get("USDT", {}).get("total", 0) > 0:
+                reason = ("challenge_end" if self.risk.must_flatten(now) else
+                          "kill_switch" if self.risk.state.killed else "circuit_breaker_pause")
+                self.flatten(books, reason)
             self.save_state()
             return
         self.maybe_supervise(now)

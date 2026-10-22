@@ -21,10 +21,13 @@ arb:
   coins: [FIL, PENGU, AAVE, GALA, ADA, TRX, CAKE, AVAX, WLD, APE, HYPE, SHIB, LINK, DOGE, UNI, PUMP, BNB, SOL]
   max_active_quotes: 8         # quote the 8 markets with the highest expected profit/hour
   quote_tmn: 1000000           # upper bound per resting bid (actual = equity / active, >= hedge minimum)
-  requote_threshold: 0.0015    # cancel/replace when the safe price moves > 0.15%
+  requote_up_threshold: 0.003  # fair value DOWN -> requote at once (safety); UP -> only if > 0.3% (keeps queue spot)
   max_quote_age_s: 180
   usdt_maker_timeout_s: 900    # USDT->TMN maker sell falls back to taker after 15 min
   rechoose_margin_s: 600       # bandit re-samples the margin every 10 min (or after a requote)
+  probe_every_minutes: 30      # a sidelined market (negative learned edge) is re-tested this often ...
+  probe_duration_minutes: 15   # ... with one small quote at the widest margin for this long
+  max_probes: 2
   anomaly_dev: 0.02            # Toman bid persistently >2% below liquidation value ...
   anomaly_minutes: 20          # ... for 20 min -> AI review (likely deposit/withdraw halt)
   use_backtest_priors: false   # true: refresh priors from logs/backtest/arb_summary.json
@@ -54,9 +57,10 @@ risk:
   max_position_pct: 0.25        # a single quote never exceeds 25% of equity
   min_order_tmn: 300000
   daily_loss_limit_pct: 1.5     # stop quoting for the day after -1.5%
-  max_drawdown_pct: 3.0         # kill switch: cancel + flatten at -3% from peak
-  cooldown_after_loss_min: 0
-  trailing_stop_pct: 0.6
+  max_drawdown_pct: 3.0         # circuit breaker: -3% from peak -> flatten + pause ...
+  pause_minutes: 60             # ... for 60 min, then resume ...
+  size_after_pause: 0.5         # ... at half size
+  second_drawdown_pct: 2.0      # a further -2% after resuming -> permanent stop
 
 execution:
   loop_seconds: 2

@@ -47,7 +47,7 @@ class LiveExec:
     def balances(self):
         return self.c.balances()
 
-    def place_limit(self, m: MarketInfo, side: str, qty: float, price: float, prefix="Q") -> dict:
+    def place_limit(self, m: MarketInfo, side: str, qty: float, price: float, prefix="Q", taker=False) -> dict:
         qty, price = m.round_qty(qty), m.round_price(price, side)
         cid = _cid(prefix)
         o = self.c.place_order(m.symbol, side, qty, price, "LIMIT", client_id=cid)
@@ -69,8 +69,11 @@ class LiveExec:
     def on_books(self, books):  # live fills happen on the exchange
         return None
 
-    def market_sell(self, m: MarketInfo, qty: float, books: dict, fee: float, attempts: int = 3) -> Fill:
-        """Marketable limit SELL, re-priced up to `attempts` times; executed qty read back."""
+    def market_sell(self, m: MarketInfo, qty: float, books: dict, fee: float, attempts: int = 2) -> Fill:
+        """Fast hedge: marketable limit SELL priced at the level that covers the WHOLE quantity in the
+        visible book, minus a safety buffer. The matching engine fills at the resting bids' prices
+        (price improvement), so the aggressive limit costs nothing extra but fills at once.
+        Status is polled every 0.3 s; the main loop is blocked ~1-3 s instead of up to ~17 s."""
         fill = Fill("SELL", m.symbol)
         remaining = m.round_qty(qty)
         for k in range(attempts):
@@ -79,40 +82,46 @@ class LiveExec:
             b = books.get(m.symbol) if k == 0 else self.c.depth(m.symbol)
             bids = b["bids"] if b else []
             if not bids:
-                time.sleep(1)
+                time.sleep(0.5)
                 continue
-            px = bids[0][0] * (1 - 0.002 * (k + 1))
-            if remaining * px < m.min_notional:
+            acc, level = 0.0, bids[-1][0]
+            for p, q in bids:
+                acc += q
+                if acc >= remaining:
+                    level = p
+                    break
+            px = level * (1 - 0.004 * (k + 1))
+            if remaining * bids[0][0] < m.min_notional:
                 fill.note = "below min notional"
                 break
             try:
                 o = self.place_limit(m, "SELL", remaining, px, prefix="H")
             except WallexError as e:
                 fill.note = f"place failed: {e}"
-                time.sleep(1)
+                time.sleep(0.5)
                 continue
             cid = o.get("clientOrderId")
-            for _ in range(8):
-                time.sleep(0.7)
+            for _ in range(10):
+                if not o.get("active", True) or float(o.get("executedPercent", 0) or 0) >= 100:
+                    break
+                time.sleep(0.3)
                 try:
                     o = self.get(cid)
                 except WallexError:
                     continue
-                if not o.get("active", True):
-                    break
             if o.get("active", True):
                 self.cancel(cid)
-                time.sleep(0.5)
+                time.sleep(0.3)
                 try:
                     o = self.get(cid)
                 except WallexError:
                     pass
-            q, s = float(o.get("executedQty", 0) or 0), float(o.get("executedSum", 0) or 0)
-            fill.orders.append({"cid": cid, "status": o.get("status"), "qty": q, "sum": s})
+            q, s_ = float(o.get("executedQty", 0) or 0), float(o.get("executedSum", 0) or 0)
+            fill.orders.append({"cid": cid, "status": o.get("status"), "qty": q, "sum": s_, "limit": px})
             if q > 0:
                 fill.qty += q
-                fill.quote += s
-                fill.fee_quote += s * fee
+                fill.quote += s_
+                fill.fee_quote += s_ * fee
                 remaining = m.round_qty(remaining - q)
         return fill
 
@@ -137,7 +146,7 @@ class PaperExec:
     def balances(self):
         return {k: dict(v) for k, v in self.bal.items()}
 
-    def place_limit(self, m: MarketInfo, side: str, qty: float, price: float, prefix="Q") -> dict:
+    def place_limit(self, m: MarketInfo, side: str, qty: float, price: float, prefix="Q", taker=False) -> dict:
         qty, price = m.round_qty(qty), m.round_price(price, side)
         self.markets[m.symbol] = m
         cid = _cid(prefix)
@@ -151,7 +160,8 @@ class PaperExec:
                 raise WallexError("paper: insufficient base balance")
             self._add(m.base, -qty, qty)
         o = {"clientOrderId": cid, "symbol": m.symbol, "side": side, "price": price, "origQty": qty,
-             "executedQty": 0.0, "executedSum": 0.0, "active": True, "status": "NEW", "created": time.time()}
+             "executedQty": 0.0, "executedSum": 0.0, "active": True, "status": "NEW", "created": time.time(),
+             "taker": taker}
         self.orders[cid] = o
         return dict(o)
 
@@ -191,7 +201,7 @@ class PaperExec:
             q = m.round_qty(min(rem, avail))
             if q <= 0:
                 continue
-            fee = self._fee(o["symbol"], "maker")
+            fee = self._fee(o["symbol"], "taker" if o.get("taker") else "maker")
             amt = q * o["price"]
             if o["side"] == "BUY":
                 self._add(m.quote, 0, -amt)

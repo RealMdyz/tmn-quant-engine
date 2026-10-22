@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import math
 import random
+import time
 from dataclasses import dataclass, field
 
 
@@ -57,26 +58,36 @@ def deviation(books: dict, coin: str) -> float | None:
 
 
 # --------------------------------------------------------------------- bandit
+HALF_LIFE_S = 2 * 3600      # live evidence older than ~2h counts half as much (lets coins recover)
+
+
 @dataclass
 class Arm:
     margin: float          # extra edge required on top of fees (fraction)
     prior_mean: float      # expected net return per fill (fraction), from backtest
     prior_n: float         # strength of the prior (pseudo-observations)
     fill_rate: float       # expected fills per hour, from backtest
-    n: int = 0
-    sum_r: float = 0.0
-    sum_r2: float = 0.0
+    obs: list = field(default_factory=list)   # [(timestamp, net_return)] of live fills
+
+    def _weighted(self, now: float | None = None):
+        now = now or time.time()
+        w = [0.5 ** ((now - t) / HALF_LIFE_S) for t, _ in self.obs]
+        return sum(w), sum(wi * r for wi, (_, r) in zip(w, self.obs))
+
+    @property
+    def n(self) -> int:
+        return len(self.obs)
 
     def posterior(self) -> tuple[float, float]:
+        n_eff, sum_r = self._weighted()
         n0 = self.prior_n
-        mean = (self.prior_mean * n0 + self.sum_r) / (n0 + self.n)
-        sd = 0.006 / math.sqrt(n0 + self.n)        # ~60 bps per-fill noise
+        mean = (self.prior_mean * n0 + sum_r) / (n0 + n_eff)
+        sd = 0.006 / math.sqrt(n0 + n_eff)          # ~60 bps per-fill noise
         return mean, sd
 
-    def update(self, r: float):
-        self.n += 1
-        self.sum_r += r
-        self.sum_r2 += r * r
+    def update(self, r: float, t: float | None = None):
+        self.obs.append((t or time.time(), r))
+        self.obs = self.obs[-200:]
 
 
 @dataclass
@@ -104,12 +115,19 @@ class MarketBandit:
         a = min(self.arms, key=lambda x: abs(x.margin - margin))
         a.update(r)
 
+    def expected_per_hour(self) -> float:
+        return max(a.posterior()[0] * a.fill_rate for a in self.arms)
+
+    def safest_margin(self) -> float:
+        """Probe margin for a sidelined market: the widest arm (most protection)."""
+        return max(a.margin for a in self.arms)
+
     def summary(self) -> dict:
         out = {}
         for a in self.arms:
             mu, sd = a.posterior()
             out[f"{a.margin*100:.1f}%"] = {"live_fills": a.n, "post_mean_bps": round(mu * 1e4, 1),
-                                           "live_mean_bps": round(a.sum_r / a.n * 1e4, 1) if a.n else None}
+                                           "live_mean_bps": round(sum(r for _, r in a.obs) / a.n * 1e4, 1) if a.n else None}
         return out
 
 
