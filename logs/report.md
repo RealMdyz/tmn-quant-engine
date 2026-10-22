@@ -9,7 +9,7 @@
 ![equity](equity_shadow.png)
 
 - AI supervisor decisions: 14 (sources: {'fallback': 1, 'llm:boxapi': 13})
-- Events: {'startup': 7, 'policy': 14, 'quote': 219, 'state_restored': 6, 'quote_skipped': 4, 'usdt_ref_check': 7, 'quote_blocked': 144, 'quote_unblocked': 129, 'error': 3}
+- Events: {'startup': 7, 'policy': 14, 'quote': 230, 'state_restored': 6, 'quote_skipped': 4, 'usdt_ref_check': 8, 'quote_blocked': 161, 'quote_unblocked': 151, 'error': 3}
 
 ### Latest AI decision
 ```json
