@@ -35,25 +35,24 @@
 
 ## LIVE
 
-- Equity: **4,947,432 TMN** (-1.051%)
+- Equity: **4,951,526 TMN** (-0.969%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 24 (sources: {'llm:boxapi': 24})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 24, 'sleeve_order': 169, 'quote': 394, 'buy_blocked': 1648, 'buy_unblocked': 1613, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 25 (sources: {'llm:boxapi': 25})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 25, 'sleeve_order': 169, 'quote': 441, 'buy_blocked': 1678, 'buy_unblocked': 1642, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
     "SUI": 0.9,
-    "GALA": 1.3,
-    "CAKE": 1.0
+    "GALA": 1.5
   },
   "pause": false,
-  "reasoning": "Choose SUI because spread_bps 152.4 (well above our 80 bps floor), vol24h 5,159M TMN and fv_vol_bps low (30.7) so we can quote relatively tight (h=0.9); it is already quoted_now. Add GALA because spread_bps is very wide (161.3) and usdt_spread_bps huge (446.9) so it offers large nominal spread, but fv_vol_bps 313.7 implies higher risk so widen to h=1.3. Add CAKE as the third slot: spread_bps 99.3, vol24h 2,300M TMN, usdt_spread_bps 125.1 and fv_vol_bps 40.0 — medium volatility justifies h=1.0. I avoid ARB/DOT/FIL/CHZ/IMX because Toman book sliding or frozen (buy_blocked) despite large spreads; UNI/WLD are near the 80 bps cutoff but others offered better profiles. Sleeves: keep rial at 1.0 because USDT/TMN 48h +4.33% (regime cap 1.0) and the rial sleeve has been positive (return -0.55% but entered in the rial-weakening regime); keep beta at 0.8 (current scale_now 0.8) and allocate to PEPE/ADA/LINK per the sleeve weights and momentum, avoiding coin-specific bad-news names.",
+  "reasoning": "Pick SUI and GALA only because the bot never quotes where spread_bps < 80: SUI spread_bps=137.3 (fv_vol_bps 17.6, vol24h 5,143 MTMN, quoted_now=true) offers a calm fair-value and wide Toman spread so we quote more aggressively (h=0.9%). GALA has the widest Toman/USDT dislocation (spread_bps=141.1, usdt_spread_bps=508.5, vol24h 2,189) but higher fv_vol_bps=156.3 so we use a defensive h=1.5%. We avoid CHZ (78.7 bps <80) and markets with buy_blocked flags (AAVE/ARB/FIL/DOT) or low spreads. Sleeves: USDT/TMN 48h +4.33% keeps the rial-weakening regime (cap 1.0) so keep rial exposure at 1.0; beta remains at scale 0.8 (current value_tmn 1,808,106, return -1.42%) — keep exposure but not increase given beta draw and ongoing wind-down schedule. Beta assets chosen: PEPE/ADA/LINK following the bucket weights and momentum in the beta universe.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
