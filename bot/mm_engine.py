@@ -703,6 +703,21 @@ class MMEngine:
             self.stats["round_trips"] += 1
         self.dlog.write("exit", coin=co, qty=f.qty, avg_price=f.avg_price, pnl_tmn=round(pnl), why=why, orders=f.orders)
 
+    def sweep_leftovers(self, books):
+        """Challenge end: sell any coin still in the account that no strategy tracks (e.g. a fill that
+        happened while the bot was restarting), so the whole result is realised in Toman."""
+        held = {a: p["qty"] for sl in self.sleeves.values() for a, p in sl.pos.items() if p["qty"] > 0}
+        for a, x in self.bal().items():
+            mt = self.markets.get(f"{a}TMN")
+            q = x.get("free", 0.0) - held.get(a, 0.0)
+            bids = (books.get(f"{a}TMN") or {}).get("bids")
+            if a == "TMN" or a in self.coins or not mt or not bids or q * bids[0][0] < mt.min_notional:
+                continue
+            f = self.ex.market_sell(mt, q, books, self.fees.tmn_taker)
+            self.dirty()
+            self.dlog.write("sweep_sell", asset=a, qty=f.qty, avg_price=f.avg_price,
+                            why="challenge end: coin not tracked by any strategy, sold so the result is in Toman")
+
     def flatten(self, books, reason):
         for co in self.coins:
             for side in ("BUY", "SELL"):
@@ -926,6 +941,8 @@ class MMEngine:
             if any(self.orders.get(co, {}).get(s) for co in self.coins for s in ("BUY", "SELL")) or inv_val > 0:
                 self.flatten(books, "challenge_end" if self.risk.must_flatten(now) else
                              ("kill_switch" if self.risk.state.killed else "circuit_breaker_pause"))
+            if self.risk.must_flatten(now):
+                self.sweep_leftovers(books)
             self.save_state()
             return
         wd = self.risk.wind_down(now)

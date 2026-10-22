@@ -213,6 +213,13 @@ def test_end_of_challenge_wind_down_in_steps():
     assert not e.risk.must_flatten(CLOCK[0])
     for k in ("rial", "beta"):
         assert e.sleeves[k].value(e._books)[0] < 100_000, f"{k} sold before the forced flatten"
+    e.ex.bal["ADA"]["free"] += 2_000_000 / (0.65 * USDT)          # an untracked fill (e.g. during a restart)
+    e.ex.bal["ADA"]["total"] = e.ex.bal["ADA"]["free"] + e.ex.bal["ADA"].get("locked", 0)
+    e.dirty()
+    CLOCK[0] = stop + 60                                  # forced flatten
+    run(3)
+    assert any(x["event"] == "sweep_sell" and x["asset"] == "ADA" for x in _events(tmp))
+    assert e.bal()["ADA"]["total"] * 0.65 * USDT < 60_000, "untracked coins sold at the end"
 
 
 def test_shadow_restarts_when_the_portfolio_changes():
