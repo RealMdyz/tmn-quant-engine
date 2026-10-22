@@ -37,11 +37,13 @@ class HoldingSleeve:
         self.stopped: str | None = None        # reason once a stop closed the sleeve (no re-entry)
         self.scale = 0.0                       # 0..1, set from regime cap and AI decision
         self.last_act = 0.0
+        self.last_reweight = 0.0
 
     # -------------------------------------------------------------- state
     def to_state(self):
         return {"pos": self.pos, "orders": self.orders, "realised": self.realised, "peak_ret": self.peak_ret,
-                "stopped": self.stopped, "scale": self.scale, "weights": self.weights}
+                "stopped": self.stopped, "scale": self.scale, "weights": self.weights,
+                "last_reweight": self.last_reweight}
 
     def from_state(self, s):
         self.pos = s.get("pos") or {}
@@ -51,6 +53,7 @@ class HoldingSleeve:
         self.stopped = s.get("stopped")
         self.scale = s.get("scale", 0.0)
         self.weights = s.get("weights") or self.weights
+        self.last_reweight = s.get("last_reweight", 0.0)
 
     # ------------------------------------------------------------ helpers
     def assets(self):

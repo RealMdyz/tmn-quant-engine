@@ -331,7 +331,7 @@ class MMEngine:
         full, half = pf.get("regime_full_pct", 1.0), pf.get("regime_half_pct", 0.0)
         r["cap"] = 1.0 if (r["ch48_pct"] or 0) >= full else (0.5 if (r["ch48_pct"] or 0) >= half else 0.0)
         r["why"] = (f"USDT/TMN 48h {r['ch48_pct']:+.2f}%: exposure cap {r['cap']:.1f} "
-                    f"(>= +{full}% full, >= +{half}% half, else none - outside the rial-weakening regime the coins lost)")
+                    f"(>= +{full}% full, else none: entered outside the rial-weakening regime the sleeves lost)")
         if r.get("cap") != self.regime.get("cap"):
             self.dlog.write("regime", **r)
         self.regime = r
@@ -520,11 +520,17 @@ class MMEngine:
             sl.scale = round(min(ai, cap), 3)  # not force a sale (the AI or the disaster stop still can)
             uni = sl.cfg.get("universe")
             pick = [c for c in (pol.get("beta_assets") or []) if uni and c in uni and f"{c}TMN" in self.markets]
-            if uni and 2 <= len(pick) <= 4 and not sl.stopped:
+            held = sl.value(self._books)[1] > 0
+            changed = set(pick) != {a for a, w in sl.weights.items() if w > 0}
+            # every switch costs ~0.55% in fees: once built, the coin set may change at most every 3 hours
+            if (uni and 2 <= len(pick) <= 4 and not sl.stopped and changed
+                    and (not held or time.time() - sl.last_reweight > sl.cfg.get("min_reweight_s", 10800))):
                 new = {c: round(1 / len(pick), 4) for c in pick}
                 for old in sl.weights:
                     new.setdefault(old, 0.0)          # dropped coins get target 0 -> trimmed
                 sl.weights = new
+                sl.last_reweight = time.time()
+                self.dlog.write("sleeve_reweight", sleeve=k, weights=new, why="AI picked a new coin set")
 
     def log_sleeves(self, now, books, eq):
         if now - self.last_sleeves_log < 60 or not self.sleeves:
