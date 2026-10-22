@@ -35,24 +35,21 @@
 
 ## LIVE
 
-- Equity: **4,954,867 TMN** (-0.903%)
+- Equity: **4,953,688 TMN** (-0.926%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 15 (sources: {'llm:boxapi': 15})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 15, 'sleeve_order': 68, 'quote': 137, 'buy_blocked': 1145, 'buy_unblocked': 1110, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 16 (sources: {'llm:boxapi': 16})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 16, 'sleeve_order': 68, 'quote': 137, 'buy_blocked': 1201, 'buy_unblocked': 1167, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {
-    "GALA": 1.2,
-    "IMX": 1.5
-  },
+  "markets": {},
   "pause": false,
-  "reasoning": "Pick GALA because its Toman spread is wide (121 bps) and 24h volume is healthy (2,135M TMN) while FV volatility is moderate (fv_vol_bps 290), so a relatively tight-but-profitable half-spread h=1.2% fits. Include IMX because it has a very wide Toman spread (214.6 bps) — we set h=1.5% given its tiny volume (151M) and extreme FV volatility (fv_vol_bps 2022) which requires a large buffer. No third market: most candidates have spread_bps <80 (our minimum) or have buy blocks/rapid Toman book moves (DOT/AVAX/CAKE flagged), so leaving the third slot empty reduces pickoffs. Keep sleeves at rial=1.0 and beta=0.9 because USDT/TMN 48h is +4.43% (regime cap 1.0), rial sleeve has small negative return (-0.55%) but benefits from the rial-weakening regime, and beta was already scaled to 0.9 with acceptable historical performance; beta assets remain PEPE/ADA/LINK by current weights and momentum.",
+  "reasoning": "I open no market-making quotes because only GALA clears the bot's minimum Toman spread filter (141.4 bps) but its book is flagged (buy_blocked: fair value fell -125 bps in 60s) and is currently quoted — too risky to post maker quotes. All other candidates have Toman spreads <80 bps (e.g. SOL 31.6, BNB 5.0, AAVE 62.0, UNI 62.5, FIL 61.0) so quoting them would violate the rule and be a wasted slot. I keep the rial sleeve at full exposure 1.0 because USDT/TMN 48h is +4.33% (regime cap=1.0) which historically supported positive sleeve returns. I keep beta at 0.9 (current scale_now=0.9) rather than 1.0 to remain slightly conservative: beta returned -1.09% recently but benefits from the rial-weakening regime; I retain the existing beta assets PEPE, ADA, LINK as they are the sleeve weights and have the desired momentum/no coin-specific negative flags.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
