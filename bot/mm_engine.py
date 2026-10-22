@@ -622,7 +622,9 @@ class MMEngine:
             safer = price < o["price"] if side == "BUY" else price > o["price"]
             too_old = now - o["t"] > self.m.get("max_quote_age_s", 300)
             qty_off = side == "SELL" and abs(qty - (o["qty"] - o["exec_seen"])) > 10 ** -mt.qty_decimals
-            if not (moved > self.m.get("requote_bps", 15) / 1e4 or (safer and moved > 0) or too_old or qty_off):
+            thr = self.m.get("requote_bps", 15) / 1e4
+            # a safer price (lower bid / higher ask) is applied sooner, but not for every tick of noise
+            if not (moved > thr or (safer and moved > thr / 3) or too_old or qty_off):
                 return
             self.cancel(co, side, books)
             if side == "SELL":
