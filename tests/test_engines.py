@@ -137,7 +137,7 @@ def test_portfolio_three_sleeves():
     random.seed(5)
     tmp = tempfile.mkdtemp()
     coins = {"SOL": 180.0, "SUI": 3.2, "BTC": 108000.0, "ETH": 3900.0, "ADA": 0.65, "PEPE": 0.00001, "SHIB": 0.000012,
-             "DOGE": 0.19}
+             "DOGE": 0.19, "LINK": 17.5}
     fake = FakeWallex(coins)
     fake.candles = lambda sym, res, a, b: {"t": [b - 3600 * k for k in range(60, -1, -1)],
                                            "c": [USDT * (1 - 0.0004 * k) for k in range(60, -1, -1)]}
@@ -160,8 +160,8 @@ def test_portfolio_three_sleeves():
         assert v > 0.8 * e.sleeves[name].capital, f"{name} sleeve built (value {v:,.0f})"
     held = sum(e.sleeves[k].value(e._books)[0] for k in ("rial", "beta"))
     assert eq >= e.bal()["TMN"]["total"] + held - 1, "equity counts every held asset"
-    for c in ("ADA", "PEPE", "SHIB", "DOGE"):                 # beta crash -> sleeve stop-loss
-        fake.usd[c] *= 0.95
+    for c in ("ADA", "PEPE", "LINK", "SHIB", "DOGE"):         # beta crash beyond its 7% disaster stop
+        fake.usd[c] *= 0.91
     run(15)
     ev = _events(tmp)
     assert e.sleeves["beta"].stopped and any(x["event"] == "sleeve_stop" and x["sleeve"] == "beta" for x in ev)
