@@ -6,6 +6,7 @@
   python run.py live --yes         REAL trading on the challenge account
   python run.py flatten            emergency: cancel everything, sell all coins + USDT back to Toman
   python run.py report             logs/report.md + charts from decision logs and equity curve
+  python run.py probe              read-only market snapshot for research -> logs/probe/
 """
 from __future__ import annotations
 
@@ -149,7 +150,7 @@ def cmd_flatten(cfg):
 def main():
     load_dotenv(os.path.join(ROOT, ".env"))
     ap = argparse.ArgumentParser()
-    ap.add_argument("command", choices=["check", "backtest", "shadow", "live", "flatten", "report"])
+    ap.add_argument("command", choices=["check", "backtest", "shadow", "live", "flatten", "report", "probe"])
     ap.add_argument("--config", default="config.yaml")
     ap.add_argument("--days", type=float, default=10)
     ap.add_argument("--cached", action="store_true", help="backtest on data/m5_all.json without downloading")
@@ -163,6 +164,10 @@ def main():
         cmd_backtest(cfg, args)
     elif args.command == "flatten":
         cmd_flatten(cfg)
+    elif args.command == "probe":
+        from bot.probe import run_probe
+        meta = run_probe(cfg, os.getenv("WALLEX_API_KEY"), days=min(args.days, 3))
+        print("probe done:", meta.get("finished"), "errors:", meta.get("errors"))
     elif args.command == "report":
         from bot.report import build_report
         print("written:", build_report(cfg))

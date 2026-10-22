@@ -161,9 +161,16 @@ def main():
     status_server()
     cur_mode, proc = mode(), None
     proc = start(cur_mode)
+    # read-only market probe on every deploy (research data; Wallex is only reachable from here)
+    probe = subprocess.Popen([sys.executable, "run.py", "probe"], cwd=ROOT,
+                             stdout=open(os.path.join(LOGS, "probe.out"), "a"), stderr=subprocess.STDOUT)
     last_pull = last_sync = 0.0
     while True:
         now = time.time()
+        if probe and probe.poll() is not None:
+            say(f"probe finished ({probe.returncode}); syncing logs now")
+            probe = None
+            last_sync = 0.0
         if now - last_pull > PULL_EVERY:
             last_pull = now
             try:
