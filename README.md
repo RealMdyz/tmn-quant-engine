@@ -9,7 +9,7 @@
 
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt   # research/ scripts: requirements-research.txt
 cp .env.example .env        # WALLEX_API_KEY و LLM_API_KEY را وارد کنید
 ```
 
