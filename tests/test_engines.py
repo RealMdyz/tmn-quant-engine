@@ -224,6 +224,10 @@ def test_shadow_restarts_when_the_portfolio_changes():
     e.setup()
     e.ex.bal["BTC"] = {"free": 0.01, "total": 0.01}           # an old paper position
     e.save_state()
+    with open(e.books_path, "w") as f:                       # a books file written for another coin list
+        f.write("ts,OLDTMN_bid\n1,2\n")
+    e.log_rows(CLOCK[0] + 60, e._books, 5e6, 0.0)
+    assert open(e.books_path).readline().count(",") == 4 * (2 * len(e.coins) + 1), "books header matches its rows"
     same = mm_engine.MMEngine(_cfg(tmp, coins, "mm"), "shadow", None, client=fake)
     same.setup()
     assert same.ex.bal.get("BTC", {}).get("total") == 0.01, "same portfolio -> shadow resumes"

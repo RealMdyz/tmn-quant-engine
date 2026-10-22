@@ -829,12 +829,18 @@ class MMEngine:
     # ============================================================ logging
     def log_rows(self, now, books, eq, inv_val):
         if now - self.last_books_log >= self.cfg["logging"].get("books_every_s", 10):
-            new = not os.path.exists(self.books_path)
             syms = [f"{c}{q}" for c in self.coins for q in ("TMN", "USDT")] + ["USDTTMN"]
+            hdr = ["ts"] + [f"{s_}_{k}" for s_ in syms for k in ("bid", "bidq", "ask", "askq")]
+            if os.path.exists(self.books_path):
+                with open(self.books_path, encoding="utf-8") as f:
+                    old = f.readline().strip()
+                if old != ",".join(hdr):        # the coin list changed: keep the old file, start one whose header fits
+                    os.replace(self.books_path, f"{self.books_path[:-4]}_{int(now)}.csv")
+            new = not os.path.exists(self.books_path)
             with open(self.books_path, "a", newline="") as f:
                 w = csv.writer(f)
                 if new:
-                    w.writerow(["ts"] + [f"{s_}_{k}" for s_ in syms for k in ("bid", "bidq", "ask", "askq")])
+                    w.writerow(hdr)
                 row = [int(now)]
                 for s_ in syms:
                     b = books.get(s_) or {"bids": [], "asks": []}
