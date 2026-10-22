@@ -64,13 +64,30 @@ def _section(mode, cfg, ld):
         for c, g in df.groupby("coin"):
             lines.append(f"| {c} | {len(g)} | {g.net_return_bps.mean():.1f} | {g.pnl_tmn.sum():,.0f} |")
         lines.append("")
+    mm_fills = [r for r in recs if r["event"] == "fill" and r.get("side")]
+    exits = [r for r in recs if r["event"] == "exit"]
+    if mm_fills or exits:
+        sells = [r for r in mm_fills if r["side"] == "SELL"]
+        rts = [r["round_trip_bps"] for r in sells if r.get("round_trip_bps") is not None]
+        pnl = sum(r.get("pnl_tmn", 0) for r in sells) + sum(r.get("pnl_tmn", 0) for r in exits)
+        lines += [f"- Market maker: **{len(mm_fills)} fills** ({len(mm_fills) - len(sells)} buys, {len(sells)} sells), "
+                  f"{len(exits)} risk exits, realised PnL **{pnl:,.0f} TMN**"
+                  + (f", maker round trips avg {sum(rts) / len(rts):.1f} bps" if rts else ""), "",
+                  "| coin | buys | sells | exits | realised PnL TMN |", "|---|---|---|---|---|"]
+        for c in sorted({r["coin"] for r in mm_fills + exits}):
+            b = sum(1 for r in mm_fills if r["coin"] == c and r["side"] == "BUY")
+            se = [r for r in sells if r["coin"] == c]
+            ex = [r for r in exits if r["coin"] == c]
+            lines.append(f"| {c} | {b} | {len(se)} | {len(ex)} | "
+                         f"{sum(r.get('pnl_tmn', 0) for r in se + ex):,.0f} |")
+        lines.append("")
     lines += [f"- AI supervisor decisions: {len(pols)} (sources: {dict(Counter(p['policy'].get('source') for p in pols))})",
               f"- Events: {dict(ev)}", ""]
     if pols:
         p = pols[-1]["policy"]
         lines += ["### Latest AI decision", "```json",
-                  json.dumps({k: p.get(k) for k in ("enabled_coins", "margin_mult", "usdt_hold_frac", "pause",
-                                                     "reasoning", "tool_trace", "source")},
+                  json.dumps({k: p.get(k) for k in ("markets", "enabled_coins", "margin_mult", "usdt_hold_frac",
+                                                     "pause", "reasoning", "tool_trace", "source") if k in p},
                              ensure_ascii=False, indent=2), "```", ""]
     if fills:
         f = fills[-1]
@@ -84,6 +101,14 @@ def _section(mode, cfg, ld):
 def build_report(cfg) -> str:
     ld = cfg["logging"]["dir"]
     parts = ["# TMN Quant Engine — run report", ""]
+    bm = os.path.join(ld, "backtest_mm", "mm_summary.json")
+    if os.path.exists(bm):
+        s = json.load(open(bm, encoding="utf-8"))
+        parts += ["## Market-maker backtest (1-minute candles, `python run.py backtest-mm`)", "",
+                  "| h % | round trips/day | avg net bps | win % |", "|---|---|---|---|"]
+        parts += [f"| {r['half_spread_pct']:.1f} | {r['round_trips_per_day']} | {r['avg_net_bps']} | {r['win_rate_pct']} |"
+                  for r in s["by_half_spread"]]
+        parts += ["", f"_{s['caveat']}_", ""]
     bt = os.path.join(ld, "backtest", "arb_summary.json")
     if os.path.exists(bt):
         s = json.load(open(bt, encoding="utf-8"))["summary"]

@@ -3,6 +3,9 @@
   * keeps the bot running in the mode written in control/mode.txt (shadow | live | off)
   * every PULL_EVERY seconds: `git fetch`; if main moved -> hard-reset to it and restart the bot
     (logs/ and .env are git-ignored, so state survives restarts)
+  * container deploys (Liara): when GITHUB_TOKEN is set, the bot runs from a git clone of main in
+    CODE_DIR that is pulled the same way, so a code change reaches the server in ~2 minutes without
+    a Docker rebuild (only requirements.txt / supervisor changes need a redeploy)
   * every SYNC_EVERY seconds: copies logs to the `runtime-logs` branch and pushes it, so the
     operator can monitor everything from GitHub without SSH
 """
@@ -18,7 +21,10 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOGS = os.path.join(ROOT, "logs")
 SYNC_DIR = os.path.join(os.path.dirname(ROOT), "tmn-runtime-logs")
-PULL_EVERY = int(os.getenv("PULL_EVERY", "180"))
+PULL_EVERY = int(os.getenv("PULL_EVERY", "120"))
+GIT_CODE = os.getenv("CODE_FROM_GIT", "1" if os.getenv("GITHUB_TOKEN") else "0") == "1"
+CODE_DIR = os.getenv("CODE_DIR", os.path.join(os.path.dirname(ROOT), "tmn-code"))
+APP = ROOT            # directory the bot runs from; becomes CODE_DIR once the git clone is ready
 SYNC_EVERY = int(os.getenv("SYNC_EVERY", "600"))
 SYNC_MAX_BYTES = int(os.getenv("SYNC_MAX_BYTES", "8000000"))
 PY = sys.executable
@@ -43,7 +49,7 @@ def say(msg):
 
 def mode():
     try:
-        m = open(os.path.join(ROOT, "control", "mode.txt")).read().strip().lower()
+        m = open(os.path.join(APP, "control", "mode.txt")).read().strip().lower()
     except OSError:
         m = "shadow"
     return m if m in ("shadow", "live", "off") else "shadow"
@@ -55,7 +61,7 @@ def start(m):
     args = [PY, "run.py", m] + (["--yes"] if m == "live" else [])
     out = open(os.path.join(LOGS, f"bot_{m}.out"), "a")
     say(f"starting bot: {' '.join(args)}")
-    return subprocess.Popen(args, cwd=ROOT, stdout=out, stderr=subprocess.STDOUT)
+    return subprocess.Popen(args, cwd=APP, stdout=out, stderr=subprocess.STDOUT)
 
 
 def stop(p):
@@ -67,8 +73,37 @@ def stop(p):
             p.kill()
 
 
+def setup_code():
+    """Clone main into CODE_DIR and run the bot from there (logs/ points to the persistent volume)."""
+    global APP
+    if not GIT_CODE:
+        return
+    if not os.path.isdir(os.path.join(CODE_DIR, ".git")):
+        shutil.rmtree(CODE_DIR, ignore_errors=True)
+        sh(f"git clone -q --depth 20 --branch main '{remote_url()}' '{CODE_DIR}'", cwd=os.path.dirname(CODE_DIR),
+           timeout=300)
+    if not os.path.isfile(os.path.join(CODE_DIR, "run.py")):
+        say("git clone failed: running the image's code")
+        return
+    link = os.path.join(CODE_DIR, "logs")
+    if not os.path.islink(link):
+        if os.path.isdir(link) and os.path.realpath(link) != os.path.realpath(LOGS):
+            shutil.rmtree(link)
+        os.symlink(LOGS, link)
+    APP = CODE_DIR
+    say(f"running code from git clone @ {sh('git rev-parse --short HEAD', CODE_DIR)} (code changes need no rebuild)")
+
+
 def pull():
-    if os.getenv("DISABLE_PULL"):          # container deploys (Liara) are updated by CI, not by git pull
+    if APP == CODE_DIR and APP != ROOT:
+        sh("git fetch -q --depth 20 origin main", CODE_DIR, timeout=120)
+        local, remote = sh("git rev-parse HEAD", CODE_DIR), sh("git rev-parse origin/main", CODE_DIR)
+        if remote and local and local != remote:
+            sh("git reset -q --hard origin/main", CODE_DIR, check=True)
+            say(f"code updated {local[:7]} -> {remote[:7]}")
+            return True
+        return False
+    if os.getenv("DISABLE_PULL"):          # image-only container deploy: updated by a rebuild
         return False
     sh("git fetch -q origin main")
     local, remote = sh("git rev-parse HEAD"), sh("git rev-parse origin/main")
@@ -100,7 +135,7 @@ def sync_logs():
     dst = os.path.join(SYNC_DIR, "logs")
     os.makedirs(dst, exist_ok=True)
     try:
-        subprocess.run([PY, "run.py", "report"], cwd=ROOT, capture_output=True, timeout=120)
+        subprocess.run([PY, "run.py", "report"], cwd=APP, capture_output=True, timeout=120)
     except Exception:
         pass
     for root, _, files in os.walk(LOGS):
@@ -129,7 +164,7 @@ def status_server():
             try:
                 m = mode()
                 if self.path.startswith("/report"):
-                    subprocess.run([PY, "run.py", "report"], cwd=ROOT, capture_output=True, timeout=120)
+                    subprocess.run([PY, "run.py", "report"], cwd=APP, capture_output=True, timeout=120)
                     body = open(os.path.join(LOGS, "report.md"), encoding="utf-8").read()
                 elif self.path.startswith("/decisions"):
                     n = 60
@@ -174,10 +209,11 @@ def safe_sync():
 def main():
     os.makedirs(LOGS, exist_ok=True)
     status_server()
+    setup_code()
     cur_mode, proc = mode(), None
     proc = start(cur_mode)
     # read-only market probe on every deploy (research data; Wallex is only reachable from here)
-    probe = subprocess.Popen([sys.executable, "run.py", "probe"], cwd=ROOT,
+    probe = subprocess.Popen([sys.executable, "run.py", "probe"], cwd=APP,
                              stdout=open(os.path.join(LOGS, "probe.out"), "a"), stderr=subprocess.STDOUT)
     last_pull = last_sync = 0.0
     syncer = None
