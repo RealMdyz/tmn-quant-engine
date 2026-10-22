@@ -8,8 +8,8 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 4 (sources: {'fallback': 1, 'llm:boxapi': 3})
-- Events: {'startup': 4, 'policy': 4, 'quote': 41, 'state_restored': 3, 'quote_skipped': 4}
+- AI supervisor decisions: 5 (sources: {'fallback': 1, 'llm:boxapi': 4})
+- Events: {'startup': 4, 'policy': 5, 'quote': 49, 'state_restored': 3, 'quote_skipped': 4}
 
 ### Latest AI decision
 ```json
@@ -35,25 +35,10 @@
     "SOL"
   ],
   "margin_mult": 1.0,
-  "usdt_hold_frac": 0.08,
+  "usdt_hold_frac": 0.05,
   "pause": false,
-  "reasoning": "Keep all coins enabled: no coin shows the long-lived >-2% dislocation flag and there are zero losing fills (fills=0). Equity is 5,000,000 TMN with USDT/TMN spot 266,720; round-trip fees 0.68% are already accounted for so I keep margin_mult at 1.0. We hold a modest USDT buffer (8% of equity) to reflect recent rial pressure while staying within the 0–0.3 limit. No headline or market shock warrants pausing — open quotes exist on 5 coins and no realised PnL or drawdown to force defensive action.",
-  "tool_trace": [
-    {
-      "tool": "get_usdt_tmn_trend",
-      "args": {}
-    },
-    {
-      "tool": "get_news",
-      "args": {
-        "topic": "iran"
-      }
-    },
-    {
-      "tool": "get_account_state",
-      "args": {}
-    }
-  ],
+  "reasoning": "Equity is 5,000,000 TMN with no USDT on hand and zero realised PnL or fills, so keep the preselected universe (no coin shows multiple losing fills). Current deviations are small (range approx -0.891% LINK to +1.114% FIL) and every coin has fills=0 in the snapshot, so no minutes_below_-2% signal of a sustained dislocation. Open quotes exist for AVAX, CAKE, FIL, AAVE, GALA, PENGU, TRX, ADA with margins already set — keep learned margins (margin_mult=1.0) and hold a small USDT buffer (5% of equity) given recent rial volatility. Not pausing: no market-wide news triggered and drawdown is zero.",
+  "tool_trace": [],
   "source": "llm:boxapi"
 }
 ```
