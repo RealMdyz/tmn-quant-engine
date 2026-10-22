@@ -35,24 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,959,378 TMN** (-0.812%)
+- Equity: **4,962,298 TMN** (-0.754%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 17 (sources: {'llm:boxapi': 17})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 17, 'sleeve_order': 131, 'quote': 169, 'buy_blocked': 1294, 'buy_unblocked': 1259, 'state_restored': 57, 'sleeve_fill': 6, 'orphan_adopted': 1}
+- AI supervisor decisions: 18 (sources: {'llm:boxapi': 18})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 18, 'sleeve_order': 161, 'quote': 178, 'buy_blocked': 1306, 'buy_unblocked': 1266, 'state_restored': 57, 'sleeve_fill': 7, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.4,
-    "GALA": 1.35
+    "SUI": 1.3,
+    "CHZ": 0.9,
+    "CAKE": 1.0
   },
   "pause": false,
-  "reasoning": "I pick FIL and GALA because the bot never quotes where Toman spread <80 bps and these two clear that threshold: FIL spread 93.2 bps with decent liquidity (vol24h 4,932M TMN) and USDT spread 79 bps; GALA spread 80.3 bps with USDT spread 393 bps and premium 71.6 bps. Both show elevated fv_vol (FIL fv_vol_bps 278, GALA fv_vol_bps 315) so I set wide half-spreads to control adverse selection (h=1.4% for FIL, 1.35% for GALA). I avoid IMX and DOT because IMX's Toman book is flagged as broken and DOT has active buy_blocked sliding alerts. Portfolio: keep the rial sleeve at full exposure 1.0 because USDT/TMN 48h +4.33% (regime cap 1.0) and 24h +1.84% supports staying invested; reduce beta to 0.8 (was 0.9) because beta sleeve return is slightly negative (-0.96%) and coins are volatile, so trim risk while keeping upside. I keep beta assets to the current weighted trio (PEPE, ADA, LINK) which match the sleeve weights and universe.",
+  "reasoning": "Pick SUI (spread_bps 145.1, vol24h 4,549M TMN, fv_vol_bps 69.2) because it has a very wide local Toman spread and low 30min FV volatility; quote wide h=1.3% to avoid being picked off. Pick CHZ (spread_bps 100.5, usdt_spread_bps 215.2, fv_vol_bps 43.8) as a solid busy/stable pocket — tighter h=0.9% since FV volatility is low and USDT/TMN spread is large. Pick CAKE (spread_bps 89.6, vol24h 2,543M TMN, fv_vol_bps 51.8) as the third market with moderate volume and low FV volatility; h=1.0% balances capture vs adverse selection. Avoid IMX (fv_vol_bps 1,229.8 and tiny vol 151M) and other low-spread markets (many <80 bps). Keep sleeves at rial=1.0 and beta=0.8 because USDT/TMN 48h +4.33% (regime cap 1.0) supports holding exposure; beta keeps current weighted assets PEPE/ADA/LINK (universe matches current weights) while not increasing scale beyond the existing 0.8 given recent negative returns (-0.72% beta return) to limit downside.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
