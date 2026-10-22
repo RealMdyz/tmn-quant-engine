@@ -35,25 +35,23 @@
 
 ## LIVE
 
-- Equity: **4,961,094 TMN** (-0.778%)
+- Equity: **4,952,688 TMN** (-0.946%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 20 (sources: {'llm:boxapi': 20})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 20, 'sleeve_order': 169, 'quote': 202, 'buy_blocked': 1475, 'buy_unblocked': 1435, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 21 (sources: {'llm:boxapi': 21})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 21, 'sleeve_order': 169, 'quote': 205, 'buy_blocked': 1500, 'buy_unblocked': 1462, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.0,
-    "CAKE": 0.9,
-    "GALA": 1.4
+    "SUI": 0.9
   },
   "pause": false,
-  "reasoning": "Picked SUI, CAKE and GALA because the bot only quotes markets with Toman spread >=80 bps: SUI spread 96.4 bps (fv_vol 26.3 bps, vol24h 5,175M TMN) and is already quoted (quoted_now=true) so we can attempt tighter quoting (h=1.0%). CAKE has spread 96.3 bps, very low fv_vol 12.5 bps and healthy USDT spread 104.7 bps; it's calm so use narrower h=0.9% to improve fill chance. GALA offers the widest Toman spread 141.1 bps and huge USDT spread 565 bps but high fv_vol 467 bps, so we quote wide (h=1.4%) to protect against adverse selection. Portfolio sleeves kept on because USDT/TMN 48h +4.33% => regime cap=1.0: keep rial at 1.0 (rial sleeve capital ~2.62M TMN, small negative return -0.17%) and keep beta at 0.8 (current scale_now 0.8, beta value run -0.96%); beta assets remain PEPE/ADA/LINK as per the sleeve weights and no coin-specific bad news in their universe.",
+  "reasoning": "Only SUI meets the bot's hard filters: spread_bps 152.4 (>80) and no buy_blocked flag, while the bigger-spread names (GALA 181.5, PENGU 142.8, CHZ 132.0, DOT 113.4) have buy_blocked or frozen-USDT-book conditions. SUI's fv_vol_bps is low (24.9) and 24h vol 5175M TMN supports a tighter quote, so I set h=0.9% (round-trip 1.8% vs maker round-trip cost 0.50%). I keep the sleeves at rial=1.0 because USDT/TMN 48h +4.33% (regime cap 1.0) and the rial sleeve return is only -0.42% (scale 1.0 justified), and leave beta at scale 0.8 (current beta scale_now 0.8, return -1.04%) with the three existing beta weights PEPE/ADA/LINK selected for momentum and continuity. No pause: no market-wide shock or Iran/crypto headlines forcing a halt in the last check.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
