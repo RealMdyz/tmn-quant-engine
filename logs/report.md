@@ -8,21 +8,21 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 19 (sources: {'fallback': 1, 'llm:boxapi': 18})
-- Events: {'startup': 20, 'policy': 19, 'quote': 560, 'state_restored': 18, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 139, 'buy_unblocked': 89, 'instance_superseded': 9}
+- AI supervisor decisions: 20 (sources: {'fallback': 1, 'llm:boxapi': 19})
+- Events: {'startup': 20, 'policy': 20, 'quote': 616, 'state_restored': 18, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 170, 'buy_unblocked': 114, 'instance_superseded': 9}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SOL": 1.2,
-    "BNB": 1.0,
-    "S": 1.3,
-    "SUI": 0.9,
-    "ARB": 1.1
+    "BNB": 0.6,
+    "SOL": 0.9,
+    "ETH": 0.6,
+    "XRP": 0.8,
+    "SUI": 1.0
   },
   "pause": false,
-  "reasoning": "Select up to five liquid markets with wide Toman spreads and stable FV: SOL (vol24h 29,651M TMN, spread 35.3 bps, fv_vol 24.8 bps) gets a conservative half-spread h=1.2% because volume is high but FV volatility is moderate. BNB (vol24h 58,071M, spread 31.1 bps, fv_vol 17.5 bps) is very busy and relatively stable so h=1.0% to be competitive. S (vol24h 12,987M, spread 63.5 bps, fv_vol 21.2 bps) has a large Toman spread so we set h=1.3% to protect against adverse selection. SUI (vol24h 7,402M, spread 105.9 bps, fv_vol 1.9 bps) has the widest spread and very low FV volatility so we quote tighter with h=0.9%. ARB (vol24h 34,203M, spread 25.5 bps, fv_vol 27.7 bps) is liquid but slightly more volatile so h=1.1% to balance spread capture and adverse-selection risk.",
+  "reasoning": "Select up to 5 liquid, stable markets while staying wide: BNB has very high volume (60,821M TMN), a healthy Toman spread (31.1 bps) and very low FV volatility (fv_vol 2.0 bps) so use a conservative narrow half-spread 0.6% to capture flow. ETH is the deepest (76,607M TMN) with low fv_vol 4.4 bps and moderate spread 21.5 bps, so 0.6% to be selective. SOL has strong volume (29,625M TMN), wide spread 34.3 bps but higher fv_vol (13.0 bps) so widen to 0.9% to reduce adverse selection. XRP is very active (36,731M TMN), spread 24.0 bps and fv_vol 9.5 bps so use 0.8%. SUI offers a large Toman spread (80.9 bps) and reasonable fv_vol 7.3 bps but lower vol (5,360M TMN), so keep widest protection at 1.0% to avoid fills before adverse moves. Avoid markets with buy blocks or rapidly sliding Toman books (e.g., LTC, DOT, IMX, PENGU) as flagged.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
