@@ -43,8 +43,16 @@ rose ~17% in the last month but can fall 2-3% in a day on political news).
 Competition context: 3 days, ranked by net % return in Toman, drawdown is penalised,
 everything must be back in Toman at the end.
 
+IMPORTANT: the CURRENT deviation of a coin is mostly noise and is NOT an entry signal — the bot's
+resting bids already sit below fair value and only fill on sudden dumps. Every coin in the list was
+pre-selected by a walk-forward backtest, so the DEFAULT is to keep ALL coins enabled. Disable a coin
+only with concrete evidence: (a) its Toman price has been far from liquidation value for a long time
+(minutes_below_-2pct large) = likely deposit/withdrawal halt, (b) its live fills lose money on average
+(avg_fill_bps < 0 with >= 3 fills), or (c) news specifically about that coin (delisting, hack, halt).
+Use pause only for market-wide shocks. Note: 1 USDT ~ the USDT/TMN price in Toman.
+
 Use the tools to check what you need, then answer ONLY with JSON:
-{"enabled_coins": [coins allowed to quote],
+{"disable": {"COIN": "concrete reason with numbers", ...} (empty {} if none),
  "margin_mult": number in [MM_LO, MM_HI] (1 = learned margins; >1 = demand more edge),
  "usdt_hold_frac": number in [0, UH_HI] (fraction of equity that may stay in USDT),
  "pause": true|false (stop quoting everything, e.g. major breaking news),
@@ -182,8 +190,14 @@ class SupervisorAgent:
         out, trace, prov = self._run(system, context)
         if not out:
             return self.fallback(coins, "LLM unavailable" if not self.enabled else "LLM call failed")
+        disable = out.get("disable") or {}
+        if not isinstance(disable, dict):
+            disable = {str(c): "unspecified" for c in disable} if isinstance(disable, list) else {}
+        if len(disable) > max(2, len(coins) // 3):      # guard: never let one LLM answer wipe the universe
+            disable = dict(list(disable.items())[: max(2, len(coins) // 3)])
         return {
-            "enabled_coins": [c for c in (out.get("enabled_coins") or []) if c in coins],
+            "enabled_coins": [c for c in coins if c not in disable],
+            "disabled": {k: str(v)[:200] for k, v in disable.items() if k in coins},
             "margin_mult": _clamp(out.get("margin_mult"), lo, hi, 1.15),
             "usdt_hold_frac": _clamp(out.get("usdt_hold_frac"), 0.0, uh, 0.0),
             "pause": bool(out.get("pause", False)),
