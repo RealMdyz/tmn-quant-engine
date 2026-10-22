@@ -60,15 +60,17 @@ mm:
   coins: [SOL, SUI, S, LTC, XRP, BNB, ADA, LINK, AAVE, HYPE, ETH, DOGE, TRX, ARB, UNI, FIL, AVAX, BCH, DOT,
           SHIB, PENGU, GALA, CAKE, WLD, APE, ENA, CHZ, IMX]
   max_markets: 5
-  half_spread_bounds_pct: [0.2, 1.0]   # AI range for h (per side); quotes are also capped at one tick inside
-                                       # the best bid/ask. Shadow 22 Oct: at h 0.6-2.0% our bids sat 70-130 bps
-                                       # under the best bid and nothing filled in 75 min, so this window lets
-                                       # the AI quote at the top of the book in wide-spread markets.
-  default_half_spread_pct: 0.4         # fallback policy when the LLM is unavailable
+  half_spread_bounds_pct: [0.6, 1.2]   # AI range for h (per side); quotes are capped one tick inside the best
+                                       # bid/ask. Order-book backtest (python run.py backtest-book, strict fills,
+                                       # 4.2 h of real 10-s books): h 0.2-0.5% lost 2-7% of capital, h 0.7% about
+                                       # -0.3%, h 1.0% about +0.2-0.4%: narrow quotes get picked off.
+  default_half_spread_pct: 0.8         # fallback policy when the LLM is unavailable
   quote_tmn: 900000                    # max size of one resting quote
   max_inventory_per_coin_pct: 25       # inventory of one coin <= 25% of equity
   max_inventory_total_pct: 60          # all coin inventory <= 60% of equity (never the whole account)
   skew_k: 0.5                          # long inventory shifts both quotes down by up to k*h (sell sooner, buy less)
+  min_spread_to_buy_bps: 50            # only bid while the Toman best ask/best bid gap >= 50 bps (0.50% = the
+                                       # maker fee round trip): a narrower book cannot pay for the round trip
   min_profit_bps: 10                   # an ask stays >= cost + 2 maker fees + this ...
   breakeven_after_min: 30              # ... for 30 min, then >= cost + fees (break-even)
   stop_pct: 1.2                        # stop-loss: inventory value 1.2% below cost -> taker exit

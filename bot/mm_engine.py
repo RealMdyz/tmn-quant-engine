@@ -47,12 +47,12 @@ penalised; regular, reasonable trading is rewarded).
 The bot rests maker BUY and SELL orders on COIN/TMN books around a fair value FV (global price from the
 COIN/USDT book x USDT/TMN, plus the coin's own Toman premium). It earns the spread when its bid and its
 ask both fill; it loses when it buys just before the price falls (adverse selection). Maker fee 0.25%
-per side, so a round trip costs 0.50%. Evidence so far: (a) 1-minute backtest, 2 days, 20 markets: quoting
-far from the book lost money on average (-58 bps per round trip at h=0.5%, -35 at h=1.3%) because deep
-fills mostly come just before the price falls; (b) live shadow, 75 min: at h 0.6-2.0% our bids sat 70-130 bps
-under the best bid and NOTHING filled. Quotes are capped one tick inside the best bid/ask, so the money is in
-the TOMAN SPREAD itself: prefer markets whose Toman spread_bps is well above 50 (the fee round trip) and that
-trade often, with a small h there (0.2-0.4) to sit at the top of the book; avoid tight-spread markets.
+per side, so a round trip costs 0.50%. Evidence so far:
+ (a) order-book backtest on 4.2 h of real 10-second books, strict fills: narrow quotes get picked off by
+     informed sellers. h 0.2-0.3% lost ~6-7% of capital, h 0.5% -2.4%, h 0.7% -0.3%, h 1.0% +0.2-0.4%;
+ (b) live shadow: the few fills came when a coin was falling (FIL: bought, then -1.8% within seconds).
+ So: be WIDE (h near the top of the range), prefer few, calm, busy markets whose Toman spread is well above
+ 50 bps, and drop any market whose live round trips lose. The bot never bids where the spread is < 50 bps.
 
 YOU decide, every ~20 minutes, using the tools:
   1. WHICH markets to make (at most MAXM). Prefer: wide Toman spread (spread_bps), busy market
@@ -613,9 +613,13 @@ class MMEngine:
                 continue
             h = (h or m.get("default_half_spread_pct", 1.0)) / 100
             skew = min(1.0, held_val / max_inv_coin) * h * m.get("skew_k", 0.5) if max_inv_coin else 0.0
-            # ---- BUY
-            want_bid = (co in markets and co not in self.blocked and can_buy_time
+            # ---- BUY (only where the Toman spread can pay the maker round trip at all)
+            spread_bps = (best_ask / best_bid - 1) * 1e4
+            wide_enough = spread_bps >= m.get("min_spread_to_buy_bps", 50)
+            want_bid = (co in markets and co not in self.blocked and can_buy_time and wide_enough
                         and held_val < max_inv_coin - mt.min_notional and inv_val < max_inv_total)
+            if not wide_enough and (self.orders.get(co) or {}).get("BUY"):
+                self.cancel(co, "BUY", books)
             if want_bid:
                 # at most one tick better than the current best bid: never pay up into the spread
                 bid = min(fv * (1 - h - skew), best_bid + tick, best_ask - tick)

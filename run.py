@@ -9,6 +9,7 @@
   python run.py probe              read-only market snapshot for research -> logs/probe/
   python run.py backtest-mm        backtest of the market maker on the shipped 1-minute data
   python run.py test               offline end-to-end tests of both engines (fake exchange, no network)
+  python run.py backtest-book      market-maker backtest on the recorded 10-second order books (data/books_10s_*)
 """
 from __future__ import annotations
 
@@ -152,7 +153,7 @@ def cmd_flatten(cfg):
 def main():
     load_dotenv(os.path.join(ROOT, ".env"))
     ap = argparse.ArgumentParser()
-    ap.add_argument("command", choices=["check", "backtest", "backtest-mm", "test", "shadow", "live", "flatten", "report", "probe"])
+    ap.add_argument("command", choices=["check", "backtest", "backtest-mm", "backtest-book", "test", "shadow", "live", "flatten", "report", "probe"])
     ap.add_argument("--config", default="config.yaml")
     ap.add_argument("--days", type=float, default=10)
     ap.add_argument("--cached", action="store_true", help="backtest on data/m5_all.json without downloading")
@@ -166,6 +167,12 @@ def main():
         cmd_backtest(cfg, args)
     elif args.command == "flatten":
         cmd_flatten(cfg)
+    elif args.command == "backtest-book":
+        import glob
+        from bot.backtest_book import run_book_backtest
+        res = run_book_backtest(sorted(glob.glob("data/books_10s_*.csv")))
+        print(json.dumps(res["by_setting"], indent=2, ensure_ascii=False))
+        print("saved logs/backtest_book/book_summary.json")
     elif args.command == "test":
         from tests.test_engines import main as run_tests
         sys.exit(run_tests())
