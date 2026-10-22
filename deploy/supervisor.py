@@ -58,6 +58,12 @@ def mode():
 def start(m):
     if m == "off":
         return None
+    sys.path.insert(0, APP)
+    from bot.instance import held_elsewhere
+    other = held_elsewhere(os.path.join(LOGS, f"instance_{m}.lock"))
+    if other:
+        say(f"bot of another container ({other}) is running on the shared volume: not starting ours yet")
+        return None
     args = [PY, "run.py", m] + (["--yes"] if m == "live" else [])
     out = open(os.path.join(LOGS, f"bot_{m}.out"), "a")
     say(f"starting bot: {' '.join(args)}")
@@ -239,6 +245,9 @@ def main():
         if proc and proc.poll() is not None:
             say(f"bot exited with {proc.returncode}; restarting in 10s")
             time.sleep(10)
+            proc = start(cur_mode)
+        elif proc is None and cur_mode != "off" and now - getattr(main, "_retry", 0) > 15:
+            main._retry = now               # waiting for the other container's bot to go away
             proc = start(cur_mode)
         if now - last_sync > SYNC_EVERY and not (syncer and syncer.is_alive()):
             last_sync = now

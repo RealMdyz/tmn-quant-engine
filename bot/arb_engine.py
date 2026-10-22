@@ -723,6 +723,7 @@ class ArbEngine:
         if not self.lock.still_mine():
             self.dlog.write("instance_superseded", why="a newer deployment took over the logs volume; stopping this one")
             raise SystemExit("superseded by a newer instance")
+        self.lock.heartbeat()
         books = self.client.depth_all()
         self.check_usdt_reference(books, now)
         self._last_books = books

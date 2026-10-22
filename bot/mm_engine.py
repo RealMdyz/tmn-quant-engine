@@ -162,9 +162,22 @@ class MMEngine:
         self.load_state()
         if self.mode == "live":
             self.live_self_test()
+            self.cancel_all_open_orders("start-up: a previous instance may have left orders on the exchange")
         self.dlog.write("startup", strategy="market_maker", coins=self.coins, fees=self.fees.__dict__,
                         agent_enabled=self.agent.enabled, instance=self.lock.id, config={"mm": m, "risk": c["risk"]})
         log.info("MM coins=%s fees=%s agent=%s", self.coins, self.fees, self.agent.enabled)
+
+    def cancel_all_open_orders(self, why):
+        try:
+            oo = self.ex.open_orders()
+        except WallexError as e:
+            self.dlog.write("cancel_all_failed", error=str(e)[:200])
+            return
+        for cid in oo:
+            self.ex.cancel(cid)
+        self.orders = {}
+        self.dirty()
+        self.dlog.write("cancel_all", count=len(oo), why=why)
 
     def live_self_test(self):
         """Before trading real money: place one tiny BUY 20% below the market (cannot fill), find it in
@@ -696,6 +709,7 @@ class MMEngine:
             self.dlog.write("instance_superseded", instance=self.lock.id,
                             why="a newer deployment took over the logs volume; stopping this one")
             raise SystemExit("superseded by a newer instance")
+        self.lock.heartbeat()
         books = self.client.depth_all()
         self._books = books
         self.ex.on_books(books)
