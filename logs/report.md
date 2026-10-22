@@ -2,33 +2,34 @@
 
 ## SHADOW
 
-- Equity: **4,997,751 TMN** (-0.045%)
-- Max drawdown: **0.045%**
-- Traded volume: 899,480 TMN
+- Equity: **4,989,145 TMN** (-0.217%)
+- Max drawdown: **0.441%**
+- Traded volume: 3,580,021 TMN
 
 ![equity](equity_shadow.png)
 
-- Market maker: **1 fills** (1 buys, 0 sells), 0 risk exits, realised PnL **0 TMN**
+- Market maker: **3 fills** (3 buys, 0 sells), 1 risk exits, realised PnL **-19,765 TMN**
 
 | coin | buys | sells | exits | realised PnL TMN |
 |---|---|---|---|---|
 | BNB | 1 | 0 | 0 | 0 |
+| FIL | 2 | 0 | 1 | -19,765 |
 
-- AI supervisor decisions: 24 (sources: {'fallback': 1, 'llm:boxapi': 23})
-- Events: {'startup': 30, 'policy': 24, 'quote': 958, 'state_restored': 28, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 441, 'buy_unblocked': 353, 'instance_superseded': 17, 'fill': 1}
+- AI supervisor decisions: 25 (sources: {'fallback': 1, 'llm:boxapi': 24})
+- Events: {'startup': 30, 'policy': 25, 'quote': 1029, 'state_restored': 28, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 480, 'buy_unblocked': 387, 'instance_superseded': 17, 'fill': 3, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BNB": 0.35,
-    "FIL": 0.3,
-    "CHZ": 0.25,
-    "WLD": 0.35,
-    "AAVE": 0.25
+    "BNB": 0.3,
+    "AAVE": 0.25,
+    "FIL": 0.6,
+    "CHZ": 0.6,
+    "SUI": 0.5
   },
   "pause": false,
-  "reasoning": "I pick markets with wide Toman spreads well above the 50 bps round-trip fee and reasonable activity: BNB has spread_bps 81.5 with vol24h_mtmn 74,277 so I quote with h=0.35 to balance flow and adverse selection (fv_vol_bps 39.2). FIL and CHZ have the largest spreads (90.2 and 91.1 bps) and low fv_vol_bps (4.9 and 4.3) so I quote tighter to sit at the top: FIL h=0.30, CHZ h=0.25. WLD has the biggest spread_bps (98.1) but lower volume (vol24h_mtmn 1,494) and moderate fv_vol_bps 27.5 so I use h=0.35. AAVE (spread_bps 67.0, vol24h_mtmn 2,833, fv_vol_bps 5.7) looks calm and wide enough to quote near the top so h=0.25. No markets show buy_blocked or coin-specific shocks, so pause=false.",
+  "reasoning": "Keep BNB (spread 53.5 bps, vol 74,277M TMN) with tight h=0.3 to sit at top of the book and monetize its high volume; fv_vol 92.4 bps is moderate. Include AAVE (spread 55.2 bps, vol 2,833M) with h=0.25 because fv_vol is low (15.2 bps) so narrow quoting is safe. Add FIL (spread 88.6 bps, vol 4,878M) with wider h=0.6 because spread is large but fv_vol is elevated (112.7 bps) so we need protection. Add CHZ (spread 83.1 bps, vol 1,667M) with h=0.6 for similar reasons (spread high but fv_vol ~98 bps). Add SUI (spread 56.1 bps, vol 6,016M) with h=0.5: spread covers fees and volume is reasonable but fv_vol 88 bps suggests a moderate cushion. Avoid markets flagged buy_blocked or with recent FV slides.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
