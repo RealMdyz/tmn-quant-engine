@@ -21,7 +21,8 @@ arb:
   # treated alike (pooled prior below); the guards decide per moment whether a coin may quote.
   coins: [FIL, PENGU, AAVE, GALA, ADA, TRX, CAKE, AVAX, WLD, APE, HYPE, SHIB, LINK, DOGE, UNI, PUMP, BNB, SOL]
   max_active_quotes: 8         # quote the 8 markets with the highest expected profit/hour
-  quote_tmn: 1000000           # upper bound per resting bid (actual = equity / active, >= hedge minimum)
+  quote_tmn: 2000000           # upper bound per resting bid (actual = equity / active, >= hedge minimum);
+                               # when guards block coins, the freed capital concentrates on the eligible ones
   requote_up_threshold: 0.003  # fair value DOWN -> requote at once (safety); UP -> only if > 0.3% (keeps queue spot)
   max_quote_age_s: 180
   usdt_maker_timeout_s: 900    # USDT->TMN maker sell falls back to taker after 15 min
@@ -52,10 +53,10 @@ arb:
   priors: {}                   # optional per-coin overrides, same shape as prior_default
 
 risk:
-  max_position_pct: 0.25        # a single quote never exceeds 25% of equity
+  max_position_pct: 0.40        # a single quote never exceeds 40% of equity
   min_order_tmn: 300000
-  daily_loss_limit_pct: 1.5     # stop quoting for the day after -1.5%
-  max_drawdown_pct: 3.0         # circuit breaker: -3% from peak -> flatten + pause ...
+  daily_loss_limit_pct: 2.5     # stop quoting for the day after -2.5%
+  max_drawdown_pct: 4.0         # circuit breaker: -4% from peak -> flatten + pause ...
   pause_minutes: 60             # ... for 60 min, then resume ...
   size_after_pause: 0.5         # ... at half size
   second_drawdown_pct: 2.0      # a further -2% after resuming -> permanent stop
@@ -80,7 +81,8 @@ agent:
   tool_output_chars: 4000
   timeout_s: 60
   margin_mult_bounds: [0.9, 2.5]
-  usdt_hold_max: 0.30           # agent may keep at most 30% of equity in USDT (rial hedge)
+  usdt_hold_max: 0.40           # agent may hold up to 40% of equity in USDT (rial-weakness bet; set 0 to disable)
+  usdt_exit_minutes_before_end: 180   # USDT target forced to 0 this long before the end (time to sell as maker)
   news_feeds:
     - {name: CoinDesk, topic: crypto, url: "https://www.coindesk.com/arc/outboundfeeds/rss/"}
     - {name: Cointelegraph, topic: crypto, url: "https://cointelegraph.com/rss"}

@@ -38,8 +38,13 @@ How it earns: it rests BUY orders on coin/Toman books below the coin's liquidati
 sells the coin on the coin/USDT book. Risk comes from (a) adverse selection: a fill caused by a
 real crash that the USDT book has not shown yet, and (b) structural dislocations: when a coin's
 deposits/withdrawals are suspended its Toman price can stay far from fair value and NOT revert.
-It also accumulates USDT from hedges; holding some USDT is a bet that the rial weakens (USDT/TMN
-rose ~17% in the last month but can fall 2-3% in a day on political news).
+USDT POSITION (the main risk lever): usdt_hold_frac > 0 makes the bot BUY USDT with Toman (maker orders)
+until that fraction of equity is in USDT — a directional bet that the rial weakens. Costs ~0.55% round
+trip. Evidence: USDT/TMN +17.5% over 29 days, but FLAT over the last 10 days (mean 36h change -0.05%);
+over 36h, 10% of windows lose more than 1.3%, worst -4%, best +6.7%. Rule: hold > 0 only when
+get_usdt_tmn_trend shows change_6h_pct > 0 AND change_24h_pct > 0 AND no news points to the rial
+strengthening (deal/negotiation progress, central-bank intervention); size it with the strength of that
+evidence; otherwise 0. The bot forces USDT back to Toman in the last 3 hours by itself.
 Competition context: 3 days, ranked by net % return in Toman, drawdown is penalised,
 everything must be back in Toman at the end.
 
@@ -58,7 +63,7 @@ Use pause only for market-wide shocks. Note: 1 USDT ~ the USDT/TMN price in Toma
 Use the tools to check what you need, then answer ONLY with JSON:
 {"disable": {"COIN": "concrete reason with numbers", ...} (empty {} if none),
  "margin_mult": number in [MM_LO, MM_HI] (1 = learned margins; >1 = demand more edge),
- "usdt_hold_frac": number in [0, UH_HI] (fraction of equity that may stay in USDT),
+ "usdt_hold_frac": number in [0, UH_HI] (fraction of equity to hold in USDT; the bot buys/sells to reach it),
  "pause": true|false (stop quoting everything, e.g. major breaking news),
  "reasoning": "3-5 sentences citing concrete numbers you saw"}"""
 

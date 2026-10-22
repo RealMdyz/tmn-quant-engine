@@ -362,13 +362,16 @@ class ArbEngine:
                 if ex > self.usdt_order["exec_seen"]:
                     self.stats["volume_tmn"] += (ex - self.usdt_order["exec_seen"]) * self.usdt_order["price"]
                     self.usdt_order["exec_seen"] = ex
-                    self.dlog.write("usdt_converted", qty=ex, price=self.usdt_order["price"], mode="maker")
+                    self.dlog.write("usdt_bought" if self.usdt_order.get("side") == "BUY" else "usdt_converted",
+                                    qty=ex, price=self.usdt_order["price"], mode="maker")
                 if not o.get("active", True):
                     self.usdt_order = None
             except WallexError:
                 pass
         bal = self.bal().get("USDT", {"free": 0.0, "total": 0.0})
         hold_frac = 0.0 if flatten else float(self.policy.get("usdt_hold_frac", 0.0))
+        if self.risk.end_ts - time.time() < self.cfg["agent"].get("usdt_exit_minutes_before_end", 180) * 60:
+            hold_frac = 0.0                 # leave time to sell USDT as maker before the forced flatten
         target_usdt = eq * hold_frac / ub["bids"][0][0]
         excess = bal["total"] - target_usdt
         min_qty = max(m.min_qty, m.min_notional / ub["bids"][0][0]) * 1.05
@@ -382,31 +385,47 @@ class ArbEngine:
                 f = self.ex.market_sell(m, free, books, self.fees.tmn_taker)
                 self.dlog.write("usdt_converted", qty=f.qty, avg=f.avg_price, mode="taker_flatten", orders=f.orders)
             return
-        best_ask = ub["asks"][0][0]
+        best_ask, best_bid = ub["asks"][0][0], ub["bids"][0][0]
         if self.usdt_order:
-            drift = abs(self.usdt_order["price"] / best_ask - 1)
+            buying = self.usdt_order.get("side") == "BUY"
+            drift = abs(self.usdt_order["price"] / (best_bid if buying else best_ask) - 1)
             too_old = time.time() - self.usdt_order["t"] > self.cfg["arb"].get("usdt_maker_timeout_s", 900)
-            if drift > 0.0008 or excess < min_qty or too_old:
+            done = (-excess < min_qty) if buying else (excess < min_qty)
+            if drift > 0.0008 or done or too_old:
                 self.ex.cancel(self.usdt_order["cid"])
                 self.dirty()
                 self.usdt_order = None
-                if too_old and excess > min_qty:       # maker did not fill in time -> taker, cap USDT exposure
+                if too_old and not buying and excess > min_qty:   # maker did not fill in time -> taker, cap USDT exposure
                     free = self.bal().get("USDT", {}).get("free", 0.0)
                     f = self.ex.market_sell(m, min(free, excess), books, self.fees.tmn_taker)
                     self.dirty()
                     self.dlog.write("usdt_converted", qty=f.qty, avg=f.avg_price, mode="taker_after_timeout",
                                     orders=f.orders)
             return
-        free = bal["free"]
-        qty = min(free, excess)
-        if qty > min_qty:
-            price = max(best_ask, ub["bids"][0][0] + 10 ** -m.price_decimals)   # join best ask, never cross
-            try:
-                o = self.ex.place_limit(m, "SELL", qty, price, prefix="U")
-                self.dirty()
-                self.usdt_order = {"cid": o["clientOrderId"], "price": price, "qty": qty, "exec_seen": 0.0, "t": time.time()}
-            except WallexError as e:
-                log.warning("usdt sell failed: %s", e)
+        if excess > min_qty:
+            qty = min(bal["free"], excess)
+            if qty > min_qty:
+                price = max(best_ask, best_bid + 10 ** -m.price_decimals)   # join best ask, never cross
+                self._place_usdt(m, "SELL", qty, price)
+        elif -excess > min_qty:
+            # agent wants a USDT position (bet on rial weakness): buy as maker at the best bid, never chase
+            tmn_free = self.bal().get("TMN", {}).get("free", 0.0)
+            price = min(best_bid, best_ask - 10 ** -m.price_decimals)
+            qty = m.round_qty(min(-excess, tmn_free * 0.98 / price))
+            if qty > min_qty:
+                self._place_usdt(m, "BUY", qty, price)
+
+    def _place_usdt(self, m, side, qty, price):
+        try:
+            o = self.ex.place_limit(m, side, qty, price, prefix="U")
+            self.dirty()
+            self.usdt_order = {"cid": o["clientOrderId"], "side": side, "price": price, "qty": qty,
+                               "exec_seen": 0.0, "t": time.time()}
+            if side == "BUY":
+                self.dlog.write("usdt_position", qty=qty, price=price, target_frac=self.policy.get("usdt_hold_frac"),
+                                why="agent policy: hold part of equity in USDT (rial-weakness bet), maker buy at best bid")
+        except WallexError as e:
+            log.warning("usdt %s failed: %s", side.lower(), e)
 
     # ================================================================ quotes
     def requote(self, books, eq, now):
