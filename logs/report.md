@@ -8,8 +8,8 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 7 (sources: {'fallback': 1, 'llm:boxapi': 6})
-- Events: {'startup': 5, 'policy': 7, 'quote': 95, 'state_restored': 4, 'quote_skipped': 4}
+- AI supervisor decisions: 8 (sources: {'fallback': 1, 'llm:boxapi': 7})
+- Events: {'startup': 5, 'policy': 8, 'quote': 103, 'state_restored': 4, 'quote_skipped': 4}
 
 ### Latest AI decision
 ```json
@@ -36,7 +36,7 @@
   "margin_mult": 1.0,
   "usdt_hold_frac": 0.05,
   "pause": false,
-  "reasoning": "APE shows a massive dev_now_pct = 2672.57% (sample mean same) and poor bandit post-fill stats at tight margins (e.g. -28.6 bps), indicating a structural dislocation likely from halted flows — disabling it. All other coins have small deviations (LINK -1.02%, SHIB -0.44%, etc.) and zero live fills, so keep default margins (margin_mult=1.0). Keep a small USDT buffer (5% of equity) given USDT/TMN ~268,891 Toman and recent currency volatility; no market-wide pause — headlines show macro news but no immediate crypto market halt.",
+  "reasoning": "Keep the default setup for all coins except APE which shows a massive persistent Toman dislocation (dev_now_pct 2664.226, mean 1969.512 over 595 samples) consistent with structural mismatch. No coin shows minutes_below_-2pct indicating a deposits/withdrawal halt except WLD at 0.1 min which is negligible. Bandit post-fill stats look healthy for our existing margins on the remaining universe, so keep margin_mult=1. I recommend holding 5% of equity in USDT (usdt_hold_frac=0.05) as a small hedge against further rial moves; do not pause quoting.",
   "tool_trace": [
     {
       "tool": "get_market_stats",
@@ -47,23 +47,37 @@
     {
       "tool": "get_market_stats",
       "args": {
-        "coin": "LINK"
+        "coin": "CAKE"
       }
     },
     {
       "tool": "get_market_stats",
       "args": {
-        "coin": "SHIB"
+        "coin": "AAVE"
       }
     },
     {
-      "tool": "get_usdt_tmn_trend",
-      "args": {}
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "PENGU"
+      }
     },
     {
-      "tool": "get_news",
+      "tool": "get_market_stats",
       "args": {
-        "topic": "iran"
+        "coin": "FIL"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "BNB"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "WLD"
       }
     }
   ],
