@@ -35,23 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,952,802 TMN** (-0.944%)
+- Equity: **4,952,678 TMN** (-0.946%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 21 (sources: {'llm:boxapi': 21})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 21, 'sleeve_order': 169, 'quote': 207, 'buy_blocked': 1522, 'buy_unblocked': 1488, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 22 (sources: {'llm:boxapi': 22})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 22, 'sleeve_order': 169, 'quote': 259, 'buy_blocked': 1557, 'buy_unblocked': 1521, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9
+    "SUI": 0.9,
+    "GALA": 1.5,
+    "CAKE": 1.2
   },
   "pause": false,
-  "reasoning": "Only SUI meets the bot's hard filters: spread_bps 152.4 (>80) and no buy_blocked flag, while the bigger-spread names (GALA 181.5, PENGU 142.8, CHZ 132.0, DOT 113.4) have buy_blocked or frozen-USDT-book conditions. SUI's fv_vol_bps is low (24.9) and 24h vol 5175M TMN supports a tighter quote, so I set h=0.9% (round-trip 1.8% vs maker round-trip cost 0.50%). I keep the sleeves at rial=1.0 because USDT/TMN 48h +4.33% (regime cap 1.0) and the rial sleeve return is only -0.42% (scale 1.0 justified), and leave beta at scale 0.8 (current beta scale_now 0.8, return -1.04%) with the three existing beta weights PEPE/ADA/LINK selected for momentum and continuity. No pause: no market-wide shock or Iran/crypto headlines forcing a halt in the last check.",
+  "reasoning": "Picked SUI (spread 143.8 bps, low fv_vol 25 bps and quoted_now) so I can quote tighter at h=0.9% to capture wide Toman spread with low FV volatility. Picked GALA because its Toman spread is 161.3 bps and USDT spread 565 bps but fv_vol is large (922.5 bps) so I widen to h=1.5% to avoid being picked off. Picked CAKE (spread 92.5 bps, fv_vol 65.6 bps, vol24h 2.3bn TMN) with h=1.2% as a moderate-width choice. No market-wide pause: several markets show buy_blocked (FIL, DOT, BNB, AVAX) so I avoided them. Sleeves: keep rial at full 1.0 exposure because USDT/TMN 48h +4.33% (regime cap=1.0) and rial sleeve scale_now=1.0 with return -0.59%; keep beta at 0.8 matching current scale_now (capital scaled) and continue with PEPE/ADA/LINK which are the sleeve weights and available momentum candidates.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
