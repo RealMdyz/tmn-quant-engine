@@ -143,6 +143,8 @@ def test_portfolio_three_sleeves():
                                            "c": [USDT * (1 - 0.0004 * k) for k in range(60, -1, -1)]}
     cfg = _cfg(tmp, coins, "mm")
     cfg["portfolio"]["sleeves"]["rial"]["usdt_exit_at"] = "2027-01-01T00:00:00+03:30"
+    cfg["risk"]["max_drawdown_pct"] = 10.0          # isolate the sleeve's own stop from the account breaker
+    cfg["risk"]["daily_loss_limit_pct"] = 10.0
     e = mm_engine.MMEngine(cfg, "shadow", None, client=fake)
     e.setup()
     assert "BTC" not in e.coins and "ADA" not in e.coins, "sleeve assets are excluded from the market maker"
