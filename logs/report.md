@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,962,018 TMN** (-0.760%)
+- Equity: **4,965,672 TMN** (-0.687%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 6 (sources: {'llm:boxapi': 6})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 6, 'sleeve_order': 68, 'quote': 26, 'buy_blocked': 504, 'buy_unblocked': 471, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 7 (sources: {'llm:boxapi': 7})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 7, 'sleeve_order': 68, 'quote': 29, 'buy_blocked': 534, 'buy_unblocked': 498, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BNB": 1.0,
     "CAKE": 0.9,
-    "GALA": 1.2
+    "SUI": 1.4,
+    "GALA": 1.5
   },
   "pause": false,
-  "reasoning": "I choose up to three markets with Toman spread >=80 bps and no active buy-block: BNB (spread 81.5 bps, vol24h 80,944M TMN, fv_vol 146.3 bps) as the main slot with h=1.0% for balanced width vs activity; CAKE (spread 85.2 bps, fv_vol 39.8 bps, vol24h 2,557M) gets a tighter h=0.9% because FV is very calm; GALA (spread 161.6 bps, usdt_spread 391.1 bps, fv_vol 223 bps, quoted_now=true) gets h=1.2% to protect against its higher FV volatility. I avoid FIL/CHZ/DOT/AVAX/UNI/etc. because they show Toman-book sliding or buy_blocked flags or spreads below our 80 bps threshold. Sleeves: keep rial at 1.0 exposure (USDT/TMN 48h +4.41% → regime cap 1.0 and rial currently scale 1.0, value_tmn 2,601,842) and keep beta at 0.9 (current scale_now 0.9, return -0.98%) with beta assets PEPE/ADA/LINK (existing universe weights) because the rial-weakening regime and capital caps justify maintaining exposure while slightly cautious on beta by not increasing beyond current 0.9.",
+  "reasoning": "I pick CAKE, SUI and GALA (max 3). CAKE has a very wide Toman spread 105.0 bps and extremely low fv_vol_bps 4.9 so I quote tighter (h=0.9%) to capture the rich spread with low adverse-vol risk; CAKE is already quoted_now true so continuity matters. SUI has spread 83.3 bps with decent volume 5,796M TMN but high fv_vol_bps 124.8 and a positive premium 32.5 bps, so I set a wide h=1.4% to avoid being picked off. GALA has spread 100.6 bps and high usdt_spread_bps 391.1 (quoted_now true); fv_vol_bps 165.3 is elevated so I place the widest h=1.5% to protect against informed flow. I do not quote markets with spread_bps <80 (SOL/XRP/etc) or those with buy_blocked flags (AAVE/DOT/IMX). Sleeves: USDT/TMN 48h +4.54% gives full exposure cap 1.0, so keep the rial sleeve at 1.0 (current scale 1.0) and keep beta at 0.9 (current scale_now) given its small recent negative return (-1.07%) and higher risk; I keep the beta assets as the existing PEPE/ADA/LINK basket.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
