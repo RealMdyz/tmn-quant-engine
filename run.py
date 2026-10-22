@@ -10,6 +10,7 @@
   python run.py backtest-mm        backtest of the market maker on the shipped 1-minute data
   python run.py test               offline end-to-end tests of both engines (fake exchange, no network)
   python run.py backtest-book      market-maker backtest on the recorded 10-second order books (data/books_10s_*)
+  python run.py regime-study       backtest of the holding sleeves and of the 3-strategy portfolio (data/hourly.json)
 """
 from __future__ import annotations
 
@@ -153,7 +154,7 @@ def cmd_flatten(cfg):
 def main():
     load_dotenv(os.path.join(ROOT, ".env"))
     ap = argparse.ArgumentParser()
-    ap.add_argument("command", choices=["check", "backtest", "backtest-mm", "backtest-book", "test", "shadow", "live", "flatten", "report", "probe"])
+    ap.add_argument("command", choices=["check", "backtest", "backtest-mm", "backtest-book", "regime-study", "test", "shadow", "live", "flatten", "report", "probe"])
     ap.add_argument("--config", default="config.yaml")
     ap.add_argument("--days", type=float, default=10)
     ap.add_argument("--cached", action="store_true", help="backtest on data/m5_all.json without downloading")
@@ -167,6 +168,10 @@ def main():
         cmd_backtest(cfg, args)
     elif args.command == "flatten":
         cmd_flatten(cfg)
+    elif args.command == "regime-study":
+        from bot.regime_study import run_regime_study
+        res = run_regime_study(cfg)
+        print(json.dumps(res, indent=2, ensure_ascii=False))
     elif args.command == "backtest-book":
         import glob
         from bot.backtest_book import run_book_backtest

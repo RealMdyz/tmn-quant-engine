@@ -1,12 +1,14 @@
 """Holding sleeves: the medium- and high-risk strategies of the 3-strategy portfolio.
 
 Evidence (python run.py regime-study, 29 days of hourly Wallex data): Toman prices of USDT and of every
-coin rose ~15-19% in 29 days, almost all of it the rial weakening. Over 27-hour windows that start while
-USDT/TMN has risen > 1.5% in 48 h (the current regime):
-    USDT          +1.08%  P(loss) 33%  worst -2.2%
-    BTC/ETH/BNB   +1.35%  P(loss) 24%  worst -3.0%      (majors basket)
-    ADA/PEPE/SHIB +1.7..2.3%  P(loss) 24-30%  worst -3.6..-5%
-Outside that regime the coins LOST on average, so exposure is scaled by the regime (and by the AI).
+coin rose ~15-19% in 29 days, almost all of it the rial weakening. 27-hour holds entered while USDT/TMN
+had risen >= 1% in 48 h, net of fees (0.25% in, 0.30% out), no trailing stop:
+    USDT only                  +0.52%  P(loss) 46%  worst -2.75%
+    rial  USDT/BTC/ETH         +0.74%  P(loss) 37%  worst -2.48%
+    beta  ADA/PEPE/SHIB/DOGE   +1.12%  P(loss) 35%  worst -3.70%
+Outside that regime the same holds LOST (-0.3% / -0.8%), so exposure is gated by the regime (and the AI).
+Tight stops and trailing stops cut the winners (rial +0.13% with a 1.5% stop and 2/1 trail), so the
+sleeves only carry a wide disaster stop.
 
 Each sleeve owns a fixed budget (capital_pct of the initial capital), a target weight per asset, a
 stop-loss and a trailing stop on the sleeve as a whole. Entries are maker bids at the best bid that

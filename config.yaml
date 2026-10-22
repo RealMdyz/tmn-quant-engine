@@ -92,23 +92,23 @@ portfolio:
   #   high   = "beta" sleeve: volatile coins  33%
   # Exposure of the holding sleeves = min(AI exposure, regime cap); regime cap from USDT/TMN 48h change:
   regime_full_pct: 1.0       # USDT/TMN 48h >= +1.0% -> cap 1.0 (rial weakening regime)
-  regime_half_pct: 0.0       # 0 .. +1.0% -> cap 0.5; below 0 -> cap 0 (no holdings; coins lost outside the regime)
+  regime_half_pct: 1.0       # no half band: entered at a 0..+1% 48h change the sleeves LOST (rial -0.88%, beta -2.04%)
   sleeves:
     rial:
       capital_pct: 33
       assets: {USDT: 0.4, BTC: 0.3, ETH: 0.3}
-      stop_pct: 1.5            # sleeve value 1.5% under its cost -> exit everything (taker), no re-entry
-      trail_start_pct: 2.0     # once up 2.0% ...
-      trail_gap_pct: 1.0       # ... exit if it gives back 1.0 point
+      stop_pct: 3.0            # disaster stop: sleeve 3% under its cost -> exit everything (taker), no re-entry
+      trail_start_pct: 99      # trailing stop OFF: in the regime study (python run.py regime-study) tight stops
+      trail_gap_pct: 99        # and trailing stops cut winners: mean +0.74% without vs +0.13% with them
       maker_timeout_s: 300     # entry: maker at the best bid, taker after 5 min
       usdt_exit_at: "2026-10-23T20:00:00+03:30"   # USDT/TMN closes 21:00 Tehran; the challenge ends 23:50
     beta:
       capital_pct: 33
       assets: {ADA: 0.25, PEPE: 0.25, SHIB: 0.25, DOGE: 0.25}
       universe: [ADA, PEPE, SHIB, DOGE, LINK, LTC, TRX]   # the AI may pick 2-4 of these
-      stop_pct: 3.0
-      trail_start_pct: 3.0
-      trail_gap_pct: 1.5
+      stop_pct: 5.0            # disaster stop only (worst 27 h window in the regime study: -3.7%)
+      trail_start_pct: 99      # trailing stop OFF (cut the mean from +1.12% to +1.02%)
+      trail_gap_pct: 99
       maker_timeout_s: 300
 
 risk:

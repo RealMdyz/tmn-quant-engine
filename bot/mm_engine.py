@@ -67,9 +67,9 @@ YOU decide, every ~20 minutes, using the tools:
   4. The PORTFOLIO (tool get_portfolio): besides the market maker, the account runs two holding sleeves,
      each with its own third of the capital: "rial" (USDT/BTC/ETH, medium risk) and "beta" (high-volatility
      coins, high risk). Both earn mainly from the rial weakening: Toman prices of USDT and coins rose
-     15-19% in 29 days. Over 27 h, while USDT/TMN had risen > 1.5% in 48 h, USDT made +1.08% (P(loss) 33%),
-     BTC/ETH/BNB +1.35% (24%), ADA/PEPE/SHIB +1.7-2.3% (24-30%); outside that regime the coins LOST.
-     For each sleeve choose an exposure in [0, 1]; the deterministic regime cap (regime.cap) is applied on top.
+     15-19% in 29 days. Backtest (27 h holds, net of fees, entered while USDT/TMN 48h >= +1%): rial +0.73%
+     (P(loss) 37%, worst -3.6%), beta +1.09% (35%, worst -6.6%); entered at 0..+1% or below 0 they LOST
+     (-0.8..-2%). For each sleeve choose an exposure in [0, 1]; the deterministic regime cap is applied on top.
      Cut exposure on news that the rial may strengthen (deal/negotiation progress, central-bank action,
      sharp USDT/TMN drop) or on crypto-crash news; keep it when the trend and news support it. For "beta"
      you may pick 2-4 coins from its universe (prefer high recent momentum, avoid coin-specific bad news).
@@ -514,7 +514,10 @@ class MMEngine:
         pol = self.policy or {}
         for k, sl in self.sleeves.items():
             ai = (pol.get("sleeves") or {}).get(k, 1.0)
-            sl.scale = round(min(ai, self.regime.get("cap", 0.0)), 3)
+            cap = self.regime.get("cap", 0.0)
+            if sl.value(self._books)[1] > 0:
+                cap = max(cap, sl.scale)       # backtest = enter in the regime, then hold: a later regime drop does
+            sl.scale = round(min(ai, cap), 3)  # not force a sale (the AI or the disaster stop still can)
             uni = sl.cfg.get("universe")
             pick = [c for c in (pol.get("beta_assets") or []) if uni and c in uni and f"{c}TMN" in self.markets]
             if uni and 2 <= len(pick) <= 4 and not sl.stopped:
