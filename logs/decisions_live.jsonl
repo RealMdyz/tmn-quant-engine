@@ -33,3 +33,346 @@
 {"ts": 1792683580.223, "time": "2026-10-22 19:09:40", "mode": "live", "event": "sleeve_order", "sleeve": "rial", "asset": "ETH", "side": "BUY", "qty": 0.00134, "price": 651999561.0, "size_tmn": 873679, "taker": false, "why": "rial: build ETH toward 875,000 TMN (maker at the best bid)"}
 {"ts": 1792683582.027, "time": "2026-10-22 19:09:42", "mode": "live", "event": "sleeve_order", "sleeve": "beta", "asset": "LINK", "side": "BUY", "qty": 0.23, "price": 3245033.0, "size_tmn": 746358, "taker": false, "why": "beta: build LINK toward 749,925 TMN (maker at the best bid)"}
 {"ts": 1792683583.227, "time": "2026-10-22 19:09:43", "mode": "live", "event": "sleeve_order", "sleeve": "beta", "asset": "PEPE", "side": "BUY", "qty": 625489.0, "price": 1.1993, "size_tmn": 750149, "taker": false, "why": "beta: build PEPE toward 750,150 TMN (maker at the best bid)"}
+{"ts": 1792683601.579, "time": "2026-10-22 19:10:01", "mode": "live", "event": "sleeve_order", "sleeve": "rial", "asset": "ETH", "side": "BUY", "qty": 0.00134, "price": 651999568.0, "size_tmn": 873679, "taker": false, "why": "rial: build ETH toward 875,000 TMN (maker at the best bid)"}
+{"ts": 1792683639.655, "time": "2026-10-22 19:10:39", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683639.655, "time": "2026-10-22 19:10:39", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683639.655, "time": "2026-10-22 19:10:39", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683639.656, "time": "2026-10-22 19:10:39", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683639.656, "time": "2026-10-22 19:10:39", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683639.656, "time": "2026-10-22 19:10:39", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683639.656, "time": "2026-10-22 19:10:39", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683639.959, "time": "2026-10-22 19:10:39", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683640.303, "time": "2026-10-22 19:10:40", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683654.813, "time": "2026-10-22 19:10:54", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683654.813, "time": "2026-10-22 19:10:54", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683654.813, "time": "2026-10-22 19:10:54", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683654.813, "time": "2026-10-22 19:10:54", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683654.814, "time": "2026-10-22 19:10:54", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683654.814, "time": "2026-10-22 19:10:54", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683654.814, "time": "2026-10-22 19:10:54", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683655.119, "time": "2026-10-22 19:10:55", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683655.42, "time": "2026-10-22 19:10:55", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683669.832, "time": "2026-10-22 19:11:09", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683669.832, "time": "2026-10-22 19:11:09", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683669.833, "time": "2026-10-22 19:11:09", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683669.833, "time": "2026-10-22 19:11:09", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683669.833, "time": "2026-10-22 19:11:09", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683669.833, "time": "2026-10-22 19:11:09", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683669.834, "time": "2026-10-22 19:11:09", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683670.145, "time": "2026-10-22 19:11:10", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683670.519, "time": "2026-10-22 19:11:10", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683684.831, "time": "2026-10-22 19:11:24", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683684.831, "time": "2026-10-22 19:11:24", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683684.832, "time": "2026-10-22 19:11:24", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683684.832, "time": "2026-10-22 19:11:24", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683684.832, "time": "2026-10-22 19:11:24", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683684.832, "time": "2026-10-22 19:11:24", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683684.833, "time": "2026-10-22 19:11:24", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683685.144, "time": "2026-10-22 19:11:25", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683685.461, "time": "2026-10-22 19:11:25", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683701.039, "time": "2026-10-22 19:11:41", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683701.039, "time": "2026-10-22 19:11:41", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683701.039, "time": "2026-10-22 19:11:41", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683701.039, "time": "2026-10-22 19:11:41", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683701.039, "time": "2026-10-22 19:11:41", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683701.04, "time": "2026-10-22 19:11:41", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683701.04, "time": "2026-10-22 19:11:41", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683701.341, "time": "2026-10-22 19:11:41", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683701.714, "time": "2026-10-22 19:11:41", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683716.129, "time": "2026-10-22 19:11:56", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683716.129, "time": "2026-10-22 19:11:56", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683716.13, "time": "2026-10-22 19:11:56", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683716.13, "time": "2026-10-22 19:11:56", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683716.13, "time": "2026-10-22 19:11:56", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683716.13, "time": "2026-10-22 19:11:56", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683716.13, "time": "2026-10-22 19:11:56", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683716.465, "time": "2026-10-22 19:11:56", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683716.754, "time": "2026-10-22 19:11:56", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683731.043, "time": "2026-10-22 19:12:11", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683731.043, "time": "2026-10-22 19:12:11", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683731.044, "time": "2026-10-22 19:12:11", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683731.044, "time": "2026-10-22 19:12:11", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683731.044, "time": "2026-10-22 19:12:11", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683731.044, "time": "2026-10-22 19:12:11", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683731.044, "time": "2026-10-22 19:12:11", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683731.332, "time": "2026-10-22 19:12:11", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683731.692, "time": "2026-10-22 19:12:11", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683746.127, "time": "2026-10-22 19:12:26", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683746.128, "time": "2026-10-22 19:12:26", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683746.128, "time": "2026-10-22 19:12:26", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683746.128, "time": "2026-10-22 19:12:26", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683746.129, "time": "2026-10-22 19:12:26", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683746.129, "time": "2026-10-22 19:12:26", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683746.129, "time": "2026-10-22 19:12:26", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683746.419, "time": "2026-10-22 19:12:26", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683746.784, "time": "2026-10-22 19:12:26", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683761.106, "time": "2026-10-22 19:12:41", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683761.106, "time": "2026-10-22 19:12:41", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683761.106, "time": "2026-10-22 19:12:41", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683761.106, "time": "2026-10-22 19:12:41", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683761.107, "time": "2026-10-22 19:12:41", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683761.107, "time": "2026-10-22 19:12:41", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683761.107, "time": "2026-10-22 19:12:41", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683761.418, "time": "2026-10-22 19:12:41", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683761.746, "time": "2026-10-22 19:12:41", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683776.192, "time": "2026-10-22 19:12:56", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683776.193, "time": "2026-10-22 19:12:56", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683776.193, "time": "2026-10-22 19:12:56", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683776.193, "time": "2026-10-22 19:12:56", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683776.193, "time": "2026-10-22 19:12:56", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683776.194, "time": "2026-10-22 19:12:56", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683776.194, "time": "2026-10-22 19:12:56", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683776.49, "time": "2026-10-22 19:12:56", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683776.84, "time": "2026-10-22 19:12:56", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683791.072, "time": "2026-10-22 19:13:11", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683791.072, "time": "2026-10-22 19:13:11", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683791.073, "time": "2026-10-22 19:13:11", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683791.073, "time": "2026-10-22 19:13:11", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683791.073, "time": "2026-10-22 19:13:11", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683791.073, "time": "2026-10-22 19:13:11", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683791.073, "time": "2026-10-22 19:13:11", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683791.377, "time": "2026-10-22 19:13:11", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683791.689, "time": "2026-10-22 19:13:11", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683806.135, "time": "2026-10-22 19:13:26", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683806.135, "time": "2026-10-22 19:13:26", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683806.135, "time": "2026-10-22 19:13:26", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683806.135, "time": "2026-10-22 19:13:26", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683806.136, "time": "2026-10-22 19:13:26", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683806.136, "time": "2026-10-22 19:13:26", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683806.136, "time": "2026-10-22 19:13:26", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683806.42, "time": "2026-10-22 19:13:26", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683806.78, "time": "2026-10-22 19:13:26", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683822.805, "time": "2026-10-22 19:13:42", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683822.806, "time": "2026-10-22 19:13:42", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683822.806, "time": "2026-10-22 19:13:42", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683822.806, "time": "2026-10-22 19:13:42", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683822.806, "time": "2026-10-22 19:13:42", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683822.807, "time": "2026-10-22 19:13:42", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683822.807, "time": "2026-10-22 19:13:42", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683823.086, "time": "2026-10-22 19:13:43", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683823.465, "time": "2026-10-22 19:13:43", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683837.819, "time": "2026-10-22 19:13:57", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683837.819, "time": "2026-10-22 19:13:57", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683837.82, "time": "2026-10-22 19:13:57", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683837.82, "time": "2026-10-22 19:13:57", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683837.82, "time": "2026-10-22 19:13:57", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683837.82, "time": "2026-10-22 19:13:57", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683837.821, "time": "2026-10-22 19:13:57", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683838.147, "time": "2026-10-22 19:13:58", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683838.514, "time": "2026-10-22 19:13:58", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683852.773, "time": "2026-10-22 19:14:12", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683852.774, "time": "2026-10-22 19:14:12", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683852.774, "time": "2026-10-22 19:14:12", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683852.774, "time": "2026-10-22 19:14:12", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683852.774, "time": "2026-10-22 19:14:12", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683852.774, "time": "2026-10-22 19:14:12", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683852.775, "time": "2026-10-22 19:14:12", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683853.069, "time": "2026-10-22 19:14:13", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683853.464, "time": "2026-10-22 19:14:13", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683868.048, "time": "2026-10-22 19:14:28", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683868.048, "time": "2026-10-22 19:14:28", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683868.049, "time": "2026-10-22 19:14:28", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683868.049, "time": "2026-10-22 19:14:28", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683868.05, "time": "2026-10-22 19:14:28", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683868.05, "time": "2026-10-22 19:14:28", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683868.05, "time": "2026-10-22 19:14:28", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683868.346, "time": "2026-10-22 19:14:28", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683868.766, "time": "2026-10-22 19:14:28", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683882.658, "time": "2026-10-22 19:14:42", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683882.658, "time": "2026-10-22 19:14:42", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683882.658, "time": "2026-10-22 19:14:42", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683882.658, "time": "2026-10-22 19:14:42", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683882.659, "time": "2026-10-22 19:14:42", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683882.659, "time": "2026-10-22 19:14:42", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683882.659, "time": "2026-10-22 19:14:42", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683882.983, "time": "2026-10-22 19:14:42", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683883.281, "time": "2026-10-22 19:14:43", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683897.77, "time": "2026-10-22 19:14:57", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683897.77, "time": "2026-10-22 19:14:57", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683897.77, "time": "2026-10-22 19:14:57", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683897.771, "time": "2026-10-22 19:14:57", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683897.771, "time": "2026-10-22 19:14:57", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683897.771, "time": "2026-10-22 19:14:57", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683897.771, "time": "2026-10-22 19:14:57", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683898.072, "time": "2026-10-22 19:14:58", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683898.573, "time": "2026-10-22 19:14:58", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683912.89, "time": "2026-10-22 19:15:12", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683912.891, "time": "2026-10-22 19:15:12", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683912.891, "time": "2026-10-22 19:15:12", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683912.891, "time": "2026-10-22 19:15:12", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683912.891, "time": "2026-10-22 19:15:12", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683912.891, "time": "2026-10-22 19:15:12", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683912.892, "time": "2026-10-22 19:15:12", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683913.195, "time": "2026-10-22 19:15:13", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683913.568, "time": "2026-10-22 19:15:13", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683927.802, "time": "2026-10-22 19:15:27", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683927.802, "time": "2026-10-22 19:15:27", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683927.802, "time": "2026-10-22 19:15:27", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683927.803, "time": "2026-10-22 19:15:27", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683927.803, "time": "2026-10-22 19:15:27", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683927.803, "time": "2026-10-22 19:15:27", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683927.803, "time": "2026-10-22 19:15:27", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683928.107, "time": "2026-10-22 19:15:28", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683928.413, "time": "2026-10-22 19:15:28", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683948.088, "time": "2026-10-22 19:15:48", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683948.089, "time": "2026-10-22 19:15:48", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683948.089, "time": "2026-10-22 19:15:48", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683948.089, "time": "2026-10-22 19:15:48", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683948.089, "time": "2026-10-22 19:15:48", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683948.089, "time": "2026-10-22 19:15:48", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683948.09, "time": "2026-10-22 19:15:48", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683948.355, "time": "2026-10-22 19:15:48", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683948.803, "time": "2026-10-22 19:15:48", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683964.222, "time": "2026-10-22 19:16:04", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683964.222, "time": "2026-10-22 19:16:04", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683964.223, "time": "2026-10-22 19:16:04", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683964.223, "time": "2026-10-22 19:16:04", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683964.223, "time": "2026-10-22 19:16:04", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683964.223, "time": "2026-10-22 19:16:04", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683964.224, "time": "2026-10-22 19:16:04", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683964.559, "time": "2026-10-22 19:16:04", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683964.919, "time": "2026-10-22 19:16:04", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683979.252, "time": "2026-10-22 19:16:19", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683979.252, "time": "2026-10-22 19:16:19", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683979.252, "time": "2026-10-22 19:16:19", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683979.252, "time": "2026-10-22 19:16:19", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683979.253, "time": "2026-10-22 19:16:19", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683979.253, "time": "2026-10-22 19:16:19", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683979.253, "time": "2026-10-22 19:16:19", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683979.553, "time": "2026-10-22 19:16:19", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683979.871, "time": "2026-10-22 19:16:19", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792683994.179, "time": "2026-10-22 19:16:34", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683994.18, "time": "2026-10-22 19:16:34", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683994.18, "time": "2026-10-22 19:16:34", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683994.18, "time": "2026-10-22 19:16:34", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683994.181, "time": "2026-10-22 19:16:34", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683994.181, "time": "2026-10-22 19:16:34", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683994.181, "time": "2026-10-22 19:16:34", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792683994.554, "time": "2026-10-22 19:16:34", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792683994.892, "time": "2026-10-22 19:16:34", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684009.138, "time": "2026-10-22 19:16:49", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684009.138, "time": "2026-10-22 19:16:49", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684009.142, "time": "2026-10-22 19:16:49", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684009.142, "time": "2026-10-22 19:16:49", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684009.142, "time": "2026-10-22 19:16:49", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684009.143, "time": "2026-10-22 19:16:49", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684009.143, "time": "2026-10-22 19:16:49", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684009.445, "time": "2026-10-22 19:16:49", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684009.751, "time": "2026-10-22 19:16:49", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684024.31, "time": "2026-10-22 19:17:04", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684024.311, "time": "2026-10-22 19:17:04", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684024.311, "time": "2026-10-22 19:17:04", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684024.311, "time": "2026-10-22 19:17:04", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684024.311, "time": "2026-10-22 19:17:04", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684024.312, "time": "2026-10-22 19:17:04", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684024.312, "time": "2026-10-22 19:17:04", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684024.604, "time": "2026-10-22 19:17:04", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684024.977, "time": "2026-10-22 19:17:04", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684039.173, "time": "2026-10-22 19:17:19", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684039.174, "time": "2026-10-22 19:17:19", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684039.174, "time": "2026-10-22 19:17:19", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684039.174, "time": "2026-10-22 19:17:19", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684039.174, "time": "2026-10-22 19:17:19", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684039.174, "time": "2026-10-22 19:17:19", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684039.175, "time": "2026-10-22 19:17:19", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684039.466, "time": "2026-10-22 19:17:19", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684039.777, "time": "2026-10-22 19:17:19", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684054.33, "time": "2026-10-22 19:17:34", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684054.33, "time": "2026-10-22 19:17:34", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684054.331, "time": "2026-10-22 19:17:34", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684054.331, "time": "2026-10-22 19:17:34", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684054.331, "time": "2026-10-22 19:17:34", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684054.331, "time": "2026-10-22 19:17:34", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684054.331, "time": "2026-10-22 19:17:34", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684054.599, "time": "2026-10-22 19:17:34", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684054.931, "time": "2026-10-22 19:17:34", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684070.508, "time": "2026-10-22 19:17:50", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684070.508, "time": "2026-10-22 19:17:50", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684070.509, "time": "2026-10-22 19:17:50", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684070.509, "time": "2026-10-22 19:17:50", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684070.509, "time": "2026-10-22 19:17:50", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684070.509, "time": "2026-10-22 19:17:50", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684070.509, "time": "2026-10-22 19:17:50", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684070.796, "time": "2026-10-22 19:17:50", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684071.456, "time": "2026-10-22 19:17:51", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684085.56, "time": "2026-10-22 19:18:05", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684085.56, "time": "2026-10-22 19:18:05", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684085.561, "time": "2026-10-22 19:18:05", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684085.561, "time": "2026-10-22 19:18:05", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684085.561, "time": "2026-10-22 19:18:05", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684085.561, "time": "2026-10-22 19:18:05", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684085.562, "time": "2026-10-22 19:18:05", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684085.905, "time": "2026-10-22 19:18:05", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684086.312, "time": "2026-10-22 19:18:06", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684100.571, "time": "2026-10-22 19:18:20", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684100.571, "time": "2026-10-22 19:18:20", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684100.571, "time": "2026-10-22 19:18:20", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684100.571, "time": "2026-10-22 19:18:20", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684100.572, "time": "2026-10-22 19:18:20", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684100.572, "time": "2026-10-22 19:18:20", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684100.572, "time": "2026-10-22 19:18:20", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684100.855, "time": "2026-10-22 19:18:20", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684101.245, "time": "2026-10-22 19:18:21", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684115.649, "time": "2026-10-22 19:18:35", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684115.656, "time": "2026-10-22 19:18:35", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684115.656, "time": "2026-10-22 19:18:35", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684115.657, "time": "2026-10-22 19:18:35", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684115.657, "time": "2026-10-22 19:18:35", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684115.657, "time": "2026-10-22 19:18:35", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684115.657, "time": "2026-10-22 19:18:35", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684115.951, "time": "2026-10-22 19:18:35", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684116.37, "time": "2026-10-22 19:18:36", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684130.582, "time": "2026-10-22 19:18:50", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684130.582, "time": "2026-10-22 19:18:50", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684130.583, "time": "2026-10-22 19:18:50", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684130.583, "time": "2026-10-22 19:18:50", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684130.583, "time": "2026-10-22 19:18:50", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684130.583, "time": "2026-10-22 19:18:50", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684130.583, "time": "2026-10-22 19:18:50", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684130.883, "time": "2026-10-22 19:18:50", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684131.258, "time": "2026-10-22 19:18:51", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684145.77, "time": "2026-10-22 19:19:05", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684145.77, "time": "2026-10-22 19:19:05", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684145.77, "time": "2026-10-22 19:19:05", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684145.771, "time": "2026-10-22 19:19:05", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684145.771, "time": "2026-10-22 19:19:05", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684145.771, "time": "2026-10-22 19:19:05", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684145.771, "time": "2026-10-22 19:19:05", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684146.084, "time": "2026-10-22 19:19:06", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684146.417, "time": "2026-10-22 19:19:06", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684160.504, "time": "2026-10-22 19:19:20", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684160.504, "time": "2026-10-22 19:19:20", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684160.504, "time": "2026-10-22 19:19:20", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684160.505, "time": "2026-10-22 19:19:20", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684160.505, "time": "2026-10-22 19:19:20", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684160.505, "time": "2026-10-22 19:19:20", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684160.505, "time": "2026-10-22 19:19:20", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684160.813, "time": "2026-10-22 19:19:20", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684161.196, "time": "2026-10-22 19:19:21", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684175.719, "time": "2026-10-22 19:19:35", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684175.719, "time": "2026-10-22 19:19:35", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684175.72, "time": "2026-10-22 19:19:35", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684175.72, "time": "2026-10-22 19:19:35", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684175.72, "time": "2026-10-22 19:19:35", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684175.721, "time": "2026-10-22 19:19:35", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684175.721, "time": "2026-10-22 19:19:35", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684176.011, "time": "2026-10-22 19:19:36", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684176.358, "time": "2026-10-22 19:19:36", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684192.272, "time": "2026-10-22 19:19:52", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684192.272, "time": "2026-10-22 19:19:52", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684192.272, "time": "2026-10-22 19:19:52", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684192.273, "time": "2026-10-22 19:19:52", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684192.273, "time": "2026-10-22 19:19:52", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684192.273, "time": "2026-10-22 19:19:52", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684192.273, "time": "2026-10-22 19:19:52", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684192.555, "time": "2026-10-22 19:19:52", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684192.99, "time": "2026-10-22 19:19:52", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
+{"ts": 1792684207.811, "time": "2026-10-22 19:20:07", "mode": "live", "event": "coin_skipped", "coin": "LTC", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684207.828, "time": "2026-10-22 19:20:07", "mode": "live", "event": "coin_skipped", "coin": "ADA", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684207.828, "time": "2026-10-22 19:20:07", "mode": "live", "event": "coin_skipped", "coin": "LINK", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684207.828, "time": "2026-10-22 19:20:07", "mode": "live", "event": "coin_skipped", "coin": "ETH", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684207.829, "time": "2026-10-22 19:20:07", "mode": "live", "event": "coin_skipped", "coin": "DOGE", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684207.829, "time": "2026-10-22 19:20:07", "mode": "live", "event": "coin_skipped", "coin": "TRX", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684207.829, "time": "2026-10-22 19:20:07", "mode": "live", "event": "coin_skipped", "coin": "SHIB", "reason": "held or tradable by a holding sleeve"}
+{"ts": 1792684208.128, "time": "2026-10-22 19:20:08", "mode": "live", "event": "state_restored", "inventory": [], "stats": {"fills": 0, "buys": 0, "sells": 0, "round_trips": 0, "pnl_tmn": 0.0, "volume_tmn": 0.0, "fees_tmn": 0.0, "exits": 0, "cycles": 30, "errors": 0}}
+{"ts": 1792684208.682, "time": "2026-10-22 19:20:08", "mode": "live", "event": "live_self_test", "ok": false, "error": "POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه‌است.", "why": "verify the real order path (place, list, read, cancel) before trading money"}
