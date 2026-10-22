@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,949,338 TMN** (-1.013%)
+- Equity: **4,961,500 TMN** (-0.770%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 5 (sources: {'llm:boxapi': 5})
-- Events: {'coin_skipped': 392, 'live_self_test': 56, 'cancel_all': 4, 'startup': 4, 'regime': 4, 'policy': 5, 'sleeve_order': 68, 'quote': 5, 'buy_blocked': 415, 'buy_unblocked': 389, 'state_restored': 55, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 6 (sources: {'llm:boxapi': 6})
+- Events: {'coin_skipped': 392, 'live_self_test': 56, 'cancel_all': 4, 'startup': 4, 'regime': 4, 'policy': 6, 'sleeve_order': 68, 'quote': 5, 'buy_blocked': 453, 'buy_unblocked': 422, 'state_restored': 55, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
+    "BNB": 1.0,
     "CAKE": 0.9,
-    "CHZ": 1.2,
-    "GALA": 1.4
+    "GALA": 1.2
   },
   "pause": false,
-  "reasoning": "I pick CAKE/CHZ/GALA because the bot never quotes where spread_bps < 80: CAKE has the largest Toman spread 143.7 bps (fv_vol 22 bps, calm), CHZ 84.4 bps (fv_vol 87 bps) and GALA 80.5 bps (fv_vol 163.5 bps) are the only candidates ≥80 bps with no buy_blocked. I set CAKE h=0.9% because its fv_vol is very low (22 bps) and volume is reasonable (vol24h 2.14kM TMN) so we can tighten; CHZ h=1.2% because spread is just above threshold (84 bps) with moderate fv_vol (87 bps); GALA h=1.4% because it is quoted_now, has higher fv_vol (163.5 bps) and we want wider protection. pause=false since there is no market-wide shock in news and USDT/TMN is in a rial-weakening regime (48h +4.36%) so sleeves remain active. For sleeves I keep rial at 1.0 (regime cap 1.0, USDT/TMN 48h +4.36%) and reduce beta to 0.9 to be slightly conservative given its recent return -1.39% and higher volatility; beta assets chosen PEPE/ADA/LINK follow the sleeve weights and momentum within the beta universe.",
+  "reasoning": "I choose up to three markets with Toman spread >=80 bps and no active buy-block: BNB (spread 81.5 bps, vol24h 80,944M TMN, fv_vol 146.3 bps) as the main slot with h=1.0% for balanced width vs activity; CAKE (spread 85.2 bps, fv_vol 39.8 bps, vol24h 2,557M) gets a tighter h=0.9% because FV is very calm; GALA (spread 161.6 bps, usdt_spread 391.1 bps, fv_vol 223 bps, quoted_now=true) gets h=1.2% to protect against its higher FV volatility. I avoid FIL/CHZ/DOT/AVAX/UNI/etc. because they show Toman-book sliding or buy_blocked flags or spreads below our 80 bps threshold. Sleeves: keep rial at 1.0 exposure (USDT/TMN 48h +4.41% → regime cap 1.0 and rial currently scale 1.0, value_tmn 2,601,842) and keep beta at 0.9 (current scale_now 0.9, return -0.98%) with beta assets PEPE/ADA/LINK (existing universe weights) because the rial-weakening regime and capital caps justify maintaining exposure while slightly cautious on beta by not increasing beyond current 0.9.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
