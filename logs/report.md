@@ -2,8 +2,8 @@
 
 ## SHADOW
 
-- Equity: **4,988,232 TMN** (-0.235%)
-- Max drawdown: **0.441%**
+- Equity: **4,983,557 TMN** (-0.329%)
+- Max drawdown: **0.445%**
 - Traded volume: 3,977,145 TMN
 
 ![equity](equity_shadow.png)
@@ -15,19 +15,19 @@
 | BNB | 1 | 0 | 0 | 0 |
 | FIL | 2 | 1 | 1 | -10,984 |
 
-- AI supervisor decisions: 28 (sources: {'fallback': 1, 'llm:boxapi': 27})
-- Events: {'startup': 37, 'policy': 28, 'quote': 1239, 'state_restored': 35, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 734, 'buy_unblocked': 597, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 35, 'regime': 5, 'sleeve_order': 36, 'sleeve_order_failed': 5, 'sleeve_fill': 17}
+- AI supervisor decisions: 29 (sources: {'fallback': 1, 'llm:boxapi': 28})
+- Events: {'startup': 37, 'policy': 29, 'quote': 1245, 'state_restored': 35, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 762, 'buy_unblocked': 625, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 35, 'regime': 5, 'sleeve_order': 40, 'sleeve_order_failed': 5, 'sleeve_fill': 19}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.2,
-    "UNI": 0.9,
-    "CHZ": 1.0
+    "BCH": 1.0,
+    "ENA": 1.1,
+    "WLD": 1.0
   },
   "pause": false,
-  "reasoning": "I pick SUI, UNI and CHZ (max 3). SUI has an enormous Toman spread 322.2 bps and reasonable 24h volume 6,380M TMN so I quote wide (h=1.2%) to avoid pick‑offs; it is already quoted_now. UNI has 65.8 bps spread, good USDT/TMN arbitrage buffer (usdt_spread 79.9 bps) and healthy volume 9,228M TMN so I set h=0.9% to be competitive. CHZ has 102.6 bps Toman spread and very large USDT spread (197.4 bps) so I quote wide at h=1.0% to prioritise safety. I avoid FIL (live round trips realised -10,984 TMN) and DOT (buy_blocked) as instructed. Portfolio: USDT/TMN 48h +3.45% gives full regime cap, so keep rial exposure 1.0 (rial sleeve scale_now=1.0) and keep beta at 1.0 to capture the rial-weakening upside; I select PEPE, ADA and LINK from the beta universe for momentum and liquidity.",
+  "reasoning": "I pick BCH/ENA/WLD because they have spreads >50 bps (BCH 52.8, ENA 64.2, WLD 67.7) while higher-liquidity names are either <50 bps or have buy-blocks or frozen USDT books. I avoid FIL despite its wide Toman spread (90.8 bps) because our live round trips there lost -10,984 TMN (avg RT 3.5 bps) — that signals adverse selection. I set half-spreads wide (h=1.0–1.1%) because fv_vol is elevated (BCH 102.5, ENA 233.8, WLD 126.4 bps) and the backtest shows losses with narrow quotes; wider quoting reduces pick-off risk. Sleeves: USDT/TMN is +3.47% over 48h so the rial-weakening regime allows full rial exposure (1.0) given sleeve performance (rial return -0.03% recently but regime supportive). I keep beta scaled back to 0.8 (not full 1.0) to limit drawdown after recent beta PnL -12,024 TMN while selecting ADA/PEPE/LINK (high momentum names in the beta universe) and no coin-specific bad headlines.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
