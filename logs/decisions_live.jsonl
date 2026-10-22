@@ -1499,3 +1499,5 @@
 {"ts": 1792689788.952, "time": "2026-10-22 20:53:08", "mode": "live", "event": "buy_blocked", "coin": "DOT", "why": "fair value fell -185 bps in 60s"}
 {"ts": 1792689794.93, "time": "2026-10-22 20:53:14", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -99 bps in 60s"}
 {"ts": 1792689796.925, "time": "2026-10-22 20:53:16", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792689810.853, "time": "2026-10-22 20:53:30", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -104 bps in 60s"}
+{"ts": 1792689812.964, "time": "2026-10-22 20:53:32", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
