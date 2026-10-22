@@ -47,15 +47,19 @@ penalised; regular, reasonable trading is rewarded).
 The bot rests maker BUY and SELL orders on COIN/TMN books around a fair value FV (global price from the
 COIN/USDT book x USDT/TMN, plus the coin's own Toman premium). It earns the spread when its bid and its
 ask both fill; it loses when it buys just before the price falls (adverse selection). Maker fee 0.25%
-per side, so a round trip costs 0.50%. Evidence so far (1-minute backtest, 2 days, 20 markets): every
-half-spread lost money on average (-58 bps per round trip at h=0.5%, -35 bps at h=1.3%): fills on our bid
-mostly come just before the price falls. Be selective and wide; prefer fewer, safer markets.
+per side, so a round trip costs 0.50%. Evidence so far: (a) 1-minute backtest, 2 days, 20 markets: quoting
+far from the book lost money on average (-58 bps per round trip at h=0.5%, -35 at h=1.3%) because deep
+fills mostly come just before the price falls; (b) live shadow, 75 min: at h 0.6-2.0% our bids sat 70-130 bps
+under the best bid and NOTHING filled. Quotes are capped one tick inside the best bid/ask, so the money is in
+the TOMAN SPREAD itself: prefer markets whose Toman spread_bps is well above 50 (the fee round trip) and that
+trade often, with a small h there (0.2-0.4) to sit at the top of the book; avoid tight-spread markets.
 
 YOU decide, every ~20 minutes, using the tools:
   1. WHICH markets to make (at most MAXM). Prefer: wide Toman spread (spread_bps), busy market
      (vol24h_mtmn, trades), stable fair value (fv_vol_bps low), live round trips that made money.
      Avoid markets whose live fills lose, whose USDT book is stale, or with coin-specific bad news.
-  2. The half-spread h (in %, between HLO and HHI) for each chosen market: wider when the market is
+  2. The half-spread h (in %, between HLO and HHI) for each chosen market (quotes never go more than one
+     tick inside the current best bid/ask, so a small h means "quote at the top of the book"): wider when the market is
      volatile or our fills there lost money; narrower only when it is calm, spreads are wide and our
      live round trips there made money.
   3. pause=true only for a market-wide shock (major news, crash).
@@ -213,6 +217,9 @@ class MMEngine:
         self.inv = s.get("inv") or {}
         self.policy = s.get("policy") or {}
         self.last_policy = s.get("last_policy") or 0.0
+        lo, hi = self.m.get("half_spread_bounds_pct", [0.8, 2.0])
+        if any(not (lo <= float(h) <= hi) for h in (self.policy.get("markets") or {}).values()):
+            self.last_policy = 0.0          # config bounds changed: let the AI decide again now
         self.stats.update(s.get("stats") or {})
         self.coin_stats = s.get("coin_stats") or {}
         if s.get("llm_usage"):
@@ -597,7 +604,8 @@ class MMEngine:
             want_bid = (co in markets and co not in self.blocked and can_buy_time
                         and held_val < max_inv_coin - mt.min_notional and inv_val < max_inv_total)
             if want_bid:
-                bid = min(fv * (1 - h - skew), best_ask - tick)
+                # at most one tick better than the current best bid: never pay up into the spread
+                bid = min(fv * (1 - h - skew), best_bid + tick, best_ask - tick)
                 room = min(quote_tmn, max_inv_coin - held_val, max_inv_total - inv_val,
                            self.bal().get("TMN", {}).get("free", 0.0) * 0.98
                            + (self.orders.get(co, {}).get("BUY") or {}).get("qty", 0) * bid)
@@ -609,7 +617,7 @@ class MMEngine:
                 floor_mult = 1 + 2 * self.fees.tmn_maker + (m.get("min_profit_bps", 10) / 1e4
                                                             if age_min < m.get("breakeven_after_min", 30) else 0)
                 avg_cost = iv["cost"] / held if held and iv["cost"] > 0 else 0
-                ask = max(fv * (1 + h - skew), best_bid + tick, avg_cost * floor_mult)
+                ask = max(fv * (1 + h - skew), best_ask - tick, best_bid + tick, avg_cost * floor_mult)
                 self._refresh(co, "SELL", ask, free_q, fv, books, now)
 
     def _refresh(self, co, side, price, qty, fv, books, now):
