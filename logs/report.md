@@ -2,8 +2,8 @@
 
 ## SHADOW
 
-- Equity: **4,989,206 TMN** (-0.216%)
-- Max drawdown: **0.445%**
+- Equity: **4,974,820 TMN** (-0.504%)
+- Max drawdown: **0.504%**
 - Traded volume: 0 TMN
 
 ![equity](equity_shadow.png)
@@ -16,7 +16,7 @@
 | FIL | 2 | 1 | 1 | -10,984 |
 
 - AI supervisor decisions: 30 (sources: {'fallback': 1, 'llm:boxapi': 29})
-- Events: {'startup': 39, 'policy': 30, 'quote': 1254, 'state_restored': 36, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 816, 'buy_unblocked': 663, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 49, 'regime': 7, 'sleeve_order': 54, 'sleeve_order_failed': 5, 'sleeve_fill': 22, 'state_reset': 1}
+- Events: {'startup': 40, 'policy': 30, 'quote': 1272, 'state_restored': 37, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 860, 'buy_unblocked': 695, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 56, 'regime': 8, 'sleeve_order': 56, 'sleeve_order_failed': 5, 'sleeve_fill': 26, 'state_reset': 1}
 
 ### Latest AI decision
 ```json
