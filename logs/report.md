@@ -8,21 +8,21 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 23 (sources: {'fallback': 1, 'llm:boxapi': 22})
-- Events: {'startup': 30, 'policy': 23, 'quote': 895, 'state_restored': 28, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 384, 'buy_unblocked': 297, 'instance_superseded': 17}
+- AI supervisor decisions: 24 (sources: {'fallback': 1, 'llm:boxapi': 23})
+- Events: {'startup': 30, 'policy': 24, 'quote': 928, 'state_restored': 28, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 426, 'buy_unblocked': 336, 'instance_superseded': 17}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
+    "BNB": 0.35,
     "FIL": 0.3,
-    "LINK": 0.3,
-    "AVAX": 0.3,
-    "UNI": 0.5,
+    "CHZ": 0.25,
+    "WLD": 0.35,
     "AAVE": 0.25
   },
   "pause": false,
-  "reasoning": "Select up to 5 markets with wide Toman spreads and reasonable volume while avoiding books flagged as sliding. FIL (spread 90.8 bps, vol 4,881M TMN, fv_vol 11.1 bps) looks prime so quote tight at h=0.3% to sit near top of book. LINK (71.7 bps, vol 3,269M, fv_vol 14.1) and AVAX (72.8 bps, vol 3,651M, fv_vol 11.6) also show healthy spread and low FV volatility -> h=0.3%. UNI (67.2 bps, vol 8,528M, fv_vol 81.9) is liquid but more FV movement, widen to h=0.5%. AAVE (50.3 bps, vol 2,827M, fv_vol 9.6) has just-above-fee spread and very low fv_vol so we quote more aggressively at h=0.25%. I avoid any markets with buy_blocked flags (e.g. ARB, DOT, PENGU, ENA, IMX, CHZ) and avoid very tight-spread or high FV-volatility coins (e.g. ETH/XRP/DOGE/SOL with spreads <45 bps or extreme fv_vol) to reduce adverse selection.",
+  "reasoning": "I pick markets with wide Toman spreads well above the 50 bps round-trip fee and reasonable activity: BNB has spread_bps 81.5 with vol24h_mtmn 74,277 so I quote with h=0.35 to balance flow and adverse selection (fv_vol_bps 39.2). FIL and CHZ have the largest spreads (90.2 and 91.1 bps) and low fv_vol_bps (4.9 and 4.3) so I quote tighter to sit at the top: FIL h=0.30, CHZ h=0.25. WLD has the biggest spread_bps (98.1) but lower volume (vol24h_mtmn 1,494) and moderate fv_vol_bps 27.5 so I use h=0.35. AAVE (spread_bps 67.0, vol24h_mtmn 2,833, fv_vol_bps 5.7) looks calm and wide enough to quote near the top so h=0.25. No markets show buy_blocked or coin-specific shocks, so pause=false.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
