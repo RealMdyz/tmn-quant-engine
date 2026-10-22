@@ -22,6 +22,7 @@ cp .env.example .env        # WALLEX_API_KEY و LLM_API_KEY را وارد کنی
 | `python run.py live --yes` | معامله‌ی واقعی روی حساب چالش |
 | `python run.py flatten` | اضطراری: لغو همه‌ی سفارش‌ها و تبدیل همه‌چیز به تومان |
 | `python run.py report` | ساخت `logs/report.md` همراه با نمودارها |
+| `python run.py probe` | تصویر فقط‌خواندنی از بازار برای تحقیق (`logs/probe/`)؛ روی سرور با هر استقرار خودکار اجرا می‌شود |
 
 ## استقرار روی سرور
 `deploy/bootstrap.sh` روی اوبونتو اجرا می‌شود: کلیدها را می‌پرسد (فقط در `.env` با دسترسی 600 ذخیره می‌شوند)، محیط پایتون را می‌سازد و سرویس systemd را نصب می‌کند. سرپرست (`deploy/supervisor.py`):
