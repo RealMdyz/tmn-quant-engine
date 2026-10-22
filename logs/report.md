@@ -2,21 +2,21 @@
 
 ## SHADOW
 
-- Equity: **4,989,145 TMN** (-0.217%)
+- Equity: **4,995,848 TMN** (-0.083%)
 - Max drawdown: **0.441%**
-- Traded volume: 3,580,021 TMN
+- Traded volume: 3,977,145 TMN
 
 ![equity](equity_shadow.png)
 
-- Market maker: **3 fills** (3 buys, 0 sells), 1 risk exits, realised PnL **-19,765 TMN**
+- Market maker: **4 fills** (3 buys, 1 sells), 1 risk exits, realised PnL **-10,984 TMN**, maker round trips avg 226.7 bps
 
 | coin | buys | sells | exits | realised PnL TMN |
 |---|---|---|---|---|
 | BNB | 1 | 0 | 0 | 0 |
-| FIL | 2 | 0 | 1 | -19,765 |
+| FIL | 2 | 1 | 1 | -10,984 |
 
 - AI supervisor decisions: 25 (sources: {'fallback': 1, 'llm:boxapi': 24})
-- Events: {'startup': 30, 'policy': 25, 'quote': 1029, 'state_restored': 28, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 480, 'buy_unblocked': 387, 'instance_superseded': 17, 'fill': 3, 'exit': 1}
+- Events: {'startup': 30, 'policy': 25, 'quote': 1070, 'state_restored': 28, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 510, 'buy_unblocked': 420, 'instance_superseded': 17, 'fill': 4, 'exit': 1}
 
 ### Latest AI decision
 ```json
