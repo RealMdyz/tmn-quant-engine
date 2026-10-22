@@ -1,140 +1,79 @@
 # TMN Quant Engine — run report
 
-## Walk-forward backtest (out-of-sample half)
-
-```json
-{
-  "data/m5_all.json": {
-    "data_days": 10.0,
-    "fees": {
-      "tmn_maker": 0.0025,
-      "tmn_taker": 0.003,
-      "usdt_maker": 0.001,
-      "usdt_taker": 0.0013
-    },
-    "round_trip_cost_pct": 0.68,
-    "chosen_margins_from_train": {
-      "ADA": 0.8,
-      "BNB": 0.8,
-      "BTC": 0.4,
-      "DOGE": 0.8,
-      "TRX": 0.4
-    },
-    "test_days": 5.0,
-    "test_fills": 162,
-    "test_fills_per_day": 32.4,
-    "test_avg_net_bps_per_fill": 21.3,
-    "test_win_rate_pct": 80.2,
-    "test_return_pct": 2.936,
-    "test_return_per_3_days_pct": 1.75,
-    "test_max_drawdown_pct": 1.957,
-    "per_coin_test": {
-      "ADA": {
-        "fills": 63,
-        "avg_bps": 21.1
-      },
-      "BNB": {
-        "fills": 18,
-        "avg_bps": 20.2
-      },
-      "BTC": {
-        "fills": 2,
-        "avg_bps": -9.0
-      },
-      "DOGE": {
-        "fills": 7,
-        "avg_bps": 13.7
-      },
-      "TRX": {
-        "fills": 72,
-        "avg_bps": 23.4
-      }
-    },
-    "assumptions": "pessimistic: trade-through fills, fill size <= 25% of the bar's Toman volume, worst-of hedge prices, full taker fees on hedge"
-  },
-  "data/m5_extra.json": {
-    "data_days": 10.0,
-    "fees": {
-      "tmn_maker": 0.0025,
-      "tmn_taker": 0.003,
-      "usdt_maker": 0.001,
-      "usdt_taker": 0.0013
-    },
-    "round_trip_cost_pct": 0.68,
-    "chosen_margins_from_train": {
-      "AAVE": 0.8,
-      "APE": 1.0,
-      "CAKE": 0.6,
-      "FIL": 0.6,
-      "GALA": 0.6,
-      "HYPE": 0.6,
-      "PENGU": 0.4,
-      "SHIB": 0.6,
-      "UNI": 0.8,
-      "WLD": 1.3,
-      "XAUT": 0.8
-    },
-    "test_days": 5.0,
-    "test_fills": 1056,
-    "test_fills_per_day": 211.1,
-    "test_avg_net_bps_per_fill": 39.0,
-    "test_win_rate_pct": 89.7,
-    "test_return_pct": 1.815,
-    "test_return_per_3_days_pct": 1.084,
-    "test_max_drawdown_pct": 1.181,
-    "per_coin_test": {
-      "AAVE": {
-        "fills": 156,
-        "avg_bps": 71.1
-      },
-      "APE": {
-        "fills": 63,
-        "avg_bps": 30.3
-      },
-      "CAKE": {
-        "fills": 103,
-        "avg_bps": 44.6
-      },
-      "FIL": {
-        "fills": 266,
-        "avg_bps": 38.8
-      },
-      "GALA": {
-        "fills": 102,
-        "avg_bps": 29.2
-      },
-      "HYPE": {
-        "fills": 32,
-        "avg_bps": 57.0
-      },
-      "PENGU": {
-        "fills": 276,
-        "avg_bps": 24.0
-      },
-      "SHIB": {
-        "fills": 14,
-        "avg_bps": 37.4
-      },
-      "UNI": {
-        "fills": 19,
-        "avg_bps": 20.7
-      },
-      "WLD": {
-        "fills": 25,
-        "avg_bps": 37.6
-      }
-    },
-    "assumptions": "pessimistic: trade-through fills, fill size <= 25% of the bar's Toman volume, worst-of hedge prices, full taker fees on hedge"
-  }
-}
-```
-
-![backtest m5_all](backtest/m5_all/arb_backtest.png)
-![backtest m5_extra](backtest/m5_extra/arb_backtest.png)
-
 ## SHADOW
 
-_No records yet._
+- Equity: **5,000,000 TMN** (+0.000%)
+- Max drawdown: **0.000%**
+- Traded volume: 0 TMN
+
+![equity](equity_shadow.png)
+
+- AI supervisor decisions: 2 (sources: {'fallback': 1, 'llm:boxapi': 1})
+- Events: {'startup': 3, 'policy': 2, 'quote': 11, 'state_restored': 2}
+
+### Latest AI decision
+```json
+{
+  "enabled_coins": [
+    "LINK",
+    "AVAX",
+    "SOL",
+    "PENGU",
+    "BNB"
+  ],
+  "margin_mult": 1.15,
+  "usdt_hold_frac": 0.05,
+  "pause": false,
+  "reasoning": "Equity is 5,000,000 TMN with USDT/TMN = 266,720 TMN (we'll keep 5% in USDT ≈ 250 USDT) to hedge rial moves; round-trip fees are 0.68% so I increase margins slightly. I enable coins that show Toman bids below liquidation (LINK -0.335%, AVAX -0.271%, SOL -0.252%, PENGU -0.189%, BNB -0.031%) where we have potential entry edge. I set margin_mult to 1.15 to demand ~15% more edge than learned margins given tail risks (suspended withdrawals/adverse selection) and zero recent fills across books; minutes to contest end = 2255 so we can run a measured strategy.",
+  "tool_trace": [
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "LINK"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "AVAX"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "FIL"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "TRX"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "UNI"
+      }
+    },
+    {
+      "tool": "get_account_state",
+      "args": {}
+    },
+    {
+      "tool": "get_usdt_tmn_trend",
+      "args": {}
+    },
+    {
+      "tool": "get_news",
+      "args": {
+        "topic": "all"
+      }
+    }
+  ],
+  "source": "llm:boxapi"
+}
+```
 
 ## LIVE
 

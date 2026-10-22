@@ -1,0 +1,7 @@
+2026-10-22 10:12:33,145 INFO engine: coins=['FIL', 'PENGU', 'AAVE', 'GALA', 'ADA', 'TRX', 'CAKE', 'AVAX', 'WLD', 'APE', 'HYPE', 'SHIB', 'LINK', 'DOGE', 'UNI', 'PUMP', 'BNB', 'SOL'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-22 10:12:33,145 INFO engine: arb engine running in SHADOW mode
+2026-10-22 10:12:47,594 WARNING agent: LLM provider boxapi failed: HTTPSConnectionPool(host='ai.boxapi.ir', port=443): Max retries exceeded with url: /ai/v1/chat/completions (Caused by NameResolutionError("HTTPSConnection(host='ai.boxapi.ir', port=443): Failed to resolve 'ai.boxapi.ir' ([Errno -3] Temporary failure in name resolution)"))
+2026-10-22 10:15:15,327 INFO engine: coins=['FIL', 'PENGU', 'AAVE', 'GALA', 'ADA', 'TRX', 'CAKE', 'AVAX', 'WLD', 'APE', 'HYPE', 'SHIB', 'LINK', 'DOGE', 'UNI', 'PUMP', 'BNB', 'SOL'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-22 10:15:15,327 INFO engine: arb engine running in SHADOW mode
+2026-10-22 10:21:55,062 INFO engine: coins=['FIL', 'PENGU', 'AAVE', 'GALA', 'ADA', 'TRX', 'CAKE', 'AVAX', 'WLD', 'APE', 'HYPE', 'SHIB', 'LINK', 'DOGE', 'UNI', 'PUMP', 'BNB', 'SOL'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-22 10:21:55,062 INFO engine: arb engine running in SHADOW mode
