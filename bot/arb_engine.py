@@ -456,7 +456,10 @@ class ArbEngine:
 
         def eligible(coin):
             tb = books.get(f"{coin}TMN")
-            return (liquidation_value(books, coin) and tb and tb["asks"] and tb["bids"] and can_trade
+            lv = liquidation_value(books, coin)
+            if lv and tb and tb["bids"] and abs(tb["bids"][0][0] / lv - 1) > c["arb"].get("max_abs_deviation", 0.05):
+                return False        # books disagree by >5%: stale/illiquid USDT book or halted coin -> never quote
+            return (lv and tb and tb["asks"] and tb["bids"] and can_trade
                     and (coin in active or coin in probes) and coin not in self.blocked)
 
         # cancel quotes that must go BEFORE placing new ones, so freed Toman is available this cycle
