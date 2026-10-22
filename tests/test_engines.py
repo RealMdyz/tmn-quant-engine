@@ -212,6 +212,26 @@ def test_end_of_challenge_wind_down_in_steps():
         assert e.sleeves[k].value(e._books)[0] < 100_000, f"{k} sold before the forced flatten"
 
 
+def test_shadow_restarts_when_the_portfolio_changes():
+    tmp = tempfile.mkdtemp()
+    coins = {"SOL": 180.0, "BTC": 108000.0, "ETH": 3900.0, "ADA": 0.65, "PEPE": 0.00001, "LINK": 17.5}
+    fake = FakeWallex(coins)
+    cfg = _cfg(tmp, coins, "mm")
+    e = mm_engine.MMEngine(cfg, "shadow", None, client=fake)
+    e.setup()
+    e.ex.bal["BTC"] = {"free": 0.01, "total": 0.01}           # an old paper position
+    e.save_state()
+    same = mm_engine.MMEngine(_cfg(tmp, coins, "mm"), "shadow", None, client=fake)
+    same.setup()
+    assert same.ex.bal.get("BTC", {}).get("total") == 0.01, "same portfolio -> shadow resumes"
+    cfg2 = _cfg(tmp, coins, "mm")
+    cfg2["portfolio"]["sleeves"]["rial"]["capital_pct"] = 30
+    new = mm_engine.MMEngine(cfg2, "shadow", None, client=fake)
+    new.setup()
+    assert not new.ex.bal.get("BTC", {}).get("total") and new.ex.bal["TMN"]["total"] == 5_000_000
+    assert any(x["event"] == "state_reset" for x in _events(tmp))
+
+
 def test_live_self_test_with_paper_executor():
     tmp = tempfile.mkdtemp()
     fake = FakeWallex({"SOL": 180.0})

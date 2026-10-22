@@ -22,6 +22,7 @@ USDT/TMN market being closed 21:00-08:00 Tehran does not matter.
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import math
 import os
@@ -244,16 +245,28 @@ class MMEngine:
                "stats": self.stats, "coin_stats": self.coin_stats, "risk": self.risk.state.__dict__,
                "llm_usage": self.agent.usage, "sleeves": {k: v.to_state() for k, v in self.sleeves.items()},
                "paper": getattr(self.ex, "bal", None) if self.mode == "shadow" else None,
-               "paper_orders": getattr(self.ex, "orders", None) if self.mode == "shadow" else None}
+               "paper_orders": getattr(self.ex, "orders", None) if self.mode == "shadow" else None,
+               "portfolio_sig": self.portfolio_sig()}
         tmp = f"{self.state_path}.{os.getpid()}.tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(st_, f, default=str)
         os.replace(tmp, self.state_path)
 
+    def portfolio_sig(self) -> str:
+        pf = {"portfolio": self.cfg.get("portfolio"), "capital": self.cfg["challenge"]["initial_capital_tmn"]}
+        return hashlib.sha1(json.dumps(pf, sort_keys=True, default=str).encode()).hexdigest()[:12]
+
     def load_state(self):
         if not os.path.exists(self.state_path):
             return
         s = json.load(open(self.state_path, encoding="utf-8"))
+        changed = s.get("portfolio_sig") != self.portfolio_sig()
+        if changed and self.mode == "shadow":
+            # a shadow test of a new portfolio must not inherit the old paper positions and sleeve weights
+            os.replace(self.state_path, f"{self.state_path}.{int(time.time())}.old")
+            self.dlog.write("state_reset", why="portfolio config changed: the shadow test restarts from the "
+                                               "initial capital in Toman")
+            return
         for k, v in (s.get("risk") or {}).items():
             setattr(self.risk.state, k, v)
         self.orders = s.get("orders") or {}
@@ -269,7 +282,10 @@ class MMEngine:
             self.agent.usage.update(s["llm_usage"])
         for k, v in (s.get("sleeves") or {}).items():
             if k in self.sleeves:
-                self.sleeves[k].from_state(v)
+                sl = self.sleeves[k]
+                sl.from_state(v)
+                if changed:                 # live: real holdings stay; target weights follow the new config and
+                    sl.weights = {**{a: 0.0 for a in sl.weights}, **sl.cfg["assets"]}   # dropped coins are sold
         if self.mode == "shadow" and s.get("paper"):
             self.ex.bal = s["paper"]
             self.ex.orders = s.get("paper_orders") or {}
