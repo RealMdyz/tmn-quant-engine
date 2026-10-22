@@ -8,8 +8,8 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 13 (sources: {'fallback': 1, 'llm:boxapi': 12})
-- Events: {'startup': 7, 'policy': 13, 'quote': 210, 'state_restored': 6, 'quote_skipped': 4, 'usdt_ref_check': 6, 'quote_blocked': 122, 'quote_unblocked': 115, 'error': 3}
+- AI supervisor decisions: 14 (sources: {'fallback': 1, 'llm:boxapi': 13})
+- Events: {'startup': 7, 'policy': 14, 'quote': 219, 'state_restored': 6, 'quote_skipped': 4, 'usdt_ref_check': 7, 'quote_blocked': 144, 'quote_unblocked': 129, 'error': 3}
 
 ### Latest AI decision
 ```json
@@ -37,7 +37,7 @@
   "margin_mult": 1.0,
   "usdt_hold_frac": 0.0,
   "pause": false,
-  "reasoning": "No concrete disable triggers: all coins have 0 fills and no coin shows persistent >200 bps negative displacement (LINK is -86.2 bps which is within normal noise). USDT trend data is unavailable (USDT/TMN = 270,147; change_6h and change_24h null), so per rule we must keep usdt_hold_frac = 0. Market-wide headlines show no rial-strongening intervention; round-trip fees ~68 bps, equity TMN 5,000,000 and 2084 minutes remaining — keep default margins (margin_mult 1.0) and do not pause.",
+  "reasoning": "USDT trend data are unavailable (change_6h_pct and change_24h_pct are null) so the rule requires usdt_hold_frac = 0; USDT/TMN ref is 270,812 but no positive short-term trend. Account equity is 5,000,000 TMN with 0 USDT; minutes to end 2,064. Several coins are currently blocked by the sliding- Toman-book guard (e.g. WLD dev -44.6 bps with sliding -131 bps vs -26 bps baseline; AAVE dev -31.6 bps sliding -108 bps), which are temporary safety blocks — no persistent deposit/withdrawal or realised-loss signal, so keep all coins enabled. No market-wide news indicating a rial-strengthening intervention; keep margin_mult at 1.0 and do not pause quoting.",
   "tool_trace": [
     {
       "tool": "get_usdt_tmn_trend",
