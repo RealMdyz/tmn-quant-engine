@@ -27,6 +27,7 @@ from .agent import SupervisorAgent, fetch_headlines
 from .arb import Fees, build_bandits, liquidation_value
 from .brokers import LiveExec, PaperExec, _trade_ts
 from .decision_log import DecisionLog
+from .instance import InstanceLock
 from .risk import RiskManager
 from .wallex_client import WallexClient, WallexError
 
@@ -45,6 +46,7 @@ class ArbEngine:
         self.state_path = os.path.join(ld, f"state_{mode}.json")
         self.equity_path = os.path.join(ld, f"equity_{mode}.csv")
         self.dev_path = os.path.join(ld, f"deviations_{mode}.csv")
+        self.lock = InstanceLock(os.path.join(ld, f"instance_{mode}.lock"))
         self.books_path = os.path.join(ld, f"books_{mode}.csv")
         self.risk = RiskManager(cfg["risk"], cfg["challenge"])
         self.rng = random.Random(cfg.get("seed", 7))
@@ -74,6 +76,7 @@ class ArbEngine:
     # ================================================================ setup
     def setup(self):
         c = self.cfg
+        self.lock.claim()
         self.markets = self.client.markets()
         try:
             pkg = self.client.prop_package(c["challenge"]["package_id"])
@@ -129,7 +132,7 @@ class ArbEngine:
               "bandits": {k: [a.__dict__ for a in b.arms] for k, b in self.bandits.items()},
               "paper": getattr(self.ex, "bal", None) if self.mode == "shadow" else None,
               "paper_orders": getattr(self.ex, "orders", None) if self.mode == "shadow" else None}
-        tmp = self.state_path + ".tmp"
+        tmp = f"{self.state_path}.{os.getpid()}.tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(st, f, default=str)
         os.replace(tmp, self.state_path)
@@ -717,6 +720,9 @@ class ArbEngine:
 
     def step(self):
         now = time.time()
+        if not self.lock.still_mine():
+            self.dlog.write("instance_superseded", why="a newer deployment took over the logs volume; stopping this one")
+            raise SystemExit("superseded by a newer instance")
         books = self.client.depth_all()
         self.check_usdt_reference(books, now)
         self._last_books = books
@@ -776,7 +782,7 @@ class ArbEngine:
             t0 = time.time()
             try:
                 self.step()
-            except KeyboardInterrupt:
+            except (KeyboardInterrupt, SystemExit):
                 raise
             except Exception as e:
                 self.stats["errors"] += 1
