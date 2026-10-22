@@ -40,12 +40,13 @@ class HoldingSleeve:
         self.last_act = 0.0
         self.last_reweight = 0.0
         self.trim_t0: dict[str, float] = {}    # asset -> when the current trim/wind-down sale started
+        self.build_t0: dict[str, float] = {}   # asset -> when the current build (first maker bid) started
 
     # -------------------------------------------------------------- state
     def to_state(self):
         return {"pos": self.pos, "orders": self.orders, "realised": self.realised, "peak_ret": self.peak_ret,
                 "stopped": self.stopped, "scale": self.scale, "weights": self.weights,
-                "last_reweight": self.last_reweight, "trim_t0": self.trim_t0}
+                "last_reweight": self.last_reweight, "trim_t0": self.trim_t0, "build_t0": self.build_t0}
 
     def from_state(self, s):
         self.pos = s.get("pos") or {}
@@ -57,6 +58,7 @@ class HoldingSleeve:
         self.weights = s.get("weights") or self.weights
         self.last_reweight = s.get("last_reweight", 0.0)
         self.trim_t0 = s.get("trim_t0") or {}
+        self.build_t0 = s.get("build_t0") or {}
 
     # ------------------------------------------------------------ helpers
     def assets(self):
@@ -188,23 +190,33 @@ class HoldingSleeve:
                 self.sell_now(a, m, books, self.stopped or "scheduled exit (USDT market hours / challenge end)")
                 continue
             deficit = target - cur
-            min_step = max(m.min_notional, 60_000, 0.03 * target)
-            if deficit > min_step and wind >= 1 and self.e.entries_allowed(now):
+            need = target - p["cost"]     # buying is measured against Toman SPENT: a price dip must not trigger
+            min_step = max(m.min_notional, 60_000, 0.03 * target)     # top-ups (backtest = buy once, then hold)
+            if need > min_step and wind >= 1 and self.e.entries_allowed(now):
                 self.trim_t0.pop(a, None)
-                age = now - o["t"] if o else 0
-                if o and o["side"] == "BUY" and age < self.cfg.get("maker_timeout_s", 300):
+                # the maker timeout counts from the FIRST bid: being outbid and moving up must not restart it
+                # (live: another bot outbid us every 20 s and LINK was never bought)
+                since = self.build_t0.setdefault(a, o["t"] if o and o["side"] == "BUY" else now)
+                timed_out = now - since >= self.cfg.get("maker_timeout_s", 300)
+                if o and o["side"] == "BUY" and not timed_out:
                     if o["price"] < bid - tick / 2:            # outbid: move up to the new best bid
                         self.cancel(a)
                     else:
                         continue
                 elif o:
                     self.cancel(a)
-                taker = bool(o) and age >= self.cfg.get("maker_timeout_s", 300)
+                if o:                                          # a cancel may have recorded a partial fill
+                    p = self.pos.get(a, p)
+                    need = target - p["cost"]
+                    if need <= min_step:
+                        continue
+                taker = timed_out
                 price = ask if taker else min(bid + tick, ask - tick) if ask - bid > tick else bid
-                self.place(a, "BUY", deficit / price, price, taker,
+                self.place(a, "BUY", need / price, price, taker,
                            f"{self.name}: build {a} toward {target:,.0f} TMN ({'taker after maker timeout' if taker else 'maker at the best bid'})",
                            now)
             elif deficit < -max(min_step, 0.15 * target) and not exit_now:
+                self.build_t0.pop(a, None)
                 # trim: maker ask at the top of the book, re-placed when undercut; during the end-of-challenge
                 # wind-down a step not sold within wind_down_taker_after_s is sold as taker (schedule is kept)
                 since = self.trim_t0.setdefault(a, now)
@@ -226,6 +238,7 @@ class HoldingSleeve:
                     self.place(a, "SELL", min(p["qty"], -deficit / bid), max(ask - tick, bid + tick), False, why, now)
             else:
                 self.trim_t0.pop(a, None)
+                self.build_t0.pop(a, None)
 
     def sell_now(self, a, m, books, why, qty=None):
         """Taker sale of `qty` (default: the whole position) at the live bids."""

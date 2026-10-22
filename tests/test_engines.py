@@ -246,6 +246,26 @@ def test_shadow_restarts_when_the_portfolio_changes():
     assert any(x["event"] == "state_reset" for x in _events(tmp))
 
 
+def test_sleeve_goes_taker_when_outbid_for_5_minutes():
+    random.seed(9)
+    tmp = tempfile.mkdtemp()
+    coins = {"SOL": 180.0, "SUI": 3.2, "BTC": 108000.0, "ETH": 3900.0, "ADA": 0.65, "PEPE": 0.00001, "LINK": 17.5}
+    fake = FakeWallex(coins)
+    fake.random_flow = False                     # no seller hits our bid
+    fake.candles = lambda sym, res, a, b: {"t": [b - 3600 * k for k in range(60, -1, -1)],
+                                           "c": [USDT * (1 - 0.0004 * k) for k in range(60, -1, -1)]}
+    e = mm_engine.MMEngine(_cfg(tmp, coins, "mm"), "shadow", None, client=fake)
+    e.setup()
+    CLOCK[0] = 1_790_000_000.0 + 3600 * 19.5
+    for _ in range(200):                         # 400 s, another bot outbids us on LINK all the time
+        fake.dev["LINK"] += 0.00002
+        e.step()
+        CLOCK[0] += 2
+    link = [x for x in _events(tmp) if x["event"] == "sleeve_order" and x["asset"] == "LINK"]
+    assert len(link) > 5 and not link[0]["taker"], "maker bid moved up while outbid"
+    assert any(x["taker"] for x in link), "taker 5 min after the FIRST bid, even though the bid was re-placed"
+
+
 def test_live_self_test_with_paper_executor():
     tmp = tempfile.mkdtemp()
     fake = FakeWallex({"SOL": 180.0})

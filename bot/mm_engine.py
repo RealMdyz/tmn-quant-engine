@@ -335,7 +335,7 @@ class MMEngine:
                 continue
             want = sl.capital * sum(sl.weights.values()) * sl.scale
             locked = sum(o["qty"] * o["price"] for o in sl.orders.values() if o["side"] == "BUY")
-            r += max(0.0, want - sl.value(self._books)[0] - locked)
+            r += max(0.0, want - sl.value(self._books)[1] - locked)     # same measure as the sleeve: Toman spent
         return r
 
     def entries_allowed(self, now) -> bool:
