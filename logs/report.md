@@ -8,62 +8,50 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 3 (sources: {'fallback': 1, 'llm:boxapi': 2})
-- Events: {'startup': 4, 'policy': 3, 'quote': 25, 'state_restored': 3}
+- AI supervisor decisions: 4 (sources: {'fallback': 1, 'llm:boxapi': 3})
+- Events: {'startup': 4, 'policy': 4, 'quote': 34, 'state_restored': 3, 'quote_skipped': 4}
 
 ### Latest AI decision
 ```json
 {
   "enabled_coins": [
-    "LINK",
+    "FIL",
     "PENGU",
-    "SOL",
-    "BNB",
+    "AAVE",
+    "GALA",
+    "ADA",
+    "TRX",
+    "CAKE",
     "AVAX",
-    "AAVE"
+    "WLD",
+    "APE",
+    "HYPE",
+    "SHIB",
+    "LINK",
+    "DOGE",
+    "UNI",
+    "PUMP",
+    "BNB",
+    "SOL"
   ],
-  "margin_mult": 1.15,
+  "margin_mult": 1.0,
   "usdt_hold_frac": 0.08,
   "pause": false,
-  "reasoning": "Equity is 5,000,000 TMN and we currently hold no USDT, while USDT/TMN is ~266,720 TMN — keep a small USDT reserve (8%) to absorb FX moves. Focus on coins showing negative Toman deviation: LINK -32.5%, PENGU -27.2%, SOL -22.3%, BNB -12.8%, AVAX -10.2% and AAVE -9.5% where our strategy historically finds buys below liquidation. Use a slightly conservative margin multiplier 1.15 (vs learned 1.0) because drawdown is penalised and structural dislocations are a real tail risk; round-trip fees are 0.68% so require extra edge. No pause — market shows no news-driven break but keep sizing/tight margins to limit adverse-selection risk.",
+  "reasoning": "Keep all coins enabled: no coin shows the long-lived >-2% dislocation flag and there are zero losing fills (fills=0). Equity is 5,000,000 TMN with USDT/TMN spot 266,720; round-trip fees 0.68% are already accounted for so I keep margin_mult at 1.0. We hold a modest USDT buffer (8% of equity) to reflect recent rial pressure while staying within the 0–0.3 limit. No headline or market shock warrants pausing — open quotes exist on 5 coins and no realised PnL or drawdown to force defensive action.",
   "tool_trace": [
-    {
-      "tool": "get_account_state",
-      "args": {}
-    },
     {
       "tool": "get_usdt_tmn_trend",
       "args": {}
     },
     {
-      "tool": "get_market_stats",
+      "tool": "get_news",
       "args": {
-        "coin": "LINK"
+        "topic": "iran"
       }
     },
     {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "SOL"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "PENGU"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "BNB"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "AVAX"
-      }
+      "tool": "get_account_state",
+      "args": {}
     }
   ],
   "source": "llm:boxapi"
