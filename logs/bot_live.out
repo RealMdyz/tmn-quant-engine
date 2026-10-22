@@ -38,3 +38,19 @@ live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: �
 live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
 live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
 live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: اطلاعات وارد شده اشتباه\u200cاست.'}
+2026-10-22 19:23:50,826 INFO mm: MM coins=['SOL', 'SUI', 'S', 'XRP', 'BNB', 'AAVE', 'HYPE', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-22 19:23:50,831 INFO mm: market maker running in LIVE mode

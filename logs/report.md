@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,000,000 TMN** (+0.000%)
-- Max drawdown: **0.000%**
+- Equity: **4,988,305 TMN** (-0.234%)
+- Max drawdown: **0.293%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 1 (sources: {'llm:boxapi': 1})
-- Events: {'coin_skipped': 273, 'live_self_test': 39, 'cancel_all': 1, 'startup': 1, 'regime': 1, 'policy': 1, 'sleeve_order': 16, 'quote': 5, 'buy_blocked': 2, 'buy_unblocked': 1, 'state_restored': 38}
+- AI supervisor decisions: 2 (sources: {'llm:boxapi': 2})
+- Events: {'coin_skipped': 378, 'live_self_test': 54, 'cancel_all': 2, 'startup': 2, 'regime': 2, 'policy': 2, 'sleeve_order': 44, 'quote': 5, 'buy_blocked': 41, 'buy_unblocked': 35, 'state_restored': 53, 'sleeve_fill': 4}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.4,
-    "AVAX": 1.4,
-    "SUI": 1.2
+    "FIL": 1.1,
+    "HYPE": 1.4,
+    "CAKE": 0.95
   },
   "pause": false,
-  "reasoning": "I pick FIL, AVAX and SUI because they clear the minimum Toman spread requirement and show a mix of width and activity: FIL spread 111.1 bps with vol24h 5,725M TMN and premium +32.6bps; AVAX spread 116.1 bps with vol24h 3,478M TMN and premium +4.4bps; SUI spread 97.7 bps with vol24h 6,074M TMN and premium -8.6bps. I set wide half-spreads (h 1.4% for FIL and AVAX, 1.2% for SUI) because we have no profitable live round trips yet and historical backtests show narrow quotes are picked off — so prefer the top of the allowed h range to protect vs adverse selection. pause=false because there is no market-wide shock or news trigger. Sleeves: the USDT/TMN regime shows ch48 +4.08% (usdt_tmn 272,056) so the rial is weakening and the exposure cap is 1.0; therefore I keep both sleeves fully allocated (rial=1.0, beta=1.0) and select PEPE/ADA/LINK for beta as they are the current weighted universe and suit high-momentum exposure.",
+  "reasoning": "Pick FIL, HYPE and CAKE because the bot never quotes where spread_bps <80 and these have wide Toman spreads: FIL 95.0 bps, HYPE 103.9 bps, CAKE 99.0 bps. FIL gets a moderate h=1.1% because it is busy (vol24h 5,555M TMN), has very wide USDT spread 212.7 bps and low fv_vol 21.2 bps (stable FV). HYPE gets the widest h=1.4%: spread 103.9 bps, good volume (4,221M) and premium +15.1 bps; widen to avoid being picked off. CAKE is calm (fv_vol 3.8 bps) with spread 99.0 bps so we quote a bit tighter at h=0.95% to capture spread while FV is stable. Do not pause: no market-wide shock detected. Keep full sleeve exposures (rial=1.0, beta=1.0) because USDT/TMN 48h +4.09% (regime cap 1.0) and both sleeves are already scaled (rial value 872,036 TMN, beta value 1,496,155 TMN) and recent strategy shows sleeves profit when rial weakens.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
