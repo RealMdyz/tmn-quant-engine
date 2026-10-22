@@ -45,8 +45,8 @@ class FakeWallex:
 
     def markets(self):
         m = {"USDTTMN": _mk("USDTTMN", "USDT", "TMN", 0, 2, 50_000, 1e12)}
-        for c in self.usd:
-            m[f"{c}TMN"] = _mk(f"{c}TMN", c, "TMN", 0, 4, 50_000)
+        for c, p in self.usd.items():
+            m[f"{c}TMN"] = _mk(f"{c}TMN", c, "TMN", 0 if p * USDT > 100 else 4, 8, 50_000)
             m[f"{c}USDT"] = _mk(f"{c}USDT", c, "USDT", 4, 4, 1.0, 1e6)
         return m
 
@@ -58,7 +58,9 @@ class FakeWallex:
         for c, p in self.usd.items():
             b[f"{c}USDT"] = {"bids": [(round(p * 0.9995, 4), 50 + random.random())], "asks": [(round(p * 1.0005, 4), 50)]}
             fv = p * USDT * (1 + self.dev[c])
-            b[f"{c}TMN"] = {"bids": [(round(fv * 0.995), 1e3)], "asks": [(round(fv * 1.005), 1e3)]}
+            nd = 0 if fv > 100 else 4
+            depth = 5e8 / fv                                   # ~500M TMN on each side
+            b[f"{c}TMN"] = {"bids": [(round(fv * 0.995, nd), depth)], "asks": [(round(fv * 1.005, nd), depth)]}
         return b
 
     def depth(self, sym):
@@ -75,7 +77,7 @@ class FakeWallex:
             fv = self.usd[c] * USDT * (1 + self.dev[c])
             for _ in range(2):
                 side = random.choice([-1, 1])
-                t.append({"price": round(fv * (1 + side * random.uniform(0.004, 0.012))), "quantity": 5.0,
+                t.append({"price": round(fv * (1 + side * random.uniform(0.004, 0.012)), 0 if fv > 100 else 4), "quantity": 5.0,
                           "timestamp": CLOCK[0] - 0.5, "isBuyOrder": side > 0})
         self.tape[sym] = t
         return t
@@ -129,6 +131,45 @@ def test_market_maker_end_to_end():
         raise AssertionError("old instance must stop")
     except SystemExit:
         pass
+
+
+def test_portfolio_three_sleeves():
+    random.seed(5)
+    tmp = tempfile.mkdtemp()
+    coins = {"SOL": 180.0, "SUI": 3.2, "BTC": 108000.0, "ETH": 3900.0, "ADA": 0.65, "PEPE": 0.00001, "SHIB": 0.000012,
+             "DOGE": 0.19}
+    fake = FakeWallex(coins)
+    fake.candles = lambda sym, res, a, b: {"t": [b - 3600 * k for k in range(60, -1, -1)],
+                                           "c": [USDT * (1 - 0.0004 * k) for k in range(60, -1, -1)]}
+    cfg = _cfg(tmp, coins, "mm")
+    cfg["portfolio"]["sleeves"]["rial"]["usdt_exit_at"] = "2027-01-01T00:00:00+03:30"
+    e = mm_engine.MMEngine(cfg, "shadow", None, client=fake)
+    e.setup()
+    assert "BTC" not in e.coins and "ADA" not in e.coins, "sleeve assets are excluded from the market maker"
+    CLOCK[0] = 1_790_000_000.0 + 3600 * 19.5     # 12:23 Tehran: USDT/TMN market open (08:00-21:00)
+
+    def run(n):
+        for _ in range(n):
+            e.step()
+            CLOCK[0] += 2
+    run(400)                                      # makers time out -> taker top-ups
+    assert e.regime["cap"] == 1.0, "USDT/TMN +2.4% in 48h -> full exposure"
+    eq, _ = e.equity(e._books)
+    for name in ("rial", "beta"):
+        v, c = e.sleeves[name].value(e._books)
+        assert v > 0.8 * e.sleeves[name].capital, f"{name} sleeve built (value {v:,.0f})"
+    held = sum(e.sleeves[k].value(e._books)[0] for k in ("rial", "beta"))
+    assert eq >= e.bal()["TMN"]["total"] + held - 1, "equity counts every held asset"
+    for c in ("ADA", "PEPE", "SHIB", "DOGE"):                 # beta crash -> sleeve stop-loss
+        fake.usd[c] *= 0.95
+    run(15)
+    ev = _events(tmp)
+    assert e.sleeves["beta"].stopped and any(x["event"] == "sleeve_stop" and x["sleeve"] == "beta" for x in ev)
+    assert e.sleeves["beta"].value(e._books)[0] < 100_000, "beta holdings sold"
+    assert not e.sleeves["rial"].stopped, "the other sleeve is untouched"
+    e.sleeves["rial"].cfg["usdt_exit_at"] = "2026-01-01T00:00:00+03:30"   # USDT deadline passed
+    run(15)
+    assert e.sleeves["rial"].pos.get("USDT", {}).get("qty", 0) * USDT < 60_000, "USDT closed by its deadline"
 
 
 def test_live_self_test_with_paper_executor():

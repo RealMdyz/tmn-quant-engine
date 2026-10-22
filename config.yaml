@@ -59,15 +59,15 @@ mm:
   # start-up). The AI supervisor picks at most `max_markets` of them and a half-spread for each.
   coins: [SOL, SUI, S, LTC, XRP, BNB, ADA, LINK, AAVE, HYPE, ETH, DOGE, TRX, ARB, UNI, FIL, AVAX, BCH, DOT,
           SHIB, PENGU, GALA, CAKE, WLD, APE, ENA, CHZ, IMX]
-  max_markets: 5
+  max_markets: 3                       # low-risk sleeve: the market maker gets ~1/3 of the capital
   half_spread_bounds_pct: [0.6, 1.2]   # AI range for h (per side); quotes are capped one tick inside the best
                                        # bid/ask. Order-book backtest (python run.py backtest-book, strict fills,
                                        # 4.2 h of real 10-s books): h 0.2-0.5% lost 2-7% of capital, h 0.7% about
                                        # -0.3%, h 1.0% about +0.2-0.4%: narrow quotes get picked off.
   default_half_spread_pct: 0.8         # fallback policy when the LLM is unavailable
-  quote_tmn: 900000                    # max size of one resting quote
-  max_inventory_per_coin_pct: 25       # inventory of one coin <= 25% of equity
-  max_inventory_total_pct: 60          # all coin inventory <= 60% of equity (never the whole account)
+  quote_tmn: 500000                    # max size of one resting quote
+  max_inventory_per_coin_pct: 12       # inventory of one coin <= 12% of equity
+  max_inventory_total_pct: 30          # all market-maker inventory <= 30% of equity (its third of the capital)
   skew_k: 0.5                          # long inventory shifts both quotes down by up to k*h (sell sooner, buy less)
   min_spread_to_buy_bps: 50            # only bid while the Toman best ask/best bid gap >= 50 bps (0.50% = the
                                        # maker fee round trip): a narrower book cannot pay for the round trip
@@ -84,6 +84,32 @@ mm:
   slide_drop: 0.003                    # ... 0.3% below its 30-min baseline in 2 min
   ref_stale_s: 900                     # guard: no buying if the COIN/USDT top of book froze 15 min
   paper_trades_every_s: 5              # shadow: trade-tape polling per quoted market
+
+portfolio:
+  # 3 strategies x 33% of the initial capital + 1% kept in Toman (reserve):
+  #   low    = market maker (mm: above)       ~1/3 via its quote/inventory caps
+  #   medium = "rial" sleeve: USDT/BTC/ETH    33%
+  #   high   = "beta" sleeve: volatile coins  33%
+  # Exposure of the holding sleeves = min(AI exposure, regime cap); regime cap from USDT/TMN 48h change:
+  regime_full_pct: 1.0       # USDT/TMN 48h >= +1.0% -> cap 1.0 (rial weakening regime)
+  regime_half_pct: 0.0       # 0 .. +1.0% -> cap 0.5; below 0 -> cap 0 (no holdings; coins lost outside the regime)
+  sleeves:
+    rial:
+      capital_pct: 33
+      assets: {USDT: 0.4, BTC: 0.3, ETH: 0.3}
+      stop_pct: 1.5            # sleeve value 1.5% under its cost -> exit everything (taker), no re-entry
+      trail_start_pct: 2.0     # once up 2.0% ...
+      trail_gap_pct: 1.0       # ... exit if it gives back 1.0 point
+      maker_timeout_s: 300     # entry: maker at the best bid, taker after 5 min
+      usdt_exit_at: "2026-10-23T20:00:00+03:30"   # USDT/TMN closes 21:00 Tehran; the challenge ends 23:50
+    beta:
+      capital_pct: 33
+      assets: {ADA: 0.25, PEPE: 0.25, SHIB: 0.25, DOGE: 0.25}
+      universe: [ADA, PEPE, SHIB, DOGE, LINK, LTC, TRX]   # the AI may pick 2-4 of these
+      stop_pct: 3.0
+      trail_start_pct: 3.0
+      trail_gap_pct: 1.5
+      maker_timeout_s: 300
 
 risk:
   max_position_pct: 0.40        # a single quote never exceeds 40% of equity

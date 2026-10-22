@@ -36,7 +36,8 @@ from .arb import Fees
 from .brokers import LiveExec, PaperExec
 from .decision_log import DecisionLog
 from .instance import InstanceLock
-from .risk import RiskManager
+from .risk import RiskManager, TEHRAN
+from .sleeves import HoldingSleeve
 from .wallex_client import WallexClient, WallexError
 
 log = logging.getLogger("mm")
@@ -63,12 +64,26 @@ YOU decide, every ~20 minutes, using the tools:
      volatile or our fills there lost money; narrower only when it is calm, spreads are wide and our
      live round trips there made money.
   3. pause=true only for a market-wide shock (major news, crash).
+  4. The PORTFOLIO (tool get_portfolio): besides the market maker, the account runs two holding sleeves,
+     each with its own third of the capital: "rial" (USDT/BTC/ETH, medium risk) and "beta" (high-volatility
+     coins, high risk). Both earn mainly from the rial weakening: Toman prices of USDT and coins rose
+     15-19% in 29 days. Over 27 h, while USDT/TMN had risen > 1.5% in 48 h, USDT made +1.08% (P(loss) 33%),
+     BTC/ETH/BNB +1.35% (24%), ADA/PEPE/SHIB +1.7-2.3% (24-30%); outside that regime the coins LOST.
+     For each sleeve choose an exposure in [0, 1]; the deterministic regime cap (regime.cap) is applied on top.
+     Cut exposure on news that the rial may strengthen (deal/negotiation progress, central-bank action,
+     sharp USDT/TMN drop) or on crypto-crash news; keep it when the trend and news support it. For "beta"
+     you may pick 2-4 coins from its universe (prefer high recent momentum, avoid coin-specific bad news).
 Units: all *_bps fields are basis points (100 bps = 1%). h is in PERCENT.
 Answer ONLY with JSON:
 {"markets": {"COIN": h_percent, ...}, "pause": false,
- "reasoning": "3-5 sentences citing the concrete numbers that drove each choice"}"""
+ "sleeves": {"rial": exposure_0_to_1, "beta": exposure_0_to_1}, "beta_assets": ["COIN", ...],
+ "reasoning": "4-6 sentences citing the concrete numbers that drove each choice (markets AND sleeves)"}"""
 
 MM_TOOLS = [
+    {"type": "function", "function": {
+        "name": "get_portfolio",
+        "description": "USDT/TMN regime (6h/24h/48h change, exposure cap) and the two holding sleeves: capital, weights, current exposure, value, cost, return %, PnL, stop state, beta universe.",
+        "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {
         "name": "get_candidates",
         "description": "Every candidate market: Toman spread (bps), USDT-book spread (bps), 24h Toman volume (million TMN), local premium vs global fair value (bps), fair-value volatility over 30 min (bps), whether a guard blocks buying now, and our live fills / realised PnL / avg bps per round trip there.",
@@ -121,6 +136,12 @@ class MMEngine:
         self._oo = None
         self._bal = None
         self._books = {}
+        self.sleeves: dict[str, HoldingSleeve] = {}
+        self.regime = {"cap": 0.0}
+        self.last_regime = 0.0
+        self.sleeves_path = os.path.join(ld, f"sleeves_{mode}.csv")
+        self.last_sleeves_log = 0.0
+        self.risk_tz = TEHRAN
 
     # ================================================================ setup
     def setup(self):
@@ -133,8 +154,15 @@ class MMEngine:
         except WallexError as e:
             log.warning("package lookup failed (%s)", e)
             unavailable = set()
-        self.coins = [co for co in m["coins"]
-                      if all(s in self.markets and s not in unavailable for s in (f"{co}TMN", f"{co}USDT"))]
+        pf = c.get("portfolio") or {}
+        for name, scfg in (pf.get("sleeves") or {}).items():
+            if scfg.get("enabled", True):
+                self.sleeves[name] = HoldingSleeve(name, scfg, self)
+        reserved = set()
+        for sl in self.sleeves.values():
+            reserved |= set(sl.weights) | set(sl.cfg.get("universe", []))
+        self.coins = [co for co in m["coins"] if co not in reserved
+                      and all(s in self.markets and s not in unavailable for s in (f"{co}TMN", f"{co}USDT"))]
         for co in m["coins"]:
             if co not in self.coins:
                 self.dlog.write("coin_skipped", coin=co, reason="market missing or not allowed for the package")
@@ -157,6 +185,7 @@ class MMEngine:
         self.agent = SupervisorAgent(c["agent"], {
             "get_candidates": self.tool_candidates,
             "get_account_state": self.tool_account,
+            "get_portfolio": self.tool_portfolio,
             "get_news": lambda topic="all": {"headlines": fetch_headlines(c["agent"].get("news_feeds", []), topic)},
         }, tool_specs=MM_TOOLS)
         self.load_state()
@@ -212,7 +241,7 @@ class MMEngine:
     def save_state(self):
         st_ = {"orders": self.orders, "inv": self.inv, "policy": self.policy, "last_policy": self.last_policy,
                "stats": self.stats, "coin_stats": self.coin_stats, "risk": self.risk.state.__dict__,
-               "llm_usage": self.agent.usage,
+               "llm_usage": self.agent.usage, "sleeves": {k: v.to_state() for k, v in self.sleeves.items()},
                "paper": getattr(self.ex, "bal", None) if self.mode == "shadow" else None,
                "paper_orders": getattr(self.ex, "orders", None) if self.mode == "shadow" else None}
         tmp = f"{self.state_path}.{os.getpid()}.tmp"
@@ -237,6 +266,9 @@ class MMEngine:
         self.coin_stats = s.get("coin_stats") or {}
         if s.get("llm_usage"):
             self.agent.usage.update(s["llm_usage"])
+        for k, v in (s.get("sleeves") or {}).items():
+            if k in self.sleeves:
+                self.sleeves[k].from_state(v)
         if self.mode == "shadow" and s.get("paper"):
             self.ex.bal = s["paper"]
             self.ex.orders = s.get("paper_orders") or {}
@@ -256,17 +288,64 @@ class MMEngine:
         self._oo = None
 
     def equity(self, books) -> tuple[float, float]:
+        """(total equity in TMN over EVERY asset held, market-maker inventory value only)"""
         b = self.bal()
         eq = b.get("TMN", {}).get("total", 0.0)
-        ut = books.get("USDTTMN", {}).get("bids") or [[0, 0]]
-        eq += b.get("USDT", {}).get("total", 0.0) * ut[0][0]
-        inv_val = 0.0
-        for co in self.coins:
-            q = b.get(co, {}).get("total", 0.0)
-            if q > 0:
-                tb = books.get(f"{co}TMN", {}).get("bids") or [[0, 0]]
-                inv_val += q * tb[0][0]
-        return eq + inv_val, inv_val
+        mm_inv = 0.0
+        mm = set(self.coins)
+        for a, x in b.items():
+            q = x.get("total", 0.0)
+            if a == "TMN" or q <= 0:
+                continue
+            tb = books.get(f"{a}TMN", {}).get("bids") or [[0, 0]]
+            v = q * tb[0][0]
+            eq += v
+            if a in mm:
+                mm_inv += v
+        return eq, mm_inv
+
+    def entries_allowed(self, now) -> bool:
+        return (self.risk.entries_allowed_by_time(now) and not self.risk.halted(now)
+                and not self.policy.get("pause") and not self.risk.daily_loss_hit(getattr(self, "_eq", 1e18)))
+
+    def update_regime(self, now):
+        """USDT/TMN trend over 6/24/48 h from hourly candles -> cap on holding-sleeve exposure."""
+        if now - self.last_regime < 1800 and self.regime.get("ch48_pct") is not None:
+            return
+        self.last_regime = now
+        try:
+            c = self.client.candles("USDTTMN", "60", int(now - 4 * 86400), int(now))
+        except Exception as e:                          # noqa: BLE001 — no data -> keep the previous regime
+            log.warning("regime candles: %s", e)
+            return
+        cl, ts = c.get("c") or [], c.get("t") or []
+        if len(cl) < 50:
+            return
+        last = cl[-1]
+
+        def ch(hours):
+            old = [p for t, p in zip(ts, cl) if t <= ts[-1] - hours * 3600]
+            return round((last / old[-1] - 1) * 100, 2) if old else None
+        r = {"usdt_tmn": last, "ch6_pct": ch(6), "ch24_pct": ch(24), "ch48_pct": ch(48)}
+        pf = self.cfg.get("portfolio") or {}
+        full, half = pf.get("regime_full_pct", 1.0), pf.get("regime_half_pct", 0.0)
+        r["cap"] = 1.0 if (r["ch48_pct"] or 0) >= full else (0.5 if (r["ch48_pct"] or 0) >= half else 0.0)
+        r["why"] = (f"USDT/TMN 48h {r['ch48_pct']:+.2f}%: exposure cap {r['cap']:.1f} "
+                    f"(>= +{full}% full, >= +{half}% half, else none - outside the rial-weakening regime the coins lost)")
+        if r.get("cap") != self.regime.get("cap"):
+            self.dlog.write("regime", **r)
+        self.regime = r
+
+    def tool_portfolio(self) -> dict:
+        books = self._books
+        out = {"regime": self.regime, "sleeves": {}}
+        for k, sl in self.sleeves.items():
+            v, c = sl.value(books)
+            out["sleeves"][k] = {"capital_tmn": round(sl.capital), "weights": sl.weights, "scale_now": sl.scale,
+                                 "value_tmn": round(v), "cost_tmn": round(c), "return_pct": round(sl.ret(books) * 100, 2),
+                                 "pnl_tmn": round(sl.pnl(books)), "stopped": sl.stopped,
+                                 "stop_pct": sl.cfg["stop_pct"], "universe": sl.cfg.get("universe")}
+        return out
 
     def coin_qty(self, co, free=False) -> float:
         return self.bal().get(co, {}).get("free" if free else "total", 0.0)
@@ -386,6 +465,7 @@ class MMEngine:
         pick = sorted(score, key=score.get, reverse=True)[: self.m.get("max_markets", 5)]
         h = self.m.get("default_half_spread_pct", 1.0)
         return {"markets": {co: h for co in pick}, "pause": False, "source": "fallback",
+                "sleeves": {k: 1.0 for k in self.sleeves}, "beta_assets": [],
                 "reasoning": f"Fallback ({why}): the {len(pick)} candidates with the best spread x volume, h={h}%."}
 
     def maybe_supervise(self, now):
@@ -396,7 +476,8 @@ class MMEngine:
         system = (MM_SYSTEM.replace("MAXM", str(m.get("max_markets", 5)))
                   .replace("HLO", str(hlo)).replace("HHI", str(hhi)))
         ctx = {"time": time.strftime("%Y-%m-%d %H:%M"), "trigger": "startup" if not self.policy else "scheduled",
-               "account": self.tool_account(), "candidates": self.tool_candidates()["candidates"]}
+               "account": self.tool_account(), "candidates": self.tool_candidates()["candidates"],
+               "portfolio": self.tool_portfolio()}
         out, trace, prov = self.agent._run(system, ctx)
         pol = None
         if out and isinstance(out.get("markets"), dict):
@@ -410,14 +491,53 @@ class MMEngine:
                 if co in self.coins:
                     mk[co] = h
             mk = dict(list(mk.items())[: m.get("max_markets", 5)])
-            if mk:
+            if mk or self.sleeves:
+                sl = {}
+                for k in self.sleeves:
+                    try:
+                        sl[k] = max(0.0, min(1.0, float((out.get("sleeves") or {}).get(k, 1.0))))
+                    except (TypeError, ValueError):
+                        sl[k] = 1.0
+                beta = [str(x).upper().replace("TMN", "") for x in (out.get("beta_assets") or [])]
                 pol = {"markets": mk, "pause": bool(out.get("pause", False)), "source": f"llm:{prov}",
+                       "sleeves": sl, "beta_assets": beta,
                        "reasoning": str(out.get("reasoning", ""))[:1500], "tool_trace": trace}
         if pol is None:
             pol = self.fallback_policy("LLM unavailable" if not self.agent.enabled else "LLM answer unusable")
         self.policy, self.last_policy = pol, now
+        self.apply_sleeve_policy()
         self.dlog.write("policy", policy=pol, context=ctx, llm_spent_usd=round(self.agent.spent_usd(), 4),
                         llm_usage=self.agent.usage)
+
+    def apply_sleeve_policy(self):
+        """AI exposure per sleeve, capped by the deterministic USDT/TMN regime cap; AI-picked beta coins."""
+        pol = self.policy or {}
+        for k, sl in self.sleeves.items():
+            ai = (pol.get("sleeves") or {}).get(k, 1.0)
+            sl.scale = round(min(ai, self.regime.get("cap", 0.0)), 3)
+            uni = sl.cfg.get("universe")
+            pick = [c for c in (pol.get("beta_assets") or []) if uni and c in uni and f"{c}TMN" in self.markets]
+            if uni and 2 <= len(pick) <= 4 and not sl.stopped:
+                new = {c: round(1 / len(pick), 4) for c in pick}
+                for old in sl.weights:
+                    new.setdefault(old, 0.0)          # dropped coins get target 0 -> trimmed
+                sl.weights = new
+
+    def log_sleeves(self, now, books, eq):
+        if now - self.last_sleeves_log < 60 or not self.sleeves:
+            return
+        self.last_sleeves_log = now
+        new = not os.path.exists(self.sleeves_path)
+        names = sorted(self.sleeves)
+        with open(self.sleeves_path, "a", encoding="utf-8") as f:
+            if new:
+                f.write("ts,time,equity,mm_realised_pnl," + ",".join(f"{n}_value,{n}_pnl,{n}_ret_pct,{n}_scale" for n in names) + "\n")
+            parts = []
+            for n in names:
+                sl = self.sleeves[n]
+                v, _ = sl.value(books)
+                parts.append(f"{v:.0f},{sl.pnl(books):.0f},{sl.ret(books)*100:.3f},{sl.scale}")
+            f.write(f"{now:.0f},{time.strftime('%Y-%m-%d %H:%M:%S')},{eq:.0f},{self.stats['pnl_tmn']:.0f}," + ",".join(parts) + "\n")
 
     # ============================================================== fills
     def reconcile(self, books):
@@ -734,18 +854,29 @@ class MMEngine:
             self.last_vol_refresh = now
         self.update_fair_values(books, now)
         self.update_guards(books, now)
+        self.update_regime(now)
         self.reconcile(books)
         eq, inv_val = self.equity(books)
+        self._eq = eq
         for ev in self.risk.on_equity(eq, now):
             self.dlog.write(ev, equity=eq, reason=self.risk.state.kill_reason, paused_until=self.risk.state.paused_until)
         self.log_rows(now, books, eq, inv_val)
+        self.log_sleeves(now, books, eq)
         if self.risk.must_flatten(now) or self.risk.halted(now):
+            for sl in self.sleeves.values():
+                if self.risk.halted(now) and not sl.stopped:
+                    sl.stopped = "risk engine halt (circuit breaker / kill switch)"
+                    self.dlog.write("sleeve_stop", sleeve=sl.name, why=sl.stopped)
+                sl.step(books, now)
             if any(self.orders.get(co, {}).get(s) for co in self.coins for s in ("BUY", "SELL")) or inv_val > 0:
                 self.flatten(books, "challenge_end" if self.risk.must_flatten(now) else
                              ("kill_switch" if self.risk.state.killed else "circuit_breaker_pause"))
             self.save_state()
             return
         self.maybe_supervise(now)
+        self.apply_sleeve_policy()
+        for sl in self.sleeves.values():
+            sl.step(books, now)
         self.manage_exits(books, now)
         eq, inv_val = self.equity(books)
         self.requote(books, eq, inv_val, now)
