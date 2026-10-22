@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,951,465 TMN** (-0.971%)
+- Equity: **4,942,679 TMN** (-1.146%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 22 (sources: {'llm:boxapi': 22})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 22, 'sleeve_order': 169, 'quote': 303, 'buy_blocked': 1580, 'buy_unblocked': 1544, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 23 (sources: {'llm:boxapi': 23})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 23, 'sleeve_order': 169, 'quote': 374, 'buy_blocked': 1597, 'buy_unblocked': 1560, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9,
-    "GALA": 1.5,
-    "CAKE": 1.2
+    "BNB": 0.9,
+    "SUI": 1.1,
+    "GALA": 1.4
   },
   "pause": false,
-  "reasoning": "Picked SUI (spread 143.8 bps, low fv_vol 25 bps and quoted_now) so I can quote tighter at h=0.9% to capture wide Toman spread with low FV volatility. Picked GALA because its Toman spread is 161.3 bps and USDT spread 565 bps but fv_vol is large (922.5 bps) so I widen to h=1.5% to avoid being picked off. Picked CAKE (spread 92.5 bps, fv_vol 65.6 bps, vol24h 2.3bn TMN) with h=1.2% as a moderate-width choice. No market-wide pause: several markets show buy_blocked (FIL, DOT, BNB, AVAX) so I avoided them. Sleeves: keep rial at full 1.0 exposure because USDT/TMN 48h +4.33% (regime cap=1.0) and rial sleeve scale_now=1.0 with return -0.59%; keep beta at 0.8 matching current scale_now (capital scaled) and continue with PEPE/ADA/LINK which are the sleeve weights and available momentum candidates.",
+  "reasoning": "I pick at most three markets with Toman spread >=80bps and avoid any with buy_blocked. BNB: spread_bps 80.2 with very high vol24h_mtmn 90,913 and low fv_vol_bps 25.5 => calmer, busy market so I quote tighter at h=0.9%. SUI: spread_bps 147.9, vol24h 5,159 and fv_vol_bps 54.2 (quoted_now) — wide spread but moderate FV volatility, so medium h=1.1%. GALA: spread_bps 140.3, usdt_spread 391.1 and fv_vol_bps 413.2 (quoted_now) — high volatility and large premium (114.6bps) so widest h=1.4%. I skip IMX (book broken) and markets with buy_blocked (FIL/AVAX/BCH/DOT/CHZ). Portfolio: USDT/TMN 48h +4.33% gives full exposure cap 1.0, so keep rial at 1.0 (weights BTC/ETH unchanged) and keep beta at current scale 0.8 because beta sleeve recently down -1.36% but regime supports rial weakening; pick the existing beta assets PEPE/ADA/LINK (high momentum) while avoiding coin-specific flagged names.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
