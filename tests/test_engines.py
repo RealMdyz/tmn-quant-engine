@@ -145,6 +145,7 @@ def test_portfolio_three_sleeves():
     cfg["portfolio"]["sleeves"]["rial"]["usdt_exit_at"] = "2027-01-01T00:00:00+03:30"
     cfg["risk"]["max_drawdown_pct"] = 10.0          # isolate the sleeve's own stop from the account breaker
     cfg["risk"]["daily_loss_limit_pct"] = 10.0
+    cfg["mm"]["quote_tmn"] = 900_000                 # MM bids + sleeves > capital: the sleeves' Toman must not be locked
     e = mm_engine.MMEngine(cfg, "shadow", None, client=fake)
     e.setup()
     assert "BTC" not in e.coins and "ADA" not in e.coins, "sleeve assets are excluded from the market maker"
@@ -162,6 +163,8 @@ def test_portfolio_three_sleeves():
         assert v > 0.8 * e.sleeves[name].capital, f"{name} sleeve built (value {v:,.0f})"
     held = sum(e.sleeves[k].value(e._books)[0] for k in ("rial", "beta"))
     assert eq >= e.bal()["TMN"]["total"] + held - 1, "equity counts every held asset"
+    failed = [x for x in _events(tmp) if x["event"] in ("quote_failed", "sleeve_order_failed")]
+    assert not failed, f"orders rejected for lack of Toman: {failed[:3]}"
     for c in ("ADA", "PEPE", "LINK", "SHIB", "DOGE"):         # beta crash beyond its 7% disaster stop
         fake.usd[c] *= 0.91
     run(15)

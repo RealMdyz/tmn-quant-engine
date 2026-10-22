@@ -321,6 +321,19 @@ class MMEngine:
                 mm_inv += v
         return eq, mm_inv
 
+    def sleeve_tmn_reserve(self, now) -> float:
+        """Toman the holding sleeves still need to reach their targets: the market maker must not lock it in bids."""
+        if not self.entries_allowed(now) or self.risk.wind_down(now) < 1:
+            return 0.0
+        r = 0.0
+        for sl in self.sleeves.values():
+            if sl.stopped:
+                continue
+            want = sl.capital * sum(sl.weights.values()) * sl.scale
+            locked = sum(o["qty"] * o["price"] for o in sl.orders.values() if o["side"] == "BUY")
+            r += max(0.0, want - sl.value(self._books)[0] - locked)
+        return r
+
     def entries_allowed(self, now) -> bool:
         return (self.risk.entries_allowed_by_time(now) and not self.risk.halted(now)
                 and not self.policy.get("pause") and not self.risk.daily_loss_hit(getattr(self, "_eq", 1e18)))
@@ -737,6 +750,7 @@ class MMEngine:
         max_inv_coin = eq * m.get("max_inventory_per_coin_pct", 25) / 100
         max_inv_total = eq * m.get("max_inventory_total_pct", 60) / 100
         quote_tmn = min(m.get("quote_tmn", 900000), eq * self.cfg["risk"]["max_position_pct"]) * self.risk.size_factor()
+        reserve = self.sleeve_tmn_reserve(now)
         # 1) cancel first: quotes on markets the AI dropped, bids on blocked markets
         for co in list(self.orders):
             if co not in markets or co not in self.fv:
@@ -772,9 +786,10 @@ class MMEngine:
             if want_bid:
                 # at most one tick better than the current best bid: never pay up into the spread
                 bid = min(fv * (1 - h - skew), best_bid + tick, best_ask - tick)
+                ob = (self.orders.get(co) or {}).get("BUY") or {}
+                own = (ob.get("qty", 0) - ob.get("exec_seen", 0)) * ob.get("price", 0)   # Toman our bid already locks
                 room = min(quote_tmn, max_inv_coin - held_val, max_inv_total - inv_val,
-                           self.bal().get("TMN", {}).get("free", 0.0) * 0.98
-                           + (self.orders.get(co, {}).get("BUY") or {}).get("qty", 0) * bid)
+                           max(0.0, self.bal().get("TMN", {}).get("free", 0.0) * 0.98 - reserve) + own)
                 self._refresh(co, "BUY", bid, room / bid if bid else 0, fv, books, now)
             # ---- SELL (inventory only)
             free_q = held  # resting ask's qty is locked; held = total

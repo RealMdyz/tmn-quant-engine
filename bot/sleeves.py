@@ -133,6 +133,8 @@ class HoldingSleeve:
 
     def place(self, a, side, qty, price, taker, why, now):
         m = self.e.markets[f"{a}TMN"]
+        if side == "BUY":                       # never send an order the exchange would reject for lack of Toman
+            qty = min(qty, self.e.bal().get("TMN", {}).get("free", 0.0) * 0.98 / price)
         qty = m.round_qty(qty)
         if qty <= 0 or qty < m.min_qty or qty * price < max(m.min_notional, 60_000):
             return
