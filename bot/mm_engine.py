@@ -156,9 +156,40 @@ class MMEngine:
             "get_news": lambda topic="all": {"headlines": fetch_headlines(c["agent"].get("news_feeds", []), topic)},
         }, tool_specs=MM_TOOLS)
         self.load_state()
+        if self.mode == "live":
+            self.live_self_test()
         self.dlog.write("startup", strategy="market_maker", coins=self.coins, fees=self.fees.__dict__,
                         agent_enabled=self.agent.enabled, instance=self.lock.id, config={"mm": m, "risk": c["risk"]})
         log.info("MM coins=%s fees=%s agent=%s", self.coins, self.fees, self.agent.enabled)
+
+    def live_self_test(self):
+        """Before trading real money: place one tiny BUY 20% below the market (cannot fill), find it in
+        the open orders, read it, cancel it and confirm the cancel. Any failure stops the bot."""
+        res = {"ok": False}
+        try:
+            books = self.client.depth_all()
+            co = max((c for c in self.coins if books.get(f"{c}TMN", {}).get("bids")), key=lambda c: self.vol24.get(c, 0))
+            mt = self.markets[f"{co}TMN"]
+            price = mt.round_price(books[mt.symbol]["bids"][0][0] * 0.8, "BUY")
+            qty = mt.round_qty(max(mt.min_notional * 1.3, 65000) / price)
+            o = self.ex.place_limit(mt, "BUY", qty, price, prefix="T")
+            cid = o["clientOrderId"]
+            time.sleep(1.5)
+            listed = cid in self.ex.open_orders()
+            seen = self.ex.get(cid)
+            self.ex.cancel(cid)
+            time.sleep(1.5)
+            after = self.ex.get(cid)
+            cancelled = (after.get("active") is False) or str(after.get("status", "")).upper().startswith("CANCEL")
+            res = {"ok": bool(listed and cancelled and float(seen.get("executedQty", 0) or 0) == 0), "symbol": mt.symbol,
+                   "price": price, "qty": qty, "listed_in_open_orders": listed, "status_before": seen.get("status"),
+                   "status_after_cancel": after.get("status"), "active_after_cancel": after.get("active")}
+        except Exception as e:                       # noqa: BLE001 — any failure must stop live trading
+            res["error"] = str(e)[:300]
+        self.dlog.write("live_self_test", **res,
+                        why="verify the real order path (place, list, read, cancel) before trading money")
+        if not res["ok"]:
+            raise SystemExit(f"live self-test failed: {res}")
 
     # ========================================================== persistence
     def save_state(self):
