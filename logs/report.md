@@ -35,24 +35,24 @@
 
 ## LIVE
 
-- Equity: **4,961,444 TMN** (-0.771%)
+- Equity: **4,955,694 TMN** (-0.886%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 8 (sources: {'llm:boxapi': 8})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 8, 'sleeve_order': 68, 'quote': 38, 'buy_blocked': 611, 'buy_unblocked': 575, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 9 (sources: {'llm:boxapi': 9})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 9, 'sleeve_order': 68, 'quote': 42, 'buy_blocked': 641, 'buy_unblocked': 604, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.4,
-    "BNB": 1.3
+    "CHZ": 1.3,
+    "ARB": 1.4
   },
   "pause": false,
-  "reasoning": "I pick SUI and BNB because they are the only liquid markets above our 80 bps Toman-spread threshold without persistent buy blocks: SUI spread_bps=82.0 with vol24h_mtmn=5753 and fv_vol_bps=168.1 (still busy but somewhat noisy), so I set a wide half-spread h=1.4% to protect against adverse selection. BNB has high activity (vol24h_mtmn=81910) and spread_bps=81.4 with fv_vol_bps=131.5 so I quote slightly tighter at h=1.3% to capture flow while respecting our caution. I avoid GALA and CHZ because both show Toman-book sliding alerts (GALA: premium 6bps vs 52bps baseline; CHZ buy-blocked), and many other coins have spread_bps <80 so they are wasted slots. For sleeves I keep 'rial' at full exposure 1.0 (USDT/TMN 48h +4.64% gives cap=1.0 and rial sleeve return is only -0.28%) and keep 'beta' at current 0.9 (beta sleeve is already scaled 0.9, return -0.64%) selecting PEPE/ADA/LINK which are the current weights and fit the high-momentum preference. Overall I favor being wide and cautious (h near the top of 0.8–1.5) because fv_vol and past fills indicate adverse selection risk.",
+  "reasoning": "I pick CHZ and ARB because the bot never quotes where spread_bps<80 and these are the best candidates: CHZ spread_bps 112.2 with usdt_spread_bps 161.4 and moderate fv_vol_bps 869.5, so I quote somewhat wide at h=1.3% to protect vs FV volatility. ARB has spread_bps 104.9 and large 24h vol (vol24h_mtmn 31,272) but very noisy fair-value (fv_vol_bps 447.0) and a thin USDT book (usdt_spread_bps 5.6), so I keep it wider at h=1.4% and do not bid more aggressively. FIL and several others show Toman-book sliding / buy_blocked (FIL, BNB, SUI, UNI, DOT, IMX, CAKE), so I avoid them. Portfolio: USDT/TMN 48h +4.64% gives full exposure cap 1.0, so keep rial at 1.0 (rial sleeve value stable enough, return -0.72% but regime favors holding). Beta is left slightly reduced at 0.9 (scale_now 0.9, sleeve return -0.85%) and I keep the current high-momentum beta allocations PEPE/ADA/LINK.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
