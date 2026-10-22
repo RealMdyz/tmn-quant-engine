@@ -8,6 +8,7 @@
   python run.py report             logs/report.md + charts from decision logs and equity curve
   python run.py probe              read-only market snapshot for research -> logs/probe/
   python run.py backtest-mm        backtest of the market maker on the shipped 1-minute data
+  python run.py test               offline end-to-end tests of both engines (fake exchange, no network)
 """
 from __future__ import annotations
 
@@ -151,7 +152,7 @@ def cmd_flatten(cfg):
 def main():
     load_dotenv(os.path.join(ROOT, ".env"))
     ap = argparse.ArgumentParser()
-    ap.add_argument("command", choices=["check", "backtest", "backtest-mm", "shadow", "live", "flatten", "report", "probe"])
+    ap.add_argument("command", choices=["check", "backtest", "backtest-mm", "test", "shadow", "live", "flatten", "report", "probe"])
     ap.add_argument("--config", default="config.yaml")
     ap.add_argument("--days", type=float, default=10)
     ap.add_argument("--cached", action="store_true", help="backtest on data/m5_all.json without downloading")
@@ -165,6 +166,9 @@ def main():
         cmd_backtest(cfg, args)
     elif args.command == "flatten":
         cmd_flatten(cfg)
+    elif args.command == "test":
+        from tests.test_engines import main as run_tests
+        sys.exit(run_tests())
     elif args.command == "backtest-mm":
         from bot.backtest_mm import run_mm_backtest
         res = run_mm_backtest("data/m1_tmn_2026-10-20_22.json", "data/m1_usdt_2026-10-20_22.json")
