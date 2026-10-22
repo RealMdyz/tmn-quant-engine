@@ -8,47 +8,22 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 17 (sources: {'fallback': 1, 'llm:boxapi': 16})
-- Events: {'startup': 9, 'policy': 17, 'quote': 317, 'state_restored': 7, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 317, 'quote_unblocked': 304, 'error': 5}
+- AI supervisor decisions: 18 (sources: {'fallback': 1, 'llm:boxapi': 17})
+- Events: {'startup': 9, 'policy': 18, 'quote': 338, 'state_restored': 7, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 319, 'quote_unblocked': 305, 'error': 5, 'buy_blocked': 6, 'buy_unblocked': 3}
 
 ### Latest AI decision
 ```json
 {
-  "enabled_coins": [
-    "FIL",
-    "PENGU",
-    "AAVE",
-    "GALA",
-    "ADA",
-    "TRX",
-    "CAKE",
-    "AVAX",
-    "WLD",
-    "APE",
-    "HYPE",
-    "LINK",
-    "DOGE",
-    "UNI",
-    "PUMP",
-    "BNB",
-    "SOL"
-  ],
-  "margin_mult": 1.0,
-  "usdt_hold_frac": 0.0,
+  "markets": {
+    "ARB": 2.0,
+    "S": 1.9,
+    "SOL": 1.5,
+    "ETH": 1.2,
+    "DOGE": 1.3
+  },
   "pause": false,
-  "reasoning": "USDT trend data returned only a spot price (270,987 TMN) with no 6h/24h change, so we do not enable a USDT directional position (usdt_hold_frac=0). SHIB is disabled because its USDT reference has been stale for 21 minutes (note message) making liquidation-based quoting unsafe; its current dev_now_bps is 110.0. Other coins show short-lived 'Toman book sliding' guards (PENGU, APE, BNB) but no persistent long deviation or fills, so keep them enabled. No market-wide news indicating a rial strengthening or systemic shock, so do not pause and keep margin_mult at 1.0.",
-  "tool_trace": [
-    {
-      "tool": "get_usdt_tmn_trend",
-      "args": {}
-    },
-    {
-      "tool": "get_news",
-      "args": {
-        "topic": "iran"
-      }
-    }
-  ],
+  "reasoning": "Select markets with large Toman spreads and decent activity while avoiding any with buy guards or bad live fills (none reported). ARB has a wide spread (57.6 bps) and high volume (33,981M TMN) so I use a wide half‑spread 2.0% to protect vs adverse selection. S shows an especially wide spread (87.9 bps) and solid volume (12,907M TMN) so I set h=1.9% to capture the premium (premium 37.6 bps) while being cautious. SOL (spread 30.4 bps, vol 29,639M TMN) and DOGE (15.8 bps, vol 41,479M TMN) are active — I use medium h of 1.5% and 1.3% respectively. ETH is the busiest (76,934M TMN) with a moderate spread (15.7 bps) and calm premium (-4.5 bps), so I place a tighter h=1.2% to try to earn safe round trips while keeping fees/adverse selection in mind.",
+  "tool_trace": [],
   "source": "llm:boxapi"
 }
 ```
