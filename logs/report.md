@@ -35,25 +35,24 @@
 
 ## LIVE
 
-- Equity: **4,963,412 TMN** (-0.732%)
+- Equity: **4,954,783 TMN** (-0.904%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 14 (sources: {'llm:boxapi': 14})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 14, 'sleeve_order': 68, 'quote': 110, 'buy_blocked': 1052, 'buy_unblocked': 1019, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 15 (sources: {'llm:boxapi': 15})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 15, 'sleeve_order': 68, 'quote': 130, 'buy_blocked': 1101, 'buy_unblocked': 1066, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CAKE": 0.9,
-    "CHZ": 0.9,
-    "AVAX": 1.3
+    "GALA": 1.2,
+    "IMX": 1.5
   },
   "pause": false,
-  "reasoning": "I pick only markets with Toman spread >=80 bps: CAKE (spread 89.7 bps, fv_vol 19.0 bps) and CHZ (92.3 bps, fv_vol 20.0 bps) are the calmest (low fv_vol) so I quote tighter at h=0.9% to capture spread without too much adverse selection. AVAX has good spread (95.1 bps) but higher fv_vol (165.8 bps), so I widen to h=1.3% to protect against volatility. I avoid markets with buy_blocked (FIL, DOT, ENA, IMX, GALA) and very low spreads (<80 bps), per the rule that we never bid where spread_bps <80. For sleeves I keep rial at full exposure 1.0 because USDT/TMN 48h +4.43% (regime cap=1.0) and the rial sleeve historically performed when entered in this regime; beta stays at 0.9 matching the engine's current scale (and its capital/weights are PEPE/ADA/LINK).",
+  "reasoning": "Pick GALA because its Toman spread is wide (121 bps) and 24h volume is healthy (2,135M TMN) while FV volatility is moderate (fv_vol_bps 290), so a relatively tight-but-profitable half-spread h=1.2% fits. Include IMX because it has a very wide Toman spread (214.6 bps) — we set h=1.5% given its tiny volume (151M) and extreme FV volatility (fv_vol_bps 2022) which requires a large buffer. No third market: most candidates have spread_bps <80 (our minimum) or have buy blocks/rapid Toman book moves (DOT/AVAX/CAKE flagged), so leaving the third slot empty reduces pickoffs. Keep sleeves at rial=1.0 and beta=0.9 because USDT/TMN 48h is +4.43% (regime cap 1.0), rial sleeve has small negative return (-0.55%) but benefits from the rial-weakening regime, and beta was already scaled to 0.9 with acceptable historical performance; beta assets remain PEPE/ADA/LINK by current weights and momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
