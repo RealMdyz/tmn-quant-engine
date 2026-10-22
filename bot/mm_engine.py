@@ -194,8 +194,11 @@ class MMEngine:
         }, tool_specs=MM_TOOLS)
         self.load_state()
         if self.mode == "live":
-            self.live_self_test()
+            # cancel first: after a restart the previous instance's orders lock the Toman, and the exchange
+            # rejects the self-test order (422) for lack of free balance. Fills of the cancelled orders are
+            # picked up by reconcile() from the restored state.
             self.cancel_all_open_orders("start-up: a previous instance may have left orders on the exchange")
+            self.live_self_test()
         self.dlog.write("startup", strategy="market_maker", coins=self.coins, fees=self.fees.__dict__,
                         agent_enabled=self.agent.enabled, instance=self.lock.id, config={"mm": m, "risk": c["risk"]})
         log.info("MM coins=%s fees=%s agent=%s", self.coins, self.fees, self.agent.enabled)
@@ -208,8 +211,7 @@ class MMEngine:
             return
         for cid in oo:
             self.ex.cancel(cid)
-        self.orders = {}
-        self.dirty()
+        self.dirty()          # tracked orders stay: the first reconcile() records their fills and drops them
         self.dlog.write("cancel_all", count=len(oo), why=why)
 
     def live_self_test(self):
