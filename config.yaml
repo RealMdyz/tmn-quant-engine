@@ -60,8 +60,9 @@ mm:
   coins: [SOL, SUI, S, LTC, XRP, BNB, ADA, LINK, AAVE, HYPE, ETH, DOGE, TRX, ARB, UNI, FIL, AVAX, BCH, DOT,
           SHIB, PENGU, GALA, CAKE, WLD, APE, ENA, CHZ, IMX]
   max_markets: 5
-  half_spread_bounds_pct: [0.5, 1.5]   # AI range for h (per side). Maker round trip costs 0.50%.
-  default_half_spread_pct: 0.7         # fallback policy when the LLM is unavailable
+  half_spread_bounds_pct: [0.8, 2.0]   # AI range for h (per side). Maker round trip costs 0.50%; the 1-minute
+                                       # backtest loses less the wider h is (python run.py backtest-mm)
+  default_half_spread_pct: 1.0         # fallback policy when the LLM is unavailable
   quote_tmn: 900000                    # max size of one resting quote
   max_inventory_per_coin_pct: 25       # inventory of one coin <= 25% of equity
   max_inventory_total_pct: 60          # all coin inventory <= 60% of equity (never the whole account)

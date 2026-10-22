@@ -7,6 +7,7 @@
   python run.py flatten            emergency: cancel everything, sell all coins + USDT back to Toman
   python run.py report             logs/report.md + charts from decision logs and equity curve
   python run.py probe              read-only market snapshot for research -> logs/probe/
+  python run.py backtest-mm        backtest of the market maker on the shipped 1-minute data
 """
 from __future__ import annotations
 
@@ -150,7 +151,7 @@ def cmd_flatten(cfg):
 def main():
     load_dotenv(os.path.join(ROOT, ".env"))
     ap = argparse.ArgumentParser()
-    ap.add_argument("command", choices=["check", "backtest", "shadow", "live", "flatten", "report", "probe"])
+    ap.add_argument("command", choices=["check", "backtest", "backtest-mm", "shadow", "live", "flatten", "report", "probe"])
     ap.add_argument("--config", default="config.yaml")
     ap.add_argument("--days", type=float, default=10)
     ap.add_argument("--cached", action="store_true", help="backtest on data/m5_all.json without downloading")
@@ -164,6 +165,11 @@ def main():
         cmd_backtest(cfg, args)
     elif args.command == "flatten":
         cmd_flatten(cfg)
+    elif args.command == "backtest-mm":
+        from bot.backtest_mm import run_mm_backtest
+        res = run_mm_backtest("data/m1_tmn_2026-10-20_22.json", "data/m1_usdt_2026-10-20_22.json")
+        print(json.dumps(res["by_half_spread"], indent=2, ensure_ascii=False))
+        print("saved logs/backtest_mm/mm_summary.json")
     elif args.command == "probe":
         from bot.probe import run_probe
         meta = run_probe(cfg, os.getenv("WALLEX_API_KEY"), days=min(args.days, 2))

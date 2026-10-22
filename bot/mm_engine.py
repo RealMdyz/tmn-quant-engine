@@ -47,14 +47,17 @@ penalised; regular, reasonable trading is rewarded).
 The bot rests maker BUY and SELL orders on COIN/TMN books around a fair value FV (global price from the
 COIN/USDT book x USDT/TMN, plus the coin's own Toman premium). It earns the spread when its bid and its
 ask both fill; it loses when it buys just before the price falls (adverse selection). Maker fee 0.25%
-per side, so a round trip costs 0.50%: a half-spread h below ~0.45% cannot pay.
+per side, so a round trip costs 0.50%. Evidence so far (1-minute backtest, 2 days, 20 markets): every
+half-spread lost money on average (-58 bps per round trip at h=0.5%, -35 bps at h=1.3%): fills on our bid
+mostly come just before the price falls. Be selective and wide; prefer fewer, safer markets.
 
 YOU decide, every ~20 minutes, using the tools:
   1. WHICH markets to make (at most MAXM). Prefer: wide Toman spread (spread_bps), busy market
      (vol24h_mtmn, trades), stable fair value (fv_vol_bps low), live round trips that made money.
      Avoid markets whose live fills lose, whose USDT book is stale, or with coin-specific bad news.
   2. The half-spread h (in %, between HLO and HHI) for each chosen market: wider when the market is
-     volatile or our fills there lost money; narrower (but >= 0.5) when it is calm and spreads are wide.
+     volatile or our fills there lost money; narrower only when it is calm, spreads are wide and our
+     live round trips there made money.
   3. pause=true only for a market-wide shock (major news, crash).
 Units: all *_bps fields are basis points (100 bps = 1%). h is in PERCENT.
 Answer ONLY with JSON:
@@ -330,7 +333,7 @@ class MMEngine:
             spread = tb["asks"][0][0] / tb["bids"][0][0] - 1
             score[co] = min(spread, 0.02) * math.log10(max(self.vol24.get(co, 1), 10))
         pick = sorted(score, key=score.get, reverse=True)[: self.m.get("max_markets", 5)]
-        h = self.m.get("default_half_spread_pct", 0.7)
+        h = self.m.get("default_half_spread_pct", 1.0)
         return {"markets": {co: h for co in pick}, "pause": False, "source": "fallback",
                 "reasoning": f"Fallback ({why}): the {len(pick)} candidates with the best spread x volume, h={h}%."}
 
@@ -338,7 +341,7 @@ class MMEngine:
         if self.policy and now - self.last_policy < self.cfg["agent"]["policy_every_minutes"] * 60:
             return
         m = self.m
-        hlo, hhi = m.get("half_spread_bounds_pct", [0.5, 1.5])
+        hlo, hhi = m.get("half_spread_bounds_pct", [0.8, 2.0])
         system = (MM_SYSTEM.replace("MAXM", str(m.get("max_markets", 5)))
                   .replace("HLO", str(hlo)).replace("HHI", str(hhi)))
         ctx = {"time": time.strftime("%Y-%m-%d %H:%M"), "trigger": "startup" if not self.policy else "scheduled",
@@ -557,7 +560,7 @@ class MMEngine:
             h = markets.get(co)
             if h is None and held_val < mt.min_notional:
                 continue
-            h = (h or m.get("default_half_spread_pct", 0.7)) / 100
+            h = (h or m.get("default_half_spread_pct", 1.0)) / 100
             skew = min(1.0, held_val / max_inv_coin) * h * m.get("skew_k", 0.5) if max_inv_coin else 0.0
             # ---- BUY
             want_bid = (co in markets and co not in self.blocked and can_buy_time
