@@ -8,8 +8,8 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 5 (sources: {'fallback': 1, 'llm:boxapi': 4})
-- Events: {'startup': 4, 'policy': 5, 'quote': 57, 'state_restored': 3, 'quote_skipped': 4}
+- AI supervisor decisions: 6 (sources: {'fallback': 1, 'llm:boxapi': 5})
+- Events: {'startup': 4, 'policy': 6, 'quote': 65, 'state_restored': 3, 'quote_skipped': 4}
 
 ### Latest AI decision
 ```json
@@ -37,8 +37,131 @@
   "margin_mult": 1.0,
   "usdt_hold_frac": 0.05,
   "pause": false,
-  "reasoning": "Equity is 5,000,000 TMN with no USDT on hand and zero realised PnL or fills, so keep the preselected universe (no coin shows multiple losing fills). Current deviations are small (range approx -0.891% LINK to +1.114% FIL) and every coin has fills=0 in the snapshot, so no minutes_below_-2% signal of a sustained dislocation. Open quotes exist for AVAX, CAKE, FIL, AAVE, GALA, PENGU, TRX, ADA with margins already set — keep learned margins (margin_mult=1.0) and hold a small USDT buffer (5% of equity) given recent rial volatility. Not pausing: no market-wide news triggered and drawdown is zero.",
-  "tool_trace": [],
+  "reasoning": "Keep all coins enabled: none shows prolonged deviation or deposit/halt signals (minutes_below_-2pct = 0 for every coin). No coin has negative realised fill performance (live_fills = 0 and avg_fill_bps null for all). Macro/news check shows no rial or exchange-breaking headlines; USDT/TMN is 266,720 and account equity is 5,000,000 TMN, so hold a small USDT buffer (5%) as a directional hedge. Use the learned margins (margin_mult = 1.0) and do not pause quoting.",
+  "tool_trace": [
+    {
+      "tool": "get_account_state",
+      "args": {}
+    },
+    {
+      "tool": "get_usdt_tmn_trend",
+      "args": {}
+    },
+    {
+      "tool": "get_news",
+      "args": {
+        "topic": "iran"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "FIL"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "PENGU"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "AAVE"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "GALA"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "ADA"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "TRX"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "CAKE"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "AVAX"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "WLD"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "APE"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "HYPE"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "SHIB"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "LINK"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "DOGE"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "UNI"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "PUMP"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "BNB"
+      }
+    },
+    {
+      "tool": "get_market_stats",
+      "args": {
+        "coin": "SOL"
+      }
+    }
+  ],
   "source": "llm:boxapi"
 }
 ```
