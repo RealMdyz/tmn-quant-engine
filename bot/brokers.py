@@ -83,7 +83,12 @@ class LiveExec:
         return self.c.get_order(cid)
 
     def open_orders(self) -> dict[str, dict]:
-        return {o.get("clientOrderId"): o for o in self.c.open_orders()}
+        out = {}
+        for o in self.c.open_orders():
+            cid = o.get("clientOrderId") or o.get("client_id") or o.get("clientId")
+            if cid:
+                out[cid] = o
+        return out
 
     def on_books(self, books):  # live fills happen on the exchange
         return None
