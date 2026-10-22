@@ -35,24 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,959,849 TMN** (-0.803%)
+- Equity: **4,966,769 TMN** (-0.665%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 9 (sources: {'llm:boxapi': 9})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 9, 'sleeve_order': 68, 'quote': 46, 'buy_blocked': 668, 'buy_unblocked': 632, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 10 (sources: {'llm:boxapi': 10})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 10, 'sleeve_order': 68, 'quote': 48, 'buy_blocked': 687, 'buy_unblocked': 649, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 1.3,
-    "ARB": 1.4
+    "SUI": 0.9,
+    "HYPE": 1.4,
+    "GALA": 1.3
   },
   "pause": false,
-  "reasoning": "I pick CHZ and ARB because the bot never quotes where spread_bps<80 and these are the best candidates: CHZ spread_bps 112.2 with usdt_spread_bps 161.4 and moderate fv_vol_bps 869.5, so I quote somewhat wide at h=1.3% to protect vs FV volatility. ARB has spread_bps 104.9 and large 24h vol (vol24h_mtmn 31,272) but very noisy fair-value (fv_vol_bps 447.0) and a thin USDT book (usdt_spread_bps 5.6), so I keep it wider at h=1.4% and do not bid more aggressively. FIL and several others show Toman-book sliding / buy_blocked (FIL, BNB, SUI, UNI, DOT, IMX, CAKE), so I avoid them. Portfolio: USDT/TMN 48h +4.64% gives full exposure cap 1.0, so keep rial at 1.0 (rial sleeve value stable enough, return -0.72% but regime favors holding). Beta is left slightly reduced at 0.9 (scale_now 0.9, sleeve return -0.85%) and I keep the current high-momentum beta allocations PEPE/ADA/LINK.",
+  "reasoning": "I pick SUI (spread 94.8 bps, vol 5,677M TMN, fv_vol 30.3 bps) because its Toman spread is >80 bps and fv_vol is low so we can quote tighter (h=0.9%). I pick HYPE (spread 114.3 bps, vol 3,921M, fv_vol 160 bps, USDT spread 104.2 bps) but set a wide h=1.4% for its higher volatility. I include GALA (spread 101.0 bps, vol 2,143M, fv_vol 175 bps) with h=1.3% as a busy, wide-spread market. I avoid CHZ (CHZUSDT book frozen) and tokens with buy_blocked flags. For sleeves I keep rial at 1.0 and beta at 0.9 because USDT/TMN 48h is +4.51% (regime cap 1.0) so the rial-weakening regime favors holding; beta was already scaled to 0.9 and contains PEPE/ADA/LINK which are the current weights with no coin-specific bad news.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
