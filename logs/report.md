@@ -8,8 +8,8 @@
 
 ![equity](equity_shadow.png)
 
-- AI supervisor decisions: 9 (sources: {'fallback': 1, 'llm:boxapi': 8})
-- Events: {'startup': 5, 'policy': 9, 'quote': 127, 'state_restored': 4, 'quote_skipped': 4}
+- AI supervisor decisions: 12 (sources: {'fallback': 1, 'llm:boxapi': 11})
+- Events: {'startup': 7, 'policy': 12, 'quote': 191, 'state_restored': 6, 'quote_skipped': 4, 'usdt_ref_check': 5, 'quote_blocked': 90, 'quote_unblocked': 86, 'error': 1}
 
 ### Latest AI decision
 ```json
@@ -24,6 +24,7 @@
     "CAKE",
     "AVAX",
     "WLD",
+    "APE",
     "HYPE",
     "SHIB",
     "LINK",
@@ -34,14 +35,10 @@
     "SOL"
   ],
   "margin_mult": 1.0,
-  "usdt_hold_frac": 0.05,
+  "usdt_hold_frac": 0.0,
   "pause": false,
-  "reasoning": "Keep the portfolio running with learned margins (margin_mult=1.0). I disabled only APE because its dev_mean_pct is 1720.58% (dev_std 1301.19%) and bandit post_mean_bps are strongly negative at small margins, a clear sign of structural dislocation. USDT/TMN is 270,368 so I allow a small USDT buffer (5% of equity) given recent rial moves but avoid larger exposure. No market‑wide headline or minutes_below_-2pct metrics justify pausing or disabling other coins.",
+  "reasoning": "USDT trend data is unavailable (change_6h and change_24h are null) though USDT/TMN mid is 270,707; per rule we hold USDT only when 6h and 24h changes are both >0, so set usdt_hold_frac=0.0. Two coins (AAVE, WLD) show temporary 'Toman book sliding' blocks (informed-seller guard), so quoting is already suspended but this is not long-lived evidence to disable them. No coin has minutes_below_-200bps or ≥3 losing fills, so disable list remains empty. Keep margin_mult at 1.0 and do not pause — market looks normal with largest live deviation APE +110.1 bps and most coins within ±100 bps.",
   "tool_trace": [
-    {
-      "tool": "get_account_state",
-      "args": {}
-    },
     {
       "tool": "get_usdt_tmn_trend",
       "args": {}
@@ -49,115 +46,7 @@
     {
       "tool": "get_news",
       "args": {
-        "topic": "all"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "FIL"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "PENGU"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "AAVE"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "GALA"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "ADA"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "TRX"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "CAKE"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "AVAX"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "WLD"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "APE"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "HYPE"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "SHIB"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "LINK"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "DOGE"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "UNI"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "PUMP"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "BNB"
-      }
-    },
-    {
-      "tool": "get_market_stats",
-      "args": {
-        "coin": "SOL"
+        "topic": "iran"
       }
     }
   ],
