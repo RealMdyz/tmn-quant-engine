@@ -2,7 +2,7 @@
 
 ## SHADOW
 
-- Equity: **4,995,848 TMN** (-0.083%)
+- Equity: **4,997,136 TMN** (-0.057%)
 - Max drawdown: **0.441%**
 - Traded volume: 3,977,145 TMN
 
@@ -15,21 +15,21 @@
 | BNB | 1 | 0 | 0 | 0 |
 | FIL | 2 | 1 | 1 | -10,984 |
 
-- AI supervisor decisions: 25 (sources: {'fallback': 1, 'llm:boxapi': 24})
-- Events: {'startup': 30, 'policy': 25, 'quote': 1070, 'state_restored': 28, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 510, 'buy_unblocked': 420, 'instance_superseded': 17, 'fill': 4, 'exit': 1}
+- AI supervisor decisions: 26 (sources: {'fallback': 1, 'llm:boxapi': 25})
+- Events: {'startup': 30, 'policy': 26, 'quote': 1151, 'state_restored': 28, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 530, 'buy_unblocked': 437, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 5}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BNB": 0.3,
-    "AAVE": 0.25,
-    "FIL": 0.6,
-    "CHZ": 0.6,
-    "SUI": 0.5
+    "UNI": 0.3,
+    "AVAX": 0.3,
+    "ENA": 0.8,
+    "APE": 0.25,
+    "BNB": 0.35
   },
   "pause": false,
-  "reasoning": "Keep BNB (spread 53.5 bps, vol 74,277M TMN) with tight h=0.3 to sit at top of the book and monetize its high volume; fv_vol 92.4 bps is moderate. Include AAVE (spread 55.2 bps, vol 2,833M) with h=0.25 because fv_vol is low (15.2 bps) so narrow quoting is safe. Add FIL (spread 88.6 bps, vol 4,878M) with wider h=0.6 because spread is large but fv_vol is elevated (112.7 bps) so we need protection. Add CHZ (spread 83.1 bps, vol 1,667M) with h=0.6 for similar reasons (spread high but fv_vol ~98 bps). Add SUI (spread 56.1 bps, vol 6,016M) with h=0.5: spread covers fees and volume is reasonable but fv_vol 88 bps suggests a moderate cushion. Avoid markets flagged buy_blocked or with recent FV slides.",
+  "reasoning": "Pick UNI (spread 72.1 bps, vol24h 8.9k MTMN, fv_vol 49.8) and AVAX (spread 83.0 bps, vol 3.6k, fv_vol 40.5) because wide Toman spreads well above the 50 bps fee hurdle and low FV volatility — use tight h=0.3 to sit near top of book. Keep APE (spread 50.4 bps, vol 6.5k, fv_vol 36.4) with a narrow h=0.25 to compete at the NBBO. ENA has a large spread (70.4 bps) but high FV volatility (fv_vol 339.6) so use wide h=0.8 to protect vs adverse selection. Include BNB (huge volume 76.3k MTMN, spread 45.4 bps, fv_vol 139.7) with h=0.35 because its deep liquidity and our existing BNB inventory (≈899k TMN) justify active quoting despite spread slightly under 50 bps; avoid markets with buy_blocked or recent losses (FIL: buy_blocked and realised PnL -10,984 TMN).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
