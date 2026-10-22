@@ -178,7 +178,11 @@ def main():
                 sys.exit("WALLEX_API_KEY missing")
             if not args.yes and input("LIVE trading with real orders. Type LIVE: ").strip() != "LIVE":
                 sys.exit("aborted")
-        ArbEngine(cfg, args.command, os.getenv("WALLEX_API_KEY")).run()
+        if cfg.get("strategy", "arb") == "mm":
+            from bot.mm_engine import MMEngine
+            MMEngine(cfg, args.command, os.getenv("WALLEX_API_KEY")).run()
+        else:
+            ArbEngine(cfg, args.command, os.getenv("WALLEX_API_KEY")).run()
 
 
 if __name__ == "__main__":

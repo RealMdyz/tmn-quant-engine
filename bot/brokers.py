@@ -221,7 +221,8 @@ class PaperExec:
         """Simulate maker fills from the market's real trade tape. Our bid is not in the real book, so a
         seller who sweeps the book down to our price leaves no resting ask behind (on_books cannot see
         it) — but the sweep prints trades. Any NEW trade strictly below our bid price means our (higher)
-        bid would have been hit first in reality; it fills us for at most that trade's quantity.
+        bid would have been hit first in reality; it fills us for at most that trade's quantity. Resting
+        SELL orders mirror this: a new trade strictly above our ask fills us.
         `seen` holds trade keys already processed for this symbol (the first poll is only a baseline)."""
         fresh = []
         for t in trades:
@@ -230,7 +231,7 @@ class PaperExec:
                 seen.add(key)
                 fresh.append(t)
         for o in self.orders.values():
-            if not o["active"] or o["symbol"] != symbol or o["side"] != "BUY":
+            if not o["active"] or o["symbol"] != symbol:
                 continue
             for t in fresh:
                 try:
@@ -243,7 +244,8 @@ class PaperExec:
                 rem = o["origQty"] - o["executedQty"]
                 if rem <= 0 or not o["active"]:
                     break
-                if p < o["price"] * (1 - 1e-9):
+                through = p < o["price"] * (1 - 1e-9) if o["side"] == "BUY" else p > o["price"] * (1 + 1e-9)
+                if through:
                     self._fill(o, min(rem, q))
                     o["fill_source"] = "trade_tape"
 

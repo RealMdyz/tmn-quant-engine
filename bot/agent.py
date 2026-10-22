@@ -105,9 +105,10 @@ def _clamp(x, lo, hi, default):
 
 
 class SupervisorAgent:
-    def __init__(self, cfg: dict, tools: dict[str, Callable[..., dict]]):
+    def __init__(self, cfg: dict, tools: dict[str, Callable[..., dict]], tool_specs: list | None = None):
         self.cfg = cfg
         self.tools = tools
+        self.tool_specs = tool_specs or TOOLS
         self.providers = []
         for p in cfg.get("providers", []):
             base, key = os.getenv(p["base_url_env"], "").rstrip("/"), os.getenv(p["api_key_env"], "")
@@ -135,7 +136,7 @@ class SupervisorAgent:
                 "max_completion_tokens": self.cfg.get("max_output_tokens", 2500),
                 "reasoning_effort": self.cfg.get("reasoning_effort", "low")}   # cheap: little hidden reasoning
         if use_tools:
-            body["tools"] = TOOLS
+            body["tools"] = self.tool_specs
             body["tool_choice"] = "auto"
         hdr = {"Authorization": f"Bearer {prov['key']}"}
         url = f"{prov['base']}/chat/completions"

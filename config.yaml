@@ -1,5 +1,6 @@
 # ===== TMN Quant Engine — hedged fair-value arbitrage on Wallex =====
 seed: 7
+strategy: mm          # mm = AI-steered fair-value market maker (bot/mm_engine.py); arb = hedged arbitrage (bot/arb_engine.py)
 
 challenge:
   package_id: 183                       # trade-credit package of the challenge (unavailable markets come from here)
@@ -52,6 +53,32 @@ arb:
   # so live fills dominate quickly.
   prior_default: [[1.3, -54.0, 2.1], [2.0, -33.0, 0.83], [3.0, 40.0, 0.41], [4.0, 40.0, 0.1]]
   priors: {}                   # optional per-coin overrides, same shape as prior_default
+
+mm:
+  # Candidates (both COIN/TMN and COIN/USDT must be allowed for package 183; others are skipped at
+  # start-up). The AI supervisor picks at most `max_markets` of them and a half-spread for each.
+  coins: [SOL, SUI, S, LTC, XRP, BNB, ADA, LINK, AAVE, HYPE, ETH, DOGE, TRX, ARB, UNI, FIL, AVAX, BCH, DOT,
+          SHIB, PENGU, GALA, CAKE, WLD, APE, ENA, CHZ, IMX]
+  max_markets: 5
+  half_spread_bounds_pct: [0.5, 1.5]   # AI range for h (per side). Maker round trip costs 0.50%.
+  default_half_spread_pct: 0.7         # fallback policy when the LLM is unavailable
+  quote_tmn: 900000                    # max size of one resting quote
+  max_inventory_per_coin_pct: 25       # inventory of one coin <= 25% of equity
+  max_inventory_total_pct: 60          # all coin inventory <= 60% of equity (never the whole account)
+  skew_k: 0.5                          # long inventory shifts both quotes down by up to k*h (sell sooner, buy less)
+  min_profit_bps: 10                   # an ask stays >= cost + 2 maker fees + this ...
+  breakeven_after_min: 30              # ... for 30 min, then >= cost + fees (break-even)
+  stop_pct: 1.2                        # stop-loss: inventory value 1.2% below cost -> taker exit
+  max_hold_min: 90                     # time stop: inventory older than 90 min -> taker exit
+  requote_bps: 15                      # move a quote when its target moved > 0.15% (immediately if safer)
+  max_quote_age_s: 300                 # refresh at least every 5 min (keeps request rate well under the limit)
+  premium_window_s: 1800               # coin premium vs global fair value = 30-min median
+  fv_drop_window_s: 60                 # guard: no buying if the fair value fell ...
+  fv_drop: 0.004                       # ... more than 0.4% in 60 s
+  slide_window_s: 120                  # guard: no buying if the Toman premium dropped ...
+  slide_drop: 0.003                    # ... 0.3% below its 30-min baseline in 2 min
+  ref_stale_s: 900                     # guard: no buying if the COIN/USDT top of book froze 15 min
+  paper_trades_every_s: 5              # shadow: trade-tape polling per quoted market
 
 risk:
   max_position_pct: 0.40        # a single quote never exceeds 40% of equity
