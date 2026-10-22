@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,974,535 TMN** (-0.509%)
+- Equity: **4,964,398 TMN** (-0.712%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 10 (sources: {'llm:boxapi': 10})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 10, 'sleeve_order': 68, 'quote': 54, 'buy_blocked': 722, 'buy_unblocked': 686, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 11 (sources: {'llm:boxapi': 11})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 11, 'sleeve_order': 68, 'quote': 58, 'buy_blocked': 774, 'buy_unblocked': 740, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9,
-    "HYPE": 1.4,
-    "GALA": 1.3
+    "SUI": 1.2,
+    "GALA": 1.4,
+    "BCH": 1.3
   },
   "pause": false,
-  "reasoning": "I pick SUI (spread 94.8 bps, vol 5,677M TMN, fv_vol 30.3 bps) because its Toman spread is >80 bps and fv_vol is low so we can quote tighter (h=0.9%). I pick HYPE (spread 114.3 bps, vol 3,921M, fv_vol 160 bps, USDT spread 104.2 bps) but set a wide h=1.4% for its higher volatility. I include GALA (spread 101.0 bps, vol 2,143M, fv_vol 175 bps) with h=1.3% as a busy, wide-spread market. I avoid CHZ (CHZUSDT book frozen) and tokens with buy_blocked flags. For sleeves I keep rial at 1.0 and beta at 0.9 because USDT/TMN 48h is +4.51% (regime cap 1.0) so the rial-weakening regime favors holding; beta was already scaled to 0.9 and contains PEPE/ADA/LINK which are the current weights with no coin-specific bad news.",
+  "reasoning": "Pick SUI/GALA/BCH because the bot never quotes where spread_bps <80 and these three pass: SUI spread 114 bps with usdt_spread 62.6 and fv_vol 93 bps (relatively stable fair value) so I quote at h=1.2%. GALA has spread 101 bps, huge USDT/TMN dislocation (usdt_spread 393 bps) and premium +81.5 bps; fair-value volatility 202.7 bps so I go wider at h=1.4% to avoid being picked off. BCH has spread 88.4 bps, usdt_spread 55.7 and fv_vol 201.5 bps so I set h=1.3% to balance spread capture and volatility. I avoid markets with buy_blocked or frozen USDT books (FIL, DOT, CHZ, CAKE, etc.) and any spread <80 bps (SOL, XRP, ARB, …). Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +4.42% (regime cap 1.0) and rial sleeve scale_now=1.0; keep beta at 0.9 (its scale_now 0.9) and select PEPE/ADA/LINK (current beta weights/universe) to retain momentum exposure while not increasing risk ahead of the wind-down schedule.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
