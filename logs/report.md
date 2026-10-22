@@ -16,7 +16,7 @@
 | FIL | 2 | 1 | 1 | -10,984 |
 
 - AI supervisor decisions: 28 (sources: {'fallback': 1, 'llm:boxapi': 27})
-- Events: {'startup': 34, 'policy': 28, 'quote': 1226, 'state_restored': 32, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 650, 'buy_unblocked': 530, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 14, 'regime': 2, 'sleeve_order': 18, 'sleeve_order_failed': 5, 'sleeve_fill': 15}
+- Events: {'startup': 34, 'policy': 28, 'quote': 1228, 'state_restored': 32, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 651, 'buy_unblocked': 531, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 14, 'regime': 2, 'sleeve_order': 20, 'sleeve_order_failed': 5, 'sleeve_fill': 16}
 
 ### Latest AI decision
 ```json
