@@ -35,24 +35,23 @@
 
 ## LIVE
 
-- Equity: **4,968,062 TMN** (-0.639%)
+- Equity: **4,954,844 TMN** (-0.903%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 12 (sources: {'llm:boxapi': 12})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 12, 'sleeve_order': 68, 'quote': 75, 'buy_blocked': 910, 'buy_unblocked': 876, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
+- AI supervisor decisions: 13 (sources: {'llm:boxapi': 13})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 13, 'sleeve_order': 68, 'quote': 81, 'buy_blocked': 964, 'buy_unblocked': 930, 'state_restored': 57, 'sleeve_fill': 5, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 0.9,
-    "BCH": 1.1
+    "GALA": 1.4
   },
   "pause": false,
-  "reasoning": "Pick CHZ and BCH because both have Toman spreads above our 80 bps floor (CHZ 83.9 bps, BCH 84.4 bps) and no buy blocks; CHZ shows low fair‑value volatility (fv_vol_bps 34.0) so we quote more aggressively at h=0.9%, while BCH has moderate fv volatility (97.5 bps) so we widen to h=1.1% to avoid pick‑offs. Avoided FIL, GALA and CAKE because their Toman books are sliding or the USDT fair value is frozen (buy_blocked present). Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +4.42% (regime cap 1.0) and rial sleeve scale_now is 1.0; keep beta at 0.9 matching its current scale_now (2227k value vs 2250k capital) to preserve momentum exposure without increasing risk. Beta assets limited to PEPE/ADA/LINK (the sleeve weights) which are the current high‑momentum selections and avoid adding other universe names with book sliding warnings.",
+  "reasoning": "I select only GALA because its Toman spread is very wide at 121 bps with a huge USDT-side spread (393.3 bps) and healthy 24h TMN volume (2,140M), while fv_vol_bps is moderate (249.1) and there is no buy_blocked flag — a good wide+busy candidate. I set h=1.4% (near the top of allowed range) to keep quotes wide and avoid being picked off given the market’s large spreads and elevated volatility. I avoid CHZ (spread 106.1 bps) because CHZUSDT book is frozen (fair value unverifiable) and skip BNB/ARB/UNI/DOT which show Toman-book sliding or buy_blocked warnings. For sleeves I keep rial at 1.0 and beta at 0.9 because USDT/TMN 48h = +4.43% (regime cap=1.0) — this supports maintaining full rial exposure and the current beta scale (0.9) while beta’s universe and current weights (PEPE/ADA/LINK) remain valid. No market-wide pause: no Iran/crypto headline or USDT/TMN collapse flagged; live fills show no realised losses to force a stop.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
