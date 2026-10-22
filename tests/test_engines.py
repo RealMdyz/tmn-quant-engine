@@ -266,6 +266,44 @@ def test_sleeve_goes_taker_when_outbid_for_5_minutes():
     assert any(x["taker"] for x in link), "taker 5 min after the FIRST bid, even though the bid was re-placed"
 
 
+def test_live_restart_adopts_an_unrecorded_fill():
+    """Live incident 2026-10-22: an ETH fill of the first instance was never recorded; after the restart the sleeve
+    bought ETH again. On start-up such coins are now added to the sleeve and never bought a second time."""
+    random.seed(11)
+    tmp = tempfile.mkdtemp()
+    coins = {"SOL": 180.0, "BTC": 108000.0, "ETH": 3900.0, "ADA": 0.65, "PEPE": 0.00001, "LINK": 17.5}
+    fake = FakeWallex(coins)
+    fake.fees = lambda: {}
+    fake.candles = lambda sym, res, a, b: {"t": [b - 3600 * k for k in range(60, -1, -1)],
+                                           "c": [USDT * (1 - 0.0004 * k) for k in range(60, -1, -1)]}
+    bid = {c: p * USDT * 1.002 * 0.995 for c, p in coins.items()}
+    spent = {"BTC": 875_000, "ETH": 875_000, "ADA": 750_000, "PEPE": 750_000, "LINK": 750_000}
+    q = {c: v / bid[c] * 0.9975 for c, v in spent.items()}
+    held = dict(q, ETH=2 * q["ETH"], TMN=128_000)                       # one ETH fill not recorded
+    cfg = _cfg(tmp, coins, "mm")
+    sl = {"rial": {"pos": {c: {"qty": q[c], "cost": spent[c]} for c in ("BTC", "ETH")}},
+          "beta": {"pos": {c: {"qty": q[c], "cost": spent[c]} for c in ("ADA", "PEPE", "LINK")}}}
+    with open(os.path.join(tmp, "state_mm_live.json"), "w") as f:      # the previous instance's records
+        json.dump({"sleeves": sl}, f)
+    real = mm_engine.LiveExec
+    mm_engine.LiveExec = lambda c, f: brokers.PaperExec(held, {}, {"tmn_maker": 0.0025, "tmn_taker": 0.003,
+                                                                   "usdt_maker": 0.001, "usdt_taker": 0.0013})
+    try:
+        e = mm_engine.MMEngine(cfg, "live", None, client=fake)
+        e.setup()
+    finally:
+        mm_engine.LiveExec = real
+    ad = [x for x in _events(tmp, "live") if x["event"] == "orphan_adopted"]
+    assert [x["asset"] for x in ad] == ["ETH"], ad
+    assert abs(e.sleeves["rial"].pos["ETH"]["qty"] - 2 * q["ETH"]) < 1e-9
+    CLOCK[0] = 1_790_000_000.0 + 3600 * 19.5
+    for _ in range(60):
+        e.step()
+        CLOCK[0] += 2
+    buys = [x for x in _events(tmp, "live") if x["event"] == "sleeve_order" and x["side"] == "BUY"]
+    assert not buys, f"nothing is bought again: {[(x['asset'], x['size_tmn']) for x in buys]}"
+
+
 def test_live_self_test_with_paper_executor():
     tmp = tempfile.mkdtemp()
     fake = FakeWallex({"SOL": 180.0})

@@ -66,8 +66,8 @@ YOU decide, every ~20 minutes, using the tools:
      volatile or our fills there lost money; narrower only when it is calm, spreads are wide and our
      live round trips there made money.
   3. pause=true only for a market-wide shock (major news, crash).
-  4. The PORTFOLIO (tool get_portfolio): besides the market maker (20% of the capital), the account runs two
-     holding sleeves: "rial" (35%, BTC/ETH, medium risk) and "beta" (45%, high-volatility coins, high risk).
+  4. The PORTFOLIO (tool get_portfolio): besides the market maker, the account runs two holding sleeves (their
+     capital is in get_portfolio): "rial" (BTC/ETH, medium risk) and "beta" (high-volatility coins, high risk).
      Both earn mainly from the rial weakening: Toman prices of USDT and coins rose 15-19% in 29 days.
      Backtest (27 h holds, net of fees, entered while USDT/TMN 48h >= +1%): rial +0.88% (P(loss) 34%,
      worst -2.9%), beta PEPE/ADA/LINK +1.28% (30%, worst -4.3%); entered at 0..+1% or below 0 they LOST
@@ -199,6 +199,7 @@ class MMEngine:
             # picked up by reconcile() from the restored state.
             self.cancel_all_open_orders("start-up: a previous instance may have left orders on the exchange")
             self.live_self_test()
+            self.adopt_orphans()
         self.dlog.write("startup", strategy="market_maker", coins=self.coins, fees=self.fees.__dict__,
                         agent_enabled=self.agent.enabled, instance=self.lock.id, config={"mm": m, "risk": c["risk"]})
         log.info("MM coins=%s fees=%s agent=%s", self.coins, self.fees, self.agent.enabled)
@@ -702,6 +703,34 @@ class MMEngine:
             cs["rt_bps_sum"] += (proceeds / part - 1) * 1e4
             self.stats["round_trips"] += 1
         self.dlog.write("exit", coin=co, qty=f.qty, avg_price=f.avg_price, pnl_tmn=round(pnl), why=why, orders=f.orders)
+
+    def adopt_orphans(self):
+        """Start-up: coins of a sleeve asset that are in the account but not in the sleeve's records (a fill the
+        previous instance never recorded, e.g. it stopped right after placing the order) are added to the sleeve
+        that holds that asset, at the current best bid, so they are managed (stop-loss, wind-down) and never
+        bought a second time. Market-maker coins are skipped: the market maker works from the balances."""
+        if (self.cfg.get("portfolio") or {}).get("orphans", "adopt") != "adopt" or not self.sleeves:
+            return
+        try:
+            books = self.client.depth_all()
+        except WallexError as e:                     # never trade on without it: a sleeve would buy its coins again
+            raise SystemExit(f"adopt orphans: order books unavailable ({e})")
+        for a, x in self.bal().items():
+            owner = next((sl for sl in self.sleeves.values() if sl.weights.get(a, 0) > 0), None)
+            bids = (books.get(f"{a}TMN") or {}).get("bids")
+            if a == "TMN" or a in self.coins or not owner or not bids:
+                continue
+            tracked = sum(sl.pos.get(a, {}).get("qty", 0.0) for sl in self.sleeves.values())
+            extra = x.get("total", 0.0) - tracked
+            if extra * bids[0][0] < 60_000:
+                continue
+            p = owner.pos.setdefault(a, {"qty": 0.0, "cost": 0.0})
+            p["qty"] += extra
+            p["cost"] += extra * bids[0][0]
+            self.dlog.write("orphan_adopted", sleeve=owner.name, asset=a, qty=extra, value_tmn=round(extra * bids[0][0]),
+                            why="coins in the account the sleeve had not recorded (fill during a restart): added to "
+                                "the sleeve so they are managed and not bought twice")
+        self.save_state()
 
     def sweep_leftovers(self, books):
         """Challenge end: sell any coin still in the account that no strategy tracks (e.g. a fill that
