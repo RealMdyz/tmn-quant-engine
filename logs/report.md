@@ -2,8 +2,8 @@
 
 ## SHADOW
 
-- Equity: **4,958,807 TMN** (-0.824%)
-- Max drawdown: **0.859%**
+- Equity: **4,965,783 TMN** (-0.684%)
+- Max drawdown: **0.866%**
 - Traded volume: 0 TMN
 
 ![equity](equity_shadow.png)
@@ -15,18 +15,19 @@
 | BNB | 1 | 0 | 0 | 0 |
 | FIL | 2 | 1 | 1 | -10,984 |
 
-- AI supervisor decisions: 32 (sources: {'fallback': 1, 'llm:boxapi': 31})
-- Events: {'startup': 41, 'policy': 32, 'quote': 1302, 'state_restored': 38, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 1027, 'buy_unblocked': 848, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 63, 'regime': 9, 'sleeve_order': 56, 'sleeve_order_failed': 5, 'sleeve_fill': 26, 'state_reset': 1}
+- AI supervisor decisions: 33 (sources: {'fallback': 1, 'llm:boxapi': 32})
+- Events: {'startup': 41, 'policy': 33, 'quote': 1311, 'state_restored': 38, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 1056, 'buy_unblocked': 880, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 7, 'coin_skipped': 63, 'regime': 9, 'sleeve_order': 56, 'sleeve_order_failed': 5, 'sleeve_fill': 26, 'state_reset': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.5,
-    "CAKE": 1.0
+    "GALA": 1.0,
+    "CHZ": 0.9,
+    "DOT": 1.5
   },
   "pause": false,
-  "reasoning": "I pick FIL and CAKE because the bot never bids where Toman spread <80 bps: FIL spread_bps=97.3 (quoted_now=true) and CAKE spread_bps=80.4 meet that rule; other wide names (UNI, ARB, CHZ, AVAX, DOT) are buy_blocked or book-frozen so I avoid them. FIL gets a wide half-spread h=1.5% because fv_vol_bps=62.6 is moderate but FIL has prior adverse fills (live FIL bought then fell) and a large premium (143.6 bps), so be defensive; CAKE is calmer (fv_vol_bps=37.6) with supportive usdt_spread_bps=128.1 so I set h=1.0% to be more competitive. Portfolio: keep rial exposure at 1.0 (USDT/TMN 48h +4.45% and ch24 +3.09% justify staying fully in the rial-weakening regime) and keep beta at 0.8 (current scale_now=0.8, sleeves returning -0.79% but still in regime cap=1.0); beta assets remain PEPE/ADA/LINK as per the sleeve weights and universe.",
+  "reasoning": "I pick GALA and CHZ because both have Toman spreads above our 80 bps threshold (GALA 100.0 bps, CHZ 83.4 bps) and reasonable 24h TMN volumes (GALA 2,307m, CHZ 1,729m); GALA's fv_vol is moderate (224 bps) so h=1.0% is appropriate, CHZ's fv_vol is low (59 bps) so h=0.9% to quote more aggressively. I include DOT as a third slot because its Toman spread is very wide (137.7 bps) albeit with extreme fv volatility (2,306 bps), so I set h=1.5% to protect against adverse selection. I avoid ARB (buy_blocked: book sliding) and other sub-80-bps markets (e.g. SOL 38 bps, XRP 29.3 bps). For sleeves, USDT/TMN 48h +4.06% keeps us in the rial-weakening regime, so keep rial exposure at 1.0 (full); beta stays at the engine's current scale 0.8 and I keep the beta assets to PEPE/ADA/LINK (the current beta weights) to capture momentum while respecting the sleeve's stop and the end_wind_down schedule.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
