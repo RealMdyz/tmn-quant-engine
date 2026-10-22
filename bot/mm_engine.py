@@ -54,7 +54,8 @@ per side, so a round trip costs 0.50%. Evidence so far:
      informed sellers. h 0.2-0.3% lost ~6-7% of capital, h 0.5% -2.4%, h 0.7% -0.3%, h 1.0% +0.2-0.4%;
  (b) live shadow: the few fills came when a coin was falling (FIL: bought, then -1.8% within seconds).
  So: be WIDE (h near the top of the range), prefer few, calm, busy markets whose Toman spread is well above
- 50 bps, and drop any market whose live round trips lose. The bot never bids where the spread is < 50 bps.
+ MINSP bps, and drop any market whose live round trips lose. The bot never bids where the Toman spread is
+ < MINSP bps (spread_bps in get_candidates), so a market below that is a wasted slot.
 
 YOU decide, every ~20 minutes, using the tools:
   1. WHICH markets to make (at most MAXM). Prefer: wide Toman spread (spread_bps), busy market
@@ -508,7 +509,8 @@ class MMEngine:
         m = self.m
         hlo, hhi = m.get("half_spread_bounds_pct", [0.8, 2.0])
         system = (MM_SYSTEM.replace("MAXM", str(m.get("max_markets", 5)))
-                  .replace("HLO", str(hlo)).replace("HHI", str(hhi)))
+                  .replace("HLO", str(hlo)).replace("HHI", str(hhi))
+                  .replace("MINSP", str(m.get("min_spread_to_buy_bps", 50))))
         ctx = {"time": time.strftime("%Y-%m-%d %H:%M"), "trigger": "startup" if not self.policy else "scheduled",
                "account": self.tool_account(), "candidates": self.tool_candidates()["candidates"],
                "portfolio": self.tool_portfolio()}
