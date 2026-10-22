@@ -2,7 +2,7 @@
 
 ## SHADOW
 
-- Equity: **5,001,174 TMN** (+0.023%)
+- Equity: **4,997,044 TMN** (-0.059%)
 - Max drawdown: **0.441%**
 - Traded volume: 3,977,145 TMN
 
@@ -15,21 +15,21 @@
 | BNB | 1 | 0 | 0 | 0 |
 | FIL | 2 | 1 | 1 | -10,984 |
 
-- AI supervisor decisions: 26 (sources: {'fallback': 1, 'llm:boxapi': 25})
-- Events: {'startup': 31, 'policy': 26, 'quote': 1152, 'state_restored': 29, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 531, 'buy_unblocked': 438, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 5}
+- AI supervisor decisions: 27 (sources: {'fallback': 1, 'llm:boxapi': 26})
+- Events: {'startup': 32, 'policy': 27, 'quote': 1195, 'state_restored': 30, 'quote_skipped': 4, 'usdt_ref_check': 13, 'quote_blocked': 321, 'quote_unblocked': 306, 'error': 5, 'buy_blocked': 590, 'buy_unblocked': 491, 'instance_superseded': 17, 'fill': 4, 'exit': 1, 'quote_failed': 6}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "UNI": 0.3,
-    "AVAX": 0.3,
-    "ENA": 0.8,
-    "APE": 0.25,
-    "BNB": 0.35
+    "SUI": 1.1,
+    "SHIB": 0.9,
+    "AVAX": 1.0,
+    "ENA": 1.0,
+    "WLD": 1.1
   },
   "pause": false,
-  "reasoning": "Pick UNI (spread 72.1 bps, vol24h 8.9k MTMN, fv_vol 49.8) and AVAX (spread 83.0 bps, vol 3.6k, fv_vol 40.5) because wide Toman spreads well above the 50 bps fee hurdle and low FV volatility — use tight h=0.3 to sit near top of book. Keep APE (spread 50.4 bps, vol 6.5k, fv_vol 36.4) with a narrow h=0.25 to compete at the NBBO. ENA has a large spread (70.4 bps) but high FV volatility (fv_vol 339.6) so use wide h=0.8 to protect vs adverse selection. Include BNB (huge volume 76.3k MTMN, spread 45.4 bps, fv_vol 139.7) with h=0.35 because its deep liquidity and our existing BNB inventory (≈899k TMN) justify active quoting despite spread slightly under 50 bps; avoid markets with buy_blocked or recent losses (FIL: buy_blocked and realised PnL -10,984 TMN).",
+  "reasoning": "I selected markets with Toman spreads comfortably above our 50 bps cutoff and reasonable 24h activity: SUI (spread 137.5 bps, vol 5,965M TMN) and WLD (spread 138.7 bps, vol 1,626M) merit the widest half-spread (h=1.1%) because of their very wide Toman spreads; AVAX and ENA (spreads 81.2 and 83.5 bps, vols 3,616M and 2,220M) get h=1.0% to respect elevated spreads while remaining competitive; SHIB (spread 58.6 bps, vol 5,184M) is narrower at h=0.9% because it is busy but closer to our minimum spread threshold. I avoided FIL despite high spread because our live round trips there lost (realised_pnl -10,984 TMN, avg round trip 3.5 bps), and I excluded low-spread/high-volume coins (e.g. BNB) since spread_bps <50.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
