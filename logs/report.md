@@ -35,24 +35,23 @@
 
 ## LIVE
 
-- Equity: **4,952,528 TMN** (-0.949%)
+- Equity: **4,957,238 TMN** (-0.855%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 25 (sources: {'llm:boxapi': 25})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 25, 'sleeve_order': 169, 'quote': 446, 'buy_blocked': 1703, 'buy_unblocked': 1664, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 26 (sources: {'llm:boxapi': 26})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 26, 'sleeve_order': 169, 'quote': 448, 'buy_blocked': 1730, 'buy_unblocked': 1693, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9,
-    "GALA": 1.5
+    "SUI": 1.0
   },
   "pause": false,
-  "reasoning": "Pick SUI and GALA only because the bot never quotes where spread_bps < 80: SUI spread_bps=137.3 (fv_vol_bps 17.6, vol24h 5,143 MTMN, quoted_now=true) offers a calm fair-value and wide Toman spread so we quote more aggressively (h=0.9%). GALA has the widest Toman/USDT dislocation (spread_bps=141.1, usdt_spread_bps=508.5, vol24h 2,189) but higher fv_vol_bps=156.3 so we use a defensive h=1.5%. We avoid CHZ (78.7 bps <80) and markets with buy_blocked flags (AAVE/ARB/FIL/DOT) or low spreads. Sleeves: USDT/TMN 48h +4.33% keeps the rial-weakening regime (cap 1.0) so keep rial exposure at 1.0; beta remains at scale 0.8 (current value_tmn 1,808,106, return -1.42%) — keep exposure but not increase given beta draw and ongoing wind-down schedule. Beta assets chosen: PEPE/ADA/LINK following the bucket weights and momentum in the beta universe.",
+  "reasoning": "Only SUI meets the bot's minimum Toman spread rule: spread_bps=156.6, vol24h_mtmn=4,988 and fv_vol_bps is low at 16.4 so fair value looks stable; it is already quoted_now which reduces implementation friction. Most other wide-spread names are unusable (GALA shows a Toman-book slide flag; DOT and ARB have strong sliding-premium buy_blocked messages; CHZ and others are below the 80 bps threshold). I pick h=1.0% (wide enough given maker fees and adverse-selection risk but reasonable because SUI's fv_vol_bps is low). USDT/TMN 48h +4.33% keeps us in the rial-weakening regime (cap=1.0), so I keep rial exposure at 1.0; beta remains at current scale 0.8 and I keep its existing weights (PEPE, ADA, LINK) given no coin-specific negative news and the supportive rial trend. Minutes_to_end=1221 (no end-wind-down yet) and pause=false because there is no market-wide shock in the news.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
