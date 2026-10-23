@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,022,553 TMN** (+0.451%)
-- Max drawdown: **1.942%**
+- Equity: **5,012,367 TMN** (+0.247%)
+- Max drawdown: **2.103%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 73 (sources: {'llm:boxapi': 73})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 73, 'sleeve_order': 171, 'quote': 2056, 'buy_blocked': 5255, 'buy_unblocked': 5207, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 74 (sources: {'llm:boxapi': 74})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 74, 'sleeve_order': 171, 'quote': 2070, 'buy_blocked': 5311, 'buy_unblocked': 5259, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "ARB": 1.2,
-    "CAKE": 1.0,
-    "CHZ": 1.4
+    "FIL": 1.4,
+    "CHZ": 1.2,
+    "BCH": 1.3
   },
   "pause": false,
-  "reasoning": "I pick ARB (spread 117.9 bps, vol24h 15,567M TMN, usdt_spread 106.1 bps, fv_vol 295.5 bps) with a wide h=1.2% to earn the large Toman spread while respecting moderate FV volatility. I pick CAKE (spread 127.2 bps, vol24h 2,894M, fv_vol 143.4 bps) with h=1.0% because spread is wide and FV volatility is lower so a slightly tighter quote is acceptable. I pick CHZ (spread 185.0 bps, vol24h 1,440M, fv_vol 474.5 bps) with h=1.4% because its very wide spread but high FV volatility calls for the widest half-spread to avoid adverse selection. I avoid markets with buy_blocked flags (DOT/IMX/BCH/UNI/WLD) and ignore coins with spread <80 bps (e.g. SOL, XRP, BNB, FIL) per the rule. Sleeves: keep rial at full 1.0 exposure since USDT/TMN 48h is +2.35% (regime cap 1.0) and the sleeve is already scaled there; keep beta at 0.8 (current scale_now) and concentrate on PEPE/ADA/LINK which are the beta weights with recent positive performance (beta value +1.72% and scale reduced to 0.8).",
+  "reasoning": "Pick FIL, CHZ and BCH because each has Toman spread >= 80 bps (FIL 94.7 bps, CHZ 159.1 bps, BCH 82.0 bps) so they meet the minimum 80 bps rule and have reasonable 24h Toman activity (FIL vol 4,275M, BCH 1,983M, CHZ 1,440M TMN). Use wide half-spreads due to fair-value or market volatility: FIL fv_vol 313 bps => very volatile so h=1.4% (near top), CHZ fv_vol 472 bps so h=1.2%, BCH fv_vol 347 bps so h=1.3% to protect vs adverse selection. I avoid CAKE and several other names because buy was blocked (CAKE: \"Toman book sliding\") or fair-value sliding (AVAX/IMX/ENA) — i.e. clear short-term Toman-book instability. Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +2.11% (regime cap=1.0) and the rial sleeve is sized to 2,620,000 TMN (current value ~2,590,804 TMN, return -0.93%) so retain exposure to the ongoing rial-weakening trend; keep beta at 0.8 (current scale_now 0.8, value 1,859,134 TMN, return +1.75%) and limit beta to the existing 0.8 because it already outperformed short-term but is higher-volatility. Beta assets chosen are PEPE, LINK and ADA (current beta weights/universe entries with momentum and no coin-specific negative flags).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
