@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import os
 import shutil
+import signal
 import subprocess
 import sys
 import threading
@@ -31,16 +32,53 @@ PY = sys.executable
 
 
 def sh(cmd, cwd=ROOT, check=False, timeout=120):
+    # own process group: on a timeout the whole group (git and its helpers) is killed, not only /bin/sh.
+    # Killing only the shell left git children behind; as PID 1 this process inherited them and they
+    # piled up until the container could not start any process ("/bin/sh: Cannot fork", live 2026-10-23).
     try:
-        r = subprocess.run(cmd, cwd=cwd, shell=True, capture_output=True, text=True, timeout=timeout)
+        p = subprocess.Popen(cmd, cwd=cwd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                             text=True, start_new_session=True)
+    except OSError as e:
+        say(f"cannot start '{cmd.split(' origin')[0][:60]}': {e}")
+        return ""
+    try:
+        out, err = p.communicate(timeout=timeout)
     except subprocess.TimeoutExpired:
+        try:
+            os.killpg(p.pid, signal.SIGKILL)
+        except OSError:
+            pass
+        p.communicate()
         if check:
             raise RuntimeError(f"{cmd}: timed out after {timeout}s")
         say(f"timeout after {timeout}s: {cmd.split(' origin')[0][:60]}")
         return ""
-    if check and r.returncode:
-        raise RuntimeError(f"{cmd}: {r.stderr[-400:]}")
-    return r.stdout.strip()
+    if check and p.returncode:
+        raise RuntimeError(f"{cmd}: {err[-400:]}")
+    return out.strip()
+
+
+def reap_orphans(keep=()):
+    """As the container's PID 1 this process adopts every orphaned process; reap the finished ones
+    (git helpers and the like) so they never fill the process table. Our own children are left alone."""
+    me = os.getpid()
+    try:
+        pids = [int(d) for d in os.listdir("/proc") if d.isdigit()]
+    except OSError:
+        return
+    for pid in pids:
+        if pid in keep:
+            continue
+        try:
+            stat = open(f"/proc/{pid}/stat").read()
+        except OSError:
+            continue
+        name, rest = stat[stat.find("(") + 1:stat.rfind(")")], stat[stat.rfind(")") + 2:].split()
+        if rest[0] == "Z" and int(rest[1]) == me and name not in ("sh", "python", "python3"):
+            try:
+                os.waitpid(pid, os.WNOHANG)
+            except ChildProcessError:
+                pass
 
 
 def say(msg):
@@ -242,6 +280,7 @@ def main():
                 stop(proc)
                 cur_mode = new_mode
                 proc = start(cur_mode)
+        reap_orphans(keep={proc.pid} if proc else ())
         if proc and proc.poll() is not None:
             say(f"bot exited with {proc.returncode}; restarting in 10s")
             time.sleep(10)
