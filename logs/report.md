@@ -35,25 +35,23 @@
 
 ## LIVE
 
-- Equity: **4,963,853 TMN** (-0.723%)
+- Equity: **4,963,657 TMN** (-0.727%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 29 (sources: {'llm:boxapi': 29})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 29, 'sleeve_order': 169, 'quote': 549, 'buy_blocked': 1872, 'buy_unblocked': 1835, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 30 (sources: {'llm:boxapi': 30})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 30, 'sleeve_order': 169, 'quote': 559, 'buy_blocked': 1921, 'buy_unblocked': 1884, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BNB": 0.8,
-    "CAKE": 0.8,
-    "GALA": 1.2
+    "BNB": 1.0
   },
   "pause": false,
-  "reasoning": "Pick BNB because its Toman spread is 80.2 bps (meets the >=80 bps rule), huge 24h vol 91,071M TMN and low fv_vol 49.6 bps → quote tight (h=0.8). Pick CAKE because spread 87.6 bps, fv_vol very low 30.2 bps and usdt_spread 158.6 bps; it is quoted now so a tight h=0.8 is appropriate. Pick GALA for its very wide spread 201.6 bps and large USDT/TMN spread 565 bps; higher fv_vol (355.7 bps) so widen to h=1.2 to avoid being picked off. No pause — no market-wide shock present. Sleeves: keep rial full (1.0) because USDT/TMN 48h +4.33% (regime cap=1.0) and rial backtest positive; keep beta at 0.8 (current scale_now) and keep its three-weighted assets PEPE/ADA/LINK which are the sleeve weights and have been used in the backtest.",
+  "reasoning": "Place only BNB because its Toman spread is 80.1 bps (meets our >=80 bps rule), 24h Toman volume is very large (91,071M TMN) and fv_vol_bps is low (29.8), so it is a busy, calm market; I pick h=1.0% to stay conservative against adverse selection. I avoid GALA and CHZ because GALA shows a Toman-book slide (buy_blocked) and CHZ has CHZUSDT frozen 15 min (fair value unverifiable); IMX/others are flagged as broken or have spreads below our threshold. Keep pause=false since there is no market-wide shock in the news and USDT/TMN regime supports rial-weakening. Sleeves: USDT/TMN 48h +4.33% gives us full exposure cap (1.0), so keep rial at 1.0 (rial sleeve value 2,598,938 TMN, return -0.61% but regime supportive) and keep beta at 0.8 (current scale_now 0.8, value 1,815,951 TMN, return -1.0%); beta assets chosen are PEPE/ADA/LINK per current sleeve weights and momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
