@@ -35,23 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,035,268 TMN** (+0.705%)
+- Equity: **5,061,438 TMN** (+1.229%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 69 (sources: {'llm:boxapi': 69})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 69, 'sleeve_order': 171, 'quote': 1965, 'buy_blocked': 4875, 'buy_unblocked': 4823, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 70 (sources: {'llm:boxapi': 70})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 70, 'sleeve_order': 171, 'quote': 1967, 'buy_blocked': 4941, 'buy_unblocked': 4891, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CAKE": 0.9
+    "FIL": 1.4,
+    "SUI": 1.3,
+    "BCH": 1.2
   },
   "pause": false,
-  "reasoning": "Only CAKE meets the bot's minimum Toman spread rule (spread_bps 102.7 >= 80) while having low fair-value volatility (fv_vol_bps 54.3) and no buy_blocked flags; vol24h_mtmn is 1026 so liquidity is adequate. I set h=0.9% (near the narrow end) because the Toman spread is wide (102.7 bps) and FV is calm, allowing a tighter quote without excessive adverse selection. Other large spreads (DOT 768.7, PENGU 258.4, CHZ 203.3, FIL 99.9) are excluded because of buy_blocked/fair-value shocks or sliding Toman-book signals. Keep the rial sleeve at full exposure 1.0 because USDT/TMN 48h +3.08% (regime cap 1.0) supports holding rial (rial sleeve currently scale 1.0); keep beta at 0.8 (current scale) because beta has positive return 2.77% and we avoid increasing exposure before the scheduled wind-down.",
+  "reasoning": "Pick FIL, SUI, BCH because all have wide Toman spreads above our 80 bps threshold: FIL spread 197.9 bps (usdt_spread 435 bps, premium +101.5 bps) is the widest so we quote widest h=1.4. SUI has spread 161.5 bps with moderate fv_vol 216 bps so h=1.3. BCH spread 105.0 bps and reasonable vol (fv_vol 214 bps) gets h=1.2. Avoided candidates with buy blocks/quoted_now (XRP/UNI/CAKE/CHZ/GALA) and markets with spread <80 bps (e.g. SOL, BNB, ARB). Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +3.13% -> regime cap 1.0 and rial sleeve return +0.49%; keep beta at current 0.8 (value return +3.26%) and keep its existing top momentum names PEPE/ADA/LINK.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
