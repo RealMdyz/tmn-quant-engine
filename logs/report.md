@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,961,335 TMN** (-0.773%)
+- Equity: **4,955,848 TMN** (-0.883%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 27 (sources: {'llm:boxapi': 27})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 27, 'sleeve_order': 169, 'quote': 513, 'buy_blocked': 1793, 'buy_unblocked': 1755, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 28 (sources: {'llm:boxapi': 28})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 28, 'sleeve_order': 169, 'quote': 528, 'buy_blocked': 1810, 'buy_unblocked': 1772, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9,
-    "GALA": 1.3,
-    "APE": 0.95
+    "BNB": 0.9,
+    "CAKE": 0.85,
+    "BCH": 1.3
   },
   "pause": false,
-  "reasoning": "Choose SUI because its Toman spread is wide (148.5 bps) with low fair-value volatility (fv_vol_bps 29.3) and reasonable 24h volume (4,988 M TNM) — quote tighter at h=0.9 to capture spread without excessive adverse selection. Choose GALA because it has an even wider spread (160.3 bps), very large USDT/TMN spread (391.1 bps) and decent volume (2,147 M TNM) but high fv volatility (507.2 bps) so set h=1.3 to stay conservative. Choose APE as the third market since spread is just above our 80 bps floor (83.4 bps) with extremely low fv_vol_bps (2.2) and good volume (5,766 M TNM), so a slightly tighter h=0.95 is appropriate. Do not quote markets with buy_blocked or broken books (e.g., IMX, BNB, FIL, DOT flagged) and avoid markets with spread_bps <80 (e.g., XRP, UNI). Keep sleeves at rial=1.0 and beta=0.8 because USDT/TMN 48h +4.33% grants full exposure (regime cap 1.0), rial sleeve is already at scale 1.0 (capital ~2.62M TNM, return -0.5%), and beta remains scaled 0.8 (capital ~2.25M TNM, return -0.8%) — continue beta with PEPE/ADA/LINK which are the current weighted universe and have higher momentum potential.",
+  "reasoning": "Picked BNB, CAKE and BCH because each has Toman spread >= 80 bps (BNB 80.2, CAKE 94.0, BCH 89.0) and no buy_blocked flags; I avoided SUI/DOT/IMX/GALA which show buy_blocked or sliding Toman-book warnings. BNB is very busy (vol24h 91,056M TMN) with moderate fv_vol 100 bps so I quote slightly tighter at h=0.9% to capture volume while respecting maker-fee round trip cost (~0.5%). CAKE has low fv_vol (54.7 bps) and adequate spread so I use a conservative tight h=0.85% to be competitive. BCH is thinner (vol24h 1,027M) with higher fv_vol (134.8 bps) so I widen to h=1.3% to reduce adverse selection. Sleeves: USDT/TMN regime shows 48h +4.33% so full rial exposure is kept at 1.0 (rial backtest +0.88% when entered in this regime); beta remains at current 0.8 scale (value_tmn 1,818,311, return -0.87%) to keep participation but limit risk ahead of scheduled wind-down steps.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
