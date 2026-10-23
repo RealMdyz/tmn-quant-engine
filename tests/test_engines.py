@@ -166,10 +166,10 @@ def test_portfolio_three_sleeves():
     failed = [x for x in _events(tmp) if x["event"] in ("quote_failed", "sleeve_order_failed")]
     assert not failed, f"orders rejected for lack of Toman: {failed[:3]}"
     n0 = len(_events(tmp))
-    fake.usd["PEPE"] *= 1.20                                  # a rally must not make the sleeve sell and rebuy
+    fake.usd["PEPE"] *= 1.20                                  # a rally may trigger profit saving, never a buy-back
     run(40)
-    churn = [x for x in _events(tmp)[n0:] if x["event"] == "sleeve_order" and x["asset"] == "PEPE"]
-    assert not churn, f"price rise alone traded PEPE: {[(x['side'], x['size_tmn']) for x in churn]}"
+    churn = [x for x in _events(tmp)[n0:] if x["event"] == "sleeve_order" and x["asset"] == "PEPE" and x["side"] == "BUY"]
+    assert not churn, f"bought PEPE back after a rally: {[(x['side'], x['size_tmn']) for x in churn]}"
     fake.usd["PEPE"] /= 1.20
     for c in ("ADA", "PEPE", "LINK", "SHIB", "DOGE"):         # beta crash beyond its 7% disaster stop
         fake.usd[c] *= 0.91
@@ -308,6 +308,38 @@ def test_live_restart_adopts_an_unrecorded_fill():
         CLOCK[0] += 2
     buys = [x for x in _events(tmp, "live") if x["event"] == "sleeve_order" and x["side"] == "BUY"]
     assert not buys, f"nothing is bought again: {[(x['asset'], x['size_tmn']) for x in buys]}"
+
+
+def test_profit_saving_after_a_rally():
+    random.seed(13)
+    tmp = tempfile.mkdtemp()
+    coins = {"SOL": 180.0, "BTC": 108000.0, "ETH": 3900.0, "ADA": 0.65, "PEPE": 0.00001, "LINK": 17.5}
+    fake = FakeWallex(coins)
+    fake.random_flow = False
+    fake.candles = lambda sym, res, a, b: {"t": [b - 3600 * k for k in range(60, -1, -1)],
+                                           "c": [USDT * (1 - 0.0004 * k) for k in range(60, -1, -1)]}
+    e = mm_engine.MMEngine(_cfg(tmp, coins, "mm"), "shadow", None, client=fake)
+    e.setup()
+    CLOCK[0] = 1_790_000_000.0 + 3600 * 19.5
+
+    def run(n):
+        for _ in range(n):
+            e.step()
+            CLOCK[0] += 2
+    run(400)
+    b = e.sleeves["beta"]
+    assert b.value(e._books)[0] > 0.8 * b.capital and b.profit_cap == 1.0
+    for c in ("PEPE", "ADA", "LINK"):                          # +8% rally of the beta coins
+        fake.usd[c] *= 1.08
+    n0 = len(_events(tmp))
+    run(30)
+    ev = _events(tmp)[n0:]
+    pt = [x for x in ev if x["event"] == "profit_take"]
+    assert [x["keep"] for x in pt] == [0.5], pt                # ~+6.5% after fees passes both tiers -> keep 50%
+    sells = [x for x in ev if x["event"] == "sleeve_order" and x["sleeve"] == "beta" and x["side"] == "SELL"]
+    assert len(sells) == 3 and not any(x["taker"] for x in sells), "maker sells of half of each beta coin"
+    assert not any(x["event"] == "sleeve_order" and x["side"] == "BUY" for x in ev), "nothing bought back"
+    assert e.sleeves["rial"].profit_cap == 1.0, "the other sleeve is untouched"
 
 
 def test_live_self_test_with_paper_executor():

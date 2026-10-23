@@ -41,12 +41,14 @@ class HoldingSleeve:
         self.last_reweight = 0.0
         self.trim_t0: dict[str, float] = {}    # asset -> when the current trim/wind-down sale started
         self.build_t0: dict[str, float] = {}   # asset -> when the current build (first maker bid) started
+        self.profit_cap = 1.0                  # profit saving: share of the sleeve kept after a strong rally (sticky)
 
     # -------------------------------------------------------------- state
     def to_state(self):
         return {"pos": self.pos, "orders": self.orders, "realised": self.realised, "peak_ret": self.peak_ret,
                 "stopped": self.stopped, "scale": self.scale, "weights": self.weights,
-                "last_reweight": self.last_reweight, "trim_t0": self.trim_t0, "build_t0": self.build_t0}
+                "last_reweight": self.last_reweight, "trim_t0": self.trim_t0, "build_t0": self.build_t0,
+                "profit_cap": self.profit_cap}
 
     def from_state(self, s):
         self.pos = s.get("pos") or {}
@@ -59,6 +61,7 @@ class HoldingSleeve:
         self.last_reweight = s.get("last_reweight", 0.0)
         self.trim_t0 = s.get("trim_t0") or {}
         self.build_t0 = s.get("build_t0") or {}
+        self.profit_cap = s.get("profit_cap", 1.0)
 
     # ------------------------------------------------------------ helpers
     def assets(self):
@@ -165,6 +168,16 @@ class HoldingSleeve:
                 self.stopped = f"trailing stop: {r*100:.2f}% after a peak of {self.peak_ret*100:.2f}%"
             if self.stopped:
                 self.e.dlog.write("sleeve_stop", sleeve=self.name, why=self.stopped, value_tmn=round(v), cost_tmn=round(c))
+            # profit saving: after a strong rally part of the sleeve is sold (maker) and never bought back
+            hit = [(thr, keep) for thr, keep in self.cfg.get("profit_take") or [] if r * 100 >= thr]
+            if hit and not self.stopped and min(k for _, k in hit) < self.profit_cap:
+                thr, keep = min(hit, key=lambda x: x[1])        # deepest tier reached, applied once
+                self.profit_cap = keep
+                self.e.dirty()
+                self.e.dlog.write("profit_take", sleeve=self.name, return_pct=round(r * 100, 2), keep=keep,
+                                  value_tmn=round(v), cost_tmn=round(c),
+                                  why=f"{self.name}: up {r*100:.1f}% (>= {thr}%): sell down to {keep*100:.0f}% "
+                                      f"of the sleeve to lock in the gain")
         if now - self.last_act < self.cfg.get("act_every_s", 20) and not self.stopped:
             return
         self.last_act = now
@@ -179,7 +192,7 @@ class HoldingSleeve:
             bid, ask = b["bids"][0][0], b["asks"][0][0]
             p = self.pos.get(a, {"qty": 0.0, "cost": 0.0})
             exit_now = self.stopped or self.must_exit(a, now)
-            target = 0.0 if exit_now else self.capital * self.weights.get(a, 0.0) * self.scale * wind
+            target = 0.0 if exit_now else self.capital * self.weights.get(a, 0.0) * self.scale * wind * self.profit_cap
             o = self.orders.get(a)
             if not self.market_open(a, now):
                 continue
@@ -231,7 +244,8 @@ class HoldingSleeve:
                         continue
                 sell_q = p["qty"] * min(1.0, -need / p["cost"]) if p["cost"] > 0 else p["qty"]
                 why = (f"{self.name}: end-of-challenge wind-down, {wind*100:.0f}% of the sleeve still held"
-                       if wind < 1 else f"{self.name}: trim {a} to target {target:,.0f} TMN (AI/regime lowered exposure)")
+                       if wind < 1 else f"{self.name}: profit saving / exposure cut, {a} to {target:,.0f} TMN "
+                                         f"(keep {self.profit_cap*100:.0f}% after rallies, AI exposure {self.scale*100:.0f}%)")
                 if taker:
                     self.sell_now(a, m, books, why + f" (maker ask unfilled for {(now - since)/60:.0f} min -> taker)",
                                   qty=sell_q)

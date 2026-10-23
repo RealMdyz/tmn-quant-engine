@@ -109,6 +109,7 @@ portfolio:
       trail_gap_pct: 99
       maker_timeout_s: 300     # entry: maker at the best bid, taker after 5 min (shadow: makers filled in 1-3 min)
       wind_down_taker_after_s: 900  # end wind-down: a step unsold by maker ask in 15 min is sold as taker
+      profit_take: [[3.0, 0.75], [5.0, 0.5]]   # profit saving: sleeve up 3% -> keep 75%, up 5% -> keep 50% (maker sells)
       usdt_exit_at: "2026-10-23T20:00:00+03:30"   # only used if USDT is ever added (USDT/TMN closes 21:00)
     beta:                      # HIGH risk
       capital_pct: 45
@@ -120,12 +121,13 @@ portfolio:
       trail_gap_pct: 99
       maker_timeout_s: 300
       wind_down_taker_after_s: 900
+      profit_take: [[3.0, 0.75], [5.0, 0.5]]
 
 risk:
   max_position_pct: 0.40        # a single quote never exceeds 40% of equity
   min_order_tmn: 100000        # smallest market-maker bid (exchange minimum 50k): with ~129k TMN free the MM can still trade
   daily_loss_limit_pct: 2.5     # stop quoting for the day after -2.5%
-  max_drawdown_pct: 4.0         # circuit breaker: -4% from peak -> flatten + pause ...
+  max_drawdown_pct: 4.5         # circuit breaker: -4.5% from peak -> flatten + pause ... (owner: 4% -> 4.5%)
   pause_minutes: 60             # ... for 60 min, then resume ...
   size_after_pause: 0.5         # ... at half size
   second_drawdown_pct: 2.0      # a further -2% after resuming -> permanent stop

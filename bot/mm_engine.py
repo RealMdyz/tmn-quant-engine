@@ -73,6 +73,7 @@ YOU decide, every ~20 minutes, using the tools:
      worst -2.9%), beta PEPE/ADA/LINK +1.28% (30%, worst -4.3%); entered at 0..+1% or below 0 they LOST
      (-0.8..-2%). For each sleeve choose an exposure in [0, 1]; the deterministic regime cap is applied on top.
      In the last 4 hours the engine sells the sleeves in steps on its own (end_wind_down); no buying then.
+     Profit saving is automatic: a sleeve up >= 3% is sold down to 75%, up >= 5% to 50% (never bought back).
      Cut exposure on news that the rial may strengthen (deal/negotiation progress, central-bank action,
      sharp USDT/TMN drop) or on crypto-crash news; keep it when the trend and news support it. For "beta"
      you may pick 2-4 coins from its universe (prefer high recent momentum, avoid coin-specific bad news).
@@ -382,7 +383,7 @@ class MMEngine:
             v, c = sl.value(books)
             out["sleeves"][k] = {"capital_tmn": round(sl.capital), "weights": sl.weights, "scale_now": sl.scale,
                                  "value_tmn": round(v), "cost_tmn": round(c), "return_pct": round(sl.ret(books) * 100, 2),
-                                 "pnl_tmn": round(sl.pnl(books)), "stopped": sl.stopped,
+                                 "pnl_tmn": round(sl.pnl(books)), "stopped": sl.stopped, "profit_saving_keep": sl.profit_cap,
                                  "stop_pct": sl.cfg["stop_pct"], "universe": sl.cfg.get("universe")}
         return out
 
