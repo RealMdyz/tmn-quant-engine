@@ -35,14 +35,14 @@
 
 ## LIVE
 
-- Equity: **5,004,369 TMN** (+0.087%)
+- Equity: **5,016,296 TMN** (+0.326%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
 - AI supervisor decisions: 34 (sources: {'llm:boxapi': 34})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 34, 'sleeve_order': 169, 'quote': 681, 'buy_blocked': 2302, 'buy_unblocked': 2264, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 34, 'sleeve_order': 169, 'quote': 682, 'buy_blocked': 2339, 'buy_unblocked': 2299, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
