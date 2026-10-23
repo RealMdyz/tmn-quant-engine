@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,927,734 TMN** (-1.445%)
+- Equity: **4,930,642 TMN** (-1.387%)
 - Max drawdown: **3.650%**
 - Traded volume: 564,491 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 0 | 0 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 95 (sources: {'llm:boxapi': 95})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 95, 'sleeve_order': 329, 'quote': 2846, 'buy_blocked': 6688, 'buy_unblocked': 6624, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 1, 'sleeve_reweight': 1}
+- AI supervisor decisions: 96 (sources: {'llm:boxapi': 96})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 96, 'sleeve_order': 329, 'quote': 2892, 'buy_blocked': 6735, 'buy_unblocked': 6675, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 1, 'sleeve_reweight': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
     "FIL": 1.2,
-    "CHZ": 1.5
+    "BCH": 1.3,
+    "GALA": 1.4
   },
   "pause": false,
-  "reasoning": "I pick FIL (spread_bps 159.5, usdt_spread_bps 158.0, fv_vol_bps 151.2) because its Toman spread is wide and the FV volatility is moderate so a maker quote with h=1.2% is appropriate. I pick CHZ (spread_bps 136.2, fv_vol_bps 1496.7, quoted_now=true) as a second wide-spread market but set h=1.5% because its FV volatility is extremely high. I avoid DOT, PENGU and several others: DOT and several coins show Toman book sliding buy_blocked flags, and PENGU produced a losing live round trip (realised_pnl_tmn -2109, avg_round_trip_bps -178.3). Portfolio sleeves are set to 0.0 because USDT/TMN 48h +0.71% produced a regime cap of 0.0 and the engine already has scale_now 0.0 for both sleeves; continuing wind-down and the cap argue for no new exposure.",
+  "reasoning": "I pick FIL, BCH and GALA because they have wide Toman spreads (FIL 188.4 bps, BCH 126.8 bps, GALA 124.7 bps) and reasonable 24h liquidity (FIL vol 3,932M TMN, BCH 2,133M, GALA 1,157M) with no buy-blocks. I avoid markets with active buy blocks or recent losing live fills (PENGU had a -2,109 TMN loss / avg -178 bps and is excluded; several others show Toman-book sliding). I set half-spreads h wider where fair-value volatility is higher: FIL h=1.2% (fv_vol 149.2 bps), BCH h=1.3% (fv_vol 259.3 bps) and GALA h=1.4% (fv_vol 338.9 bps) to protect against adverse selection. Sleeves are set to zero exposure (rial=0.0, beta=0.0) because USDT/TMN 48h only +0.71% -> regime cap 0.0 and historically sleeves lost when entered outside the rial-weakening regime; beta assets listed as PEPE and ADA (high-momentum names) in case scale is later allowed.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
