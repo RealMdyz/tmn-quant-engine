@@ -12369,3 +12369,122 @@
 {"ts": 1792765442.158, "time": "2026-10-23 17:54:02", "mode": "live", "event": "buy_unblocked", "coin": "APE", "why": "guards pass"}
 {"ts": 1792765448.214, "time": "2026-10-23 17:54:08", "mode": "live", "event": "buy_blocked", "coin": "APE", "why": "fair value fell -3717 bps in 60s"}
 {"ts": 1792765452.353, "time": "2026-10-23 17:54:12", "mode": "live", "event": "buy_unblocked", "coin": "APE", "why": "guards pass"}
+{"ts": 1792765460.624, "time": "2026-10-23 17:54:20", "mode": "live", "event": "buy_blocked", "coin": "APE", "why": "fair value fell -3740 bps in 60s"}
+{"ts": 1792765462.018, "time": "2026-10-23 17:54:22", "mode": "live", "event": "buy_unblocked", "coin": "SUI", "why": "guards pass"}
+{"ts": 1792765462.207, "time": "2026-10-23 17:54:22", "mode": "live", "event": "buy_unblocked", "coin": "APE", "why": "guards pass"}
+{"ts": 1792765468.11, "time": "2026-10-23 17:54:28", "mode": "live", "event": "buy_unblocked", "coin": "WLD", "why": "guards pass"}
+{"ts": 1792765470.271, "time": "2026-10-23 17:54:30", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -70 bps in 60s"}
+{"ts": 1792765472.265, "time": "2026-10-23 17:54:32", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765480.189, "time": "2026-10-23 17:54:40", "mode": "live", "event": "buy_blocked", "coin": "APE", "why": "fair value fell -1717 bps in 60s"}
+{"ts": 1792765484.154, "time": "2026-10-23 17:54:44", "mode": "live", "event": "buy_blocked", "coin": "WLD", "why": "Toman book sliding: premium -30 bps vs 4 bps baseline in 120s"}
+{"ts": 1792765484.161, "time": "2026-10-23 17:54:44", "mode": "live", "event": "buy_unblocked", "coin": "APE", "why": "guards pass"}
+{"ts": 1792765486.12, "time": "2026-10-23 17:54:46", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -57 bps in 60s"}
+{"ts": 1792765488.154, "time": "2026-10-23 17:54:48", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765506.161, "time": "2026-10-23 17:55:06", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -73 bps in 60s"}
+{"ts": 1792765508.214, "time": "2026-10-23 17:55:08", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765508.251, "time": "2026-10-23 17:55:08", "mode": "live", "event": "buy_unblocked", "coin": "ENA", "why": "guards pass"}
+{"ts": 1792765514.528, "time": "2026-10-23 17:55:14", "mode": "live", "event": "quote", "coin": "CAKE", "side": "BUY", "price": 577506.0, "qty": 0.57, "size_tmn": 329178, "fair_value": 582988.985234, "edge_bps": 94.0, "half_spread_pct": 0.9, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792765534.11, "time": "2026-10-23 17:55:34", "mode": "live", "event": "buy_unblocked", "coin": "HYPE", "why": "guards pass"}
+{"ts": 1792765542.176, "time": "2026-10-23 17:55:42", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -58 bps in 60s"}
+{"ts": 1792765544.161, "time": "2026-10-23 17:55:44", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765558.23, "time": "2026-10-23 17:55:58", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -71 bps in 60s"}
+{"ts": 1792765561.984, "time": "2026-10-23 17:56:01", "mode": "live", "event": "buy_unblocked", "coin": "SOL", "why": "guards pass"}
+{"ts": 1792765564.242, "time": "2026-10-23 17:56:04", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765574.153, "time": "2026-10-23 17:56:14", "mode": "live", "event": "buy_blocked", "coin": "HYPE", "why": "Toman book sliding: premium -42 bps vs 34 bps baseline in 120s"}
+{"ts": 1792765574.225, "time": "2026-10-23 17:56:14", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -72 bps in 60s"}
+{"ts": 1792765576.209, "time": "2026-10-23 17:56:16", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765604.026, "time": "2026-10-23 17:56:44", "mode": "live", "event": "buy_blocked", "coin": "SOL", "why": "Toman book sliding: premium -48 bps vs 4 bps baseline in 120s"}
+{"ts": 1792765610.211, "time": "2026-10-23 17:56:50", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -68 bps in 60s"}
+{"ts": 1792765612.088, "time": "2026-10-23 17:56:52", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -56 bps in 60s"}
+{"ts": 1792765612.126, "time": "2026-10-23 17:56:52", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765614.14, "time": "2026-10-23 17:56:54", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765618.309, "time": "2026-10-23 17:56:58", "mode": "live", "event": "buy_blocked", "coin": "ENA", "why": "fair value fell -64 bps in 60s"}
+{"ts": 1792765620.356, "time": "2026-10-23 17:57:00", "mode": "live", "event": "buy_unblocked", "coin": "ENA", "why": "guards pass"}
+{"ts": 1792765640.12, "time": "2026-10-23 17:57:20", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -51 bps in 60s"}
+{"ts": 1792765642.08, "time": "2026-10-23 17:57:22", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765644.165, "time": "2026-10-23 17:57:24", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -60 bps in 60s"}
+{"ts": 1792765646.12, "time": "2026-10-23 17:57:26", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -50 bps in 60s"}
+{"ts": 1792765646.156, "time": "2026-10-23 17:57:26", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765648.133, "time": "2026-10-23 17:57:28", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765650.241, "time": "2026-10-23 17:57:30", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -67 bps in 60s"}
+{"ts": 1792765652.142, "time": "2026-10-23 17:57:32", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765658.286, "time": "2026-10-23 17:57:38", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -59 bps in 60s"}
+{"ts": 1792765660.232, "time": "2026-10-23 17:57:40", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765662.181, "time": "2026-10-23 17:57:42", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -59 bps in 60s"}
+{"ts": 1792765664.141, "time": "2026-10-23 17:57:44", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765670.147, "time": "2026-10-23 17:57:50", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -64 bps in 60s"}
+{"ts": 1792765672.239, "time": "2026-10-23 17:57:52", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765674.116, "time": "2026-10-23 17:57:54", "mode": "live", "event": "buy_blocked", "coin": "BNB", "why": "Toman book sliding: premium -16 bps vs 16 bps baseline in 120s"}
+{"ts": 1792765688.157, "time": "2026-10-23 17:58:08", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -46 bps in 60s"}
+{"ts": 1792765690.267, "time": "2026-10-23 17:58:10", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765692.226, "time": "2026-10-23 17:58:12", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -46 bps in 60s"}
+{"ts": 1792765694.222, "time": "2026-10-23 17:58:14", "mode": "live", "event": "buy_unblocked", "coin": "HYPE", "why": "guards pass"}
+{"ts": 1792765696.37, "time": "2026-10-23 17:58:16", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765716.17, "time": "2026-10-23 17:58:36", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -59 bps in 60s"}
+{"ts": 1792765718.337, "time": "2026-10-23 17:58:38", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765728.181, "time": "2026-10-23 17:58:48", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -43 bps in 60s"}
+{"ts": 1792765730.091, "time": "2026-10-23 17:58:50", "mode": "live", "event": "buy_blocked", "coin": "HYPE", "why": "Toman book sliding: premium -43 bps vs 35 bps baseline in 120s"}
+{"ts": 1792765730.105, "time": "2026-10-23 17:58:50", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765736.245, "time": "2026-10-23 17:58:56", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -62 bps in 60s"}
+{"ts": 1792765738.331, "time": "2026-10-23 17:58:58", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765740.153, "time": "2026-10-23 17:59:00", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -42 bps in 60s"}
+{"ts": 1792765742.29, "time": "2026-10-23 17:59:02", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765748.163, "time": "2026-10-23 17:59:08", "mode": "live", "event": "buy_unblocked", "coin": "FIL", "why": "guards pass"}
+{"ts": 1792765748.198, "time": "2026-10-23 17:59:08", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -61 bps in 60s"}
+{"ts": 1792765750.127, "time": "2026-10-23 17:59:10", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -44 bps in 60s"}
+{"ts": 1792765750.159, "time": "2026-10-23 17:59:10", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765752.178, "time": "2026-10-23 17:59:12", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765754.415, "time": "2026-10-23 17:59:14", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -60 bps in 60s"}
+{"ts": 1792765756.275, "time": "2026-10-23 17:59:16", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765766.237, "time": "2026-10-23 17:59:26", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -44 bps in 60s"}
+{"ts": 1792765768.165, "time": "2026-10-23 17:59:28", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765776.049, "time": "2026-10-23 17:59:36", "mode": "live", "event": "buy_unblocked", "coin": "SOL", "why": "guards pass"}
+{"ts": 1792765782.138, "time": "2026-10-23 17:59:42", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -41 bps in 60s"}
+{"ts": 1792765784.272, "time": "2026-10-23 17:59:44", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765788.141, "time": "2026-10-23 17:59:48", "mode": "live", "event": "buy_blocked", "coin": "FIL", "why": "Toman book sliding: premium 80 bps vs 113 bps baseline in 120s"}
+{"ts": 1792765794.163, "time": "2026-10-23 17:59:54", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -42 bps in 60s"}
+{"ts": 1792765796.207, "time": "2026-10-23 17:59:56", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765804.266, "time": "2026-10-23 18:00:04", "mode": "live", "event": "buy_blocked", "coin": "APE", "why": "fair value fell -3925 bps in 60s"}
+{"ts": 1792765806.347, "time": "2026-10-23 18:00:06", "mode": "live", "event": "buy_unblocked", "coin": "APE", "why": "guards pass"}
+{"ts": 1792765810.435, "time": "2026-10-23 18:00:10", "mode": "live", "event": "buy_blocked", "coin": "APE", "why": "Toman book sliding: premium -72 bps vs -26 bps baseline in 120s"}
+{"ts": 1792765816.189, "time": "2026-10-23 18:00:16", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -56 bps in 60s"}
+{"ts": 1792765820.276, "time": "2026-10-23 18:00:20", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765830.263, "time": "2026-10-23 18:00:30", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -60 bps in 60s"}
+{"ts": 1792765832.124, "time": "2026-10-23 18:00:32", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765856.303, "time": "2026-10-23 18:00:56", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -69 bps in 60s"}
+{"ts": 1792765858.18, "time": "2026-10-23 18:00:58", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765870.25, "time": "2026-10-23 18:01:10", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -48 bps in 60s"}
+{"ts": 1792765872.198, "time": "2026-10-23 18:01:12", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792765896.327, "time": "2026-10-23 18:01:36", "mode": "live", "event": "buy_blocked", "coin": "ENA", "why": "Toman book sliding: premium -94 bps vs -22 bps baseline in 120s"}
+{"ts": 1792765908.234, "time": "2026-10-23 18:01:48", "mode": "live", "event": "buy_blocked", "coin": "AAVE", "why": "fair value fell -43 bps in 60s"}
+{"ts": 1792765910.153, "time": "2026-10-23 18:01:50", "mode": "live", "event": "buy_unblocked", "coin": "AAVE", "why": "guards pass"}
+{"ts": 1792765912.437, "time": "2026-10-23 18:01:52", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -55 bps in 60s"}
+{"ts": 1792765912.735, "time": "2026-10-23 18:01:52", "mode": "live", "event": "quote", "coin": "CAKE", "side": "BUY", "price": 578742.0, "qty": 0.57, "size_tmn": 329883, "fair_value": 584544.491908, "edge_bps": 99.3, "half_spread_pct": 0.9, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792765914.187, "time": "2026-10-23 18:01:54", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765920.455, "time": "2026-10-23 18:02:00", "mode": "live", "event": "buy_blocked", "coin": "CAKE", "why": "Toman book sliding: premium -44 bps vs 1 bps baseline in 120s"}
+{"ts": 1792765930.301, "time": "2026-10-23 18:02:10", "mode": "live", "event": "buy_unblocked", "coin": "APE", "why": "guards pass"}
+{"ts": 1792765936.191, "time": "2026-10-23 18:02:16", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "fair value fell -46 bps in 60s"}
+{"ts": 1792765938.284, "time": "2026-10-23 18:02:18", "mode": "live", "event": "buy_unblocked", "coin": "PENGU", "why": "guards pass"}
+{"ts": 1792765958.18, "time": "2026-10-23 18:02:38", "mode": "live", "event": "buy_unblocked", "coin": "HYPE", "why": "guards pass"}
+{"ts": 1792765960.474, "time": "2026-10-23 18:02:40", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "Toman book sliding: premium -54 bps vs -13 bps baseline in 120s"}
+{"ts": 1792765962.234, "time": "2026-10-23 18:02:42", "mode": "live", "event": "buy_blocked", "coin": "HYPE", "why": "Toman book sliding: premium 3 bps vs 36 bps baseline in 120s"}
+{"ts": 1792765984.074, "time": "2026-10-23 18:03:04", "mode": "live", "event": "buy_blocked", "coin": "SOL", "why": "fair value fell -51 bps in 60s"}
+{"ts": 1792765986.189, "time": "2026-10-23 18:03:06", "mode": "live", "event": "buy_unblocked", "coin": "SOL", "why": "guards pass"}
+{"ts": 1792765986.359, "time": "2026-10-23 18:03:06", "mode": "live", "event": "buy_unblocked", "coin": "GALA", "why": "guards pass"}
+{"ts": 1792766006.271, "time": "2026-10-23 18:03:26", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -63 bps in 60s"}
+{"ts": 1792766008.297, "time": "2026-10-23 18:03:28", "mode": "live", "event": "buy_unblocked", "coin": "CHZ", "why": "guards pass"}
+{"ts": 1792766010.13, "time": "2026-10-23 18:03:30", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792766018.211, "time": "2026-10-23 18:03:38", "mode": "live", "event": "buy_blocked", "coin": "SOL", "why": "fair value fell -46 bps in 60s"}
+{"ts": 1792766020.203, "time": "2026-10-23 18:03:40", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -67 bps in 60s"}
+{"ts": 1792766022.169, "time": "2026-10-23 18:03:42", "mode": "live", "event": "buy_unblocked", "coin": "SOL", "why": "guards pass"}
+{"ts": 1792766022.264, "time": "2026-10-23 18:03:42", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792766036.129, "time": "2026-10-23 18:03:56", "mode": "live", "event": "buy_blocked", "coin": "SOL", "why": "fair value fell -48 bps in 60s"}
+{"ts": 1792766038.189, "time": "2026-10-23 18:03:58", "mode": "live", "event": "buy_unblocked", "coin": "SOL", "why": "guards pass"}
+{"ts": 1792766038.29, "time": "2026-10-23 18:03:58", "mode": "live", "event": "buy_unblocked", "coin": "FIL", "why": "guards pass"}
+{"ts": 1792766040.069, "time": "2026-10-23 18:04:00", "mode": "live", "event": "buy_blocked", "coin": "SOL", "why": "fair value fell -46 bps in 60s"}
+{"ts": 1792766042.079, "time": "2026-10-23 18:04:02", "mode": "live", "event": "buy_unblocked", "coin": "SOL", "why": "guards pass"}
+{"ts": 1792766042.131, "time": "2026-10-23 18:04:02", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -59 bps in 60s"}
+{"ts": 1792766044.276, "time": "2026-10-23 18:04:04", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792766052.209, "time": "2026-10-23 18:04:12", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -62 bps in 60s"}
+{"ts": 1792766056.544, "time": "2026-10-23 18:04:16", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792766060.549, "time": "2026-10-23 18:04:20", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -55 bps in 60s"}
