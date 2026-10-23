@@ -35,23 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,946,061 TMN** (-1.079%)
+- Equity: **4,959,923 TMN** (-0.802%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 26 (sources: {'llm:boxapi': 26})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 26, 'sleeve_order': 169, 'quote': 451, 'buy_blocked': 1748, 'buy_unblocked': 1712, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 27 (sources: {'llm:boxapi': 27})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 27, 'sleeve_order': 169, 'quote': 485, 'buy_blocked': 1773, 'buy_unblocked': 1741, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.0
+    "SUI": 0.9,
+    "GALA": 1.3,
+    "APE": 0.95
   },
   "pause": false,
-  "reasoning": "Only SUI meets the bot's minimum Toman spread rule: spread_bps=156.6, vol24h_mtmn=4,988 and fv_vol_bps is low at 16.4 so fair value looks stable; it is already quoted_now which reduces implementation friction. Most other wide-spread names are unusable (GALA shows a Toman-book slide flag; DOT and ARB have strong sliding-premium buy_blocked messages; CHZ and others are below the 80 bps threshold). I pick h=1.0% (wide enough given maker fees and adverse-selection risk but reasonable because SUI's fv_vol_bps is low). USDT/TMN 48h +4.33% keeps us in the rial-weakening regime (cap=1.0), so I keep rial exposure at 1.0; beta remains at current scale 0.8 and I keep its existing weights (PEPE, ADA, LINK) given no coin-specific negative news and the supportive rial trend. Minutes_to_end=1221 (no end-wind-down yet) and pause=false because there is no market-wide shock in the news.",
+  "reasoning": "Choose SUI because its Toman spread is wide (148.5 bps) with low fair-value volatility (fv_vol_bps 29.3) and reasonable 24h volume (4,988 M TNM) — quote tighter at h=0.9 to capture spread without excessive adverse selection. Choose GALA because it has an even wider spread (160.3 bps), very large USDT/TMN spread (391.1 bps) and decent volume (2,147 M TNM) but high fv volatility (507.2 bps) so set h=1.3 to stay conservative. Choose APE as the third market since spread is just above our 80 bps floor (83.4 bps) with extremely low fv_vol_bps (2.2) and good volume (5,766 M TNM), so a slightly tighter h=0.95 is appropriate. Do not quote markets with buy_blocked or broken books (e.g., IMX, BNB, FIL, DOT flagged) and avoid markets with spread_bps <80 (e.g., XRP, UNI). Keep sleeves at rial=1.0 and beta=0.8 because USDT/TMN 48h +4.33% grants full exposure (regime cap 1.0), rial sleeve is already at scale 1.0 (capital ~2.62M TNM, return -0.5%), and beta remains scaled 0.8 (capital ~2.25M TNM, return -0.8%) — continue beta with PEPE/ADA/LINK which are the current weighted universe and have higher momentum potential.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
