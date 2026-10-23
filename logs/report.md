@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,926,511 TMN** (-1.470%)
+- Equity: **4,928,831 TMN** (-1.423%)
 - Max drawdown: **3.650%**
 - Traded volume: 564,491 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 0 | 0 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 94 (sources: {'llm:boxapi': 94})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 94, 'sleeve_order': 329, 'quote': 2806, 'buy_blocked': 6645, 'buy_unblocked': 6579, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 1, 'sleeve_reweight': 1}
+- AI supervisor decisions: 95 (sources: {'llm:boxapi': 95})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 95, 'sleeve_order': 329, 'quote': 2827, 'buy_blocked': 6666, 'buy_unblocked': 6605, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 1, 'sleeve_reweight': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "DOT": 1.5,
-    "CHZ": 1.2
+    "FIL": 1.2,
+    "CHZ": 1.5
   },
   "pause": false,
-  "reasoning": "I pick DOT and CHZ because they are the only candidates with Toman spreads comfortably above our 80 bps cutoff without active buy-block flags: DOT spread 325.0 bps (vol24h 2754M TMN, fv_vol 389.6 bps) so I set a wide half-spread h=1.5% to protect against high fv volatility. CHZ has spread 102.2 bps, usdt_spread 176.9 bps and premium +65.1 bps with no buy_blocked, so I quote more moderately at h=1.2%. I avoid PENGU/FIL/IMX because PENGU had a live losing round trip (avg -178.3 bps, realised -2109 TMN) and FIL/IMX show Toman-book sliding buy_blocked alerts. Sleeves are set to zero exposure (rial 0.0, beta 0.0) because the regime cap is 0.0 (USDT/TMN 48h +0.71% -> cap 0.0) and the portfolio engine is in wind-down; beta_assets listed are PEPE and ADA following the sleeve weights and momentum preference.",
+  "reasoning": "I pick FIL (spread_bps 159.5, usdt_spread_bps 158.0, fv_vol_bps 151.2) because its Toman spread is wide and the FV volatility is moderate so a maker quote with h=1.2% is appropriate. I pick CHZ (spread_bps 136.2, fv_vol_bps 1496.7, quoted_now=true) as a second wide-spread market but set h=1.5% because its FV volatility is extremely high. I avoid DOT, PENGU and several others: DOT and several coins show Toman book sliding buy_blocked flags, and PENGU produced a losing live round trip (realised_pnl_tmn -2109, avg_round_trip_bps -178.3). Portfolio sleeves are set to 0.0 because USDT/TMN 48h +0.71% produced a regime cap of 0.0 and the engine already has scale_now 0.0 for both sleeves; continuing wind-down and the cap argue for no new exposure.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
