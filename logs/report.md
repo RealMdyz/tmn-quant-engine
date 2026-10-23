@@ -35,24 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,089,644 TMN** (+1.793%)
+- Equity: **5,100,040 TMN** (+2.001%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 60 (sources: {'llm:boxapi': 60})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 60, 'sleeve_order': 171, 'quote': 1603, 'buy_blocked': 4363, 'buy_unblocked': 4309, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 61 (sources: {'llm:boxapi': 61})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 61, 'sleeve_order': 171, 'quote': 1631, 'buy_blocked': 4381, 'buy_unblocked': 4328, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 0.9,
-    "PENGU": 1.3
+    "SUI": 1.0,
+    "BCH": 1.3,
+    "ENA": 1.2
   },
   "pause": false,
-  "reasoning": "I pick CHZ and PENGU because they are the few candidates with Toman spreads above our 80 bps threshold: CHZ spread 197.7 bps with low fv_vol 39.7 bps and healthy USDT/TMN spread 292.1 bps → quote tighter (h=0.9%). PENGU has spread 128.6 bps and vol 1.587M TMN but higher fv volatility 481.8 bps so I widen quotes (h=1.3%). I avoid FIL, BCH, IMX and DOT because each shows buy_blocked sliding-book alerts, and APE/DOT/other high-fv_vol names are too unstable; that plus our backtest lesson drives conservative selection. Sleeves: keep rial at full 1.0 (USDT/TMN 48h +3.61% regime, cap=1.0 and rial sleeve return +0.21%), keep beta at 0.8 (current scale 0.8, beta return +3.76%, universe momentum intact); beta assets remain PEPE/ADA/LINK to match current weights and momentum.",
+  "reasoning": "I pick SUI, BCH and ENA because the bot never quotes when Toman spread <80 bps and these three have spread_bps >=80 (SUI 97.1, BCH 90.4, ENA 80.2). SUI has healthy flow (vol24h_mtmn 5111) and moderate fv_vol_bps 178.2 so a mid h=1.0% balances capture and adverse-selection risk. BCH has larger fair-value volatility (fv_vol_bps 340.5) so I widen to h=1.3% to avoid being picked off; BCH also has decent volume (1652). ENA has fv_vol_bps 231.6 and marginal spread (80.2 bps) so I set h=1.2% to stay conservative. Portfolio: the regime cap is 1.0 (USDT/TMN 48h +3.48%), so keep rial exposure at 1.0 (rial sleeve returning 0.21% on scale_now 1.0) and keep beta at current scale 0.8 (beta has returned 4.56% and the sleeve is scaled 0.8); beta assets chosen are the sleeve weights with strong recent momentum: PEPE, ADA, LINK.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
