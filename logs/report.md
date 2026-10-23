@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,100,196 TMN** (+2.004%)
+- Equity: **5,096,530 TMN** (+1.931%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 56 (sources: {'llm:boxapi': 56})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 56, 'sleeve_order': 171, 'quote': 1508, 'buy_blocked': 4153, 'buy_unblocked': 4119, 'state_restored': 57, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 57 (sources: {'llm:boxapi': 57})
+- Events: {'coin_skipped': 420, 'live_self_test': 59, 'cancel_all': 8, 'startup': 7, 'regime': 7, 'policy': 57, 'sleeve_order': 171, 'quote': 1519, 'buy_blocked': 4161, 'buy_unblocked': 4122, 'state_restored': 59, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "PENGU": 1.2,
-    "GALA": 1.4,
-    "CAKE": 1.1
+    "CHZ": 1.5,
+    "FIL": 1.5,
+    "PENGU": 1.3
   },
   "pause": false,
-  "reasoning": "I pick PENGU, GALA and CAKE because I only quote markets with Toman spread >= 80 bps: PENGU spread 182.8 bps (quoted_now), GALA 117.4 bps and CAKE 86.4 bps. I avoid FIL and CHZ because FIL is buy_blocked (Toman book sliding vs 200 bps baseline) and CHZ has its USDT book frozen (33 min), both make FV unreliable. I set half-spreads h wide given adverse-selection evidence: PENGU h=1.2% (very wide market, vol24h 1.85bn TMN, fv_vol 181.7 bps), GALA h=1.4% (high fv_vol 312 bps -> extra protection) and CAKE h=1.1% (spread 86.4 bps and low fv_vol 41.7 bps so a bit tighter). Sleeves: USDT/TMN 48h +3.45% gives full exposure cap 1.0 so keep rial at 1.0 (rial sleeve return +0.4%, value 2,625,450 TMN) and keep beta at current scale 0.8 (beta return +4.42%, value 1,915,203 TMN); keep beta assets PEPE/ADA/LINK as current weighted winners and no coin-specific negative news.",
+  "reasoning": "I pick CHZ, FIL and PENGU because each exceeds our 80 bps minimum: CHZ spread_bps 210.6 with usdt_spread_bps 361.3 and vol24h_mtmn 1520 (large Toman and USD spreads signal rich maker rent); FIL has very high usdt_spread_bps 535.0, spread_bps 131.3 and strong liquidity vol24h_mtmn 5275 (highest volume here) so it’s attractive despite higher adverse-selection risk; PENGU spread_bps 99.2, usdt_spread_bps 130.7 and vol24h_mtmn 1767 is the third best fit and was previously quoted (quoted_now true). I set wide half-spreads because backtests and live shadow show narrow quotes get picked off — CHZ and FIL at h=1.5% (top of allowed range) and PENGU slightly tighter at h=1.3% to reflect its moderate volatility and prior quoting. No market pause — no systemic news or rial shock in the data. For sleeves I keep rial at 1.0 (USDT/TMN 48h +3.39% -> full regime cap and rial sleeve has positive return 0.55%) and beta at 0.8 (current scale_now 0.8, beta sleeve return 4.77% and we are not yet in the 4h wind-down window); beta assets remain PEPE, ADA, LINK per the sleeve weights and high recent momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
