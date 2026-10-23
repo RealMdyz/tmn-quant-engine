@@ -35,25 +35,23 @@
 
 ## LIVE
 
-- Equity: **5,096,648 TMN** (+1.933%)
+- Equity: **5,091,290 TMN** (+1.826%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 61 (sources: {'llm:boxapi': 61})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 61, 'sleeve_order': 171, 'quote': 1680, 'buy_blocked': 4399, 'buy_unblocked': 4351, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 62 (sources: {'llm:boxapi': 62})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 62, 'sleeve_order': 171, 'quote': 1743, 'buy_blocked': 4422, 'buy_unblocked': 4371, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.0,
-    "BCH": 1.3,
-    "ENA": 1.2
+    "SUI": 1.4
   },
   "pause": false,
-  "reasoning": "I pick SUI, BCH and ENA because the bot never quotes when Toman spread <80 bps and these three have spread_bps >=80 (SUI 97.1, BCH 90.4, ENA 80.2). SUI has healthy flow (vol24h_mtmn 5111) and moderate fv_vol_bps 178.2 so a mid h=1.0% balances capture and adverse-selection risk. BCH has larger fair-value volatility (fv_vol_bps 340.5) so I widen to h=1.3% to avoid being picked off; BCH also has decent volume (1652). ENA has fv_vol_bps 231.6 and marginal spread (80.2 bps) so I set h=1.2% to stay conservative. Portfolio: the regime cap is 1.0 (USDT/TMN 48h +3.48%), so keep rial exposure at 1.0 (rial sleeve returning 0.21% on scale_now 1.0) and keep beta at current scale 0.8 (beta has returned 4.56% and the sleeve is scaled 0.8); beta assets chosen are the sleeve weights with strong recent momentum: PEPE, ADA, LINK.",
+  "reasoning": "Only SUI meets the bot's minimum Toman spread rule: spread_bps=114.8 (>80). It has meaningful activity (vol24h_mtmn=4325) so a single wide quote is appropriate; fv_vol_bps=273.5 is high so I widen h to 1.4% to reduce adverse-selection (maker round-trip cost 50 bps). Several otherwise-wide candidates are blocked or their USDT books are stale (CHZ buy_blocked: CHZUSDT frozen; DOT/ENA/IMX show Toman-book sliding), so I quote only SUI. Portfolio: USDT/TMN regime is strongly supportive (48h +3.53% → cap 1.0), rial sleeve keeps full exposure (1.0) since rial-driven strategy is in its beneficial regime and rial sleeve return=0.5% on scale 1.0; beta remains at the engine's current scale 0.8 (beta value up +4.7%), keeping its 3 coins PEPE/ADA/LINK which are the existing weighted winners and inside the beta universe.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
