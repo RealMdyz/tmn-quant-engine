@@ -35,24 +35,24 @@
 
 ## LIVE
 
-- Equity: **5,006,267 TMN** (+0.125%)
+- Equity: **5,004,369 TMN** (+0.087%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 33 (sources: {'llm:boxapi': 33})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 33, 'sleeve_order': 169, 'quote': 673, 'buy_blocked': 2250, 'buy_unblocked': 2212, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 34 (sources: {'llm:boxapi': 34})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 34, 'sleeve_order': 169, 'quote': 681, 'buy_blocked': 2302, 'buy_unblocked': 2264, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 1.2,
-    "BCH": 1.3
+    "CHZ": 0.9,
+    "CAKE": 0.9
   },
   "pause": false,
-  "reasoning": "I pick CHZ and BCH because we never bid where spread_bps <80: CHZ spread_bps=157.3 (well above 80) with vol24h_mtmn=3077 and usdt_spread_bps=222.9 and moderate fv_vol_bps=514.5, so it is wide and liquid; BCH spread_bps=91.6, vol24h_mtmn=1235 and fv_vol_bps=404.4, acceptable liquidity and spread above the 80 bps threshold. I avoid FIL/AVAX/DOT/GALA which show buy_blocked or Toman-book sliding (e.g. FIL buy_blocked, AVAX buy_blocked, DOT fair-value shock) and would be unsafe. I set half-spreads wide (CHZ h=1.2%, BCH h=1.3%) because fv_vol_bps are hundreds of bps and our backtests penalise tight quotes (round-trip maker fees ~50 bps); wider h reduces pickoffs. Sleeves: keep rial at 1.0 (USDT/TMN 48h +4.33% => full regime cap; rial value_tmn ~2.6M, small negative return -0.3% but regime supports holding) and keep beta at 0.8 (current scale_now=0.8, small loss -0.3% but rial-weakening supports beta exposure); choose PEPE/ADA/LINK as beta assets per existing weights and their momentum in the universe.",
+  "reasoning": "Pick CHZ (spread 195.9 bps, vol24h 3062M TMN, fv_vol 67.3 bps) and CAKE (spread 80.4 bps, vol24h 2316M TMN, fv_vol 61.0 bps) because both have wide Toman spreads above our 80 bps floor and low fair-value volatility (fv_vol_bps ~61–67) so we can quote tighter at the top of book; avoid UNI/GALA/AVAX/BCH which show Toman-book sliding or other buy_blocked flags. Set half-spread h = 0.9% for both since markets are calm (low fv_vol_bps) and we prefer narrower quotes only when calm and spreads are already wide. Keep pause=false (no market-wide shock seen) and keep sleeve exposures at rial=1.0, beta=0.8 because USDT/TMN 48h +4.33% (regime cap 1.0) supports holding the rial sleeve fully and the beta sleeve remains at its current scale 0.8; choose beta assets PEPE/ADA/LINK which are the current beta weights with positive recent sleeve return (beta return 0.65%).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
