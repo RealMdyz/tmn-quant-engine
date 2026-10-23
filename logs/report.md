@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,006,075 TMN** (+0.121%)
+- Equity: **5,006,494 TMN** (+0.130%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 38 (sources: {'llm:boxapi': 38})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 38, 'sleeve_order': 169, 'quote': 915, 'buy_blocked': 2691, 'buy_unblocked': 2652, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 39 (sources: {'llm:boxapi': 39})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 39, 'sleeve_order': 169, 'quote': 922, 'buy_blocked': 2728, 'buy_unblocked': 2690, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
+    "FIL": 1.5,
     "CHZ": 0.9,
-    "ARB": 1.4,
-    "UNI": 1.2
+    "PENGU": 1.2
   },
   "pause": false,
-  "reasoning": "Picked CHZ (spread 200.8 bps, fv_vol 45.1 bps, vol24h 3062M TMN) because the Toman spread is wide and FV volatility is low so we can quote tighter (h=0.9%). Included ARB (spread 117.7 bps, vol24h 26390M TMN) for its high liquidity despite very high fv_vol (1646.9 bps) so we set a wide h=1.4% to reduce adverse selection. Kept UNI (spread 125.9 bps, vol24h 6748M, quoted_now) with h=1.2% as a middle ground given elevated fv_vol (541.8 bps). Pause is false since no market-wide shock or negative news blocks trades; FIL/HYPE/WLD were avoided because their Toman books report sliding/premium alerts. Sleeves: USDT/TMN 48h +4.33% keeps the rial-weakening regime active so rial exposure stays at 1.0; beta remains at the engine scale 0.8 (current beta weights PEPE/ADA/LINK) and I keep those three assets for beta given their existing allocation and momentum.",
+  "reasoning": "Pick FIL, CHZ and PENGU because they are the best candidates with Toman spreads >= 80 bps: FIL spread 183.7 bps (vol24h 4,334M TMN) is wide but fv_vol 720 bps so we widen to h=1.5% to avoid being picked off. CHZ has the largest Toman/usdt dislocation (spread 193.0 bps, usdt_spread 330.5 bps) with low fv_vol 53.8 bps so we quote tighter at h=0.9% to capture the fat spread. PENGU has spread 89.0 bps and moderate fv_vol 456 bps so we use h=1.2% (cautious but participate). We avoid UNI and several others because UNI has a buy_blocked alert (fair value fell -55 bps in 60s) and several markets show Toman-book sliding flags. Sleeves: keep rial at full 1.0 exposure because USDT/TMN 48h +4.33% (regime cap 1.0) and the rial sleeve is positive (return 0.21%); keep beta at 0.8 matching current scale (return 0.7%) and continue holdings in PEPE, ADA, LINK which are the beta sleeve weights.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
