@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,022,929 TMN** (+0.459%)
-- Max drawdown: **1.864%**
+- Equity: **5,016,997 TMN** (+0.340%)
+- Max drawdown: **1.942%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 72 (sources: {'llm:boxapi': 72})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 72, 'sleeve_order': 171, 'quote': 2032, 'buy_blocked': 5150, 'buy_unblocked': 5102, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 73 (sources: {'llm:boxapi': 73})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 73, 'sleeve_order': 171, 'quote': 2043, 'buy_blocked': 5182, 'buy_unblocked': 5134, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 0.9,
-    "FIL": 0.95,
-    "GALA": 1.2
+    "ARB": 1.2,
+    "CAKE": 1.0,
+    "CHZ": 1.4
   },
   "pause": false,
-  "reasoning": "Pick CHZ, FIL, GALA because they have the widest Toman spreads: CHZ 170.7 bps, GALA 120.0 bps, FIL 98.0 bps; CHZ and FIL also show low fv_vol (53.7 and 56.2 bps) so we can quote slightly tighter. Set h conservative near upper-mid range: CHZ 0.9% (large spread, low fv_vol), FIL 0.95% (large premium 137.9 bps and wide USDT spread 368 bps), GALA 1.2% (higher fv_vol 208.9 bps so wider to avoid adverse selection). No pause — no market-wide shock visible. Sleeves: keep rial at full 1.0 exposure because USDT/TMN 48h +3.08% (regime cap=1.0) and the sleeve is sized for rial weakening, and keep beta at 0.8 (current scale_now 0.8, beta returning +2.22% on value_tmn 1.867M); beta assets remain PEPE/ADA/LINK per current weights and momentum.",
+  "reasoning": "I pick ARB (spread 117.9 bps, vol24h 15,567M TMN, usdt_spread 106.1 bps, fv_vol 295.5 bps) with a wide h=1.2% to earn the large Toman spread while respecting moderate FV volatility. I pick CAKE (spread 127.2 bps, vol24h 2,894M, fv_vol 143.4 bps) with h=1.0% because spread is wide and FV volatility is lower so a slightly tighter quote is acceptable. I pick CHZ (spread 185.0 bps, vol24h 1,440M, fv_vol 474.5 bps) with h=1.4% because its very wide spread but high FV volatility calls for the widest half-spread to avoid adverse selection. I avoid markets with buy_blocked flags (DOT/IMX/BCH/UNI/WLD) and ignore coins with spread <80 bps (e.g. SOL, XRP, BNB, FIL) per the rule. Sleeves: keep rial at full 1.0 exposure since USDT/TMN 48h is +2.35% (regime cap 1.0) and the sleeve is already scaled there; keep beta at 0.8 (current scale_now) and concentrate on PEPE/ADA/LINK which are the beta weights with recent positive performance (beta value +1.72% and scale reduced to 0.8).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
