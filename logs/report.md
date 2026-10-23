@@ -35,23 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,032,637 TMN** (+0.653%)
+- Equity: **5,035,561 TMN** (+0.711%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 45 (sources: {'llm:boxapi': 45})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 45, 'sleeve_order': 169, 'quote': 1053, 'buy_blocked': 3312, 'buy_unblocked': 3276, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 46 (sources: {'llm:boxapi': 46})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 46, 'sleeve_order': 169, 'quote': 1092, 'buy_blocked': 3346, 'buy_unblocked': 3309, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "GALA": 1.5
+    "GALA": 1.3,
+    "SUI": 1.5,
+    "ENA": 1.5
   },
   "pause": false,
-  "reasoning": "Only GALA meets our minimum Toman-spread threshold and is not buy-blocked: spread_bps 157.2 (well above our 80 bps floor), vol24h_mtmn 1412 (enough liquidity) and fv_vol_bps 314.6 (moderate), so I place a wide half-spread h=1.5% to protect against adverse selection. CHZ, though having an attractive spread_bps 197.4 and low fv_vol_bps 41.5, is unusable because CHZUSDT book is frozen 25 min (fair value unverifiable) so I skip it; ENA and several others are buy_blocked or have unstable FV (fair value fell -48 bps or sliding premiums). Portfolio sleeves: USDT/TMN 48h +4.33% gives regime cap 1.0 so I keep the rial sleeve at full exposure 1.0 (rial sleeve scale_now 1.0, modest return +0.27%). Beta has been scaled to 0.8 by the engine (return +2.28%), so I keep beta at 0.8 and allocate to its current high-momentum weights PEPE/ADA/LINK. No market-wide pause — no major Iran/crypto headline or sharp USDT/TMN drop in the feed to justify wind-down.",
+  "reasoning": "USDT/TMN 48h +4.33% (regime cap 1.0) so keep sleeves deployed: rial at 1.0 (rial sleeve showing +0.25% on 2.62M TMN) and beta left at the current 0.8 scale (beta returning +2.13%). Choose markets with Toman spreads well above our 80 bps cutoff: GALA spread 117.9 bps (vol24h 1.23M TMN, fv_vol 249.8 bps) so quoted with h=1.3% to avoid picks; SUI spread 106.5 bps (vol24h 4.76M TMN) but high fv_vol 422.6 bps so use wide h=1.5%; ENA spread 122.3 bps (vol24h 0.67M TMN) but very noisy fv_vol 647 bps so use h=1.5%. Avoid CHZ because CHZUSDT book frozen (fair value unverifiable) and skip candidates with spread <80 bps (SOL, XRP, etc.) or with Toman-book sliding guards (BCH, DOT, IMX).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
