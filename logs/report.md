@@ -35,25 +35,24 @@
 
 ## LIVE
 
-- Equity: **5,000,573 TMN** (+0.011%)
+- Equity: **5,001,678 TMN** (+0.034%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 40 (sources: {'llm:boxapi': 40})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 40, 'sleeve_order': 169, 'quote': 961, 'buy_blocked': 2865, 'buy_unblocked': 2829, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 41 (sources: {'llm:boxapi': 41})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 41, 'sleeve_order': 169, 'quote': 966, 'buy_blocked': 2952, 'buy_unblocked': 2917, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 1.3,
-    "GALA": 1.3,
+    "HYPE": 1.1,
     "FIL": 1.5
   },
   "pause": false,
-  "reasoning": "I pick CHZ, GALA and FIL because the bot never bids where Toman spread <80 bps and these have very wide Toman spreads (CHZ 198.9 bps, GALA 217.4 bps, FIL 174.7 bps) and reasonable 24h volumes (CHZ 3062M, FIL 4334M, GALA 1408M). I set wide half-spreads because fair-value volatility is elevated (CHZ fv_vol 746 bps → h 1.3%, GALA fv_vol 447 bps → h 1.3%, FIL fv_vol 893 bps → h 1.5%) and FIL shows a large negative premium (-69.2 bps) so it needs the widest protection. I avoid markets with active buy blocks or recent FV shocks (e.g. DOT, BCH, PENGU flagged buy_blocked) and prefer quoted markets where spreads are large. For sleeves I keep rial fully exposed (1.0) because USDT/TMN 48h +4.33% (regime cap=1.0) and rial sleeve has small negative return (-0.04%) but benefits from rial weakness. I keep beta at 0.8 (current scale_now 0.8, positive return 0.61%) and leave the three beta assets as the current weights PEPE/ADA/LINK which are in the beta universe and showing recent momentum.",
+  "reasoning": "I pick HYPE and FIL because the bot never quotes where spread_bps <80: HYPE has spread_bps=82.4 with vol24h_mtmn=3054 and fv_vol_bps=145.8 so we can quote cautiously (h=1.1). FIL has a very wide Toman spread_bps=203.3 and usdt_spread_bps=107.1 so it is attractive for wide-quote market-making despite high fv_vol_bps=655.7; set h=1.5 to avoid being picked off. I avoided PENGU, GALA and CHZ because they show buy_blocked sliding or frozen USDT books (PENGU and GALA report Toman-book sliding; CHZUSDT book frozen) which makes fair value unreliable. Sleeves: USDT/TMN 48h +4.33% keeps us in the rial-weakening regime so keep rial exposure at 1.0; beta keeps its current scale (0.8) given positive recent return_pct 0.79% and no coin-specific bad news; beta_assets remain PEPE, ADA, LINK.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
