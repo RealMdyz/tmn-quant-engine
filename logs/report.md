@@ -35,8 +35,8 @@
 
 ## LIVE
 
-- Equity: **4,939,950 TMN** (-1.201%)
-- Max drawdown: **3.388%**
+- Equity: **4,934,422 TMN** (-1.312%)
+- Max drawdown: **3.496%**
 - Traded volume: 234,959 TMN
 
 ![equity](equity_live.png)
@@ -47,19 +47,17 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 83 (sources: {'llm:boxapi': 83})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 13, 'policy': 83, 'sleeve_order': 303, 'quote': 2407, 'buy_blocked': 5815, 'buy_unblocked': 5755, 'state_restored': 62, 'sleeve_fill': 24, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 84 (sources: {'llm:boxapi': 84})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 84, 'sleeve_order': 329, 'quote': 2417, 'buy_blocked': 5872, 'buy_unblocked': 5809, 'state_restored': 62, 'sleeve_fill': 29, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 0.9,
-    "CAKE": 1.0,
-    "GALA": 1.3
+    "DOT": 1.5
   },
   "pause": false,
-  "reasoning": "I pick CHZ, CAKE and GALA because they clear the 80 bps minimum spread filter: CHZ spread 173.3 bps with low fv_vol 31.2 bps (calm) so I quote relatively tight at h=0.9% to earn the fat spread while avoiding being too aggressive. CAKE has spread 104.2 bps, vol24h 2.744bn TMN and fv_vol 69.9 bps so I set h=1.0% (moderate width). GALA is borderline but spread 80.5 bps with high USDT spread 163.9 bps and fv_vol 205.6 bps so I widen to h=1.3% to protect against volatility. I avoid PENGU and FIL: PENGU produced a live loss (realised -2,109 TMN, avg round trip -178.3 bps) so I stop quoting it; FIL had prior adverse fills and is quoted_now so I avoid it. Sleeves: USDT/TMN 48h +1.49% places us in the rial-weakening regime (cap 1.0), so I keep the rial sleeve at scale_now 0.75 (matches current scale and targets BTC/ETH mix) and keep beta at 0.5 (current scale_now 0.5 and positive small performance), with beta assets PEPE/ADA/LINK per the sleeve weights and universe.",
+  "reasoning": "Only DOT meets the bot's minimum spread rule (spread_bps 81.1 >= 80) without destructive live fills: vol24h_mtmn 1,473 and fv_vol_bps 294.5 argue for a wide quote, so set h at the top 1.5%. PENGU (spread_bps 107.6) is excluded because buy_blocked and its live round trip lost -2,109 TMN (avg_round_trip_bps -178.3), while GALA (spread_bps 81.1) is currently buy_blocked by a fast FV drop and quoted_now — both unsafe. The portfolio sleeves are set to 0.0 because USDT/TMN 48h is only +0.52% so the regime cap is 0.0 (portfolio.regime.cap = 0.0), disallowing rial/beta exposure now. No beta assets are chosen since beta exposure is zero.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
