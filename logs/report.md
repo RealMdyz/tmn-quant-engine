@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,089,216 TMN** (+1.784%)
+- Equity: **5,092,132 TMN** (+1.843%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 57 (sources: {'llm:boxapi': 57})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 57, 'sleeve_order': 171, 'quote': 1528, 'buy_blocked': 4194, 'buy_unblocked': 4146, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 58 (sources: {'llm:boxapi': 58})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 58, 'sleeve_order': 171, 'quote': 1537, 'buy_blocked': 4217, 'buy_unblocked': 4167, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 1.5,
-    "FIL": 1.5,
-    "PENGU": 1.3
+    "FIL": 1.0,
+    "ENA": 1.3,
+    "CHZ": 1.5
   },
   "pause": false,
-  "reasoning": "I pick CHZ, FIL and PENGU because each exceeds our 80 bps minimum: CHZ spread_bps 210.6 with usdt_spread_bps 361.3 and vol24h_mtmn 1520 (large Toman and USD spreads signal rich maker rent); FIL has very high usdt_spread_bps 535.0, spread_bps 131.3 and strong liquidity vol24h_mtmn 5275 (highest volume here) so it’s attractive despite higher adverse-selection risk; PENGU spread_bps 99.2, usdt_spread_bps 130.7 and vol24h_mtmn 1767 is the third best fit and was previously quoted (quoted_now true). I set wide half-spreads because backtests and live shadow show narrow quotes get picked off — CHZ and FIL at h=1.5% (top of allowed range) and PENGU slightly tighter at h=1.3% to reflect its moderate volatility and prior quoting. No market pause — no systemic news or rial shock in the data. For sleeves I keep rial at 1.0 (USDT/TMN 48h +3.39% -> full regime cap and rial sleeve has positive return 0.55%) and beta at 0.8 (current scale_now 0.8, beta sleeve return 4.77% and we are not yet in the 4h wind-down window); beta assets remain PEPE, ADA, LINK per the sleeve weights and high recent momentum.",
+  "reasoning": "I pick FIL, ENA and CHZ because they are the only candidates with Toman spread >= 80 bps (FIL 130.8 bps, ENA 146.3 bps, CHZ 211.0 bps) which fits the rule to avoid markets <80 bps. FIL is relatively calm (fv_vol_bps 20.2) with very wide Toman/usdt spreads (usdt_spread_bps 534) and a large premium (+176 bps) so I quote tighter at h=1.0. ENA has moderate fv_vol (196.5 bps) and wide spread so I set h=1.3 to be more defensive. CHZ shows extreme volatility (fv_vol_bps 708.1) and the widest spread so I set h at the maximum 1.5. I keep pause=false (no market-wide shock in news) and leave sleeves at full regime cap: rial exposure 1.0 because USDT/TMN 48h +3.33% (regime cap=1.0) and the rial sleeve is +0.56% YTD; beta remains at 0.8 matching current scale_now (0.8) and I keep its current assets PEPE/ADA/LINK which are the sleeve weights and high-momentum choices.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
