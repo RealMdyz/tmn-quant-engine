@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,023,461 TMN** (+0.469%)
+- Equity: **5,022,846 TMN** (+0.457%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 43 (sources: {'llm:boxapi': 43})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 43, 'sleeve_order': 169, 'quote': 1005, 'buy_blocked': 3127, 'buy_unblocked': 3091, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 44 (sources: {'llm:boxapi': 44})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 44, 'sleeve_order': 169, 'quote': 1011, 'buy_blocked': 3190, 'buy_unblocked': 3155, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CAKE": 1.2,
-    "GALA": 1.3,
-    "FIL": 1.5
+    "CHZ": 0.9,
+    "CAKE": 1.1,
+    "DOT": 1.4
   },
   "pause": false,
-  "reasoning": "I pick CAKE, GALA and FIL because each has Toman spread well above our 80 bps cutoff (CAKE 155 bps, GALA 137.5 bps, FIL 208.6 bps) and reasonable 24h TMN volume (CAKE 2,336m, GALA 1,412m, FIL 4,745m). I set wide half-spreads because FV volatility or adverse-selection risks are nontrivial: CAKE h=1.2 (fv_vol 136 bps moderate), GALA h=1.3 (fv_vol 382 bps), and FIL h=1.5 because although FIL’s fv_vol is low (24.3 bps) we have prior adverse-selection evidence (live FIL buy then -1.8%) so use the maximum h. I avoid markets with buy blocks or stale/unverifiable USDT books (e.g. CHZ, AVAX, DOT, IMX flagged) and skip all spreads <80 bps (many candidates). For sleeves I keep rial at 1.0 and beta at 0.8 because USDT/TMN 48h is +4.33% (regime cap =1.0) so the rial strategy remains supported and beta has positive recent returns (beta return 1.79% with scale_now 0.8); I allocate beta to PEPE/ADA/LINK following the existing weights and momentum.",
+  "reasoning": "Pick CHZ because spread_bps is very wide (228.9 bps) with low fv_vol_bps (41.5) and reasonable vol24h_mtmn (3026) — favour tighter half-spread h=0.9% to capture the large Toman spread with low fair-value volatility. Pick CAKE because spread_bps is above our 80 bps floor (88.8 bps), quoted_now (active) and moderate fv_vol_bps (165.4) so use medium h=1.1% to avoid being picked off. Pick DOT as a wide-spread, liquid candidate (spread_bps 146.7) but very high fv_vol_bps (1014.3) so set wide h=1.4% to protect versus volatility. Do not pause (no market-wide shock in news). Keep the 'rial' sleeve fully exposed (1.0) because USDT/TMN 48h +4.33% places us in the rial-weakening regime (cap 1.0) and the rial sleeve has held steady (return -0.01%). Keep 'beta' at 0.8 (current scale_now) since beta has returned 2.23% on capital 2.25M TMN and is performing well, so retain PEPE/ADA/LINK as the 3 beta assets.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
