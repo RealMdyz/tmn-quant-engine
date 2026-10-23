@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,002,183 TMN** (+0.044%)
+- Equity: **4,969,107 TMN** (-0.618%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 31 (sources: {'llm:boxapi': 31})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 31, 'sleeve_order': 169, 'quote': 618, 'buy_blocked': 2057, 'buy_unblocked': 2018, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 32 (sources: {'llm:boxapi': 32})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 32, 'sleeve_order': 169, 'quote': 636, 'buy_blocked': 2090, 'buy_unblocked': 2052, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BNB": 0.9,
-    "GALA": 1.2,
-    "CHZ": 0.85
+    "GALA": 1.3,
+    "CAKE": 0.95,
+    "BCH": 1.1
   },
   "pause": false,
-  "reasoning": "Pick BNB because its Toman spread is at our minimum acceptable 80.2 bps and 24h volume is very high (90,977M TMN) with moderate fv_vol 116 bps — quote slightly aggressive h=0.9% to sit near the top but avoid being too tight. Pick GALA because the Toman spread is extremely wide (221.8 bps) and USDT/TMN spread is wide (274.7 bps) so fewer, wider quotes make sense — h=1.2% to prioritise protection and selectivity. Pick CHZ because spread is comfortable (95.5 bps) and fv_vol is low (53.6 bps) so we can quote tighter to capture spread — h=0.85%. Do not quote markets with spread <80 bps (many candidates excluded) or with buy_blocked flags (DOT/ARB/FIL/WLD/APE/ENA/IMX). Keep sleeves: rial at full 1.0 because USDT/TMN 48h +4.33% (regime cap 1.0) and the rial-weakening trend supports holdings; beta at 0.8 (current scale_now 0.8) keeping PEPE/ADA/LINK as the 3 beta assets with existing weights and momentum while avoiding over‑exposure before the automated wind-down window.",
+  "reasoning": "I pick up to three markets with Toman spreads >=80 bps and without a buy_blocked or recent fair-value shock. GALA has the widest spread (160.3 bps), decent volume (vol24h 2,135M TMN) and moderate fv_vol 244.8 bps so I quote wide h=1.3% to avoid picking off. CAKE has spread 87.2 bps, low fv_vol 98.9 bps and vol24h 2,269M TMN so I quote tighter h=0.95% to capture spread with lower volatility. BCH (spread 85.0 bps, vol24h 1,235M TMN, fv_vol 368.5 bps) is chosen with h=1.1% as a middle ground. I do not quote FIL/ARB/UNI/others because several show buy_blocked or recent sliding Toman-books (e.g. FIL premium -156 bps, ARB FV fell -89 bps). Sleeves: USDT/TMN 48h +4.33% gives full exposure cap 1.0, so keep rial at 1.0 (rial sleeve size intact; current scale 1.0, value 2,607,586 TMN) and keep beta at current scale 0.8 (beta return +1.15%, value 1,855,339 TMN); beta assets remain PEPE/ADA/LINK per the sleeve weights and momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
