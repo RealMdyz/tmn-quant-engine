@@ -10554,3 +10554,4 @@
 {"ts": 1792750738.681, "time": "2026-10-23 13:48:58", "mode": "live", "event": "buy_blocked", "coin": "HYPE", "why": "Toman book sliding: premium -60 bps vs 36 bps baseline in 120s"}
 {"ts": 1792750740.742, "time": "2026-10-23 13:49:00", "mode": "live", "event": "buy_unblocked", "coin": "S", "why": "guards pass"}
 {"ts": 1792750758.821, "time": "2026-10-23 13:49:18", "mode": "live", "event": "buy_unblocked", "coin": "ARB", "why": "guards pass"}
+{"ts": 1792750768.745, "time": "2026-10-23 13:49:28", "mode": "live", "event": "buy_unblocked", "coin": "WLD", "why": "guards pass"}

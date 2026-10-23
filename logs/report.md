@@ -42,7 +42,7 @@
 ![equity](equity_live.png)
 
 - AI supervisor decisions: 56 (sources: {'llm:boxapi': 56})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 56, 'sleeve_order': 171, 'quote': 1508, 'buy_blocked': 4153, 'buy_unblocked': 4118, 'state_restored': 57, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 56, 'sleeve_order': 171, 'quote': 1508, 'buy_blocked': 4153, 'buy_unblocked': 4119, 'state_restored': 57, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
