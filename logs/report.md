@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,933,546 TMN** (-1.329%)
+- Equity: **4,933,484 TMN** (-1.330%)
 - Max drawdown: **3.514%**
 - Traded volume: 234,959 TMN
 
@@ -47,17 +47,19 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 85 (sources: {'llm:boxapi': 85})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 85, 'sleeve_order': 329, 'quote': 2464, 'buy_blocked': 5956, 'buy_unblocked': 5893, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 86 (sources: {'llm:boxapi': 86})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 86, 'sleeve_order': 329, 'quote': 2488, 'buy_blocked': 5985, 'buy_unblocked': 5924, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.4
+    "FIL": 1.4,
+    "GALA": 1.2,
+    "CAKE": 0.9
   },
   "pause": false,
-  "reasoning": "Only SUI meets the bot's minimum Toman spread rule: spread_bps=83.9 (just above the 80 bps cutoff) with vol24h_mtmn=3898 and fv_vol_bps=153.4 so I quote cautiously. PENGU, although wide (spread_bps=145.5), produced a losing live round trip (avg_round_trip_bps=-178.3, realised_pnl_tmn=-2109) and has a sliding Toman-book guard, so I avoid it. Other candidates have spread_bps <80 or book sliding guards (many with 'Toman book sliding'), so no additional markets are selected. USDT/TMN 48h +0.52% yields a regime cap of 0.0 on sleeve buys, so both sleeves are set to 0.0 exposure (rial and beta); I keep beta_assets listed as PEPE/ADA/LINK (the sleeve universe and recent weights) but do not increase exposure due to the cap.",
+  "reasoning": "I pick FIL, GALA and CAKE because the bot avoids Toman spreads <80 bps and these have wide spreads: FIL spread 111.9 bps, GALA 303.0 bps, CAKE 86.0 bps. Set wider half-spreads where fair-value volatility is higher: FIL fv_vol 208.9 bps -> h=1.4%, GALA fv_vol 110.4 bps -> h=1.2%, CAKE fv_vol 34.5 bps (calm) -> h=0.9%. I avoid PENGU and UNI because PENGU produced a losing round trip (realised_pnl -2,109 T M N, avg -178.3 bps) and UNI has buy_blocked (sliding book). Sleeves are set to 0.0 because USDT/TMN 48h +0.73% yields a regime cap 0.0 (portfolio.cap 0.0), so no rial or beta exposure now; beta_assets listed are PEPE/ADA/LINK as the default high-momentum picks if exposure is later allowed.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
