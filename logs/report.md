@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,997,047 TMN** (-0.059%)
+- Equity: **5,003,378 TMN** (+0.068%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 39 (sources: {'llm:boxapi': 39})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 39, 'sleeve_order': 169, 'quote': 941, 'buy_blocked': 2771, 'buy_unblocked': 2733, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 40 (sources: {'llm:boxapi': 40})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 40, 'sleeve_order': 169, 'quote': 951, 'buy_blocked': 2802, 'buy_unblocked': 2766, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.5,
-    "CHZ": 0.9,
-    "PENGU": 1.2
+    "CHZ": 1.3,
+    "GALA": 1.3,
+    "FIL": 1.5
   },
   "pause": false,
-  "reasoning": "Pick FIL, CHZ and PENGU because they are the best candidates with Toman spreads >= 80 bps: FIL spread 183.7 bps (vol24h 4,334M TMN) is wide but fv_vol 720 bps so we widen to h=1.5% to avoid being picked off. CHZ has the largest Toman/usdt dislocation (spread 193.0 bps, usdt_spread 330.5 bps) with low fv_vol 53.8 bps so we quote tighter at h=0.9% to capture the fat spread. PENGU has spread 89.0 bps and moderate fv_vol 456 bps so we use h=1.2% (cautious but participate). We avoid UNI and several others because UNI has a buy_blocked alert (fair value fell -55 bps in 60s) and several markets show Toman-book sliding flags. Sleeves: keep rial at full 1.0 exposure because USDT/TMN 48h +4.33% (regime cap 1.0) and the rial sleeve is positive (return 0.21%); keep beta at 0.8 matching current scale (return 0.7%) and continue holdings in PEPE, ADA, LINK which are the beta sleeve weights.",
+  "reasoning": "I pick CHZ, GALA and FIL because the bot never bids where Toman spread <80 bps and these have very wide Toman spreads (CHZ 198.9 bps, GALA 217.4 bps, FIL 174.7 bps) and reasonable 24h volumes (CHZ 3062M, FIL 4334M, GALA 1408M). I set wide half-spreads because fair-value volatility is elevated (CHZ fv_vol 746 bps → h 1.3%, GALA fv_vol 447 bps → h 1.3%, FIL fv_vol 893 bps → h 1.5%) and FIL shows a large negative premium (-69.2 bps) so it needs the widest protection. I avoid markets with active buy blocks or recent FV shocks (e.g. DOT, BCH, PENGU flagged buy_blocked) and prefer quoted markets where spreads are large. For sleeves I keep rial fully exposed (1.0) because USDT/TMN 48h +4.33% (regime cap=1.0) and rial sleeve has small negative return (-0.04%) but benefits from rial weakness. I keep beta at 0.8 (current scale_now 0.8, positive return 0.61%) and leave the three beta assets as the current weights PEPE/ADA/LINK which are in the beta universe and showing recent momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
