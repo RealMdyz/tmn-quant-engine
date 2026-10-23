@@ -35,23 +35,24 @@
 
 ## LIVE
 
-- Equity: **5,100,529 TMN** (+2.011%)
+- Equity: **5,106,693 TMN** (+2.134%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 62 (sources: {'llm:boxapi': 62})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 62, 'sleeve_order': 171, 'quote': 1778, 'buy_blocked': 4447, 'buy_unblocked': 4396, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 63 (sources: {'llm:boxapi': 63})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 63, 'sleeve_order': 171, 'quote': 1810, 'buy_blocked': 4461, 'buy_unblocked': 4416, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.4
+    "SUI": 1.1,
+    "CHZ": 0.9
   },
   "pause": false,
-  "reasoning": "Only SUI meets the bot's minimum Toman spread rule: spread_bps=114.8 (>80). It has meaningful activity (vol24h_mtmn=4325) so a single wide quote is appropriate; fv_vol_bps=273.5 is high so I widen h to 1.4% to reduce adverse-selection (maker round-trip cost 50 bps). Several otherwise-wide candidates are blocked or their USDT books are stale (CHZ buy_blocked: CHZUSDT frozen; DOT/ENA/IMX show Toman-book sliding), so I quote only SUI. Portfolio: USDT/TMN regime is strongly supportive (48h +3.53% → cap 1.0), rial sleeve keeps full exposure (1.0) since rial-driven strategy is in its beneficial regime and rial sleeve return=0.5% on scale 1.0; beta remains at the engine's current scale 0.8 (beta value up +4.7%), keeping its 3 coins PEPE/ADA/LINK which are the existing weighted winners and inside the beta universe.",
+  "reasoning": "Pick SUI (spread 92.0 bps, vol24h 4,325M TMN, fv_vol 200.8 bps) because its Toman spread is >80 bps and volume is healthy; choose h=1.1% to be conservative given fv_vol ~200 bps. Pick CHZ (spread 183.1 bps, fv_vol 14.3 bps) because it has a very wide Toman spread with very low fv volatility, so quote tighter at h=0.9% to earn spread while limiting adverse selection. Do not quote markets with buy blocks or spread <80 bps (e.g. IMX 79.3, many others) per rules. Sleeves: keep rial at full 1.0 exposure because USDT/TMN 48h +3.53% gives full cap and rial sleeve return is positive (0.15% on value 2,618,913 TMN); keep beta at 0.8 (current scale) because beta return is strong (5.62% on value 1,929,850 TMN) and the engine is already scaled to 0.8.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
