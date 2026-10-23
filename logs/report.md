@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,928,336 TMN** (-1.433%)
+- Equity: **4,931,137 TMN** (-1.377%)
 - Max drawdown: **3.650%**
 - Traded volume: 564,491 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 0 | 0 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 96 (sources: {'llm:boxapi': 96})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 96, 'sleeve_order': 329, 'quote': 2930, 'buy_blocked': 6784, 'buy_unblocked': 6724, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 1, 'sleeve_reweight': 1}
+- AI supervisor decisions: 97 (sources: {'llm:boxapi': 97})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 97, 'sleeve_order': 329, 'quote': 2944, 'buy_blocked': 6827, 'buy_unblocked': 6767, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 1, 'sleeve_reweight': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.2,
-    "BCH": 1.3,
-    "GALA": 1.4
+    "CAKE": 0.9,
+    "FIL": 1.4,
+    "GALA": 1.1
   },
   "pause": false,
-  "reasoning": "I pick FIL, BCH and GALA because they have wide Toman spreads (FIL 188.4 bps, BCH 126.8 bps, GALA 124.7 bps) and reasonable 24h liquidity (FIL vol 3,932M TMN, BCH 2,133M, GALA 1,157M) with no buy-blocks. I avoid markets with active buy blocks or recent losing live fills (PENGU had a -2,109 TMN loss / avg -178 bps and is excluded; several others show Toman-book sliding). I set half-spreads h wider where fair-value volatility is higher: FIL h=1.2% (fv_vol 149.2 bps), BCH h=1.3% (fv_vol 259.3 bps) and GALA h=1.4% (fv_vol 338.9 bps) to protect against adverse selection. Sleeves are set to zero exposure (rial=0.0, beta=0.0) because USDT/TMN 48h only +0.71% -> regime cap 0.0 and historically sleeves lost when entered outside the rial-weakening regime; beta assets listed as PEPE and ADA (high-momentum names) in case scale is later allowed.",
+  "reasoning": "I pick CAKE (spread_bps 102.5, vol24h_mtmn 2964, fv_vol_bps 34.0) as a calm, wide-Toman-spread market and quote fairly tight at h=0.9. I include FIL because its Toman spread is very wide (193.7 bps) and USDT spread 232.2 bps, but FIL has adverse-selection history so I set a wide h=1.4. GALA (spread_bps 124.0, quoted_now true, vol24h_mtmn 1157) is attractive for capture of large spread with medium fv_vol_bps 244.5 so I use h=1.1. I avoid markets with buy blocks or frozen USDT book (DOT, SUI, S, AVAX, PENGU, etc.) and I do not quote where spread_bps <80 (e.g. SOL, XRP, UNI). Portfolio sleeves are set to zero (rial=0.0, beta=0.0) because the USDT/TMN regime shows ch48 +0.71% with cap 0.0 so the regime disallows scaling and the engine is in end_wind_down; beta_assets listed (PEPE, ADA, LINK) follow the sleeve universe and current weight priorities.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
