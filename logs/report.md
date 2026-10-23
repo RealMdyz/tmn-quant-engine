@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,093,882 TMN** (+1.878%)
+- Equity: **5,087,199 TMN** (+1.744%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 65 (sources: {'llm:boxapi': 65})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 65, 'sleeve_order': 171, 'quote': 1890, 'buy_blocked': 4572, 'buy_unblocked': 4522, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 66 (sources: {'llm:boxapi': 66})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 66, 'sleeve_order': 171, 'quote': 1902, 'buy_blocked': 4594, 'buy_unblocked': 4544, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
     "CHZ": 0.9,
-    "PENGU": 1.3,
-    "GALA": 1.2
+    "GALA": 1.3,
+    "BCH": 1.2
   },
   "pause": false,
-  "reasoning": "I choose markets with Toman spreads comfortably above our 80 bps minimum: CHZ spread 172.0 bps (low fv_vol 11 bps → calmer fair value) so a relatively tight half‑spread h=0.9% to capture wide displayed spread; PENGU spread 190.4 bps with moderate fv_vol 136.6 bps but negative premium (-51.5 bps), so use wide h=1.3% to guard against adverse selection; GALA spread 98.6 bps and very large USDT/TMN spread (273.2 bps) but higher fv_vol (207 bps) so h=1.2%. No market is paused — SUI and others with buy_blocked were avoided (SUI buy_blocked, IMX had FV crash). Sleeves: USDT/TMN 48h +3.36% gives full exposure cap, so keep rial at 1.0 (current scale 1.0, rial return 0.42%) and keep beta at 0.8 (current scale 0.8, strong beta return 5.06%); beta assets kept as PEPE/ADA/LINK per the sleeve weights and momentum.",
+  "reasoning": "I pick CHZ, GALA and BCH because the bot never bids where spread_bps < 80: CHZ has the widest Toman spread (149.8 bps) with low fv_vol_bps (34.1) so I quote tighter (h=0.9%) to capture the large static spread. GALA has spread 98.6 bps, premium 66.5 bps and higher fv_vol_bps (206) so I widen to h=1.3% for protection. BCH has spread 83.2 bps, vol24h_mtmn 1,798 and fv_vol_bps 155.6 so I set h=1.2% to balance activity and adverse-selection risk. I avoid FIL/IMX/UNI/AVAX because buy_blocked or rapid fair-value slides indicate Toman-book instability. For sleeves I keep rial at full 1.0 exposure because USDT/TMN 48h +3.36% (regime cap 1.0) and the rial sleeve is profitable (value_tmn 2,617,522; return 0.1%), and keep beta at current 0.8 scale (beta value 1,905,410, return 4.29%) with assets PEPE/ADA/LINK per the sleeve weights and positive momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
