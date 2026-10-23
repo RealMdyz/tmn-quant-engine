@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,038,338 TMN** (+0.767%)
+- Equity: **5,100,196 TMN** (+2.004%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 46 (sources: {'llm:boxapi': 46})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 46, 'sleeve_order': 169, 'quote': 1113, 'buy_blocked': 3374, 'buy_unblocked': 3338, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 56 (sources: {'llm:boxapi': 56})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 56, 'sleeve_order': 171, 'quote': 1508, 'buy_blocked': 4153, 'buy_unblocked': 4118, 'state_restored': 57, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "GALA": 1.3,
-    "SUI": 1.5,
-    "ENA": 1.5
+    "PENGU": 1.2,
+    "GALA": 1.4,
+    "CAKE": 1.1
   },
   "pause": false,
-  "reasoning": "USDT/TMN 48h +4.33% (regime cap 1.0) so keep sleeves deployed: rial at 1.0 (rial sleeve showing +0.25% on 2.62M TMN) and beta left at the current 0.8 scale (beta returning +2.13%). Choose markets with Toman spreads well above our 80 bps cutoff: GALA spread 117.9 bps (vol24h 1.23M TMN, fv_vol 249.8 bps) so quoted with h=1.3% to avoid picks; SUI spread 106.5 bps (vol24h 4.76M TMN) but high fv_vol 422.6 bps so use wide h=1.5%; ENA spread 122.3 bps (vol24h 0.67M TMN) but very noisy fv_vol 647 bps so use h=1.5%. Avoid CHZ because CHZUSDT book frozen (fair value unverifiable) and skip candidates with spread <80 bps (SOL, XRP, etc.) or with Toman-book sliding guards (BCH, DOT, IMX).",
+  "reasoning": "I pick PENGU, GALA and CAKE because I only quote markets with Toman spread >= 80 bps: PENGU spread 182.8 bps (quoted_now), GALA 117.4 bps and CAKE 86.4 bps. I avoid FIL and CHZ because FIL is buy_blocked (Toman book sliding vs 200 bps baseline) and CHZ has its USDT book frozen (33 min), both make FV unreliable. I set half-spreads h wide given adverse-selection evidence: PENGU h=1.2% (very wide market, vol24h 1.85bn TMN, fv_vol 181.7 bps), GALA h=1.4% (high fv_vol 312 bps -> extra protection) and CAKE h=1.1% (spread 86.4 bps and low fv_vol 41.7 bps so a bit tighter). Sleeves: USDT/TMN 48h +3.45% gives full exposure cap 1.0 so keep rial at 1.0 (rial sleeve return +0.4%, value 2,625,450 TMN) and keep beta at current scale 0.8 (beta return +4.42%, value 1,915,203 TMN); keep beta assets PEPE/ADA/LINK as current weighted winners and no coin-specific negative news.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
