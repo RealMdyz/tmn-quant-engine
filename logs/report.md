@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,963,233 TMN** (-0.735%)
+- Equity: **4,965,222 TMN** (-0.696%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 28 (sources: {'llm:boxapi': 28})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 28, 'sleeve_order': 169, 'quote': 537, 'buy_blocked': 1823, 'buy_unblocked': 1785, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 29 (sources: {'llm:boxapi': 29})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 29, 'sleeve_order': 169, 'quote': 544, 'buy_blocked': 1849, 'buy_unblocked': 1812, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BNB": 0.9,
-    "CAKE": 0.85,
-    "BCH": 1.3
+    "BNB": 0.8,
+    "CAKE": 0.8,
+    "GALA": 1.2
   },
   "pause": false,
-  "reasoning": "Picked BNB, CAKE and BCH because each has Toman spread >= 80 bps (BNB 80.2, CAKE 94.0, BCH 89.0) and no buy_blocked flags; I avoided SUI/DOT/IMX/GALA which show buy_blocked or sliding Toman-book warnings. BNB is very busy (vol24h 91,056M TMN) with moderate fv_vol 100 bps so I quote slightly tighter at h=0.9% to capture volume while respecting maker-fee round trip cost (~0.5%). CAKE has low fv_vol (54.7 bps) and adequate spread so I use a conservative tight h=0.85% to be competitive. BCH is thinner (vol24h 1,027M) with higher fv_vol (134.8 bps) so I widen to h=1.3% to reduce adverse selection. Sleeves: USDT/TMN regime shows 48h +4.33% so full rial exposure is kept at 1.0 (rial backtest +0.88% when entered in this regime); beta remains at current 0.8 scale (value_tmn 1,818,311, return -0.87%) to keep participation but limit risk ahead of scheduled wind-down steps.",
+  "reasoning": "Pick BNB because its Toman spread is 80.2 bps (meets the >=80 bps rule), huge 24h vol 91,071M TMN and low fv_vol 49.6 bps → quote tight (h=0.8). Pick CAKE because spread 87.6 bps, fv_vol very low 30.2 bps and usdt_spread 158.6 bps; it is quoted now so a tight h=0.8 is appropriate. Pick GALA for its very wide spread 201.6 bps and large USDT/TMN spread 565 bps; higher fv_vol (355.7 bps) so widen to h=1.2 to avoid being picked off. No pause — no market-wide shock present. Sleeves: keep rial full (1.0) because USDT/TMN 48h +4.33% (regime cap=1.0) and rial backtest positive; keep beta at 0.8 (current scale_now) and keep its three-weighted assets PEPE/ADA/LINK which are the sleeve weights and have been used in the backtest.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
