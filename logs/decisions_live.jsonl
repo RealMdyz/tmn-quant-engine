@@ -13784,3 +13784,5 @@
 {"ts": 1792773906.565, "time": "2026-10-23 20:15:06", "mode": "live", "event": "buy_blocked", "coin": "FIL", "why": "Toman book sliding: premium -134 bps vs 140 bps baseline in 120s"}
 {"ts": 1792773914.587, "time": "2026-10-23 20:15:14", "mode": "live", "event": "buy_blocked", "coin": "S", "why": "fair value fell -40 bps in 60s"}
 {"ts": 1792773916.573, "time": "2026-10-23 20:15:16", "mode": "live", "event": "buy_unblocked", "coin": "S", "why": "guards pass"}
+{"ts": 1792773944.605, "time": "2026-10-23 20:15:44", "mode": "live", "event": "buy_unblocked", "coin": "GALA", "why": "guards pass"}
+{"ts": 1792773946.6, "time": "2026-10-23 20:15:46", "mode": "live", "event": "buy_blocked", "coin": "GALA", "why": "fair value fell -53 bps in 60s"}
