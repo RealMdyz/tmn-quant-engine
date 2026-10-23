@@ -35,24 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,109,093 TMN** (+2.182%)
+- Equity: **5,096,820 TMN** (+1.936%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 63 (sources: {'llm:boxapi': 63})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 63, 'sleeve_order': 171, 'quote': 1839, 'buy_blocked': 4483, 'buy_unblocked': 4434, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 64 (sources: {'llm:boxapi': 64})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 64, 'sleeve_order': 171, 'quote': 1866, 'buy_blocked': 4502, 'buy_unblocked': 4454, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.1,
-    "CHZ": 0.9
+    "SUI": 1.4,
+    "FIL": 1.5,
+    "PENGU": 1.5
   },
   "pause": false,
-  "reasoning": "Pick SUI (spread 92.0 bps, vol24h 4,325M TMN, fv_vol 200.8 bps) because its Toman spread is >80 bps and volume is healthy; choose h=1.1% to be conservative given fv_vol ~200 bps. Pick CHZ (spread 183.1 bps, fv_vol 14.3 bps) because it has a very wide Toman spread with very low fv volatility, so quote tighter at h=0.9% to earn spread while limiting adverse selection. Do not quote markets with buy blocks or spread <80 bps (e.g. IMX 79.3, many others) per rules. Sleeves: keep rial at full 1.0 exposure because USDT/TMN 48h +3.53% gives full cap and rial sleeve return is positive (0.15% on value 2,618,913 TMN); keep beta at 0.8 (current scale) because beta return is strong (5.62% on value 1,929,850 TMN) and the engine is already scaled to 0.8.",
+  "reasoning": "I pick SUI, FIL and PENGU (max 3). SUI has a very wide Toman spread 200.3 bps, healthy 24h vol 3,928M TMN and USDT spread 120.1 bps — quote with a wide h=1.4% given fv_vol 211.2 bps. FIL has spread 108.2 bps, vol 4,899M TMN but high fv_vol 568.2 bps so I set h=1.5% to avoid pickoffs. PENGU has spread 103.6 bps and usdt_spread 114.6 bps (vol 1,626M TMN) but large negative premium (-103.3 bps) and fv_vol 591.6 bps, so h=1.5% to be conservative. No market-wide pause: no major news flagged. Sleeves: USDT/TMN 48h +3.47% gives full regime cap (1.0), so keep rial at 1.0 (rial sleeve returning +0.32% on current position) and keep beta at 0.8 (current beta scale_now 0.8, return +4.88%); continue beta in PEPE, ADA, LINK which are the sleeve weights and high-momentum members of the beta universe.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
