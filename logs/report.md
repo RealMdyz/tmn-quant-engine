@@ -35,8 +35,8 @@
 
 ## LIVE
 
-- Equity: **4,933,139 TMN** (-1.337%)
-- Max drawdown: **3.521%**
+- Equity: **4,933,187 TMN** (-1.336%)
+- Max drawdown: **3.522%**
 - Traded volume: 234,959 TMN
 
 ![equity](equity_live.png)
@@ -47,17 +47,18 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 93 (sources: {'llm:boxapi': 93})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 93, 'sleeve_order': 329, 'quote': 2780, 'buy_blocked': 6560, 'buy_unblocked': 6492, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1, 'sleeve_reweight': 1}
+- AI supervisor decisions: 94 (sources: {'llm:boxapi': 94})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 94, 'sleeve_order': 329, 'quote': 2787, 'buy_blocked': 6585, 'buy_unblocked': 6521, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1, 'sleeve_reweight': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 0.8
+    "DOT": 1.5,
+    "CHZ": 1.2
   },
   "pause": false,
-  "reasoning": "Pick only CHZ because its Toman spread is wide at 144.1 bps, 24h vol reasonable (505M TMN) and fv_vol is low (23.5 bps) so it is calm; no buy_blocked flag and quoted_now=true. I avoid PENGU (we had a live loss: realised pnl -2,109 TMN, avg round trip -178.3 bps), FIL/IMX/GALA/UNI/AVAX show buy_blocked or fast FV slides, and APE has extreme fv_vol (3,945 bps) so too risky. Half-spread h=0.8% (80 bps) because CHZ is calm with wide Toman spread (144 bps) so we can quote tighter near the top while covering maker fee (~50 bps) and some adverse selection. Sleeves are set to 0.0 because USDT/TMN 48h is +0.71% and the regime cap is 0.0 (portfolio.regime.cap=0.0), so no holding exposure now; beta_assets listed are PEPE and ADA from the beta universe as preferred high-momentum candidates if exposure is later allowed.",
+  "reasoning": "I pick DOT and CHZ because they are the only candidates with Toman spreads comfortably above our 80 bps cutoff without active buy-block flags: DOT spread 325.0 bps (vol24h 2754M TMN, fv_vol 389.6 bps) so I set a wide half-spread h=1.5% to protect against high fv volatility. CHZ has spread 102.2 bps, usdt_spread 176.9 bps and premium +65.1 bps with no buy_blocked, so I quote more moderately at h=1.2%. I avoid PENGU/FIL/IMX because PENGU had a live losing round trip (avg -178.3 bps, realised -2109 TMN) and FIL/IMX show Toman-book sliding buy_blocked alerts. Sleeves are set to zero exposure (rial 0.0, beta 0.0) because the regime cap is 0.0 (USDT/TMN 48h +0.71% -> cap 0.0) and the portfolio engine is in wind-down; beta_assets listed are PEPE and ADA following the sleeve weights and momentum preference.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
