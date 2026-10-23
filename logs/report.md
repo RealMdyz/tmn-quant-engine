@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,933,516 TMN** (-1.330%)
+- Equity: **4,933,512 TMN** (-1.330%)
 - Max drawdown: **3.514%**
 - Traded volume: 234,959 TMN
 
@@ -47,17 +47,17 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 84 (sources: {'llm:boxapi': 84})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 84, 'sleeve_order': 329, 'quote': 2419, 'buy_blocked': 5896, 'buy_unblocked': 5836, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 85 (sources: {'llm:boxapi': 85})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 85, 'sleeve_order': 329, 'quote': 2440, 'buy_blocked': 5929, 'buy_unblocked': 5870, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "DOT": 1.5
+    "SUI": 1.4
   },
   "pause": false,
-  "reasoning": "Only DOT meets the bot's minimum spread rule (spread_bps 81.1 >= 80) without destructive live fills: vol24h_mtmn 1,473 and fv_vol_bps 294.5 argue for a wide quote, so set h at the top 1.5%. PENGU (spread_bps 107.6) is excluded because buy_blocked and its live round trip lost -2,109 TMN (avg_round_trip_bps -178.3), while GALA (spread_bps 81.1) is currently buy_blocked by a fast FV drop and quoted_now — both unsafe. The portfolio sleeves are set to 0.0 because USDT/TMN 48h is only +0.52% so the regime cap is 0.0 (portfolio.regime.cap = 0.0), disallowing rial/beta exposure now. No beta assets are chosen since beta exposure is zero.",
+  "reasoning": "Only SUI meets the bot's minimum Toman spread rule: spread_bps=83.9 (just above the 80 bps cutoff) with vol24h_mtmn=3898 and fv_vol_bps=153.4 so I quote cautiously. PENGU, although wide (spread_bps=145.5), produced a losing live round trip (avg_round_trip_bps=-178.3, realised_pnl_tmn=-2109) and has a sliding Toman-book guard, so I avoid it. Other candidates have spread_bps <80 or book sliding guards (many with 'Toman book sliding'), so no additional markets are selected. USDT/TMN 48h +0.52% yields a regime cap of 0.0 on sleeve buys, so both sleeves are set to 0.0 exposure (rial and beta); I keep beta_assets listed as PEPE/ADA/LINK (the sleeve universe and recent weights) but do not increase exposure due to the cap.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
