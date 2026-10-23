@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,997,971 TMN** (-0.041%)
+- Equity: **4,991,278 TMN** (-0.174%)
 - Max drawdown: **2.501%**
 - Traded volume: 118,429 TMN
 
@@ -47,19 +47,19 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 0 | 0 |
 
-- AI supervisor decisions: 76 (sources: {'llm:boxapi': 76})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 11, 'policy': 76, 'sleeve_order': 171, 'quote': 2157, 'buy_blocked': 5464, 'buy_unblocked': 5402, 'state_restored': 62, 'sleeve_fill': 10, 'orphan_adopted': 1, 'fill': 1}
+- AI supervisor decisions: 77 (sources: {'llm:boxapi': 77})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 11, 'policy': 77, 'sleeve_order': 171, 'quote': 2234, 'buy_blocked': 5479, 'buy_unblocked': 5416, 'state_restored': 62, 'sleeve_fill': 10, 'orphan_adopted': 1, 'fill': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9,
-    "CHZ": 0.9,
-    "PENGU": 1.3
+    "SUI": 1.4,
+    "FIL": 0.9,
+    "CAKE": 1.4
   },
   "pause": false,
-  "reasoning": "I pick SUI (spread_bps 176.6, vol24h 3,890M TMN, fv_vol_bps 70.5) because its Toman spread is wide and fair-value volatility is low so we can quote relatively tight at h=0.9%. I pick CHZ (spread_bps 202.0, fv_vol_bps 80.9) for similar reasons (wide spread, low fv volatility) and set h=0.9% to be competitive. I include PENGU (spread_bps 289.5, vol24h 1,680M, fv_vol_bps 250.7) as a third market but use a wider h=1.3% because fv_vol is high. I avoid markets with buy_blocked or broken books (DOT flagged book broken; S, BNB, GALA, FIL show sliding blocks) and ignore very tiny or extremely noisy names (IMX). For sleeves I keep rial at full exposure 1.0 because USDT/TMN 48h +1.09% (regime cap=1.0) and the rial sleeve is already scaled to 1.0; I keep beta at 0.8 (current scale) and keep its existing assets PEPE/ADA/LINK given beta return 1.51% and moderate pnl, avoiding changing exposure into any signs of rial-strengthening or market shocks.",
+  "reasoning": "Pick SUI (spread 119.3 bps, vol24h 3,887M TMN, fv_vol 27.1 bps, quoted_now true) because spread >>80 bps and fair-value volatility is moderate; use wide half-spread h=1.4% to avoid pick-off. Pick FIL (spread 124.1 bps, vol24h 4,487M TMN, fv_vol 7.1 bps) because volume is decent and fv_vol is very low (stable), so a tighter h=0.9% is acceptable while still covering maker fees. Pick CAKE (spread 156.6 bps, vol24h 2,958M TMN, fv_vol 94.9 bps) as a wide, liquid candidate but with high fv volatility so keep h=1.4%. Avoid markets with buy_blocked flags (S, AVAX, ARB, UNI, etc.) and avoid DOT despite huge spread because the book is reported broken. Sleeves: keep rial at full cap 1.0 since USDT/TMN 48h +1.18% (regime cap 1.0) and rial sleeve return is -0.96% but the rial-weakening regime supports holding; keep beta at current scale 0.8 because beta return is +1.36% (pnl 30,410 TMN) and profit-saving/wind-down rules are active but not forcing further reductions.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
