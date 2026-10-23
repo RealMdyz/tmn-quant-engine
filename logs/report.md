@@ -35,25 +35,23 @@
 
 ## LIVE
 
-- Equity: **5,087,425 TMN** (+1.748%)
+- Equity: **5,078,720 TMN** (+1.574%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 58 (sources: {'llm:boxapi': 58})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 58, 'sleeve_order': 171, 'quote': 1542, 'buy_blocked': 4233, 'buy_unblocked': 4182, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 59 (sources: {'llm:boxapi': 59})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 59, 'sleeve_order': 171, 'quote': 1544, 'buy_blocked': 4278, 'buy_unblocked': 4230, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.0,
-    "ENA": 1.3,
-    "CHZ": 1.5
+    "SUI": 0.9
   },
   "pause": false,
-  "reasoning": "I pick FIL, ENA and CHZ because they are the only candidates with Toman spread >= 80 bps (FIL 130.8 bps, ENA 146.3 bps, CHZ 211.0 bps) which fits the rule to avoid markets <80 bps. FIL is relatively calm (fv_vol_bps 20.2) with very wide Toman/usdt spreads (usdt_spread_bps 534) and a large premium (+176 bps) so I quote tighter at h=1.0. ENA has moderate fv_vol (196.5 bps) and wide spread so I set h=1.3 to be more defensive. CHZ shows extreme volatility (fv_vol_bps 708.1) and the widest spread so I set h at the maximum 1.5. I keep pause=false (no market-wide shock in news) and leave sleeves at full regime cap: rial exposure 1.0 because USDT/TMN 48h +3.33% (regime cap=1.0) and the rial sleeve is +0.56% YTD; beta remains at 0.8 matching current scale_now (0.8) and I keep its current assets PEPE/ADA/LINK which are the sleeve weights and high-momentum choices.",
+  "reasoning": "Pick only SUI because it is the only candidate with spread_bps >=80 without a buy_block (spread 138 bps, vol24h 5,113M TMN) and low fair-value volatility (fv_vol_bps 32.0) so a tight maker quote is reasonable. I set h=0.9% (within 0.8–1.5) because the Toman spread is wide (138 bps) and fv volatility is low, so we can quote relatively aggressively while respecting adverse-selection caution. I avoid CHZ/DOT/IMX because CHZUSDT is frozen (buy_blocked), DOT and IMX show Toman-book sliding/blocks or extreme fv volatility, and other coins have spread_bps <80 so they are wasted slots. Keep the sleeve exposures at rial=1.0 (USDT/TMN 48h +3.61% supports full rial exposure; rial sleeve return 0.51%) and beta=0.8 (current scale_now 0.8, beta return 3.93% with PEPE/ADA/LINK weights) and keep beta assets as PEPE, ADA, LINK for momentum and continuity.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
