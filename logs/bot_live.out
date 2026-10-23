@@ -70,3 +70,5 @@ live self-test failed: {'ok': False, 'error': 'POST /v1/account/orders -> 422: Ø
 2026-10-23 13:54:11,655 INFO mm: market maker running in LIVE mode
 2026-10-23 20:11:42,129 INFO mm: MM coins=['SOL', 'SUI', 'S', 'XRP', 'BNB', 'AAVE', 'HYPE', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
 2026-10-23 20:11:42,129 INFO mm: market maker running in LIVE mode
+2026-10-23 20:16:51,592 INFO mm: MM coins=['SOL', 'SUI', 'S', 'XRP', 'BNB', 'AAVE', 'HYPE', 'ARB', 'UNI', 'FIL', 'AVAX', 'BCH', 'DOT', 'PENGU', 'GALA', 'CAKE', 'WLD', 'APE', 'ENA', 'CHZ', 'IMX'] fees=Fees(tmn_maker=0.0025, tmn_taker=0.003, usdt_maker=0.001, usdt_taker=0.0013) agent=True
+2026-10-23 20:16:51,593 INFO mm: market maker running in LIVE mode
