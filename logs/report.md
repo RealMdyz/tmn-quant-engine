@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,098,857 TMN** (+1.977%)
+- Equity: **5,098,122 TMN** (+1.962%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 67 (sources: {'llm:boxapi': 67})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 67, 'sleeve_order': 171, 'quote': 1940, 'buy_blocked': 4708, 'buy_unblocked': 4659, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 68 (sources: {'llm:boxapi': 68})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 68, 'sleeve_order': 171, 'quote': 1949, 'buy_blocked': 4743, 'buy_unblocked': 4693, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.3,
-    "CHZ": 1.5,
-    "BCH": 1.5
+    "SUI": 1.0,
+    "FIL": 1.2,
+    "CHZ": 1.4
   },
   "pause": false,
-  "reasoning": "I pick FIL, CHZ and BCH because each has Toman spread comfortably above our 80 bps threshold (FIL 161.6 bps, CHZ 124.9 bps, BCH 92.5 bps) and reasonable 24h liquidity (FIL vol 4,017M, BCH 1,807M, CHZ 1,520M). I avoid coins with active buy blocks or recent sliding premiums (e.g. DOT/BNB/UNI flagged) and skip extremely explosive fv_vol outliers (APE) to reduce adverse selection; FIL has low fv_vol (175 bps) so I allow a somewhat tighter h=1.3, while CHZ and BCH show high fv_vol (697.9 and 507.8 bps) so I set wider h=1.5. Sleeves keep full rial exposure (1.0) because USDT/TMN 48h +3.27% gives regime cap 1.0 and the rial sleeve is up +0.28%; beta remains at 0.8 (current scale_now 0.8, beta return +4.29%) and I keep its core weights PEPE/ADA/LINK as the selected beta assets. No market-wide pause — no major rial or crypto headline flags in the feed and account drawdown is low (0.571%).",
+  "reasoning": "I pick SUI, FIL and CHZ because each has Toman spread >=80 bps (SUI 157.1, FIL 188.2, CHZ 155.4) and sufficient 24h volume (SUI 3,738M, FIL 4,038M, CHZ 1,435M). I set half-spreads wide where fv volatility or adverse-selection risk is higher: FIL h=1.2% (fv_vol 374 bps, USDT spread 499.9 bps, premium 138 bps), SUI h=1.0% (fv_vol 220 bps, USDT spread 95.7 bps, premium 38 bps) and CHZ h=1.4% (fv_vol 700 bps). I avoid markets with active buy blocks or sliding Toman books (e.g. PENGU, WLD, AVAX) and do not quote where spread_bps <80 (so SOL/XRP/BNB etc are excluded). Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +3.08% (regime cap 1.0) and the rial sleeve is up +0.52%; keep beta at current 0.8 (beta sleeve is +4.69% and already scaled to 0.8) and maintain its top assets PEPE/ADA/LINK matching the sleeve weights.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
