@@ -35,25 +35,23 @@
 
 ## LIVE
 
-- Equity: **5,059,784 TMN** (+1.196%)
+- Equity: **5,050,888 TMN** (+1.018%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 68 (sources: {'llm:boxapi': 68})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 68, 'sleeve_order': 171, 'quote': 1958, 'buy_blocked': 4769, 'buy_unblocked': 4717, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 69 (sources: {'llm:boxapi': 69})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 69, 'sleeve_order': 171, 'quote': 1963, 'buy_blocked': 4818, 'buy_unblocked': 4764, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.0,
-    "FIL": 1.2,
-    "CHZ": 1.4
+    "CAKE": 0.9
   },
   "pause": false,
-  "reasoning": "I pick SUI, FIL and CHZ because each has Toman spread >=80 bps (SUI 157.1, FIL 188.2, CHZ 155.4) and sufficient 24h volume (SUI 3,738M, FIL 4,038M, CHZ 1,435M). I set half-spreads wide where fv volatility or adverse-selection risk is higher: FIL h=1.2% (fv_vol 374 bps, USDT spread 499.9 bps, premium 138 bps), SUI h=1.0% (fv_vol 220 bps, USDT spread 95.7 bps, premium 38 bps) and CHZ h=1.4% (fv_vol 700 bps). I avoid markets with active buy blocks or sliding Toman books (e.g. PENGU, WLD, AVAX) and do not quote where spread_bps <80 (so SOL/XRP/BNB etc are excluded). Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +3.08% (regime cap 1.0) and the rial sleeve is up +0.52%; keep beta at current 0.8 (beta sleeve is +4.69% and already scaled to 0.8) and maintain its top assets PEPE/ADA/LINK matching the sleeve weights.",
+  "reasoning": "Only CAKE meets the bot's minimum Toman spread rule (spread_bps 102.7 >= 80) while having low fair-value volatility (fv_vol_bps 54.3) and no buy_blocked flags; vol24h_mtmn is 1026 so liquidity is adequate. I set h=0.9% (near the narrow end) because the Toman spread is wide (102.7 bps) and FV is calm, allowing a tighter quote without excessive adverse selection. Other large spreads (DOT 768.7, PENGU 258.4, CHZ 203.3, FIL 99.9) are excluded because of buy_blocked/fair-value shocks or sliding Toman-book signals. Keep the rial sleeve at full exposure 1.0 because USDT/TMN 48h +3.08% (regime cap 1.0) supports holding rial (rial sleeve currently scale 1.0); keep beta at 0.8 (current scale) because beta has positive return 2.77% and we avoid increasing exposure before the scheduled wind-down.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
