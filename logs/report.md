@@ -35,23 +35,25 @@
 
 ## LIVE
 
-- Equity: **4,962,034 TMN** (-0.759%)
+- Equity: **4,966,292 TMN** (-0.674%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 30 (sources: {'llm:boxapi': 30})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 30, 'sleeve_order': 169, 'quote': 582, 'buy_blocked': 1943, 'buy_unblocked': 1909, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 31 (sources: {'llm:boxapi': 31})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 31, 'sleeve_order': 169, 'quote': 591, 'buy_blocked': 1986, 'buy_unblocked': 1947, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BNB": 1.0
+    "BNB": 0.9,
+    "GALA": 1.2,
+    "CHZ": 0.85
   },
   "pause": false,
-  "reasoning": "Place only BNB because its Toman spread is 80.1 bps (meets our >=80 bps rule), 24h Toman volume is very large (91,071M TMN) and fv_vol_bps is low (29.8), so it is a busy, calm market; I pick h=1.0% to stay conservative against adverse selection. I avoid GALA and CHZ because GALA shows a Toman-book slide (buy_blocked) and CHZ has CHZUSDT frozen 15 min (fair value unverifiable); IMX/others are flagged as broken or have spreads below our threshold. Keep pause=false since there is no market-wide shock in the news and USDT/TMN regime supports rial-weakening. Sleeves: USDT/TMN 48h +4.33% gives us full exposure cap (1.0), so keep rial at 1.0 (rial sleeve value 2,598,938 TMN, return -0.61% but regime supportive) and keep beta at 0.8 (current scale_now 0.8, value 1,815,951 TMN, return -1.0%); beta assets chosen are PEPE/ADA/LINK per current sleeve weights and momentum.",
+  "reasoning": "Pick BNB because its Toman spread is at our minimum acceptable 80.2 bps and 24h volume is very high (90,977M TMN) with moderate fv_vol 116 bps — quote slightly aggressive h=0.9% to sit near the top but avoid being too tight. Pick GALA because the Toman spread is extremely wide (221.8 bps) and USDT/TMN spread is wide (274.7 bps) so fewer, wider quotes make sense — h=1.2% to prioritise protection and selectivity. Pick CHZ because spread is comfortable (95.5 bps) and fv_vol is low (53.6 bps) so we can quote tighter to capture spread — h=0.85%. Do not quote markets with spread <80 bps (many candidates excluded) or with buy_blocked flags (DOT/ARB/FIL/WLD/APE/ENA/IMX). Keep sleeves: rial at full 1.0 because USDT/TMN 48h +4.33% (regime cap 1.0) and the rial-weakening trend supports holdings; beta at 0.8 (current scale_now 0.8) keeping PEPE/ADA/LINK as the 3 beta assets with existing weights and momentum while avoiding over‑exposure before the automated wind-down window.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
