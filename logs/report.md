@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,985,416 TMN** (-0.292%)
+- Equity: **4,985,398 TMN** (-0.292%)
 - Max drawdown: **2.501%**
 - Traded volume: 234,959 TMN
 
@@ -47,19 +47,19 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 78 (sources: {'llm:boxapi': 78})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 12, 'policy': 78, 'sleeve_order': 278, 'quote': 2297, 'buy_blocked': 5570, 'buy_unblocked': 5508, 'state_restored': 62, 'sleeve_fill': 17, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 79 (sources: {'llm:boxapi': 79})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 12, 'policy': 79, 'sleeve_order': 278, 'quote': 2312, 'buy_blocked': 5576, 'buy_unblocked': 5518, 'state_restored': 62, 'sleeve_fill': 18, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9,
-    "CHZ": 1.2,
-    "GALA": 1.3
+    "CHZ": 0.9,
+    "CAKE": 1.2,
+    "FIL": 1.1
   },
   "pause": false,
-  "reasoning": "Pick SUI (spread 117.7 bps, low fv_vol 22.9 bps and USDT/TMN spread 64.8 bps; quoted_now true) for a relatively tight h=0.9 because fair-value is stable. Pick CHZ (spread 156.4 bps, fv_vol 57.8 bps, vol24h 1.42k MTMN) with h=1.2 to respect its wide spread but moderate FV noise. Pick GALA (spread 140.8 bps, fv_vol 77.9 bps) with h=1.3 because volume is smaller (941 MTMN) and we want extra cushion. Sleeves set to 0.0 because the portfolio regime shows USDT/TMN 48h +0.74% => exposure cap 0.0, so we stop adding rial/beta exposure now (portfolio cap applied on top); beta_assets kept as PEPE/ADA/LINK (existing weights/high momentum) if exposure is later allowed.",
+  "reasoning": "Pick up to three markets with spread_bps >=80 and no buy_block: CHZ spread 187.7 bps, usdt_spread 376.6 bps and low fv_vol 58.7 bps -> quote tighter (h=0.9) to capture wide Toman spread in a calm coin. CAKE spread 150.7 bps, vol24h 2.55kM TMN and fv_vol 151.1 bps -> moderate volatility so keep wider h=1.2. FIL spread 99.0 bps, high vol24h 4.45kM TMN and low fv_vol 39.5 bps with very wide USDT spread 389.3 bps -> opportunistic maker quotes with h=1.1 but remain conservative to avoid pickoffs. Excluded markets: PENGU had a recent harmful round trip (realised_pnl -2109 TMN, avg_round_trip_bps -178.3) and several candidates show Toman book sliding/buy_blocked (BNB, UNI, AVAX, ENA, IMX, DOT) so don’t quote them. Sleeves set to 0.0 because USDT/TMN 48h +0.74% gives regime cap 0.0 (portfolio.regime.cap=0.0) so we must not scale rial or beta now; beta_assets listed (PEPE, ADA, LINK) are the preferred universe picks if the sleeve is later enabled.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
