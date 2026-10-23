@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,017,523 TMN** (+0.350%)
+- Equity: **5,022,904 TMN** (+0.458%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 42 (sources: {'llm:boxapi': 42})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 42, 'sleeve_order': 169, 'quote': 977, 'buy_blocked': 3040, 'buy_unblocked': 3002, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 43 (sources: {'llm:boxapi': 43})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 43, 'sleeve_order': 169, 'quote': 987, 'buy_blocked': 3080, 'buy_unblocked': 3040, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 0.9,
-    "FIL": 1.3,
-    "PENGU": 1.5
+    "CAKE": 1.2,
+    "GALA": 1.3,
+    "FIL": 1.5
   },
   "pause": false,
-  "reasoning": "I pick CHZ, FIL and PENGU because I never bid where spread_bps <80: CHZ spread_bps=202.3 (vol24h_mtmn=3049) and very low fv_vol_bps=48.4 so I quote tighter (h=0.9%). FIL has the largest Toman spread (215.2 bps) with decent volume (vol24h_mtmn=4354) so I set a wide h=1.3% to avoid being picked off. PENGU has spread_bps=126.0 and large USDT/TMN spread (usdt_spread_bps=172.6) but high fv_vol -> I use the widest h=1.5%. I do not pause; there are no market-wide shocks. Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +4.33% (regime cap=1.0) and the rial sleeve is slightly positive (return_pct=0.15%). Keep beta at 0.8 (current scale_now=0.8 and return_pct=1.42%) and maintain its three assets PEPE/ADA/LINK which are the sleeve weights and have delivered the reported pnl.",
+  "reasoning": "I pick CAKE, GALA and FIL because each has Toman spread well above our 80 bps cutoff (CAKE 155 bps, GALA 137.5 bps, FIL 208.6 bps) and reasonable 24h TMN volume (CAKE 2,336m, GALA 1,412m, FIL 4,745m). I set wide half-spreads because FV volatility or adverse-selection risks are nontrivial: CAKE h=1.2 (fv_vol 136 bps moderate), GALA h=1.3 (fv_vol 382 bps), and FIL h=1.5 because although FIL’s fv_vol is low (24.3 bps) we have prior adverse-selection evidence (live FIL buy then -1.8%) so use the maximum h. I avoid markets with buy blocks or stale/unverifiable USDT books (e.g. CHZ, AVAX, DOT, IMX flagged) and skip all spreads <80 bps (many candidates). For sleeves I keep rial at 1.0 and beta at 0.8 because USDT/TMN 48h is +4.33% (regime cap =1.0) so the rial strategy remains supported and beta has positive recent returns (beta return 1.79% with scale_now 0.8); I allocate beta to PEPE/ADA/LINK following the existing weights and momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
