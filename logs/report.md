@@ -35,20 +35,20 @@
 
 ## LIVE
 
-- Equity: **4,991,668 TMN** (-0.167%)
+- Equity: **4,985,416 TMN** (-0.292%)
 - Max drawdown: **2.501%**
-- Traded volume: 118,429 TMN
+- Traded volume: 234,959 TMN
 
 ![equity](equity_live.png)
 
-- Market maker: **1 fills** (1 buys, 0 sells), 0 risk exits, realised PnL **0 TMN**
+- Market maker: **1 fills** (1 buys, 0 sells), 1 risk exits, realised PnL **-2,109 TMN**
 
 | coin | buys | sells | exits | realised PnL TMN |
 |---|---|---|---|---|
-| PENGU | 1 | 0 | 0 | 0 |
+| PENGU | 1 | 0 | 1 | -2,109 |
 
 - AI supervisor decisions: 78 (sources: {'llm:boxapi': 78})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 12, 'policy': 78, 'sleeve_order': 233, 'quote': 2287, 'buy_blocked': 5554, 'buy_unblocked': 5488, 'state_restored': 62, 'sleeve_fill': 11, 'orphan_adopted': 1, 'fill': 1}
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 12, 'policy': 78, 'sleeve_order': 278, 'quote': 2297, 'buy_blocked': 5570, 'buy_unblocked': 5508, 'state_restored': 62, 'sleeve_fill': 17, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
