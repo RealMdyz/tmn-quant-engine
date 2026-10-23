@@ -35,25 +35,23 @@
 
 ## LIVE
 
-- Equity: **5,030,837 TMN** (+0.617%)
+- Equity: **5,032,839 TMN** (+0.657%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 44 (sources: {'llm:boxapi': 44})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 44, 'sleeve_order': 169, 'quote': 1023, 'buy_blocked': 3228, 'buy_unblocked': 3190, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 45 (sources: {'llm:boxapi': 45})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 45, 'sleeve_order': 169, 'quote': 1048, 'buy_blocked': 3283, 'buy_unblocked': 3245, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 0.9,
-    "CAKE": 1.1,
-    "DOT": 1.4
+    "GALA": 1.5
   },
   "pause": false,
-  "reasoning": "Pick CHZ because spread_bps is very wide (228.9 bps) with low fv_vol_bps (41.5) and reasonable vol24h_mtmn (3026) — favour tighter half-spread h=0.9% to capture the large Toman spread with low fair-value volatility. Pick CAKE because spread_bps is above our 80 bps floor (88.8 bps), quoted_now (active) and moderate fv_vol_bps (165.4) so use medium h=1.1% to avoid being picked off. Pick DOT as a wide-spread, liquid candidate (spread_bps 146.7) but very high fv_vol_bps (1014.3) so set wide h=1.4% to protect versus volatility. Do not pause (no market-wide shock in news). Keep the 'rial' sleeve fully exposed (1.0) because USDT/TMN 48h +4.33% places us in the rial-weakening regime (cap 1.0) and the rial sleeve has held steady (return -0.01%). Keep 'beta' at 0.8 (current scale_now) since beta has returned 2.23% on capital 2.25M TMN and is performing well, so retain PEPE/ADA/LINK as the 3 beta assets.",
+  "reasoning": "Only GALA meets our minimum Toman-spread threshold and is not buy-blocked: spread_bps 157.2 (well above our 80 bps floor), vol24h_mtmn 1412 (enough liquidity) and fv_vol_bps 314.6 (moderate), so I place a wide half-spread h=1.5% to protect against adverse selection. CHZ, though having an attractive spread_bps 197.4 and low fv_vol_bps 41.5, is unusable because CHZUSDT book is frozen 25 min (fair value unverifiable) so I skip it; ENA and several others are buy_blocked or have unstable FV (fair value fell -48 bps or sliding premiums). Portfolio sleeves: USDT/TMN 48h +4.33% gives regime cap 1.0 so I keep the rial sleeve at full exposure 1.0 (rial sleeve scale_now 1.0, modest return +0.27%). Beta has been scaled to 0.8 by the engine (return +2.28%), so I keep beta at 0.8 and allocate to its current high-momentum weights PEPE/ADA/LINK. No market-wide pause — no major Iran/crypto headline or sharp USDT/TMN drop in the feed to justify wind-down.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
