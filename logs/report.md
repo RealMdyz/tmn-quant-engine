@@ -35,8 +35,8 @@
 
 ## LIVE
 
-- Equity: **4,971,430 TMN** (-0.571%)
-- Max drawdown: **2.798%**
+- Equity: **4,969,901 TMN** (-0.602%)
+- Max drawdown: **2.802%**
 - Traded volume: 234,959 TMN
 
 ![equity](equity_live.png)
@@ -47,19 +47,18 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 81 (sources: {'llm:boxapi': 81})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 13, 'policy': 81, 'sleeve_order': 303, 'quote': 2354, 'buy_blocked': 5699, 'buy_unblocked': 5637, 'state_restored': 62, 'sleeve_fill': 24, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 82 (sources: {'llm:boxapi': 82})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 13, 'policy': 82, 'sleeve_order': 303, 'quote': 2371, 'buy_blocked': 5712, 'buy_unblocked': 5652, 'state_restored': 62, 'sleeve_fill': 24, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9,
-    "HYPE": 1.3,
-    "FIL": 1.4
+    "FIL": 0.9,
+    "SUI": 1.3
   },
   "pause": false,
-  "reasoning": "I pick SUI, HYPE and FIL because each has Toman spread above our 80 bps cutoff (SUI 113.2, HYPE 118.8, FIL 106.6) and reasonable 24h volume (SUI 3.7bn, HYPE 1.6bn, FIL 3.5bn TMN). SUI has low fair-value volatility (fv_vol 52.8 bps) so I quote tighter (h=0.9%) to capture spread with lower adverse-selection risk; HYPE shows higher fv_vol (161.2 bps) so I widen to h=1.3%. FIL has very low fv_vol (30.2 bps) but known micro shocks and previous rapid adverse fills, so I set it wide (h=1.4%) to reduce being picked off despite its attractive premium (premium +122.7 bps). I avoid PENGU and CHZ because PENGU produced a large losing round trip (realised -2,109 TMN, avg -178.3 bps) and CHZ has a frozen USDT book, and I skip markets with buy_blocked sliding notes. For sleeves: USDT/TMN 48h +1.40% gives full regime cap, so I partially re-enable exposure — rial 0.75 to capture continued rial weakness (rial sleeve historically +0.88% when entered in the rial-weakening regime) while limiting downside, and beta 0.5 because beta sleeve is higher volatility (historical +1.28% but larger swings); I keep beta assets to PEPE/ADA/LINK per the sleeve weights/universe.",
+  "reasoning": "Pick FIL because Toman spread is wide at 160.2 bps, USDT spread is very wide (453 bps) and fv_vol is low (26.2 bps) so we can quote tighter; set h=0.9% to earn spread while staying one tick inside. Include SUI because it just meets our minimum spread (81.3 bps) with moderate fv_vol 62.7 bps and reasonable 24h volume (3,749M TMN); use a wide h=1.3% since the edge is small and FV moves are larger. Avoid PENGU/CHZ/IMX/AVAX because PENGU had a live losing round trip (realised -2,109 TMN, avg -178.3 bps) and sliding Toman book, CHZ USDT book is frozen, IMX/AVAX show Toman-book sliding guards. Keep sleeve exposures at rial=0.75 and beta=0.5 (matching current scale_now values) because USDT/TMN 48h is +1.40% (regime cap=1.0) supporting rial-weakening positioning, and beta has been scaled to 0.5 already and shows modest performance (-0.49% return) so we hold current beta assets PEPE/ADA/LINK.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
