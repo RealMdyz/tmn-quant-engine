@@ -35,8 +35,8 @@
 
 ## LIVE
 
-- Equity: **4,963,968 TMN** (-0.721%)
-- Max drawdown: **2.927%**
+- Equity: **4,956,475 TMN** (-0.870%)
+- Max drawdown: **3.064%**
 - Traded volume: 234,959 TMN
 
 ![equity](equity_live.png)
@@ -47,18 +47,19 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 82 (sources: {'llm:boxapi': 82})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 13, 'policy': 82, 'sleeve_order': 303, 'quote': 2376, 'buy_blocked': 5731, 'buy_unblocked': 5671, 'state_restored': 62, 'sleeve_fill': 24, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 83 (sources: {'llm:boxapi': 83})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 13, 'policy': 83, 'sleeve_order': 303, 'quote': 2391, 'buy_blocked': 5748, 'buy_unblocked': 5686, 'state_restored': 62, 'sleeve_fill': 24, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 0.9,
-    "SUI": 1.3
+    "CHZ": 0.9,
+    "CAKE": 1.0,
+    "GALA": 1.3
   },
   "pause": false,
-  "reasoning": "Pick FIL because Toman spread is wide at 160.2 bps, USDT spread is very wide (453 bps) and fv_vol is low (26.2 bps) so we can quote tighter; set h=0.9% to earn spread while staying one tick inside. Include SUI because it just meets our minimum spread (81.3 bps) with moderate fv_vol 62.7 bps and reasonable 24h volume (3,749M TMN); use a wide h=1.3% since the edge is small and FV moves are larger. Avoid PENGU/CHZ/IMX/AVAX because PENGU had a live losing round trip (realised -2,109 TMN, avg -178.3 bps) and sliding Toman book, CHZ USDT book is frozen, IMX/AVAX show Toman-book sliding guards. Keep sleeve exposures at rial=0.75 and beta=0.5 (matching current scale_now values) because USDT/TMN 48h is +1.40% (regime cap=1.0) supporting rial-weakening positioning, and beta has been scaled to 0.5 already and shows modest performance (-0.49% return) so we hold current beta assets PEPE/ADA/LINK.",
+  "reasoning": "I pick CHZ, CAKE and GALA because they clear the 80 bps minimum spread filter: CHZ spread 173.3 bps with low fv_vol 31.2 bps (calm) so I quote relatively tight at h=0.9% to earn the fat spread while avoiding being too aggressive. CAKE has spread 104.2 bps, vol24h 2.744bn TMN and fv_vol 69.9 bps so I set h=1.0% (moderate width). GALA is borderline but spread 80.5 bps with high USDT spread 163.9 bps and fv_vol 205.6 bps so I widen to h=1.3% to protect against volatility. I avoid PENGU and FIL: PENGU produced a live loss (realised -2,109 TMN, avg round trip -178.3 bps) so I stop quoting it; FIL had prior adverse fills and is quoted_now so I avoid it. Sleeves: USDT/TMN 48h +1.49% places us in the rial-weakening regime (cap 1.0), so I keep the rial sleeve at scale_now 0.75 (matches current scale and targets BTC/ETH mix) and keep beta at 0.5 (current scale_now 0.5 and positive small performance), with beta assets PEPE/ADA/LINK per the sleeve weights and universe.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
