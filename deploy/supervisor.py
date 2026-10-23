@@ -66,6 +66,7 @@ def reap_orphans(keep=()):
         pids = [int(d) for d in os.listdir("/proc") if d.isdigit()]
     except OSError:
         return
+    reaped = 0
     for pid in pids:
         if pid in keep:
             continue
@@ -77,8 +78,11 @@ def reap_orphans(keep=()):
         if rest[0] == "Z" and int(rest[1]) == me and name not in ("sh", "python", "python3"):
             try:
                 os.waitpid(pid, os.WNOHANG)
+                reaped += 1
             except ChildProcessError:
                 pass
+    if reaped:
+        say(f"reaped {reaped} finished orphan process(es)")
 
 
 def say(msg):
