@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,933,511 TMN** (-1.330%)
+- Equity: **4,933,496 TMN** (-1.330%)
 - Max drawdown: **3.514%**
 - Traded volume: 234,959 TMN
 
@@ -47,19 +47,18 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 86 (sources: {'llm:boxapi': 86})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 86, 'sleeve_order': 329, 'quote': 2502, 'buy_blocked': 6006, 'buy_unblocked': 5944, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 87 (sources: {'llm:boxapi': 87})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 87, 'sleeve_order': 329, 'quote': 2518, 'buy_blocked': 6030, 'buy_unblocked': 5972, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.4,
-    "GALA": 1.2,
-    "CAKE": 0.9
+    "SUI": 0.9,
+    "IMX": 1.5
   },
   "pause": false,
-  "reasoning": "I pick FIL, GALA and CAKE because the bot avoids Toman spreads <80 bps and these have wide spreads: FIL spread 111.9 bps, GALA 303.0 bps, CAKE 86.0 bps. Set wider half-spreads where fair-value volatility is higher: FIL fv_vol 208.9 bps -> h=1.4%, GALA fv_vol 110.4 bps -> h=1.2%, CAKE fv_vol 34.5 bps (calm) -> h=0.9%. I avoid PENGU and UNI because PENGU produced a losing round trip (realised_pnl -2,109 T M N, avg -178.3 bps) and UNI has buy_blocked (sliding book). Sleeves are set to 0.0 because USDT/TMN 48h +0.73% yields a regime cap 0.0 (portfolio.cap 0.0), so no rial or beta exposure now; beta_assets listed are PEPE/ADA/LINK as the default high-momentum picks if exposure is later allowed.",
+  "reasoning": "Choose SUI and IMX only: SUI has a very wide Toman spread 278.5 bps with moderate vol24h 4,062M and low fv_vol 55.6 bps so a relatively tight half‑spread h=0.9% captures spread while limiting adverse selection. IMX has huge displayed spread 289.0 bps but extreme fv_vol 1,171.9 bps so I set h=1.5% to avoid being picked off. I avoid PENGU and DOT because PENGU produced a live loss (realised_pnl -2,109 TMN, avg_round_trip -178.3 bps) and both PENGU and DOT show Toman‑book sliding/buy_blocked warnings. Sleeves set to 0.0 because USDT/TMN 48h +0.71% triggered regime cap 0.0 (portfolio.regime.cap=0.0), so no rial or beta exposure now; beta_assets left as PEPE/ADA/LINK (current universe and prior weights) in case exposure is allowed later.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
