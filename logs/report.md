@@ -35,24 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,018,762 TMN** (+0.375%)
+- Equity: **5,013,787 TMN** (+0.276%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 41 (sources: {'llm:boxapi': 41})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 41, 'sleeve_order': 169, 'quote': 969, 'buy_blocked': 2983, 'buy_unblocked': 2944, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 42 (sources: {'llm:boxapi': 42})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 42, 'sleeve_order': 169, 'quote': 974, 'buy_blocked': 3013, 'buy_unblocked': 2976, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "HYPE": 1.1,
-    "FIL": 1.5
+    "CHZ": 0.9,
+    "FIL": 1.3,
+    "PENGU": 1.5
   },
   "pause": false,
-  "reasoning": "I pick HYPE and FIL because the bot never quotes where spread_bps <80: HYPE has spread_bps=82.4 with vol24h_mtmn=3054 and fv_vol_bps=145.8 so we can quote cautiously (h=1.1). FIL has a very wide Toman spread_bps=203.3 and usdt_spread_bps=107.1 so it is attractive for wide-quote market-making despite high fv_vol_bps=655.7; set h=1.5 to avoid being picked off. I avoided PENGU, GALA and CHZ because they show buy_blocked sliding or frozen USDT books (PENGU and GALA report Toman-book sliding; CHZUSDT book frozen) which makes fair value unreliable. Sleeves: USDT/TMN 48h +4.33% keeps us in the rial-weakening regime so keep rial exposure at 1.0; beta keeps its current scale (0.8) given positive recent return_pct 0.79% and no coin-specific bad news; beta_assets remain PEPE, ADA, LINK.",
+  "reasoning": "I pick CHZ, FIL and PENGU because I never bid where spread_bps <80: CHZ spread_bps=202.3 (vol24h_mtmn=3049) and very low fv_vol_bps=48.4 so I quote tighter (h=0.9%). FIL has the largest Toman spread (215.2 bps) with decent volume (vol24h_mtmn=4354) so I set a wide h=1.3% to avoid being picked off. PENGU has spread_bps=126.0 and large USDT/TMN spread (usdt_spread_bps=172.6) but high fv_vol -> I use the widest h=1.5%. I do not pause; there are no market-wide shocks. Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +4.33% (regime cap=1.0) and the rial sleeve is slightly positive (return_pct=0.15%). Keep beta at 0.8 (current scale_now=0.8 and return_pct=1.42%) and maintain its three assets PEPE/ADA/LINK which are the sleeve weights and have delivered the reported pnl.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
