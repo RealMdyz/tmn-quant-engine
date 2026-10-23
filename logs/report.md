@@ -35,25 +35,24 @@
 
 ## LIVE
 
-- Equity: **5,065,501 TMN** (+1.310%)
+- Equity: **5,046,223 TMN** (+0.924%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 70 (sources: {'llm:boxapi': 70})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 70, 'sleeve_order': 171, 'quote': 1979, 'buy_blocked': 4992, 'buy_unblocked': 4941, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 71 (sources: {'llm:boxapi': 71})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 71, 'sleeve_order': 171, 'quote': 2001, 'buy_blocked': 5023, 'buy_unblocked': 4972, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.4,
-    "SUI": 1.3,
-    "BCH": 1.2
+    "FIL": 0.9,
+    "CHZ": 0.9
   },
   "pause": false,
-  "reasoning": "Pick FIL, SUI, BCH because all have wide Toman spreads above our 80 bps threshold: FIL spread 197.9 bps (usdt_spread 435 bps, premium +101.5 bps) is the widest so we quote widest h=1.4. SUI has spread 161.5 bps with moderate fv_vol 216 bps so h=1.3. BCH spread 105.0 bps and reasonable vol (fv_vol 214 bps) gets h=1.2. Avoided candidates with buy blocks/quoted_now (XRP/UNI/CAKE/CHZ/GALA) and markets with spread <80 bps (e.g. SOL, BNB, ARB). Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +3.13% -> regime cap 1.0 and rial sleeve return +0.49%; keep beta at current 0.8 (value return +3.26%) and keep its existing top momentum names PEPE/ADA/LINK.",
+  "reasoning": "Select FIL (spread_bps 157.8, vol24h 4,022M TMN, fv_vol_bps 36.8) because it has a very wide Toman spread and a low FV volatility (stable fair value). Select CHZ (spread_bps 198.1, vol24h 1,439M TMN, fv_vol_bps 41.1) for similar reasons: very wide spread and low FV volatility. Avoid UNI/ARB/PENGU/GALA/DOT/IMX which show Toman-book sliding / buy_blocked flags; do not quote where spread_bps < 80 (many large vols like BNB/XRP/SOL fail that). Use h=0.9% for both — wide enough to cover the 0.5% round-trip fee and adverse-selection observed in backtests, but not overly wide because FV volatility is low (fv_vol_bps ~37–41). Keep sleeves: rial at 1.0 because USDT/TMN 48h +3.08% gives full exposure cap and the rial sleeve already has scale 1.0; beta at 0.8 to maintain the current engine scale (beta return 2.74%, capital scaled to 0.8), and keep beta assets as the current weighted trio PEPE/ADA/LINK which show existing allocation and momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
