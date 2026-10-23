@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,089,693 TMN** (+1.794%)
+- Equity: **5,102,456 TMN** (+2.049%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 66 (sources: {'llm:boxapi': 66})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 66, 'sleeve_order': 171, 'quote': 1917, 'buy_blocked': 4617, 'buy_unblocked': 4567, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 67 (sources: {'llm:boxapi': 67})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 67, 'sleeve_order': 171, 'quote': 1929, 'buy_blocked': 4664, 'buy_unblocked': 4612, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 0.9,
-    "GALA": 1.3,
-    "BCH": 1.2
+    "FIL": 1.3,
+    "CHZ": 1.5,
+    "BCH": 1.5
   },
   "pause": false,
-  "reasoning": "I pick CHZ, GALA and BCH because the bot never bids where spread_bps < 80: CHZ has the widest Toman spread (149.8 bps) with low fv_vol_bps (34.1) so I quote tighter (h=0.9%) to capture the large static spread. GALA has spread 98.6 bps, premium 66.5 bps and higher fv_vol_bps (206) so I widen to h=1.3% for protection. BCH has spread 83.2 bps, vol24h_mtmn 1,798 and fv_vol_bps 155.6 so I set h=1.2% to balance activity and adverse-selection risk. I avoid FIL/IMX/UNI/AVAX because buy_blocked or rapid fair-value slides indicate Toman-book instability. For sleeves I keep rial at full 1.0 exposure because USDT/TMN 48h +3.36% (regime cap 1.0) and the rial sleeve is profitable (value_tmn 2,617,522; return 0.1%), and keep beta at current 0.8 scale (beta value 1,905,410, return 4.29%) with assets PEPE/ADA/LINK per the sleeve weights and positive momentum.",
+  "reasoning": "I pick FIL, CHZ and BCH because each has Toman spread comfortably above our 80 bps threshold (FIL 161.6 bps, CHZ 124.9 bps, BCH 92.5 bps) and reasonable 24h liquidity (FIL vol 4,017M, BCH 1,807M, CHZ 1,520M). I avoid coins with active buy blocks or recent sliding premiums (e.g. DOT/BNB/UNI flagged) and skip extremely explosive fv_vol outliers (APE) to reduce adverse selection; FIL has low fv_vol (175 bps) so I allow a somewhat tighter h=1.3, while CHZ and BCH show high fv_vol (697.9 and 507.8 bps) so I set wider h=1.5. Sleeves keep full rial exposure (1.0) because USDT/TMN 48h +3.27% gives regime cap 1.0 and the rial sleeve is up +0.28%; beta remains at 0.8 (current scale_now 0.8, beta return +4.29%) and I keep its core weights PEPE/ADA/LINK as the selected beta assets. No market-wide pause — no major rial or crypto headline flags in the feed and account drawdown is low (0.571%).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
