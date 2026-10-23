@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,933,554 TMN** (-1.329%)
+- Equity: **4,933,565 TMN** (-1.329%)
 - Max drawdown: **3.514%**
 - Traded volume: 234,959 TMN
 
@@ -47,18 +47,19 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 88 (sources: {'llm:boxapi': 88})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 88, 'sleeve_order': 329, 'quote': 2640, 'buy_blocked': 6143, 'buy_unblocked': 6082, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 89 (sources: {'llm:boxapi': 89})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 89, 'sleeve_order': 329, 'quote': 2657, 'buy_blocked': 6204, 'buy_unblocked': 6147, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "AAVE": 0.9,
-    "CHZ": 1.3
+    "GALA": 1.0,
+    "DOT": 1.5,
+    "BCH": 1.3
   },
   "pause": false,
-  "reasoning": "I pick AAVE (spread_bps 98.6, vol24h 3.6M TMN, fv_vol_bps 37.1) because the Toman spread >80 bps and FV volatility is low, so a tighter half‑spread h=0.9% is acceptable. I add CHZ (spread_bps 170.1, usdt_spread_bps 269.0, fv_vol_bps 95.0) as a wide, busy opportunity but with higher FV volatility so I set h=1.3% to protect vs adverse selection. I avoid SUI/IMX/CAKE/DOT/BCH which show buy_blocked sliding books and PENGU which produced a losing live round trip (realised_pnl_tmn -2109, avg_round_trip_bps -178.3). Sleeves are set to 0.0 exposure because USDT/TMN 48h only +0.71% and the regime cap is 0.0, so the historic rial/beta sleeve strategy is disabled.",
+  "reasoning": "I pick GALA, DOT and BCH (max 3). GALA has a wide Toman spread 141.7 bps with moderate fv_vol 117.9 bps so a relatively tight maker half‑spread h=1.0% is justified to capture spread while avoiding excessive adverse selection. DOT has very large fv_vol (1137.3 bps) so I set h=1.5% (top of allowed range) to protect against volatile fair‑value moves. BCH has spread 82.1 bps (just above our 80 bps cutoff) and elevated fv_vol 446.4 bps so I choose h=1.3% to be conservative. I avoid AVAX/IMX/HYPE/FIL/PENGU because several show buy_blocked sliding Toman books or rapid FV moves (PENGU live round trip lost -2,109 TMN, avg -178.3 bps), and ARB/WLD/XRP/SOL/BNB have spreads <80 bps so are excluded. Sleeves are both set to 0.0 because the USDT/TMN regime shows ch48 +0.71% and the regime cap is 0.0 (portfolio engine indicates exposure cap 0.0), so we should not deploy rial/beta capital now; beta assets retained as PEPE/ADA/LINK (current universe and weights) if exposures are later allowed.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
