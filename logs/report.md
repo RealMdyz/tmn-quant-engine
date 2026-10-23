@@ -35,25 +35,25 @@
 
 ## LIVE
 
-- Equity: **5,009,527 TMN** (+0.191%)
+- Equity: **5,011,132 TMN** (+0.223%)
 - Max drawdown: **1.864%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 36 (sources: {'llm:boxapi': 36})
-- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 36, 'sleeve_order': 169, 'quote': 854, 'buy_blocked': 2450, 'buy_unblocked': 2414, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
+- AI supervisor decisions: 37 (sources: {'llm:boxapi': 37})
+- Events: {'coin_skipped': 406, 'live_self_test': 58, 'cancel_all': 6, 'startup': 6, 'regime': 6, 'policy': 37, 'sleeve_order': 169, 'quote': 876, 'buy_blocked': 2486, 'buy_unblocked': 2451, 'state_restored': 57, 'sleeve_fill': 8, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.5,
-    "CHZ": 0.9,
-    "GALA": 1.2
+    "UNI": 1.2,
+    "CHZ": 1.0,
+    "BCH": 1.3
   },
   "pause": false,
-  "reasoning": "I pick FIL, CHZ and GALA because the bot never quotes where Toman spread <80 bps and these three have large Toman spreads (FIL 210 bps, CHZ 210 bps, GALA 138 bps). FIL is very volatile (fv_vol 865 bps) and its USDT/TMN spread is extremely wide (602 bps) so I use the max half-spread h=1.5% to protect vs adverse selection. CHZ has low fair-value volatility (fv_vol 47 bps) and very wide Toman spread (210 bps), so a tighter h=0.9% should capture spread with lower adverse-selection risk. GALA has moderate fv_vol (321 bps) and wide Toman spread (138 bps) so I set h=1.2% as a middle ground. No market-wide pause because none show market-wide news or frozen USDT book (HYPE is frozen and blocked so I avoid it); sleeves keep full rial exposure (1.0) and beta at the current 0.8 scale because USDT/TMN 48h +4.33% supports keeping the holdings (portfolio cap 1.0) and the beta universe assets chosen are the sleeve weights with good momentum (PEPE, ADA, LINK).",
+  "reasoning": "I pick UNI, CHZ and BCH because they are the only busy Toman markets with spread_bps >= 80 (UNI 114.6, CHZ 158.6, BCH 109.7) while avoiding FIL and others flagged as sliding or quoted with book instability. UNI has high volume (vol24h 6.7k MTMN) but elevated fv_vol 480 bps so I set a wide half-spread h=1.2%. CHZ shows good spread and moderate fv_vol (92 bps) so h=1.0% to compete but remain protected. BCH has reasonable volume (1.3k) and elevated fv_vol 408 bps, so h=1.3% to avoid pickoffs. Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +4.33% (regime cap 1.0) which historically produced +0.88% for the rial sleeve; keep beta at the engine scale 0.8 and the current beta assets PEPE/ADA/LINK (existing weights and momentum).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
