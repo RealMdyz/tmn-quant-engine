@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,933,448 TMN** (-1.331%)
+- Equity: **4,933,442 TMN** (-1.331%)
 - Max drawdown: **3.515%**
 - Traded volume: 234,959 TMN
 
@@ -47,17 +47,18 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 90 (sources: {'llm:boxapi': 90})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 90, 'sleeve_order': 329, 'quote': 2696, 'buy_blocked': 6328, 'buy_unblocked': 6265, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 91 (sources: {'llm:boxapi': 91})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 91, 'sleeve_order': 329, 'quote': 2701, 'buy_blocked': 6351, 'buy_unblocked': 6288, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "GALA": 1.4
+    "AVAX": 1.4,
+    "GALA": 1.0
   },
   "pause": false,
-  "reasoning": "I pick only GALA because it is the only candidate with Toman spread >=80 bps that is not buy-blocked: spread_bps 100.8, vol24h 1,121M TMN and fv_vol_bps 233.4 justify quoting but with a wide half-spread. I set h=1.4% (near the top of allowed 0.8–1.5%) because fv_vol 233 bps and high usdt_spread_bps 505.6 indicate elevated volatility/adverse-selection risk. I avoid FIL and IMX despite large spreads because both show buy_blocked sliding-book warnings; I exclude CHZ and PENGU because their Toman spreads (78.1 and 75.3) are below our 80 bps minimum. Sleeves are set to 0.0 exposure because the regime cap is active (USDT/TMN 48h +0.71% -> cap 0.0) and the portfolio engine shows scale_now 0.0 for both rial and beta.",
+  "reasoning": "I select AVAX and GALA because both clear the 80 bps minimum (AVAX spread 89.2 bps, vol24h 2,573M TMN; GALA spread 80.5 bps, vol24h 1,121M TMN) while avoiding coins with sliding Toman books or recent losing fills (PENGU had a live round trip -2,109 TMN, avg -178.3 bps and is buy_blocked). AVAX gets a wide half‑spread h=1.4% because fv_vol is high (541.5 bps) and markets are choppier; GALA is calmer so h=1.0%. I keep pause=false (no market‑wide shock in news). Sleeves are set to 0.0 because the USDT/TMN 48h is +0.71% (regime cap 0.0), so both 'rial' and 'beta' must be scaled to zero; beta_assets list the current universe top names (PEPE, ADA, LINK) for reference.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
