@@ -35,24 +35,31 @@
 
 ## LIVE
 
-- Equity: **5,003,571 TMN** (+0.071%)
+- Equity: **4,999,546 TMN** (-0.009%)
 - Max drawdown: **2.501%**
-- Traded volume: 0 TMN
+- Traded volume: 118,429 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 75 (sources: {'llm:boxapi': 75})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 75, 'sleeve_order': 171, 'quote': 2109, 'buy_blocked': 5405, 'buy_unblocked': 5357, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- Market maker: **1 fills** (1 buys, 0 sells), 0 risk exits, realised PnL **0 TMN**
+
+| coin | buys | sells | exits | realised PnL TMN |
+|---|---|---|---|---|
+| PENGU | 1 | 0 | 0 | 0 |
+
+- AI supervisor decisions: 76 (sources: {'llm:boxapi': 76})
+- Events: {'coin_skipped': 434, 'live_self_test': 62, 'cancel_all': 10, 'startup': 10, 'regime': 10, 'policy': 76, 'sleeve_order': 171, 'quote': 2127, 'buy_blocked': 5429, 'buy_unblocked': 5377, 'state_restored': 61, 'sleeve_fill': 10, 'orphan_adopted': 1, 'fill': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 1.0,
-    "AAVE": 1.2
+    "SUI": 0.9,
+    "CHZ": 0.9,
+    "PENGU": 1.3
   },
   "pause": false,
-  "reasoning": "Select CHZ because its Toman spread is 190 bps (>80) and USDT/TMN spread is 430 bps, with low fv_vol 73 bps (calm) so we quote relatively tight at h=1.0%. Select AAVE because spread 125.5 bps and USDT spread 87.7 bps are attractive but fv_vol is higher (173 bps) so we widen to h=1.2% to protect vs adverse selection. Avoid DOT, HYPE and IMX because their books are blocked/broken (DOT: \"Toman spread > 5%: book broken\"; HYPE/IMX show sliding-book blocks). Sleeves: keep rial at 1.0 and beta at 0.8 because USDT/TMN 48h +2.11% gives full exposure cap 1.0, rial currently scale 1.0 (value 2,592,742 TMN, return -0.85%) and beta is already scaled to 0.8 (value 1,861,589 TMN, return +1.89%), so we maintain the current prudent exposures and keep beta assets as PEPE/ADA/LINK per the sleeve weights and momentum.",
+  "reasoning": "I pick SUI (spread_bps 176.6, vol24h 3,890M TMN, fv_vol_bps 70.5) because its Toman spread is wide and fair-value volatility is low so we can quote relatively tight at h=0.9%. I pick CHZ (spread_bps 202.0, fv_vol_bps 80.9) for similar reasons (wide spread, low fv volatility) and set h=0.9% to be competitive. I include PENGU (spread_bps 289.5, vol24h 1,680M, fv_vol_bps 250.7) as a third market but use a wider h=1.3% because fv_vol is high. I avoid markets with buy_blocked or broken books (DOT flagged book broken; S, BNB, GALA, FIL show sliding blocks) and ignore very tiny or extremely noisy names (IMX). For sleeves I keep rial at full exposure 1.0 because USDT/TMN 48h +1.09% (regime cap=1.0) and the rial sleeve is already scaled to 1.0; I keep beta at 0.8 (current scale) and keep its existing assets PEPE/ADA/LINK given beta return 1.51% and moderate pnl, avoiding changing exposure into any signs of rial-strengthening or market shocks.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
