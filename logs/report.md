@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,933,511 TMN** (-1.330%)
+- Equity: **4,933,627 TMN** (-1.327%)
 - Max drawdown: **3.514%**
 - Traded volume: 234,959 TMN
 
@@ -47,18 +47,18 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 87 (sources: {'llm:boxapi': 87})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 87, 'sleeve_order': 329, 'quote': 2590, 'buy_blocked': 6062, 'buy_unblocked': 6003, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 88 (sources: {'llm:boxapi': 88})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 88, 'sleeve_order': 329, 'quote': 2640, 'buy_blocked': 6093, 'buy_unblocked': 6033, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9,
-    "IMX": 1.5
+    "AAVE": 0.9,
+    "CHZ": 1.3
   },
   "pause": false,
-  "reasoning": "Choose SUI and IMX only: SUI has a very wide Toman spread 278.5 bps with moderate vol24h 4,062M and low fv_vol 55.6 bps so a relatively tight half‑spread h=0.9% captures spread while limiting adverse selection. IMX has huge displayed spread 289.0 bps but extreme fv_vol 1,171.9 bps so I set h=1.5% to avoid being picked off. I avoid PENGU and DOT because PENGU produced a live loss (realised_pnl -2,109 TMN, avg_round_trip -178.3 bps) and both PENGU and DOT show Toman‑book sliding/buy_blocked warnings. Sleeves set to 0.0 because USDT/TMN 48h +0.71% triggered regime cap 0.0 (portfolio.regime.cap=0.0), so no rial or beta exposure now; beta_assets left as PEPE/ADA/LINK (current universe and prior weights) in case exposure is allowed later.",
+  "reasoning": "I pick AAVE (spread_bps 98.6, vol24h 3.6M TMN, fv_vol_bps 37.1) because the Toman spread >80 bps and FV volatility is low, so a tighter half‑spread h=0.9% is acceptable. I add CHZ (spread_bps 170.1, usdt_spread_bps 269.0, fv_vol_bps 95.0) as a wide, busy opportunity but with higher FV volatility so I set h=1.3% to protect vs adverse selection. I avoid SUI/IMX/CAKE/DOT/BCH which show buy_blocked sliding books and PENGU which produced a losing live round trip (realised_pnl_tmn -2109, avg_round_trip_bps -178.3). Sleeves are set to 0.0 exposure because USDT/TMN 48h only +0.71% and the regime cap is 0.0, so the historic rial/beta sleeve strategy is disabled.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
