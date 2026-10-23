@@ -35,25 +35,24 @@
 
 ## LIVE
 
-- Equity: **5,008,393 TMN** (+0.168%)
-- Max drawdown: **2.119%**
+- Equity: **4,993,198 TMN** (-0.136%)
+- Max drawdown: **2.346%**
 - Traded volume: 0 TMN
 
 ![equity](equity_live.png)
 
-- AI supervisor decisions: 74 (sources: {'llm:boxapi': 74})
-- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 74, 'sleeve_order': 171, 'quote': 2091, 'buy_blocked': 5354, 'buy_unblocked': 5301, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
+- AI supervisor decisions: 75 (sources: {'llm:boxapi': 75})
+- Events: {'coin_skipped': 427, 'live_self_test': 61, 'cancel_all': 9, 'startup': 9, 'regime': 9, 'policy': 75, 'sleeve_order': 171, 'quote': 2099, 'buy_blocked': 5381, 'buy_unblocked': 5333, 'state_restored': 60, 'sleeve_fill': 10, 'orphan_adopted': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.4,
-    "CHZ": 1.2,
-    "BCH": 1.3
+    "CHZ": 1.0,
+    "AAVE": 1.2
   },
   "pause": false,
-  "reasoning": "Pick FIL, CHZ and BCH because each has Toman spread >= 80 bps (FIL 94.7 bps, CHZ 159.1 bps, BCH 82.0 bps) so they meet the minimum 80 bps rule and have reasonable 24h Toman activity (FIL vol 4,275M, BCH 1,983M, CHZ 1,440M TMN). Use wide half-spreads due to fair-value or market volatility: FIL fv_vol 313 bps => very volatile so h=1.4% (near top), CHZ fv_vol 472 bps so h=1.2%, BCH fv_vol 347 bps so h=1.3% to protect vs adverse selection. I avoid CAKE and several other names because buy was blocked (CAKE: \"Toman book sliding\") or fair-value sliding (AVAX/IMX/ENA) — i.e. clear short-term Toman-book instability. Sleeves: keep rial at full exposure 1.0 because USDT/TMN 48h +2.11% (regime cap=1.0) and the rial sleeve is sized to 2,620,000 TMN (current value ~2,590,804 TMN, return -0.93%) so retain exposure to the ongoing rial-weakening trend; keep beta at 0.8 (current scale_now 0.8, value 1,859,134 TMN, return +1.75%) and limit beta to the existing 0.8 because it already outperformed short-term but is higher-volatility. Beta assets chosen are PEPE, LINK and ADA (current beta weights/universe entries with momentum and no coin-specific negative flags).",
+  "reasoning": "Select CHZ because its Toman spread is 190 bps (>80) and USDT/TMN spread is 430 bps, with low fv_vol 73 bps (calm) so we quote relatively tight at h=1.0%. Select AAVE because spread 125.5 bps and USDT spread 87.7 bps are attractive but fv_vol is higher (173 bps) so we widen to h=1.2% to protect vs adverse selection. Avoid DOT, HYPE and IMX because their books are blocked/broken (DOT: \"Toman spread > 5%: book broken\"; HYPE/IMX show sliding-book blocks). Sleeves: keep rial at 1.0 and beta at 0.8 because USDT/TMN 48h +2.11% gives full exposure cap 1.0, rial currently scale 1.0 (value 2,592,742 TMN, return -0.85%) and beta is already scaled to 0.8 (value 1,861,589 TMN, return +1.89%), so we maintain the current prudent exposures and keep beta assets as PEPE/ADA/LINK per the sleeve weights and momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
