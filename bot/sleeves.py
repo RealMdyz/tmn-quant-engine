@@ -180,7 +180,6 @@ class HoldingSleeve:
             p = self.pos.get(a, {"qty": 0.0, "cost": 0.0})
             exit_now = self.stopped or self.must_exit(a, now)
             target = 0.0 if exit_now else self.capital * self.weights.get(a, 0.0) * self.scale * wind
-            cur = p["qty"] * bid
             o = self.orders.get(a)
             if not self.market_open(a, now):
                 continue
@@ -189,7 +188,6 @@ class HoldingSleeve:
                     self.cancel(a)
                 self.sell_now(a, m, books, self.stopped or "scheduled exit (USDT market hours / challenge end)")
                 continue
-            deficit = target - cur
             need = target - p["cost"]     # buying is measured against Toman SPENT: a price dip must not trigger
             min_step = max(m.min_notional, 60_000, 0.03 * target)     # top-ups (backtest = buy once, then hold)
             if need > min_step and wind >= 1 and self.e.entries_allowed(now):
@@ -215,7 +213,9 @@ class HoldingSleeve:
                 self.place(a, "BUY", need / price, price, taker,
                            f"{self.name}: build {a} toward {target:,.0f} TMN ({'taker after maker timeout' if taker else 'maker at the best bid'})",
                            now)
-            elif deficit < -max(min_step, 0.15 * target) and not exit_now:
+            elif need < -max(min_step, 0.15 * target) and not exit_now:
+                # trims are measured against Toman SPENT, like buys: a price rise alone never sells (it did live
+                # on 2026-10-23: PEPE +15% -> trim 90k, then the cost-based build bought 72k back a minute later)
                 self.build_t0.pop(a, None)
                 # trim: maker ask at the top of the book, re-placed when undercut; during the end-of-challenge
                 # wind-down a step not sold within wind_down_taker_after_s is sold as taker (schedule is kept)
@@ -226,16 +226,17 @@ class HoldingSleeve:
                 if o:
                     self.cancel(a)
                     p = self.pos.get(a, p)
-                    deficit = target - p["qty"] * bid
-                    if deficit >= -min_step:
+                    need = target - p["cost"]
+                    if need >= -min_step:
                         continue
+                sell_q = p["qty"] * min(1.0, -need / p["cost"]) if p["cost"] > 0 else p["qty"]
                 why = (f"{self.name}: end-of-challenge wind-down, {wind*100:.0f}% of the sleeve still held"
                        if wind < 1 else f"{self.name}: trim {a} to target {target:,.0f} TMN (AI/regime lowered exposure)")
                 if taker:
                     self.sell_now(a, m, books, why + f" (maker ask unfilled for {(now - since)/60:.0f} min -> taker)",
-                                  qty=-deficit / bid)
+                                  qty=sell_q)
                 else:
-                    self.place(a, "SELL", min(p["qty"], -deficit / bid), max(ask - tick, bid + tick), False, why, now)
+                    self.place(a, "SELL", min(p["qty"], sell_q), max(ask - tick, bid + tick), False, why, now)
             else:
                 self.trim_t0.pop(a, None)
                 self.build_t0.pop(a, None)

@@ -165,6 +165,12 @@ def test_portfolio_three_sleeves():
     assert eq >= e.bal()["TMN"]["total"] + held - 1, "equity counts every held asset"
     failed = [x for x in _events(tmp) if x["event"] in ("quote_failed", "sleeve_order_failed")]
     assert not failed, f"orders rejected for lack of Toman: {failed[:3]}"
+    n0 = len(_events(tmp))
+    fake.usd["PEPE"] *= 1.20                                  # a rally must not make the sleeve sell and rebuy
+    run(40)
+    churn = [x for x in _events(tmp)[n0:] if x["event"] == "sleeve_order" and x["asset"] == "PEPE"]
+    assert not churn, f"price rise alone traded PEPE: {[(x['side'], x['size_tmn']) for x in churn]}"
+    fake.usd["PEPE"] /= 1.20
     for c in ("ADA", "PEPE", "LINK", "SHIB", "DOGE"):         # beta crash beyond its 7% disaster stop
         fake.usd[c] *= 0.91
     run(15)

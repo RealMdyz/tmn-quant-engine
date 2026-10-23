@@ -375,8 +375,9 @@ class MMEngine:
         books = self._books
         out = {"regime": self.regime, "sleeves": {},
                "end_wind_down": {"share_still_held": self.risk.wind_down(time.time()),
-                                 "schedule": "sleeves sold in 4 steps from 4 h before the end (Fri 19:50, 20:40, 21:30, "
-                                             "22:20); the rest is sold as taker 40 min before the end"}}
+                                 "challenge_end": self.cfg["challenge"]["end_time"],
+                                 "schedule": "sleeves sold in 4 steps from 4 h before the challenge end (19:50, 20:40, 21:30, "
+                                             "22:20 on the last day); the rest is sold as taker 40 min before the end"}}
         for k, sl in self.sleeves.items():
             v, c = sl.value(books)
             out["sleeves"][k] = {"capital_tmn": round(sl.capital), "weights": sl.weights, "scale_now": sl.scale,

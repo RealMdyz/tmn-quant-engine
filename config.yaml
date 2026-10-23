@@ -5,9 +5,9 @@ strategy: mm          # mm = AI-steered fair-value market maker (bot/mm_engine.p
 challenge:
   package_id: 183                       # trade-credit package of the challenge (unavailable markets come from here)
   initial_capital_tmn: 5000000
-  end_time: "2026-10-23T23:50:00+03:30" # official end (Friday 23:50 Tehran)
-  stop_new_entries_minutes_before_end: 240  # no new buys once the wind-down starts (Fri 19:50); MM holds end by 21:20
-  wind_down_start_hours_before_end: 4   # holding sleeves are sold in steps from 19:50 (not all at once at 23:10):
+  end_time: "2026-10-26T23:50:00+03:30" # official end, extended by Wallex from Fri 23:50 to Mon 23:50 Tehran
+  stop_new_entries_minutes_before_end: 240  # no new buys once the wind-down starts (Mon 19:50); MM holds end by 21:20
+  wind_down_start_hours_before_end: 4   # holding sleeves are sold in steps from Mon 19:50 (not all at once at 23:10):
   wind_down_steps: 4                    # 75% held at 19:50, 50% at 20:40, 25% at 21:30, 0% at 22:20 (maker sells)
   force_flatten_minutes_before_end: 40  # everything back to Toman by then (taker for whatever is left)
 
