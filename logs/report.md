@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,933,567 TMN** (-1.329%)
+- Equity: **4,933,539 TMN** (-1.329%)
 - Max drawdown: **3.514%**
 - Traded volume: 234,959 TMN
 
@@ -47,19 +47,17 @@
 |---|---|---|---|---|
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 89 (sources: {'llm:boxapi': 89})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 89, 'sleeve_order': 329, 'quote': 2674, 'buy_blocked': 6247, 'buy_unblocked': 6190, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
+- AI supervisor decisions: 90 (sources: {'llm:boxapi': 90})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 90, 'sleeve_order': 329, 'quote': 2692, 'buy_blocked': 6290, 'buy_unblocked': 6229, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 1, 'exit': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "GALA": 1.0,
-    "DOT": 1.5,
-    "BCH": 1.3
+    "GALA": 1.4
   },
   "pause": false,
-  "reasoning": "I pick GALA, DOT and BCH (max 3). GALA has a wide Toman spread 141.7 bps with moderate fv_vol 117.9 bps so a relatively tight maker half‑spread h=1.0% is justified to capture spread while avoiding excessive adverse selection. DOT has very large fv_vol (1137.3 bps) so I set h=1.5% (top of allowed range) to protect against volatile fair‑value moves. BCH has spread 82.1 bps (just above our 80 bps cutoff) and elevated fv_vol 446.4 bps so I choose h=1.3% to be conservative. I avoid AVAX/IMX/HYPE/FIL/PENGU because several show buy_blocked sliding Toman books or rapid FV moves (PENGU live round trip lost -2,109 TMN, avg -178.3 bps), and ARB/WLD/XRP/SOL/BNB have spreads <80 bps so are excluded. Sleeves are both set to 0.0 because the USDT/TMN regime shows ch48 +0.71% and the regime cap is 0.0 (portfolio engine indicates exposure cap 0.0), so we should not deploy rial/beta capital now; beta assets retained as PEPE/ADA/LINK (current universe and weights) if exposures are later allowed.",
+  "reasoning": "I pick only GALA because it is the only candidate with Toman spread >=80 bps that is not buy-blocked: spread_bps 100.8, vol24h 1,121M TMN and fv_vol_bps 233.4 justify quoting but with a wide half-spread. I set h=1.4% (near the top of allowed 0.8–1.5%) because fv_vol 233 bps and high usdt_spread_bps 505.6 indicate elevated volatility/adverse-selection risk. I avoid FIL and IMX despite large spreads because both show buy_blocked sliding-book warnings; I exclude CHZ and PENGU because their Toman spreads (78.1 and 75.3) are below our 80 bps minimum. Sleeves are set to 0.0 exposure because the regime cap is active (USDT/TMN 48h +0.71% -> cap 0.0) and the portfolio engine shows scale_now 0.0 for both rial and beta.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
