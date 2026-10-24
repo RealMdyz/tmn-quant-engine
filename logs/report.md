@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,557 TMN** (-1.409%)
+- Equity: **4,929,509 TMN** (-1.410%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 158 (sources: {'llm:boxapi': 158})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 158, 'sleeve_order': 329, 'quote': 4692, 'buy_blocked': 11934, 'buy_unblocked': 11874, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 159 (sources: {'llm:boxapi': 159})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 159, 'sleeve_order': 329, 'quote': 4694, 'buy_blocked': 11958, 'buy_unblocked': 11895, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "ARB": 1.2,
-    "BCH": 1.3,
-    "CHZ": 1.5
+    "BCH": 1.2
   },
   "pause": false,
-  "reasoning": "I pick ARB (spread_bps 130.3, vol24h 27,594, fv_vol_bps 208.7) as the top choice — wide Toman spread and solid volume justify active making with h=1.2%. I include BCH (spread_bps 112.9, vol24h 2,092) as a secondary market because spread>80 bps and it is not buy-blocked, but fv_vol_bps 395 warrants a wider h=1.3%. I add CHZ only as a cautious third slot because spread_bps 377.3 is attractive despite tiny vol (62m); set h=1.5% to avoid being picked off. I avoid DOT/PENGU (they show live losing round trips: DOT avg_round_trip_bps -76.1 and PENGU -178.3) and markets with buy_blocked or quoted_now instability. Sleeves are set to 0.0 because USDT/TMN 48h -1.81% gives a regime cap 0.0 (portfolio.regime.cap=0.0) so no exposure; beta_assets follow the sleeve weights (PEPE, ADA, LINK).",
+  "reasoning": "I place quotes only in BCH because the bot never bids where spread_bps < 80 and BCH has spread_bps 113.7 with low fv_vol_bps 21.5 (calm fair value) and reasonable 24h volume vol24h_mtmn 2158. FIL (spread 124.3) is blocked (FILUSDT frozen 17 min), so I avoid it; PENGU and DOT produced recent losing live round-trips (realised_pnl_tmn -2109 and -2492, avg_round_trip_bps -178.3 and -76.1) so I avoid quoting them. I set a conservative half-spread h=1.2% (wide end of allowed 0.8–1.5) to protect against adverse selection given earlier backtest losses for narrow quotes. Sleeves are set to 0.0 because the portfolio regime shows USDT/TMN 48h -1.89% -> exposure cap 0.0 and both sleeves are currently stopped/scale_now 0.0 (rial stopped by -5.36% and beta stopped by -7.53%), so no new exposure is taken.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
