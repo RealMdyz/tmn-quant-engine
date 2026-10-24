@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,180 TMN** (-1.396%)
+- Equity: **4,930,168 TMN** (-1.397%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 132 (sources: {'llm:boxapi': 132})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 132, 'sleeve_order': 329, 'quote': 3880, 'buy_blocked': 9361, 'buy_unblocked': 9303, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 133 (sources: {'llm:boxapi': 133})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 133, 'sleeve_order': 329, 'quote': 3892, 'buy_blocked': 9385, 'buy_unblocked': 9326, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "WLD": 1.2,
-    "CHZ": 1.5,
-    "BCH": 1.3
+    "WLD": 0.9,
+    "BCH": 1.2,
+    "GALA": 1.4
   },
   "pause": false,
-  "reasoning": "I pick WLD, CHZ and BCH (max 3). WLD has a very wide Toman spread 142.4 bps and healthy vol24h 4,029M TMN with no buy guard, so I quote wide (h=1.2%) given fv_vol 222.3 bps. CHZ has the largest spread 197.7 bps (quoted_now=true) but tiny volume (vol24h 25M TMN) so I set the widest h=1.5% to avoid being picked off. BCH has spread 87.9 bps and acceptable volume 2,006M TMN but high fv_vol (652.7 bps) so I set h=1.3% to protect versus adverse selection. Both sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -0.45% => no rial-weakening regime), and portfolio shows scale_now 0.0 for both sleeves; beta_assets kept as PEPE/ADA/LINK (current universe) but no new buys while cap=0.",
+  "reasoning": "I pick WLD, BCH and GALA (all have Toman spreads >= 80 bps). WLD: spread_bps 116.7, vol24h 4,029M TMN and fv_vol_bps 60.2 — relatively calm FV and good spread, so a conservative half-spread h=0.9%. BCH: spread_bps 87.9 and very wide USDT spread (146.8 bps) but fv_vol_bps 280 — more volatile so I widen to h=1.2% to reduce adverse selection. GALA: spread_bps 147.7 and premium 124 bps but very high fv_vol_bps (1,830) and modest volume, so I only quote very wide at h=1.4% and treat it cautiously. I keep pause=false (no market-wide shock in news) and set both sleeves to 0.0 because the USDT/TMN regime cap is 0.0 (48h -0.45% -> no sleeve exposure); beta_assets remain PEPE/ADA/LINK as the sleeve universe and default momentum picks, but exposures are zero due to the regime cap and recent sleeve wind-down.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
