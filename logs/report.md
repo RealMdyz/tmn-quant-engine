@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,059 TMN** (-1.399%)
+- Equity: **4,930,054 TMN** (-1.399%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 129 (sources: {'llm:boxapi': 129})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 129, 'sleeve_order': 329, 'quote': 3778, 'buy_blocked': 9137, 'buy_unblocked': 9079, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 130 (sources: {'llm:boxapi': 130})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 130, 'sleeve_order': 329, 'quote': 3795, 'buy_blocked': 9177, 'buy_unblocked': 9117, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 0.9,
-    "CAKE": 0.9
+    "GALA": 1.3,
+    "APE": 1.5,
+    "CHZ": 1.2
   },
   "pause": false,
-  "reasoning": "Pick FIL and CAKE only: both have Toman spreads above our 80 bps minimum (FIL 108.8 bps, CAKE 89.7 bps), reasonable 24h volumes (FIL 2,666M TMN, CAKE 4,291M TMN) and relatively low short-term FV volatility (FIL fv_vol 62.8 bps, CAKE 48.4 bps), so we can quote relatively tight h=0.9%. I avoid PENGU and DOT because their live round trips lost heavily (PENGU realised -2,109 TMN avg -178.3 bps; DOT realised -2,492 TMN avg -76.1 bps) and several wide-spread names are currently buy_blocked (SUI, AAVE, WLD, etc.). I also avoid ultra-volatile or tiny-volume candidates (HYPE, IMX, CHZ) and any market with fading USDT/TMN books. Sleeves are set to 0.0 because the USDT/TMN regime cap is 0.0 (48h change -0.60%), so we must not scale the rial or beta sleeves now; beta_assets listed are the preferred picks if sleeves resume (ADA, LINK, PEPE) based on their inclusion in the beta universe and momentum.",
+  "reasoning": "I select GALA because it has a very wide Toman spread (211.9 bps) and decent 24h volume (1,574M TMN) with a large USDT/TMN spread (344.8 bps), so it fits the wide-spread, busy preference; I set h=1.3% to be wide but still provide presence. I include APE at the 80 bps threshold (spread_bps 80.0) but its fv_vol is extremely high (79,293 bps) so I use the maximum h=1.5% for protection. I add CHZ (spread_bps 126.2) with h=1.2% despite low volume (vol24h 25M TMN) because its USDT spread (579.7 bps) and premium (141.6 bps) make it an attractive wide-spread pocket — size will be small given low volume. I avoid DOT and PENGU because our live round trips there lost heavily (DOT avg_round_trip_bps -76.1, realised -2,492 TMN; PENGU avg -178.3, realised -2,109 TMN). Sleeves are set to zero because the regime cap is 0.0 (USDT/TMN 48h -0.60%), so no buying: rial and beta exposures 0.0; beta_assets listed are the sleeve's universe leaders (PEPE, ADA, LINK).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
