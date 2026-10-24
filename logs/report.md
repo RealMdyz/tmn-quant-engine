@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 163 (sources: {'llm:boxapi': 163})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 163, 'sleeve_order': 329, 'quote': 4860, 'buy_blocked': 12266, 'buy_unblocked': 12200, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 164 (sources: {'llm:boxapi': 164})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 164, 'sleeve_order': 329, 'quote': 4871, 'buy_blocked': 12282, 'buy_unblocked': 12219, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "AAVE": 1.4,
-    "FIL": 0.9,
-    "BCH": 1.0
+    "FIL": 1.5,
+    "BCH": 1.5
   },
   "pause": false,
-  "reasoning": "I select AAVE, FIL and BCH because the bot never bids where spread_bps <80 and these three have wide Toman spreads: AAVE spread_bps 146.9, FIL 91.4 and BCH 119.7. AAVE has moderate activity (vol24h_mtmn 4200) but fv_vol_bps 185.8 so I widen to h=1.4 to protect vs volatility; FIL has low fv_vol_bps 37.3 and huge USDT/TMN spread (usdt_spread_bps 357.8) so I quote tighter at h=0.9 to capture wide Toman premium while staying away from micro-adverse selection. BCH shows calm fair-value (fv_vol_bps 67.1) and good spread (119.7 bps) so I set h=1.0. I avoid DOT and PENGU because their live round trips lost (DOT avg_round_trip_bps -76.1, realised_pnl_tmn -2492; PENGU avg_round_trip_bps -178.3, realised_pnl_tmn -2109) and markets with buy_blocked or sliding Toman books (several entries). The portfolio regime caps sleeves to 0.0 because USDT/TMN 48h is -1.89% (regime.cap 0.0), so both rial and beta are set to 0.0; beta_assets are left as the sleeve universe high-momentum picks (PEPE, ADA, LINK) but exposure is zero per the cap.",
+  "reasoning": "I pick FIL and BCH only because the bot rule forbids quoting where Toman spread <80 bps: FIL spread_bps=90.4 and BCH spread_bps=118.8 are the only active, non-blocked candidates with wide Toman spreads. FIL has a large premium (129.8 bps) and moderate fv_vol_bps=93.2 but earlier live evidence warned of being picked off (we saw FIL buys then -1.8%), so I set a wide half-spread h=1.5% to reduce adverse selection. BCH shows high fv_vol_bps=241.7 and low vol24h (2.14M TMN), so I also pick h=1.5% to stay conservative. Sleeves are set to zero because the USDT/TMN regime cap=0.0 (USDT/TMN 48h = -1.89% -> no exposure) and both sleeves are currently stopped (rial and beta scale_now = 0 in portfolio), so exposures rial=0.0 beta=0.0 to respect the regime and stop-loss states.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
