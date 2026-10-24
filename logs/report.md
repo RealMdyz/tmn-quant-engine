@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,048 TMN** (-1.419%)
+- Equity: **4,929,224 TMN** (-1.416%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 151 (sources: {'llm:boxapi': 151})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 151, 'sleeve_order': 329, 'quote': 4551, 'buy_blocked': 11131, 'buy_unblocked': 11072, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 152 (sources: {'llm:boxapi': 152})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 152, 'sleeve_order': 329, 'quote': 4578, 'buy_blocked': 11224, 'buy_unblocked': 11163, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "GALA": 1.2,
-    "SUI": 1.3,
-    "IMX": 1.4
+    "CAKE": 1.5,
+    "BCH": 1.4,
+    "GALA": 1.2
   },
   "pause": false,
-  "reasoning": "I pick GALA (spread_bps 152.5, vol24h 2.3m TMN, fv_vol_bps 82.8) with h=1.2 to capture a wide Toman spread in a relatively calm FV market. I include SUI (spread_bps 91.3, vol24h 6.7m TMN, fv_vol_bps 73.3) with h=1.3 because spread>80bps, decent liquidity and moderate FV volatility support wider quotes. I add IMX (spread_bps 142.8) with h=1.4 as a third slot to exploit a large spread despite low volume — I widen further for low liquidity. I avoid markets with buy_blocked or recent losing live round trips (DOT, PENGU, CHZ, ARB, HYPE, UNI) and I do not quote where spread_bps < 80 (e.g. SOL, XRP, BNB). Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.75%), so no sleeve exposure is allowed now.",
+  "reasoning": "I pick up to 3 markets with Toman spread >=80 bps and reasonable 24h volume. CAKE (spread 90.6 bps, vol24h 4,835M TMN) has very large fv_vol 1,236.7 bps so I set h=1.5% to be wide. BCH (spread 110.4 bps, vol24h 2,084M TMN) is volatile (fv_vol 825.4 bps) so I set h=1.4% to avoid getting picked off. GALA (spread 152.2 bps, vol24h 2,205M TMN, premium +126.2 bps) looks attractive and is currently quoted, so I place a moderate-wide h=1.2%. I avoid DOT and PENGU because their live round trips lost (-2,492 TMN and -2,109 TMN, avg -76.1 and -178.3 bps) and exclude UNI/GALA buy-blocked books or markets flagged as broken. The portfolio sleeves are set to 0.0 exposure (rial and beta) because USDT/TMN 48h = -1.81% triggers the regime cap = 0.0, and the sleeves are currently stopped/under stop-loss, so no new exposure while the rial regime is inactive.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
