@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,579 TMN** (-1.408%)
+- Equity: **4,929,546 TMN** (-1.409%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 156 (sources: {'llm:boxapi': 156})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 156, 'sleeve_order': 329, 'quote': 4643, 'buy_blocked': 11757, 'buy_unblocked': 11698, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 157 (sources: {'llm:boxapi': 157})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 157, 'sleeve_order': 329, 'quote': 4654, 'buy_blocked': 11812, 'buy_unblocked': 11754, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.5,
-    "GALA": 1.5
+    "WLD": 1.0,
+    "GALA": 1.2,
+    "FIL": 1.3
   },
   "pause": false,
-  "reasoning": "I select FIL and GALA because they are the only non-blocked candidates with Toman spreads >= 80 bps (FIL spread 143.1 bps, GALA 129.0 bps) and large USDT/TMN spreads (FIL usdt_spread 384.4 bps, GALA 294.1 bps) which gives room to be maker. Both show elevated risk (FIL fv_vol 9.1 bps but FIL had a prior bad live fill pattern; GALA fv_vol 1084.8 bps), so I set wide half-spreads h=1.5% to avoid being picked off. I avoid DOT and CHZ because DOT is buy-blocked/book broken and has a losing live round trip (realised -2,492 TMN, avg -76.1 bps) and CHZ shows a sliding Toman book. Sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.44%) and both rial and beta sleeves are stopped/wind-down (portfolio shows scale_now 0.0 and stop-losses active). Beta assets listed are the sleeve defaults with highest weights (PEPE, ADA, LINK) for reference.",
+  "reasoning": "I choose WLD, GALA and FIL because they are the only active candidates with Toman spreads above our 80 bps floor and acceptable volume: WLD spread 85.9 bps with vol24h 4,474M TMN (fv_vol_bps 261.2) so I quote a moderate half-spread h=1.0%. GALA is quoted_now, spread 85.7 bps with very high local premium 112.6 bps and usdt_spread 352.9 bps so I set h=1.2% to be more conservative. FIL also quoted_now has the largest spread 112.2 bps and huge usdt_spread 381.1 bps with low fv_vol_bps (17.2) but historical pick-offs in this environment suggest a wider h=1.3%. I avoid DOT and PENGU (both had recent losing live round-trips; DOT avg round trip -76.1 bps and buy_blocked; PENGU avg -178.3 bps and buy_blocked) and avoid low-spread markets (most spreads <80 bps). Sleeves are set to 0.0 because the portfolio regime cap is 0.0 (USDT/TMN 48h -1.44% -> exposure cap 0.0) and both sleeves are currently stopped/being wound down per the engine, so no new exposure is permitted.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
