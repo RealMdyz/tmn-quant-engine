@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,511 TMN** (-1.410%)
+- Equity: **4,929,508 TMN** (-1.410%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 166 (sources: {'llm:boxapi': 166})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 166, 'sleeve_order': 329, 'quote': 4947, 'buy_blocked': 12393, 'buy_unblocked': 12332, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 167 (sources: {'llm:boxapi': 167})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 167, 'sleeve_order': 329, 'quote': 4961, 'buy_blocked': 12447, 'buy_unblocked': 12388, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "AAVE": 1.2,
+    "FIL": 1.3,
     "BCH": 1.4
   },
   "pause": false,
-  "reasoning": "I pick AAVE and BCH only because the bot never quotes where spread_bps <80. AAVE has spread_bps 82.0, vol24h 5,746m TMN and moderate fv_vol_bps 55.4 so it looks like the safest >80-bps candidate (quoted_now=true) — set h=1.2 to be conservative but still competitive. BCH has spread_bps 125.3 and vol24h 2,135m TMN (fv_vol_bps 137.8), so I widen to h=1.4 to protect against its higher FV volatility. I avoid DOT and PENGU because live round trips lost (avg_round_trip_bps -76.1 and -178.3) and avoid FIL/CHZ/ARB/IMX because their USDT-book signals or buy_blocked flags (FIL/CHZ/IMX show very large usdt_spread or book sliding), and AVAX/UNI/ENA have book-sliding buy_blocked alerts. Sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.89% -> cap 0.0) and both rial and beta are already stopped/scale_now=0 in the portfolio.",
+  "reasoning": "I pick FIL and BCH only because the bot never bids where spread_bps < 80: FIL spread_bps=91.8 and BCH spread_bps=114.8 meet that rule; other wide candidates (DOT, PENGU) have recent losing live round trips or buy blocks (DOT buy_blocked and realised_pnl_tmn -2492; PENGU avg_round_trip_bps -178.3). FIL has a large USDT_TMN dislocation (usdt_spread_bps 449.4) and a stable short-term fv_vol_bps=38.7, so I quote with a wide half-spread h=1.3% to avoid being picked off. BCH has high fv volatility (fv_vol_bps=129.9) and low volume (vol24h_mtmn=2135) so I set h=1.4% to be conservative. The portfolio regime caps sleeves to 0.0 because USDT/TMN 48h is -1.89% (regime.cap=0.0), so both rial and beta exposures are 0.0; I still list PEPE/ADA/LINK as beta_assets (the sleeve universe and recent weights) but no new sizing will be taken under the current cap.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
