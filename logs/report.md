@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,563 TMN** (-1.389%)
+- Equity: **4,930,567 TMN** (-1.389%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 116 (sources: {'llm:boxapi': 116})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 116, 'sleeve_order': 329, 'quote': 3483, 'buy_blocked': 8000, 'buy_unblocked': 7943, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 117 (sources: {'llm:boxapi': 117})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 117, 'sleeve_order': 329, 'quote': 3496, 'buy_blocked': 8026, 'buy_unblocked': 7970, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SOL": 0.9,
-    "FIL": 1.3,
-    "ARB": 1.5
+    "FIL": 1.5,
+    "GALA": 1.2,
+    "CHZ": 1.3
   },
   "pause": false,
-  "reasoning": "I pick SOL, FIL and ARB (max 3). SOL has healthy liquidity (vol24h 26,849M TMN), a Toman spread 117.6 bps (>80 bps) and low fv volatility (fv_vol 42 bps) so I quote relatively tight at h=0.9% to earn spread while limiting adverse selection. FIL has very wide Toman spread 173.9 bps and huge USDT/TMN spread 229 bps, with moderate fv_vol 59.7 bps — I set h=1.3% to protect against selection while still capturing the large spread. ARB shows the largest Toman spread 203.7 bps but extreme fv volatility (fv_vol 1178 bps), so I only quote very wide at h=1.5% (maximum) to avoid being picked off. I do not quote markets with buy blocks or recent losing round trips (e.g. PENGU avg round trip -178 bps, DOT avg -76 bps) and I avoid markets with frozen USDT books. Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.71% -> cap 0.0), so both rial and beta are paused; beta_assets kept as PEPE/ADA/LINK (current beta universe weights) in case exposure is later allowed.",
+  "reasoning": "I pick FIL because its Toman spread is very wide (160.1 bps) with low FV volatility (fv_vol_bps 35.3) and a large USDT/TMN spread (221.5 bps) — so we can quote wide (h=1.5%) and expect fewer adverse picks. GALA has a healthy spread (125.0 bps), modest 24h volume (1.27bn TMN equivalent) and low FV vol (30.4 bps) so I quote moderately wide (h=1.2%). CHZ is chosen for its large spread (171.7 bps) and low FV vol (28.9 bps); volume is small (vol24h_mtmn 56) so I keep h=1.3% to avoid getting picked off. I avoid markets with buy blocks (IMX, ENA, WLD) and I avoid markets with recent losing round trips (DOT, PENGU). Sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.71% < +1.0%), so the engine disallows sleeve exposure now; beta_assets list PEPE/ADA/LINK as the preferred basket if sleeves are re-enabled.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
