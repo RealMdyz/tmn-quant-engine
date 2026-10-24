@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,547 TMN** (-1.389%)
+- Equity: **4,930,561 TMN** (-1.389%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 115 (sources: {'llm:boxapi': 115})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 115, 'sleeve_order': 329, 'quote': 3471, 'buy_blocked': 7906, 'buy_unblocked': 7845, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 116 (sources: {'llm:boxapi': 116})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 116, 'sleeve_order': 329, 'quote': 3479, 'buy_blocked': 7970, 'buy_unblocked': 7909, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.4,
-    "CAKE": 0.9,
-    "GALA": 0.9
+    "SOL": 0.9,
+    "FIL": 1.3,
+    "ARB": 1.5
   },
   "pause": false,
-  "reasoning": "Pick FIL, CAKE and GALA. FIL has the largest Toman spread (165.7 bps) and a healthy USDT/TMN spread (197.8 bps) so we stay wide (h=1.4%) given fv_vol 99.5 bps and risk of adverse fills. CAKE (spread 105.6 bps, vol24h 2,801 MTMN, fv_vol 24.9 bps) is calmer so we quote tighter (h=0.9%) to capture spread while limiting adverse selection. GALA (spread 124.7 bps, fv_vol 22.4 bps) also looks calm though thin (vol24h 1,267 MTMN), so h=0.9% to balance pickoffs vs. earning wide local spreads. Sleeves set to 0.0 because USDT/TMN 48h = +0.71% gives a regime exposure cap of 0.0, so we must cut rial and beta exposure despite sleeve performance (rial return -1.82%, beta -3.21%). Beta_assets listed as PEPE/ADA/LINK (current universe weights) for use if the regime later allows scaling.",
+  "reasoning": "I pick SOL, FIL and ARB (max 3). SOL has healthy liquidity (vol24h 26,849M TMN), a Toman spread 117.6 bps (>80 bps) and low fv volatility (fv_vol 42 bps) so I quote relatively tight at h=0.9% to earn spread while limiting adverse selection. FIL has very wide Toman spread 173.9 bps and huge USDT/TMN spread 229 bps, with moderate fv_vol 59.7 bps — I set h=1.3% to protect against selection while still capturing the large spread. ARB shows the largest Toman spread 203.7 bps but extreme fv volatility (fv_vol 1178 bps), so I only quote very wide at h=1.5% (maximum) to avoid being picked off. I do not quote markets with buy blocks or recent losing round trips (e.g. PENGU avg round trip -178 bps, DOT avg -76 bps) and I avoid markets with frozen USDT books. Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.71% -> cap 0.0), so both rial and beta are paused; beta_assets kept as PEPE/ADA/LINK (current beta universe weights) in case exposure is later allowed.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
