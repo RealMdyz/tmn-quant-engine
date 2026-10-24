@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,267 TMN** (-1.395%)
+- Equity: **4,930,179 TMN** (-1.396%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 136 (sources: {'llm:boxapi': 136})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 136, 'sleeve_order': 329, 'quote': 4089, 'buy_blocked': 9673, 'buy_unblocked': 9612, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 137 (sources: {'llm:boxapi': 137})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 137, 'sleeve_order': 329, 'quote': 4106, 'buy_blocked': 9721, 'buy_unblocked': 9664, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.3,
-    "CHZ": 1.0
+    "FIL": 0.9,
+    "HYPE": 1.3,
+    "BCH": 1.4
   },
   "pause": false,
-  "reasoning": "I pick FIL and CHZ because the bot never quotes where Toman spread <80 bps and these are the best candidates without buy blocks: FIL spread_bps=92.3 with fv_vol_bps=37.7 and usdt_spread_bps=113.5 (reasonable volume vol24h_mtmn=2613), so I quote FIL with h=1.3% (wider to avoid being picked off). CHZ has a very wide spread_bps=206.0 (usdt_spread_bps=499.2) despite small vol24h_mtmn=25, so I place a conservative h=1.0% to reach the inside book without being too aggressive. I avoid markets with active buy_blocked flags (SUI, S, UNI, IMX, GALA) and markets where our live round trips lost (DOT, PENGU). Sleeves set to 0.0 because the regime cap is 0.0: USDT/TMN 48h=-0.67% so exposure cap=0.0, therefore no rial or beta exposure now; beta_assets list the current universe picks (PEPE/ADA/LINK) for reference.",
+  "reasoning": "Choose FIL because its Toman spread is wide at 117.4 bps, USDT/TMN spread 83.5 bps and fv_vol is low (13.4 bps) — a calm market where tighter quoting (h=0.9%) is justified. HYPE has a Toman spread 83.5 bps and decent 24h volume 4.3kM TMN with moderate fv_vol 87.9 bps, so I quote wider (h=1.3%) to protect against volatility. BCH has spread 85.3 bps but high fv_vol 164.5 bps, so I set h=1.4% to avoid being picked off. I avoid DOT and PENGU because their live round trips lost money (DOT avg -76.1 bps realized -2,492 TMN; PENGU avg -178.3 bps realized -2,109 TMN) and several markets (ARB, ENA, GALA, IMX, PENGU) have buy_blocked or sliding-Toman-book alerts. For sleeves the regime cap is 0.0 (USDT/TMN 48h = -0.62%), so set exposures to 0.0 for both rial and beta; beta_assets are PEPE/ADA/LINK as the sleeve universe favourites if resumed.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
