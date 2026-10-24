@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,520 TMN** (-1.390%)
+- Equity: **4,930,394 TMN** (-1.392%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 120 (sources: {'llm:boxapi': 120})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 120, 'sleeve_order': 329, 'quote': 3587, 'buy_blocked': 8294, 'buy_unblocked': 8238, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 121 (sources: {'llm:boxapi': 121})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 121, 'sleeve_order': 329, 'quote': 3610, 'buy_blocked': 8326, 'buy_unblocked': 8269, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
     "CAKE": 0.9,
-    "WLD": 1.4
+    "BCH": 1.2,
+    "CHZ": 1.5
   },
   "pause": false,
-  "reasoning": "I choose CAKE and WLD only. CAKE has spread_bps 98.3 (>80) with low fv_vol_bps 21.3 and 24h vol 2.8k MTMN so it is relatively calm — use a tight half‑spread h=0.9% to capture the wide Toman spread while limiting adverse selection. WLD has spread_bps 145.0 and vol24h 3.31k MTMN but very high fv_vol_bps 919.5, so I set a wide h=1.4% to protect against volatility. I avoid SUI/AVAX/FIL/IMX because each shows a buy_blocked sliding Toman book (buy_blocked messages) and DOT/PENGU because live round trips lost (DOT avg_round_trip_bps -76.1, PENGU -178.3). Sleeves are both 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.61% → no sleeve exposure), so no rial or beta exposure now; beta_assets kept as PEPE/ADA/LINK (current universe weights).",
+  "reasoning": "I pick CAKE because its Toman spread is 99 bps, 24h vol 2,777M TMN and fv_vol only 16.1 bps (calm market) so a tight h=0.9% is appropriate. I add BCH (spread 90.9 bps, vol 2,364M TMN) but set a wider h=1.2% due to very high fv_vol (498.7 bps) and elevated execution risk. I include CHZ for its very wide Toman spread 178.9 bps and huge USDT/TMN gap (488 bps) but give it the maximum h=1.5% because volume is tiny (56M TMN) and fv_vol is elevated. I avoid markets with buy blocks or negative live fills (SOL blocked; DOT and PENGU produced live losses: DOT realised -2,492 TMN avg -76.1 bps, PENGU -2,109 TMN avg -178.3 bps). Sleeves are set to 0.0 because the USDT/TMN 48h is +0.61% and the regime cap is 0.0, so we must not scale the rial or beta sleeves now; beta assets listed are the preferred picks (ADA, LINK, PEPE) if exposure is allowed later.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
