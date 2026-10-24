@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,928,921 TMN** (-1.422%)
+- Equity: **4,928,879 TMN** (-1.422%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,15 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 143 (sources: {'llm:boxapi': 143})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 143, 'sleeve_order': 329, 'quote': 4209, 'buy_blocked': 10300, 'buy_unblocked': 10231, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 144 (sources: {'llm:boxapi': 144})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 144, 'sleeve_order': 329, 'quote': 4234, 'buy_blocked': 10362, 'buy_unblocked': 10300, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {},
+  "markets": {
+    "FIL": 1.1,
+    "CHZ": 1.3,
+    "HYPE": 1.5
+  },
   "pause": false,
-  "reasoning": "I pick no markets because our minimum working threshold is spread_bps >= 80 and safe non-sliding books. Here most candidates are either below 80 bps (e.g. SOL 23.3, XRP 30.6, BNB 16.7) or show buy_blocked/book sliding (SUI, S, AAVE, FIL, DOT, UNI, CAKE etc.). Several high-spread names carried damage: DOT avg round-trip -76.1 bps with realised PnL -2,492 TMN, PENGU avg -178.3 bps realised -2,109 TMN, and FIL/UNI/others report Toman-book sliding — too risky now. Portfolio regime caps sleeves to 0.0 because USDT/TMN 48h = -1.51% => cap 0.0; sleeves values (rial value 4,716 TMN, beta value 30,390 TMN) and prior losses (rial return -3.3%, beta return -6.05% with stop triggered) justify keeping exposures at 0 until a clear rial-weakening signal or calmer books.",
+  "reasoning": "I select up to three markets with Toman spread >=80 bps and without recent losing live round trips. FIL has spread 91.5 bps, decent 24h volume 3,359M TMN and no buy block, so I quote with a conservative half‑spread h=1.1% given fv_vol 253 bps. CHZ shows wide spread 108.4 bps, high premium 108.8 bps and moderate fv_vol 245 bps — thin volume (60M) so I keep h=1.3% to avoid being picked off. HYPE has the widest spread 177 bps and good volume (4,645M) but high fv_vol (800 bps), so I place a very wide h=1.5% to prioritise safety. I do not pause the engine (no market‑wide shock in news). The portfolio regime caps exposures to 0.0 because USDT/TMN 48h = -1.17% (regime cap 0.0), and both sleeves are already stopped/lost (rial return -5.34%, beta return -7.6%), so I keep rial=0.0 and beta=0.0; beta_assets list follows the sleeve weights (PEPE, ADA, LINK).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
