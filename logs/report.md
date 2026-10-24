@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,104 TMN** (-1.398%)
+- Equity: **4,930,148 TMN** (-1.397%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 134 (sources: {'llm:boxapi': 134})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 134, 'sleeve_order': 329, 'quote': 3995, 'buy_blocked': 9451, 'buy_unblocked': 9393, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 135 (sources: {'llm:boxapi': 135})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 135, 'sleeve_order': 329, 'quote': 4058, 'buy_blocked': 9496, 'buy_unblocked': 9436, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "WLD": 0.9,
-    "FIL": 1.2,
-    "ENA": 1.1
+    "WLD": 1.1,
+    "ENA": 1.3,
+    "BCH": 1.4
   },
   "pause": false,
-  "reasoning": "Pick WLD (spread 100.5 bps, vol24h 4052M TMN, fv_vol 41.7 bps) — wide Toman spread and low fv volatility support tighter quoting; h=0.9% keeps us near the book but not aggressive. Pick FIL (spread 86.6 bps, vol24h 2592M, fv_vol 12.7 bps) — spread above 80 bps and very low fv volatility, but premium -45.7 bps so we widen to h=1.2% to reduce adverse-selection risk. Pick ENA (spread 99.3 bps, vol24h 1834M, fv_vol 171.6 bps) — good spread and reasonable liquidity but higher fv volatility so h=1.1%. Avoid DOT and PENGU despite large spreads because both have recent losing live round trips (DOT avg RT -76.1 bps realised -2492 TMN; PENGU avg RT -178.3 bps realised -2109 TMN) and buy blocks; also skip CHZ and IMX due to tiny volume or sliding Toman book. Sleeves kept at 0.0 because USDT/TMN 48h = -0.33% and regime cap = 0.0 (portfolio shows cap 0.0), so no exposure to rial or beta now; beta_assets listed are the sleeve's default weights (PEPE, ADA, LINK) for record.",
+  "reasoning": "I pick WLD, ENA and BCH because all three have Toman spreads >=80 bps (WLD 103.7 bps, ENA 107.5 bps, BCH 83.4 bps) meeting the minimum 80 bps rule and are reasonably liquid (vol24h_mtmn WLD 4091, ENA 1834, BCH 1932). WLD has moderate fv_vol (98.2 bps) so I quote a middle half‑spread h=1.1% to capture the wide book while avoiding being too aggressive; ENA and BCH show higher fv_vol (ENA 222.0, BCH 330.0 bps) so I set wider h=1.3% and h=1.4% respectively to reduce adverse selection. I avoid FIL, DOT and PENGU because FIL and several others have buy_blocked sliding books and DOT/PENGU show recent losing live round trips (DOT realised -2,492 TMN avg -76.1 bps; PENGU realised -2,109 TMN avg -178.3 bps). Sleeves are set to 0.0 exposure because the USDT/TMN regime cap is 0.0 (USDT/TMN 48h -0.67% -> no sleeve exposure); beta_assets are selected (PEPE, ADA, LINK, DOGE) as the preferred universe if sleeves were allowed.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
