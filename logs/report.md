@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,148 TMN** (-1.417%)
+- Equity: **4,929,228 TMN** (-1.415%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,15 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 147 (sources: {'llm:boxapi': 147})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 147, 'sleeve_order': 329, 'quote': 4318, 'buy_blocked': 10672, 'buy_unblocked': 10612, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 148 (sources: {'llm:boxapi': 148})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 148, 'sleeve_order': 329, 'quote': 4343, 'buy_blocked': 10718, 'buy_unblocked': 10651, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {},
+  "markets": {
+    "SUI": 1.2,
+    "UNI": 1.1,
+    "GALA": 1.4
+  },
   "pause": false,
-  "reasoning": "USDT/TMN 48h = -1.21% -> regime cap 0.0 so both sleeves must be scaled to 0 (portfolio.regime.cap = 0.0). Most candidate books fail our minimum spread filter: many coins have spread_bps < 80 (SOL 15.3, XRP 23.8, BNB 8.5, etc.) and the few above 80 are unsafe — DOT (spread 96.6) and PENGU (70.3) show recent losing live round trips (DOT avg -76.1 bps realised_pnl -2492 TMN, PENGU avg -178.3 bps realised_pnl -2109 TMN), FIL (92.9 bps) and several others have buy_blocked or FV shocks (FIL: fair value fell -57 bps; WLD, BNB, BCH have Toman book sliding messages). IMX is the only candidate without buy_block but has tiny 24h volume (vol24h_mtmn = 40) and extremely high fv_vol_bps 3631.1, so I avoid putting quotes. Given low equity (4.93M TMN), prior fills lost -4,601 TMN and drawdown 3.6%, the prudent decision is to not quote any markets now and keep sleeves at 0 until the USDT/TMN regime or market signals improve.",
+  "reasoning": "Pick SUI, UNI and GALA because they are the only liquid candidates with Toman spreads >80bps: SUI spread 124.4 bps (vol24h 6119M TMN, fv_vol 96.6 bps) ; UNI spread 100.5 bps (vol24h 7389M, fv_vol 103.2 bps) ; GALA spread 108.9 bps (vol24h 2323M, fv_vol 289.8 bps). Set wide half-spreads because we must avoid pick‑offs: SUI h=1.2% (moderate fv_vol 96.6), UNI h=1.1% (good spread 100.5 bps so can be a touch tighter), GALA h=1.4% (higher fv volatility 289.8 bps so widest). Do not open other markets: CHZ/IMX have negligible volume (62M/40M) and ENA is just below 80bps. Sleeves forced to 0.0 exposure because USDT/TMN 48h = -1.21% gives regime cap 0.0 (portfolio.regime.cap=0.0); beta_assets listed as the sleeve universe leaders (PEPE, ADA, LINK) for reference.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
