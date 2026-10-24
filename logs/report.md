@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,931,604 TMN** (-1.368%)
+- Equity: **4,932,514 TMN** (-1.350%)
 - Max drawdown: **3.650%**
 - Traded volume: 564,491 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 0 | 0 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 97 (sources: {'llm:boxapi': 97})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 97, 'sleeve_order': 329, 'quote': 2953, 'buy_blocked': 6858, 'buy_unblocked': 6795, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 1, 'sleeve_reweight': 1}
+- AI supervisor decisions: 98 (sources: {'llm:boxapi': 98})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 98, 'sleeve_order': 329, 'quote': 2966, 'buy_blocked': 6888, 'buy_unblocked': 6829, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 1, 'sleeve_reweight': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CAKE": 0.9,
     "FIL": 1.4,
-    "GALA": 1.1
+    "DOT": 1.3,
+    "CHZ": 1.5
   },
   "pause": false,
-  "reasoning": "I pick CAKE (spread_bps 102.5, vol24h_mtmn 2964, fv_vol_bps 34.0) as a calm, wide-Toman-spread market and quote fairly tight at h=0.9. I include FIL because its Toman spread is very wide (193.7 bps) and USDT spread 232.2 bps, but FIL has adverse-selection history so I set a wide h=1.4. GALA (spread_bps 124.0, quoted_now true, vol24h_mtmn 1157) is attractive for capture of large spread with medium fv_vol_bps 244.5 so I use h=1.1. I avoid markets with buy blocks or frozen USDT book (DOT, SUI, S, AVAX, PENGU, etc.) and I do not quote where spread_bps <80 (e.g. SOL, XRP, UNI). Portfolio sleeves are set to zero (rial=0.0, beta=0.0) because the USDT/TMN regime shows ch48 +0.71% with cap 0.0 so the regime disallows scaling and the engine is in end_wind_down; beta_assets listed (PEPE, ADA, LINK) follow the sleeve universe and current weight priorities.",
+  "reasoning": "Pick FIL because spread_bps=102.6 and usdt_spread_bps=295.7 with premium_bps=80.4 and moderate fv_vol_bps=82.4 — wide Toman spread and healthy USDT premium justify a wide h=1.4. Pick DOT because spread_bps=213.4, vol24h_mtmn=2875 and fv_vol_bps=58.5 (low FV volatility) so a tighter but still conservative h=1.3 to capture the very wide spread while limiting adverse selection; we also already hold DOT (inventory value 331,523 TMN). Include CHZ as a third slot (spread_bps=162.6, premium_bps=212.7, usdt_spread_bps=659.7) but use h=1.5 because volume is small (vol24h_mtmn=518) so quote very wide. Sleeves kept at 0.0 because regime cap is 0.0 (USDT/TMN 48h +0.71% -> no exposure cap lift), portfolio scale_now shows 0.0 and both sleeve values are already wind-down; beta_assets listed are high-momentum candidates from the beta universe (PEPE, ADA, LINK). Avoided markets with buy_blocked flags and PENGU which produced a -2,109 TMN round trip (avg_round_trip_bps = -178.3).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
