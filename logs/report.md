@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,151 TMN** (-1.417%)
+- Equity: **4,929,213 TMN** (-1.416%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 145 (sources: {'llm:boxapi': 145})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 145, 'sleeve_order': 329, 'quote': 4292, 'buy_blocked': 10509, 'buy_unblocked': 10446, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 146 (sources: {'llm:boxapi': 146})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 146, 'sleeve_order': 329, 'quote': 4308, 'buy_blocked': 10538, 'buy_unblocked': 10477, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CAKE": 1.0,
-    "GALA": 1.4,
+    "SUI": 1.5,
+    "GALA": 1.5,
     "CHZ": 1.2
   },
   "pause": false,
-  "reasoning": "I pick CAKE, GALA and CHZ because I never bid where Toman spread <80 bps — CAKE spread 96.6 bps (vol24h 3,325M TMN), GALA spread 152.8 bps (vol24h 2,366M) and CHZ spread 193.2 bps (quoted_now) pass the threshold. I avoid DOT and PENGU because DOT has a recent live round-trip loss (avg_round_trip_bps -76.1 and buy blocked) and PENGU has a very negative avg_round_trip_bps (-178.3), so both are high adverse-selection risk. I set half-spreads wide where either FV volatility or adverse selection risk is high: GALA h=1.4% (fv_vol_bps 1,210), CHZ h=1.2% (very large spread 193 bps but tiny vol so conservative), CAKE h=1.0% (spread 96.6 bps, fv_vol_bps 269 — calmer so slightly narrower). Sleeves are set to 0.0 because the portfolio regime cap is 0.0 (USDT/TMN 48h -1.17% → exposure cap 0.0) and both sleeves are currently stopped (rial stop-loss -5.36%, beta stopped -7.53%), so we must not add exposure now.",
+  "reasoning": "I pick SUI, GALA and CHZ (max 3). SUI has a wide Toman spread 213.8 bps and decent activity (vol24h 5,930M TMN) but moderate fv_vol 111.1 bps, so I use the widest h=1.5% to avoid being picked off. GALA is already quoted_now, with spread 152.2 bps and very high fv_vol 1024.7 bps, so h=1.5% to prioritise safety. CHZ offers a large spread 180.2 bps and manageable fv_vol 152.3 bps so I quote a bit tighter at h=1.2%. I avoid DOT and PENGU because they produced net losers (DOT realised -2,492 TMN, avg round trip -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and several coins are buy-blocked or have sliding Toman books. Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.29%), so rial and beta must be scaled to zero as shown by the portfolio 'cap': 0.0.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
