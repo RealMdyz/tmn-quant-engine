@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,478 TMN** (-1.410%)
+- Equity: **4,929,559 TMN** (-1.409%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 157 (sources: {'llm:boxapi': 157})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 157, 'sleeve_order': 329, 'quote': 4677, 'buy_blocked': 11854, 'buy_unblocked': 11790, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 158 (sources: {'llm:boxapi': 158})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 158, 'sleeve_order': 329, 'quote': 4687, 'buy_blocked': 11885, 'buy_unblocked': 11821, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "WLD": 1.0,
-    "GALA": 1.2,
-    "FIL": 1.3
+    "ARB": 1.2,
+    "BCH": 1.3,
+    "CHZ": 1.5
   },
   "pause": false,
-  "reasoning": "I choose WLD, GALA and FIL because they are the only active candidates with Toman spreads above our 80 bps floor and acceptable volume: WLD spread 85.9 bps with vol24h 4,474M TMN (fv_vol_bps 261.2) so I quote a moderate half-spread h=1.0%. GALA is quoted_now, spread 85.7 bps with very high local premium 112.6 bps and usdt_spread 352.9 bps so I set h=1.2% to be more conservative. FIL also quoted_now has the largest spread 112.2 bps and huge usdt_spread 381.1 bps with low fv_vol_bps (17.2) but historical pick-offs in this environment suggest a wider h=1.3%. I avoid DOT and PENGU (both had recent losing live round-trips; DOT avg round trip -76.1 bps and buy_blocked; PENGU avg -178.3 bps and buy_blocked) and avoid low-spread markets (most spreads <80 bps). Sleeves are set to 0.0 because the portfolio regime cap is 0.0 (USDT/TMN 48h -1.44% -> exposure cap 0.0) and both sleeves are currently stopped/being wound down per the engine, so no new exposure is permitted.",
+  "reasoning": "I pick ARB (spread_bps 130.3, vol24h 27,594, fv_vol_bps 208.7) as the top choice — wide Toman spread and solid volume justify active making with h=1.2%. I include BCH (spread_bps 112.9, vol24h 2,092) as a secondary market because spread>80 bps and it is not buy-blocked, but fv_vol_bps 395 warrants a wider h=1.3%. I add CHZ only as a cautious third slot because spread_bps 377.3 is attractive despite tiny vol (62m); set h=1.5% to avoid being picked off. I avoid DOT/PENGU (they show live losing round trips: DOT avg_round_trip_bps -76.1 and PENGU -178.3) and markets with buy_blocked or quoted_now instability. Sleeves are set to 0.0 because USDT/TMN 48h -1.81% gives a regime cap 0.0 (portfolio.regime.cap=0.0) so no exposure; beta_assets follow the sleeve weights (PEPE, ADA, LINK).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
