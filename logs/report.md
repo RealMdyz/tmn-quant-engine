@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,910 TMN** (-1.382%)
+- Equity: **4,930,908 TMN** (-1.382%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 108 (sources: {'llm:boxapi': 108})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 108, 'sleeve_order': 329, 'quote': 3378, 'buy_blocked': 7539, 'buy_unblocked': 7477, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 109 (sources: {'llm:boxapi': 109})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 109, 'sleeve_order': 329, 'quote': 3393, 'buy_blocked': 7562, 'buy_unblocked': 7501, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "WLD": 1.3,
-    "BCH": 1.5
+    "FIL": 1.2,
+    "GALA": 1.3,
+    "WLD": 1.1
   },
   "pause": false,
-  "reasoning": "Pick WLD and BCH only because the bot never quotes where spread_bps <80: WLD spread_bps 94.5 (vol24h 3077M TMN, fv_vol_bps 259.6) and BCH spread_bps 93.8 (vol24h 2021M, fv_vol_bps 794.1). FIL and PENGU are excluded due to buy_blocked / recent losing live round trips (PENGU avg_round_trip_bps -178.3, realised -2109 TMN) and DOT lost money too (avg -76.1 bps). I set wide half-spreads because markets show elevated fv_vol (WLD h=1.3% given fv_vol 259.6 and spread ~95bps; BCH h=1.5% because fv_vol 794 and large USDT-TMN dislocations), and avoid thin/very volatile IMX. Sleeves are set to 0.0 because the portfolio regime cap is 0.0 (USDT/TMN 48h +0.71% -> cap 0.0), so we must not hold rial or beta exposure now; beta_assets listed (PEPE, ADA, LINK) are the preferred picks if the cap later allows exposure.",
+  "reasoning": "Pick FIL (spread_bps 185.4, usdt_spread_bps 235.1, fv_vol_bps 16.0) because it has a very wide Toman spread and low FV volatility. Add GALA (spread_bps 123.0, usdt_spread_bps 279.3, fv_vol_bps 52.9) as a second wide, reasonably busy market. Add WLD (spread_bps 94.5, vol24h_mtmn 3077) for another wide spread slot but keep h conservative because fv_vol_bps is high (256.3). Avoid DOT and PENGU because their live round trips lost (realised_pnl_tmn -2492 and -2109, avg_round_trip_bps -76.1 and -178.3). Set sleeves to 0.0 because regime cap is 0.0 (USDT/TMN 48h +0.71% -> cap 0.0) so we must wind exposures down; beta_assets kept as PEPE/ADA/LINK (existing weights) for possible reactivation later.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
