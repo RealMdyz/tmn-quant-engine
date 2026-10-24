@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,678 TMN** (-1.386%)
+- Equity: **4,930,682 TMN** (-1.386%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,15 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 110 (sources: {'llm:boxapi': 110})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 110, 'sleeve_order': 329, 'quote': 3408, 'buy_blocked': 7636, 'buy_unblocked': 7575, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 111 (sources: {'llm:boxapi': 111})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 111, 'sleeve_order': 329, 'quote': 3409, 'buy_blocked': 7655, 'buy_unblocked': 7595, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {
-    "FIL": 1.3,
-    "GALA": 1.1
-  },
+  "markets": {},
   "pause": false,
-  "reasoning": "Pick FIL and GALA only. FIL has a very wide Toman spread 158.8 bps and USDT/TMN spread 309.7 bps with low fv_vol 53.9 bps and healthy vol24h 3,843M TMN -> quote wide (h=1.3%) to avoid being picked off while earning the wide spread. GALA has spread 102.5 bps, fv_vol 52.8 bps and reasonable vol24h 1,273M TMN, so we quote but still wide (h=1.1%). We avoid DOT/IMX/CAKE/others because DOTUSDT book is frozen (34 min) and DOT live round trips lost (-2,492 TMN, avg -76.1 bps), IMX/CAKE show Toman-book sliding guards, and CHZ has negligible volume (56M) despite spread ~82 bps. Sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.71% < +1% threshold) and both sleeve scale_now are already 0.0, so we must keep exposures at zero to respect the cap and avoid entering the rial-weakening strategy.",
+  "reasoning": "No safe markets meet our rules right now: the bot never quotes where Toman spread <80 bps and most candidates are below that (e.g. BNB 31.4, SUI 34.2, XRP 46.0). The few with wide Toman spreads have blocking or bad fill history — FIL has spread 161.6 bps but the Toman book is sliding (buy_blocked message), IMX spread 248.9 bps is also book-sliding, and DOT spread 190.9 bps produced a losing live round trip (realised_pnl -2492 TMN, avg_round_trip_bps -76.1). Portfolio regime caps sleeves to 0.0 because USDT/TMN 48h is only +0.71% (cap 0.0), so both rial and beta exposures are set to 0. Beta_assets listed are the usual high-momentum picks (PEPE/ADA/LINK) to use when the sleeve is allowed.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
