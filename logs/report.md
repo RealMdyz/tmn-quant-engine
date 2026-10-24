@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,368 TMN** (-1.393%)
+- Equity: **4,930,470 TMN** (-1.391%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 100 (sources: {'llm:boxapi': 100})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 100, 'sleeve_order': 329, 'quote': 3102, 'buy_blocked': 7078, 'buy_unblocked': 7017, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 1}
+- AI supervisor decisions: 101 (sources: {'llm:boxapi': 101})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 101, 'sleeve_order': 329, 'quote': 3133, 'buy_blocked': 7101, 'buy_unblocked': 7041, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "GALA": 0.9,
-    "BCH": 1.1,
-    "WLD": 1.5
+    "FIL": 1.5,
+    "CAKE": 1.4,
+    "GALA": 1.4
   },
   "pause": false,
-  "reasoning": "I pick GALA, BCH and WLD because the bot never quotes where spread_bps <80: GALA has spread_bps=83.2 with fv_vol_bps=60.3 (calm) so a tight h=0.9% is appropriate. BCH meets the >=80 bps rule (spread_bps=80.0) with moderate fv_vol_bps=243.8 and vol24h_mtmn=2302 so a medium h=1.1% balances adverse selection and spread capture. WLD has spread_bps=80.5 but very high fv_vol_bps=1494.5 and vol24h_mtmn=3443, so I widen to h=1.5% for volatility protection. I avoid DOT, PENGU and FIL because live round trips lost (DOT realised_pnl_tmn=-2492, avg_round_trip_bps=-76.1; PENGU realised_pnl_tmn=-2109 avg -178.3) and FIL / several markets show Toman book sliding or missing fair value. Sleeves set to 0.0 because USDT/TMN 48h=+0.71% gives regime cap=0.0 (portfolio.regime.cap=0.0) so we should not scale the rial or beta sleeves now; beta_assets listed (ADA, PEPE, LINK) are from the beta universe and chosen by momentum but will not be bought while cap=0.0.",
+  "reasoning": "Pick FIL, CAKE and GALA because their Toman spreads are large (FIL spread_bps 173.6, CAKE 164.9, GALA 145.5) and 24h volumes are reasonable (FIL vol24h_mtmn 3892, CAKE 3020, GALA 1317) so we prefer wide, busy markets. Use wide half-spreads to avoid being picked off (h FIL 1.5%, CAKE 1.4%, GALA 1.4%) given FV vol and past adverse-selection risk. Avoid DOT and PENGU despite their huge spreads because live round trips lost heavily (DOT avg_round_trip_bps -76.1, realised -2492 TMN; PENGU avg_round_trip_bps -178.3, realised -2109 TMN). Sleeves set to zero because USDT/TMN 48h is +0.71% and the regime cap is 0.0 (portfolio.regime.cap 0.0), so we must scale both rial and beta to 0.0; beta asset shortlist keeps PEPE and ADA (current weights) if exposure is resumed later.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
