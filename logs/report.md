@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,073 TMN** (-1.399%)
+- Equity: **4,930,065 TMN** (-1.399%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 139 (sources: {'llm:boxapi': 139})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 139, 'sleeve_order': 329, 'quote': 4135, 'buy_blocked': 9956, 'buy_unblocked': 9895, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 140 (sources: {'llm:boxapi': 140})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 140, 'sleeve_order': 329, 'quote': 4149, 'buy_blocked': 9995, 'buy_unblocked': 9936, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.4
+    "WLD": 1.4,
+    "ENA": 1.3,
+    "BCH": 1.2
   },
   "pause": false,
-  "reasoning": "I pick only BCH because it is one of the few candidates with spread_bps above our 80 bps floor (BCH spread_bps=86.6) and a healthy USDT/TMN spread (usdt_spread_bps=105.2) while buy_blocked is null; 24h Toman volume is non-negligible (vol24h_mtmn=1.909) and fv_vol_bps=137.9 justifies a wide half-spread, so I set h=1.4%. I avoid FIL and CHZ/GALA despite larger spreads because FIL caused adverse fills in shadow/live and is quoted_now (higher adverse-selection risk), and CHZ/GALA show Toman-book sliding/buy_blocked flags. I also avoid DOT and PENGU because their live round trips lost heavily (DOT avg_round_trip_bps=-76.1 realised_pnl_tmn=-2492; PENGU avg_round_trip_bps=-178.3 realised_pnl_tmn=-2109) and their buy_blocked warnings indicate unstable Toman books. Sleeves are set to zero because the USDT/TMN regime cap is 0.0 (USDT/TMN 48h = -0.65%), so no rial or beta exposure is allowed; I list PEPE/ADA/LINK as the beta universe picks if exposure were enabled.",
+  "reasoning": "Pick WLD (spread 137.0 bps, vol24h 4,243M TMN, USDT spread 150.2 bps) as the top slot — wide Toman spread and decent volume; FV vol 186.4 bps implies we should quote wide so h=1.4%. Pick ENA (spread 86.2 bps, vol24h 1,996M TMN, fv_vol 159.1 bps) as a second market with h=1.3% because spread>80 bps and no buy_block, but elevated FV vol warrants a wide quote. Use BCH as third (spread 86.4 bps, vol24h 1,841M TMN, usdt_spread 96.4 bps, fv_vol 160.3 bps) with h=1.2%; it is quoted_now and meets the >=80 bps rule. Avoid DOT and PENGU (live round trips losing: DOT avg -76.1 bps, realised -2,492 TMN; PENGU avg -178.3 bps, realised -2,109 TMN) and avoid blocked books (FIL/GALA/CAKE/CHZ) or tiny/unstable spreads. Sleeves set to zero because the regime cap is 0.0: USDT/TMN 48h = -0.84% (portfolio.regime.cap 0.0) so no sleeve exposure; beta_assets left as PEPE/ADA/LINK (the sleeve's current weights) but not being reallocated now.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
