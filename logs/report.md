@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,209 TMN** (-1.396%)
+- Equity: **4,930,179 TMN** (-1.396%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 135 (sources: {'llm:boxapi': 135})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 135, 'sleeve_order': 329, 'quote': 4074, 'buy_blocked': 9564, 'buy_unblocked': 9503, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 136 (sources: {'llm:boxapi': 136})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 136, 'sleeve_order': 329, 'quote': 4084, 'buy_blocked': 9624, 'buy_unblocked': 9565, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "WLD": 1.1,
-    "ENA": 1.3,
-    "BCH": 1.4
+    "FIL": 1.3,
+    "CHZ": 1.0
   },
   "pause": false,
-  "reasoning": "I pick WLD, ENA and BCH because all three have Toman spreads >=80 bps (WLD 103.7 bps, ENA 107.5 bps, BCH 83.4 bps) meeting the minimum 80 bps rule and are reasonably liquid (vol24h_mtmn WLD 4091, ENA 1834, BCH 1932). WLD has moderate fv_vol (98.2 bps) so I quote a middle half‑spread h=1.1% to capture the wide book while avoiding being too aggressive; ENA and BCH show higher fv_vol (ENA 222.0, BCH 330.0 bps) so I set wider h=1.3% and h=1.4% respectively to reduce adverse selection. I avoid FIL, DOT and PENGU because FIL and several others have buy_blocked sliding books and DOT/PENGU show recent losing live round trips (DOT realised -2,492 TMN avg -76.1 bps; PENGU realised -2,109 TMN avg -178.3 bps). Sleeves are set to 0.0 exposure because the USDT/TMN regime cap is 0.0 (USDT/TMN 48h -0.67% -> no sleeve exposure); beta_assets are selected (PEPE, ADA, LINK, DOGE) as the preferred universe if sleeves were allowed.",
+  "reasoning": "I pick FIL and CHZ because the bot never quotes where Toman spread <80 bps and these are the best candidates without buy blocks: FIL spread_bps=92.3 with fv_vol_bps=37.7 and usdt_spread_bps=113.5 (reasonable volume vol24h_mtmn=2613), so I quote FIL with h=1.3% (wider to avoid being picked off). CHZ has a very wide spread_bps=206.0 (usdt_spread_bps=499.2) despite small vol24h_mtmn=25, so I place a conservative h=1.0% to reach the inside book without being too aggressive. I avoid markets with active buy_blocked flags (SUI, S, UNI, IMX, GALA) and markets where our live round trips lost (DOT, PENGU). Sleeves set to 0.0 because the regime cap is 0.0: USDT/TMN 48h=-0.67% so exposure cap=0.0, therefore no rial or beta exposure now; beta_assets list the current universe picks (PEPE/ADA/LINK) for reference.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
