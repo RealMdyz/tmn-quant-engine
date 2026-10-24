@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,540 TMN** (-1.409%)
+- Equity: **4,929,628 TMN** (-1.407%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 155 (sources: {'llm:boxapi': 155})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 155, 'sleeve_order': 329, 'quote': 4623, 'buy_blocked': 11617, 'buy_unblocked': 11556, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 156 (sources: {'llm:boxapi': 156})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 156, 'sleeve_order': 329, 'quote': 4627, 'buy_blocked': 11667, 'buy_unblocked': 11610, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.3
+    "FIL": 1.5,
+    "GALA": 1.5
   },
   "pause": false,
-  "reasoning": "Choose only FIL because it is the only candidate with spread_bps >=80 and no buy_blocked flag: spread_bps 129.3, vol24h 2,893M TMN and fv_vol_bps low at 55.4 (stable FV). FIL is quoted_now, USDT-spread 383.3 bps and premium 106.8 bps — roomy compensation for maker fees, so I set h=1.3% (wide within 0.8–1.5 to avoid being picked off). I avoid DOT/PENGU/other large spreads because they have buy_blocked or book broken (DOT avg_round_trip_bps -76.1, buy_blocked \"Toman spread > 5%: book broken\") or very high fv_vol or sliding tomans (many entries show buy_blocked messages). Portfolio sleeves set to 0.0 because regime cap is 0.0 (USDT/TMN 48h -1.67% => no sleeve exposure) and both sleeves are currently stopped/wind-down (rial scale_now 0.0; beta scale_now 0.0).",
+  "reasoning": "I select FIL and GALA because they are the only non-blocked candidates with Toman spreads >= 80 bps (FIL spread 143.1 bps, GALA 129.0 bps) and large USDT/TMN spreads (FIL usdt_spread 384.4 bps, GALA 294.1 bps) which gives room to be maker. Both show elevated risk (FIL fv_vol 9.1 bps but FIL had a prior bad live fill pattern; GALA fv_vol 1084.8 bps), so I set wide half-spreads h=1.5% to avoid being picked off. I avoid DOT and CHZ because DOT is buy-blocked/book broken and has a losing live round trip (realised -2,492 TMN, avg -76.1 bps) and CHZ shows a sliding Toman book. Sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.44%) and both rial and beta sleeves are stopped/wind-down (portfolio shows scale_now 0.0 and stop-losses active). Beta assets listed are the sleeve defaults with highest weights (PEPE, ADA, LINK) for reference.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
