@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,551 TMN** (-1.389%)
+- Equity: **4,930,549 TMN** (-1.389%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 117 (sources: {'llm:boxapi': 117})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 117, 'sleeve_order': 329, 'quote': 3500, 'buy_blocked': 8055, 'buy_unblocked': 7994, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 118 (sources: {'llm:boxapi': 118})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 118, 'sleeve_order': 329, 'quote': 3509, 'buy_blocked': 8073, 'buy_unblocked': 8013, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.5,
-    "GALA": 1.2,
-    "CHZ": 1.3
+    "IMX": 1.5,
+    "BCH": 1.2
   },
   "pause": false,
-  "reasoning": "I pick FIL because its Toman spread is very wide (160.1 bps) with low FV volatility (fv_vol_bps 35.3) and a large USDT/TMN spread (221.5 bps) — so we can quote wide (h=1.5%) and expect fewer adverse picks. GALA has a healthy spread (125.0 bps), modest 24h volume (1.27bn TMN equivalent) and low FV vol (30.4 bps) so I quote moderately wide (h=1.2%). CHZ is chosen for its large spread (171.7 bps) and low FV vol (28.9 bps); volume is small (vol24h_mtmn 56) so I keep h=1.3% to avoid getting picked off. I avoid markets with buy blocks (IMX, ENA, WLD) and I avoid markets with recent losing round trips (DOT, PENGU). Sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.71% < +1.0%), so the engine disallows sleeve exposure now; beta_assets list PEPE/ADA/LINK as the preferred basket if sleeves are re-enabled.",
+  "reasoning": "I select IMX and BCH because they are the only candidates with Toman spreads >=80 bps and no USDT-book freeze or buy block: IMX spread 212.0 bps (vol24h 211m TMN) and BCH spread 116.8 bps (vol24h 2012m TMN). IMX shows very high fair-value volatility (fv_vol_bps 668.1) so I set a wide half-spread h=1.5% to avoid being picked off; BCH has moderate FV vol (191.7 bps) so h=1.2% balances fill probability and adverse selection. I avoid DOT and PENGU despite large spreads because DOT has an active buy block and recent losing round trips (realised_pnl -2492 TMN, avg_round_trip_bps -76.1) and PENGU also had a bad live round trip (realised_pnl -2109 TMN, avg_round_trip_bps -178.3). Sleeves are set to 0.0 exposure because the regime cap is 0.0 (USDT/TMN 48h +0.71% < +1% required), so no rial or beta exposure now; beta assets left as PEPE/ADA/LINK per the sleeve weights if exposures resume.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
