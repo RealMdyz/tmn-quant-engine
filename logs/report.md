@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,475 TMN** (-1.411%)
+- Equity: **4,929,383 TMN** (-1.412%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 141 (sources: {'llm:boxapi': 141})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 141, 'sleeve_order': 329, 'quote': 4190, 'buy_blocked': 10156, 'buy_unblocked': 10089, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 142 (sources: {'llm:boxapi': 142})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 142, 'sleeve_order': 329, 'quote': 4200, 'buy_blocked': 10186, 'buy_unblocked': 10121, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.5
+    "GALA": 1.4
   },
   "pause": false,
-  "reasoning": "I select only FIL because it is the lone candidate with Toman spread >= 80 bps and no buy_blocked flag (spread_bps 144.0, usdt_spread_bps 193.3). Other wide-spread names (DOT, PENGU, CHZ, WLD, ENA) are either buy_blocked, quoted_now with book slides, or have recent large realised losses (DOT avg_round_trip_bps -76.1, PENGU avg_round_trip_bps -178.3). I set a conservative, wide half-spread h=1.5% because FIL’s fv_vol_bps is elevated (306.9) and we want to avoid being picked off. Sleeves exposures are 0.0 because the regime cap is 0.0 (USDT/TMN 48h = -1.50% -> cap 0.0) and both sleeves currently have scale_now 0.0 and negative returns (rial -3.31%, beta -6.26%), so we do not allocate new exposure. Beta assets kept as the existing sleeve weights (PEPE, ADA, LINK) in case exposures are later re-enabled.",
+  "reasoning": "Only GALA meets our minimum no-buy-block and wide-spread criteria: spread_bps 107.5, vol24h_mtmn 1444 and usdt_spread_bps 414.2 with buy_blocked null, so I quote it wide (h=1.4%) because fv_vol_bps is high (1438.7). I exclude high-spread but sliding markets (PENGU, DOT, FIL, HYPE, UNI etc.) because they show buy_blocked or quoted_now and DOT/PENGU had losing live round trips (avg_round_trip_bps -76.1 and -178.3, realised_pnl_tmn -2492 and -2109). Portfolio cap forces sleeves flat: USDT/TMN 48h = -1.50% => regime.cap 0.0, portfolio shows scale_now 0.0 for both sleeves, so set rial=0.0 and beta=0.0. I list ADA and LINK for beta_assets as preferred high-momentum picks from the beta universe if exposure is restored later.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
