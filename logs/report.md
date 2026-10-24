@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,097 TMN** (-1.398%)
+- Equity: **4,929,903 TMN** (-1.402%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 128 (sources: {'llm:boxapi': 128})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 128, 'sleeve_order': 329, 'quote': 3773, 'buy_blocked': 9073, 'buy_unblocked': 9008, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 129 (sources: {'llm:boxapi': 129})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 129, 'sleeve_order': 329, 'quote': 3777, 'buy_blocked': 9125, 'buy_unblocked': 9063, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
     "FIL": 0.9,
-    "WLD": 1.4,
-    "ENA": 1.3
+    "CAKE": 0.9
   },
   "pause": false,
-  "reasoning": "I pick FIL, WLD and ENA because the bot never quotes where Toman spread <80bps and these three have spreads well above that (FIL 100.8bps, WLD 112.6bps, ENA 90.8bps). FIL has low FV volatility (fv_vol_bps 58.7) and very wide USDT/TMN spread (442.2bps) so I quote relatively tight at h=0.9% to capture maker spread while avoiding being too aggressive. WLD and ENA show very high fair-value volatility (WLD fv_vol_bps 1452, ENA 956), so I widen quotes to h=1.4% and 1.3% to reduce adverse-selection risk. The portfolio regime cap is 0.0 because USDT/TMN 48h = -0.66% (portfolio.regime.cap 0.0), so both sleeves are set to 0.0 exposure; I list ADA and LINK for beta_assets as preferred names if exposure were allowed (they are in the beta universe and are typical momentum choices). I do not pause: there is no market-wide rial or crypto shock in the news feed and the candidates show coin-specific book issues (e.g., DOT and PENGU are buy-blocked) which I avoid.",
+  "reasoning": "Pick FIL and CAKE only: both have Toman spreads above our 80 bps minimum (FIL 108.8 bps, CAKE 89.7 bps), reasonable 24h volumes (FIL 2,666M TMN, CAKE 4,291M TMN) and relatively low short-term FV volatility (FIL fv_vol 62.8 bps, CAKE 48.4 bps), so we can quote relatively tight h=0.9%. I avoid PENGU and DOT because their live round trips lost heavily (PENGU realised -2,109 TMN avg -178.3 bps; DOT realised -2,492 TMN avg -76.1 bps) and several wide-spread names are currently buy_blocked (SUI, AAVE, WLD, etc.). I also avoid ultra-volatile or tiny-volume candidates (HYPE, IMX, CHZ) and any market with fading USDT/TMN books. Sleeves are set to 0.0 because the USDT/TMN regime cap is 0.0 (48h change -0.60%), so we must not scale the rial or beta sleeves now; beta_assets listed are the preferred picks if sleeves resume (ADA, LINK, PEPE) based on their inclusion in the beta universe and momentum.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
