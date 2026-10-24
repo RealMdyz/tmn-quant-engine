@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,928,956 TMN** (-1.421%)
+- Equity: **4,928,965 TMN** (-1.421%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 144 (sources: {'llm:boxapi': 144})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 144, 'sleeve_order': 329, 'quote': 4258, 'buy_blocked': 10413, 'buy_unblocked': 10349, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 145 (sources: {'llm:boxapi': 145})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 145, 'sleeve_order': 329, 'quote': 4280, 'buy_blocked': 10472, 'buy_unblocked': 10412, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.1,
-    "CHZ": 1.3,
-    "HYPE": 1.5
+    "CAKE": 1.0,
+    "GALA": 1.4,
+    "CHZ": 1.2
   },
   "pause": false,
-  "reasoning": "I select up to three markets with Toman spread >=80 bps and without recent losing live round trips. FIL has spread 91.5 bps, decent 24h volume 3,359M TMN and no buy block, so I quote with a conservative half‑spread h=1.1% given fv_vol 253 bps. CHZ shows wide spread 108.4 bps, high premium 108.8 bps and moderate fv_vol 245 bps — thin volume (60M) so I keep h=1.3% to avoid being picked off. HYPE has the widest spread 177 bps and good volume (4,645M) but high fv_vol (800 bps), so I place a very wide h=1.5% to prioritise safety. I do not pause the engine (no market‑wide shock in news). The portfolio regime caps exposures to 0.0 because USDT/TMN 48h = -1.17% (regime cap 0.0), and both sleeves are already stopped/lost (rial return -5.34%, beta return -7.6%), so I keep rial=0.0 and beta=0.0; beta_assets list follows the sleeve weights (PEPE, ADA, LINK).",
+  "reasoning": "I pick CAKE, GALA and CHZ because I never bid where Toman spread <80 bps — CAKE spread 96.6 bps (vol24h 3,325M TMN), GALA spread 152.8 bps (vol24h 2,366M) and CHZ spread 193.2 bps (quoted_now) pass the threshold. I avoid DOT and PENGU because DOT has a recent live round-trip loss (avg_round_trip_bps -76.1 and buy blocked) and PENGU has a very negative avg_round_trip_bps (-178.3), so both are high adverse-selection risk. I set half-spreads wide where either FV volatility or adverse selection risk is high: GALA h=1.4% (fv_vol_bps 1,210), CHZ h=1.2% (very large spread 193 bps but tiny vol so conservative), CAKE h=1.0% (spread 96.6 bps, fv_vol_bps 269 — calmer so slightly narrower). Sleeves are set to 0.0 because the portfolio regime cap is 0.0 (USDT/TMN 48h -1.17% → exposure cap 0.0) and both sleeves are currently stopped (rial stop-loss -5.36%, beta stopped -7.53%), so we must not add exposure now.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
