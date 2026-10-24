@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,320 TMN** (-1.414%)
+- Equity: **4,929,325 TMN** (-1.414%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 149 (sources: {'llm:boxapi': 149})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 149, 'sleeve_order': 329, 'quote': 4444, 'buy_blocked': 10875, 'buy_unblocked': 10814, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 150 (sources: {'llm:boxapi': 150})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 150, 'sleeve_order': 329, 'quote': 4464, 'buy_blocked': 10928, 'buy_unblocked': 10863, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
     "FIL": 1.4,
-    "GALA": 0.9,
-    "APE": 1.3
+    "GALA": 1.4,
+    "BCH": 1.3
   },
   "pause": false,
-  "reasoning": "I pick FIL, GALA and APE because they clear the minimum Toman-spread rule and have favourable characteristics: FIL spread_bps 133.2 with very wide USDT spread 340 bps and vol24h_mtmn 2.8k (use wider h=1.4% because fv_vol_bps=1022 indicates high fair-value volatility). GALA has wide spread_bps 173.9, moderate vol24h_mtmn 2.3k and low fv_vol_bps=89.6 so I quote tighter at h=0.9% to capture spread with lower adverse-selection. APE is chosen as the third slot (spread_bps 81.5, vol24h_mtmn 4.2k) but given fv_vol_bps=1053 I keep h wider at 1.3%. I avoid markets with buy_blocked or recent bad live fills (DOT and PENGU had live round-trip losses: avg_round_trip_bps -76.1 and -178.3) and avoid ARB/HYPE/others with sliding Toman books or recent FV crashes. Sleeves are both set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.18% => exposure cap 0.0) and both sleeves are currently stopped/being wound down per portfolio state.",
+  "reasoning": "I pick at most three wide-spread markets only: FIL (spread 107.1 bps, vol24h 2.85m TMN, premium 98.5 bps) — quoted_now true but fv_vol 602 bps so I use a conservative wide half-spread h=1.4% to avoid picking off informed sellers. GALA (spread 130.4 bps, vol24h 2.29m, premium 124.9 bps) is attractive for wide Toman spread and momentum; USDT spread is large (297.6 bps) so I keep h=1.4% and stay cautious about stale USDT book. BCH (spread 113.3 bps, vol24h 2.09m, usdt_spread 77.6 bps) is the calmer of the wide group so I set h=1.3%. I avoid markets with buy_blocked flags (e.g. S, AAVE, DOT, CHZ) and coins with recent losing live round-trips (PENGU, DOT). Portfolio sleeves are both set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.75% => exposure cap 0.0) and both sleeves show scale_now=0.0/stop-loss states, so no re-sizing; beta_assets kept as the existing universe leaders (PEPE, ADA, LINK) for bookkeeping.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
