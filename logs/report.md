@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 107 (sources: {'llm:boxapi': 107})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 107, 'sleeve_order': 329, 'quote': 3346, 'buy_blocked': 7504, 'buy_unblocked': 7440, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 108 (sources: {'llm:boxapi': 108})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 108, 'sleeve_order': 329, 'quote': 3361, 'buy_blocked': 7519, 'buy_unblocked': 7459, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.3,
-    "GALA": 1.0,
-    "CHZ": 1.3
+    "WLD": 1.3,
+    "BCH": 1.5
   },
   "pause": false,
-  "reasoning": "I pick markets with Toman spread >=80 bps and avoid any with buy_blocked or where our live round trips lost. FIL has spread_bps 173.2, usdt_spread 353.8 and low fv_vol_bps 27.4 so I quote wide (h=1.3%) to capture large nominal spread but protect vs adverse selection. GALA has spread_bps 82.6, vol24h_mtmn 1,287 and fv_vol_bps 40.1 — reasonably busy and calm so I set h=1.0%. CHZ meets the 80 bps cut (spread_bps 82.1) and has premium 162.9 with fv_vol_bps 59.5, so I use h=1.3% to be conservative given low volume. I avoid DOT and PENGU because live round trips lost (avg_round_trip_bps -76.1 and -178.3 with realised losses -2,492 and -2,109 TMN). Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.71% -> exposure cap 0.0), so no scaling into rial or beta now.",
+  "reasoning": "Pick WLD and BCH only because the bot never quotes where spread_bps <80: WLD spread_bps 94.5 (vol24h 3077M TMN, fv_vol_bps 259.6) and BCH spread_bps 93.8 (vol24h 2021M, fv_vol_bps 794.1). FIL and PENGU are excluded due to buy_blocked / recent losing live round trips (PENGU avg_round_trip_bps -178.3, realised -2109 TMN) and DOT lost money too (avg -76.1 bps). I set wide half-spreads because markets show elevated fv_vol (WLD h=1.3% given fv_vol 259.6 and spread ~95bps; BCH h=1.5% because fv_vol 794 and large USDT-TMN dislocations), and avoid thin/very volatile IMX. Sleeves are set to 0.0 because the portfolio regime cap is 0.0 (USDT/TMN 48h +0.71% -> cap 0.0), so we must not hold rial or beta exposure now; beta_assets listed (PEPE, ADA, LINK) are the preferred picks if the cap later allows exposure.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
