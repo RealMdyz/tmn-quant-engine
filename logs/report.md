@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,215 TMN** (-1.416%)
+- Equity: **4,929,206 TMN** (-1.416%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 148 (sources: {'llm:boxapi': 148})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 148, 'sleeve_order': 329, 'quote': 4382, 'buy_blocked': 10766, 'buy_unblocked': 10703, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 149 (sources: {'llm:boxapi': 149})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 149, 'sleeve_order': 329, 'quote': 4427, 'buy_blocked': 10814, 'buy_unblocked': 10752, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.2,
-    "UNI": 1.1,
-    "GALA": 1.4
+    "FIL": 1.4,
+    "GALA": 0.9,
+    "APE": 1.3
   },
   "pause": false,
-  "reasoning": "Pick SUI, UNI and GALA because they are the only liquid candidates with Toman spreads >80bps: SUI spread 124.4 bps (vol24h 6119M TMN, fv_vol 96.6 bps) ; UNI spread 100.5 bps (vol24h 7389M, fv_vol 103.2 bps) ; GALA spread 108.9 bps (vol24h 2323M, fv_vol 289.8 bps). Set wide half-spreads because we must avoid pick‑offs: SUI h=1.2% (moderate fv_vol 96.6), UNI h=1.1% (good spread 100.5 bps so can be a touch tighter), GALA h=1.4% (higher fv volatility 289.8 bps so widest). Do not open other markets: CHZ/IMX have negligible volume (62M/40M) and ENA is just below 80bps. Sleeves forced to 0.0 exposure because USDT/TMN 48h = -1.21% gives regime cap 0.0 (portfolio.regime.cap=0.0); beta_assets listed as the sleeve universe leaders (PEPE, ADA, LINK) for reference.",
+  "reasoning": "I pick FIL, GALA and APE because they clear the minimum Toman-spread rule and have favourable characteristics: FIL spread_bps 133.2 with very wide USDT spread 340 bps and vol24h_mtmn 2.8k (use wider h=1.4% because fv_vol_bps=1022 indicates high fair-value volatility). GALA has wide spread_bps 173.9, moderate vol24h_mtmn 2.3k and low fv_vol_bps=89.6 so I quote tighter at h=0.9% to capture spread with lower adverse-selection. APE is chosen as the third slot (spread_bps 81.5, vol24h_mtmn 4.2k) but given fv_vol_bps=1053 I keep h wider at 1.3%. I avoid markets with buy_blocked or recent bad live fills (DOT and PENGU had live round-trip losses: avg_round_trip_bps -76.1 and -178.3) and avoid ARB/HYPE/others with sliding Toman books or recent FV crashes. Sleeves are both set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.18% => exposure cap 0.0) and both sleeves are currently stopped/being wound down per portfolio state.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
