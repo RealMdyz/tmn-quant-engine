@@ -25187,3 +25187,180 @@
 {"ts": 1792851008.486, "time": "2026-10-24 17:40:08", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -127 bps in 60s"}
 {"ts": 1792851009.342, "time": "2026-10-24 17:40:09", "mode": "live", "event": "quote", "coin": "BCH", "side": "BUY", "price": 73448644.0, "qty": 0.00449, "size_tmn": 329784, "fair_value": 74340733.629351, "edge_bps": 120.0, "half_spread_pct": 1.2, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
 {"ts": 1792851010.657, "time": "2026-10-24 17:40:10", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851044.531, "time": "2026-10-24 17:40:44", "mode": "live", "event": "buy_blocked", "coin": "HYPE", "why": "Toman book sliding: premium -201 bps vs 16 bps baseline in 120s"}
+{"ts": 1792851059.541, "time": "2026-10-24 17:40:59", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 123833.0, "qty": 2.66, "size_tmn": 329396, "fair_value": 125591.965861, "edge_bps": 140.1, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851066.661, "time": "2026-10-24 17:41:06", "mode": "live", "event": "buy_blocked", "coin": "PENGU", "why": "Toman book sliding: premium -93 bps vs -32 bps baseline in 120s"}
+{"ts": 1792851090.769, "time": "2026-10-24 17:41:30", "mode": "live", "event": "buy_blocked", "coin": "GALA", "why": "fair value fell -142 bps in 60s"}
+{"ts": 1792851100.676, "time": "2026-10-24 17:41:40", "mode": "live", "event": "buy_unblocked", "coin": "FIL", "why": "guards pass"}
+{"ts": 1792851104.552, "time": "2026-10-24 17:41:44", "mode": "live", "event": "buy_unblocked", "coin": "CHZ", "why": "guards pass"}
+{"ts": 1792851106.45, "time": "2026-10-24 17:41:46", "mode": "live", "event": "buy_blocked", "coin": "S", "why": "fair value fell -63 bps in 60s"}
+{"ts": 1792851116.45, "time": "2026-10-24 17:41:56", "mode": "live", "event": "buy_unblocked", "coin": "S", "why": "guards pass"}
+{"ts": 1792851118.489, "time": "2026-10-24 17:41:58", "mode": "live", "event": "buy_blocked", "coin": "S", "why": "fair value fell -49 bps in 60s"}
+{"ts": 1792851118.541, "time": "2026-10-24 17:41:58", "mode": "live", "event": "buy_blocked", "coin": "ARB", "why": "fair value fell -43 bps in 60s"}
+{"ts": 1792851118.582, "time": "2026-10-24 17:41:58", "mode": "live", "event": "buy_blocked", "coin": "BCH", "why": "fair value fell -63 bps in 60s"}
+{"ts": 1792851120.537, "time": "2026-10-24 17:42:00", "mode": "live", "event": "buy_unblocked", "coin": "ARB", "why": "guards pass"}
+{"ts": 1792851120.591, "time": "2026-10-24 17:42:00", "mode": "live", "event": "buy_unblocked", "coin": "BCH", "why": "guards pass"}
+{"ts": 1792851124.814, "time": "2026-10-24 17:42:04", "mode": "live", "event": "quote", "coin": "BCH", "side": "BUY", "price": 73276046.0, "qty": 0.0045, "size_tmn": 329742, "fair_value": 74166039.034171, "edge_bps": 120.0, "half_spread_pct": 1.2, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851126.508, "time": "2026-10-24 17:42:06", "mode": "live", "event": "buy_blocked", "coin": "ARB", "why": "fair value fell -41 bps in 60s"}
+{"ts": 1792851133.516, "time": "2026-10-24 17:42:13", "mode": "live", "event": "quote", "coin": "BCH", "side": "BUY", "price": 73234209.0, "qty": 0.0045, "size_tmn": 329554, "fair_value": 74123693.981013, "edge_bps": 120.0, "half_spread_pct": 1.2, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851134.608, "time": "2026-10-24 17:42:14", "mode": "live", "event": "buy_unblocked", "coin": "ARB", "why": "guards pass"}
+{"ts": 1792851134.736, "time": "2026-10-24 17:42:14", "mode": "live", "event": "buy_blocked", "coin": "CHZ", "why": "Toman book sliding: premium 112 bps vs 189 bps baseline in 120s"}
+{"ts": 1792851136.413, "time": "2026-10-24 17:42:16", "mode": "live", "event": "buy_blocked", "coin": "SUI", "why": "Toman book sliding: premium -223 bps vs -19 bps baseline in 120s"}
+{"ts": 1792851148.716, "time": "2026-10-24 17:42:28", "mode": "live", "event": "buy_unblocked", "coin": "GALA", "why": "guards pass"}
+{"ts": 1792851158.675, "time": "2026-10-24 17:42:38", "mode": "live", "event": "buy_blocked", "coin": "AVAX", "why": "fair value fell -51 bps in 60s"}
+{"ts": 1792851160.647, "time": "2026-10-24 17:42:40", "mode": "live", "event": "buy_unblocked", "coin": "AVAX", "why": "guards pass"}
+{"ts": 1792851164.447, "time": "2026-10-24 17:42:44", "mode": "live", "event": "buy_unblocked", "coin": "S", "why": "guards pass"}
+{"ts": 1792851166.72, "time": "2026-10-24 17:42:46", "mode": "live", "event": "buy_blocked", "coin": "WLD", "why": "Toman book sliding: premium -77 bps vs -37 bps baseline in 120s"}
+{"ts": 1792851166.76, "time": "2026-10-24 17:42:46", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -89 bps in 60s"}
+{"ts": 1792851168.62, "time": "2026-10-24 17:42:48", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851170.527, "time": "2026-10-24 17:42:50", "mode": "live", "event": "buy_blocked", "coin": "ARB", "why": "Toman book sliding: premium -108 bps vs 22 bps baseline in 120s"}
+{"ts": 1792851171.368, "time": "2026-10-24 17:42:51", "mode": "live", "event": "quote", "coin": "BCH", "side": "BUY", "price": 73347737.0, "qty": 0.00449, "size_tmn": 329331, "fair_value": 74238600.628754, "edge_bps": 120.0, "half_spread_pct": 1.2, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851173.313, "time": "2026-10-24 17:42:53", "mode": "live", "event": "quote", "coin": "BCH", "side": "BUY", "price": 73280859.0, "qty": 0.0045, "size_tmn": 329764, "fair_value": 74170910.557506, "edge_bps": 120.0, "half_spread_pct": 1.2, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851185.385, "time": "2026-10-24 17:43:05", "mode": "live", "event": "quote", "coin": "BCH", "side": "BUY", "price": 73224934.0, "qty": 0.0045, "size_tmn": 329512, "fair_value": 74114306.248143, "edge_bps": 120.0, "half_spread_pct": 1.2, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851188.647, "time": "2026-10-24 17:43:08", "mode": "live", "event": "buy_blocked", "coin": "AVAX", "why": "fair value fell -46 bps in 60s"}
+{"ts": 1792851195.571, "time": "2026-10-24 17:43:15", "mode": "live", "event": "buy_unblocked", "coin": "AVAX", "why": "guards pass"}
+{"ts": 1792851206.318, "time": "2026-10-24 17:43:26", "mode": "live", "event": "buy_blocked", "coin": "AVAX", "why": "fair value fell -46 bps in 60s"}
+{"ts": 1792851208.371, "time": "2026-10-24 17:43:28", "mode": "live", "event": "buy_unblocked", "coin": "AVAX", "why": "guards pass"}
+{"ts": 1792851212.585, "time": "2026-10-24 17:43:32", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -96 bps in 60s"}
+{"ts": 1792851216.423, "time": "2026-10-24 17:43:36", "mode": "live", "event": "buy_unblocked", "coin": "DOT", "why": "guards pass"}
+{"ts": 1792851218.508, "time": "2026-10-24 17:43:38", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851236.481, "time": "2026-10-24 17:43:56", "mode": "live", "event": "buy_blocked", "coin": "DOT", "why": "Toman spread > 5%: book broken"}
+{"ts": 1792851242.381, "time": "2026-10-24 17:44:02", "mode": "live", "event": "buy_unblocked", "coin": "DOT", "why": "guards pass"}
+{"ts": 1792851251.166, "time": "2026-10-24 17:44:11", "mode": "live", "event": "quote", "coin": "BCH", "side": "BUY", "price": 73180258.0, "qty": 0.0045, "size_tmn": 329311, "fair_value": 74069087.875808, "edge_bps": 120.0, "half_spread_pct": 1.2, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851252.396, "time": "2026-10-24 17:44:12", "mode": "live", "event": "buy_unblocked", "coin": "HYPE", "why": "guards pass"}
+{"ts": 1792851272.401, "time": "2026-10-24 17:44:32", "mode": "live", "event": "buy_unblocked", "coin": "SUI", "why": "guards pass"}
+{"ts": 1792851276.486, "time": "2026-10-24 17:44:36", "mode": "live", "event": "buy_blocked", "coin": "DOT", "why": "Toman book sliding: premium -282 bps vs -248 bps baseline in 120s"}
+{"ts": 1792851294.491, "time": "2026-10-24 17:44:54", "mode": "live", "event": "buy_blocked", "coin": "AVAX", "why": "Toman book sliding: premium -41 bps vs -10 bps baseline in 120s"}
+{"ts": 1792851304.37, "time": "2026-10-24 17:45:04", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "fair value fell -41 bps in 60s"}
+{"ts": 1792851306.371, "time": "2026-10-24 17:45:06", "mode": "live", "event": "buy_unblocked", "coin": "UNI", "why": "guards pass"}
+{"ts": 1792851310.319, "time": "2026-10-24 17:45:10", "mode": "live", "event": "buy_blocked", "coin": "S", "why": "Toman book sliding: premium -27 bps vs 16 bps baseline in 120s"}
+{"ts": 1792851314.513, "time": "2026-10-24 17:45:14", "mode": "live", "event": "buy_blocked", "coin": "FIL", "why": "Toman book sliding: premium -108 bps vs -48 bps baseline in 120s"}
+{"ts": 1792851319.251, "time": "2026-10-24 17:45:19", "mode": "live", "event": "quote", "coin": "BCH", "side": "BUY", "price": 73143038.0, "qty": 0.00451, "size_tmn": 329875, "fair_value": 74031415.445659, "edge_bps": 120.0, "half_spread_pct": 1.2, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851320.647, "time": "2026-10-24 17:45:20", "mode": "live", "event": "buy_unblocked", "coin": "WLD", "why": "guards pass"}
+{"ts": 1792851320.93, "time": "2026-10-24 17:45:20", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 122435.0, "qty": 2.69, "size_tmn": 329350, "fair_value": 124173.501543, "edge_bps": 140.0, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851322.408, "time": "2026-10-24 17:45:22", "mode": "live", "event": "buy_blocked", "coin": "HYPE", "why": "Toman book sliding: premium -106 bps vs 15 bps baseline in 120s"}
+{"ts": 1792851322.494, "time": "2026-10-24 17:45:22", "mode": "live", "event": "buy_blocked", "coin": "GALA", "why": "fair value fell -169 bps in 60s"}
+{"ts": 1792851324.447, "time": "2026-10-24 17:45:24", "mode": "live", "event": "buy_unblocked", "coin": "ENA", "why": "guards pass"}
+{"ts": 1792851327.364, "time": "2026-10-24 17:45:27", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 122304.0, "qty": 2.69, "size_tmn": 328998, "fair_value": 124041.45603, "edge_bps": 140.1, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851332.778, "time": "2026-10-24 17:45:32", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -97 bps in 60s"}
+{"ts": 1792851333.046, "time": "2026-10-24 17:45:33", "mode": "live", "event": "quote", "coin": "ENA", "side": "BUY", "price": 49482.0, "qty": 6.66, "size_tmn": 329550, "fair_value": 50134.182679, "edge_bps": 130.1, "half_spread_pct": 1.3, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851334.474, "time": "2026-10-24 17:45:34", "mode": "live", "event": "buy_blocked", "coin": "UNI", "why": "Toman book sliding: premium -22 bps vs 8 bps baseline in 120s"}
+{"ts": 1792851334.603, "time": "2026-10-24 17:45:34", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851336.788, "time": "2026-10-24 17:45:36", "mode": "live", "event": "quote", "coin": "ENA", "side": "BUY", "price": 49362.0, "qty": 6.68, "size_tmn": 329738, "fair_value": 50013.158659, "edge_bps": 130.2, "half_spread_pct": 1.3, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851343.914, "time": "2026-10-24 17:45:43", "mode": "live", "event": "quote", "coin": "ENA", "side": "BUY", "price": 49310.0, "qty": 6.69, "size_tmn": 329884, "fair_value": 49959.825668, "edge_bps": 130.1, "half_spread_pct": 1.3, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851344.709, "time": "2026-10-24 17:45:44", "mode": "live", "event": "buy_blocked", "coin": "XRP", "why": "fair value fell -41 bps in 60s"}
+{"ts": 1792851345.708, "time": "2026-10-24 17:45:45", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 122490.0, "qty": 2.69, "size_tmn": 329498, "fair_value": 124230.040896, "edge_bps": 140.1, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851346.762, "time": "2026-10-24 17:45:46", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -97 bps in 60s"}
+{"ts": 1792851348.817, "time": "2026-10-24 17:45:48", "mode": "live", "event": "buy_blocked", "coin": "BNB", "why": "Toman book sliding: premium -76 bps vs -3 bps baseline in 120s"}
+{"ts": 1792851349.026, "time": "2026-10-24 17:45:49", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851350.961, "time": "2026-10-24 17:45:50", "mode": "live", "event": "quote", "coin": "ENA", "side": "BUY", "price": 49323.0, "qty": 6.69, "size_tmn": 329971, "fair_value": 49973.051717, "edge_bps": 130.1, "half_spread_pct": 1.3, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851352.569, "time": "2026-10-24 17:45:52", "mode": "live", "event": "buy_blocked", "coin": "SUI", "why": "fair value fell -41 bps in 60s"}
+{"ts": 1792851352.776, "time": "2026-10-24 17:45:52", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -97 bps in 60s"}
+{"ts": 1792851355.065, "time": "2026-10-24 17:45:55", "mode": "live", "event": "quote", "coin": "ENA", "side": "BUY", "price": 49323.0, "qty": 6.69, "size_tmn": 329971, "fair_value": 49972.958589, "edge_bps": 130.1, "half_spread_pct": 1.3, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851358.581, "time": "2026-10-24 17:45:58", "mode": "live", "event": "buy_unblocked", "coin": "XRP", "why": "guards pass"}
+{"ts": 1792851360.675, "time": "2026-10-24 17:46:00", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851362.605, "time": "2026-10-24 17:46:02", "mode": "live", "event": "buy_blocked", "coin": "AAVE", "why": "fair value fell -63 bps in 60s"}
+{"ts": 1792851362.71, "time": "2026-10-24 17:46:02", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -43 bps in 60s"}
+{"ts": 1792851363.368, "time": "2026-10-24 17:46:03", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 123089.0, "qty": 2.68, "size_tmn": 329879, "fair_value": 124837.371543, "edge_bps": 140.1, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851364.588, "time": "2026-10-24 17:46:04", "mode": "live", "event": "buy_unblocked", "coin": "SUI", "why": "guards pass"}
+{"ts": 1792851366.748, "time": "2026-10-24 17:46:06", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851367.426, "time": "2026-10-24 17:46:07", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 121930.0, "qty": 2.7, "size_tmn": 329211, "fair_value": 123662.042435, "edge_bps": 140.1, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851367.815, "time": "2026-10-24 17:46:07", "mode": "live", "event": "quote", "coin": "ENA", "side": "BUY", "price": 49307.0, "qty": 6.69, "size_tmn": 329864, "fair_value": 49957.21556, "edge_bps": 130.2, "half_spread_pct": 1.3, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851370.717, "time": "2026-10-24 17:46:10", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -41 bps in 60s"}
+{"ts": 1792851371.069, "time": "2026-10-24 17:46:11", "mode": "live", "event": "quote", "coin": "BCH", "side": "BUY", "price": 73006669.0, "qty": 0.00452, "size_tmn": 329990, "fair_value": 73893390.077818, "edge_bps": 120.0, "half_spread_pct": 1.2, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851371.377, "time": "2026-10-24 17:46:11", "mode": "live", "event": "quote", "coin": "ENA", "side": "BUY", "price": 49320.0, "qty": 6.69, "size_tmn": 329951, "fair_value": 49970.150478, "edge_bps": 130.1, "half_spread_pct": 1.3, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851372.655, "time": "2026-10-24 17:46:12", "mode": "live", "event": "buy_blocked", "coin": "WLD", "why": "fair value fell -41 bps in 60s"}
+{"ts": 1792851376.066, "time": "2026-10-24 17:46:16", "mode": "live", "event": "quote", "coin": "BCH", "side": "BUY", "price": 72892840.0, "qty": 0.00452, "size_tmn": 329476, "fair_value": 73778178.65705, "edge_bps": 120.0, "half_spread_pct": 1.2, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851379.231, "time": "2026-10-24 17:46:19", "mode": "live", "event": "buy_blocked", "coin": "BCH", "why": "Toman book sliding: premium -56 bps vs -16 bps baseline in 120s"}
+{"ts": 1792851379.276, "time": "2026-10-24 17:46:19", "mode": "live", "event": "buy_blocked", "coin": "ENA", "why": "fair value fell -55 bps in 60s"}
+{"ts": 1792851381.153, "time": "2026-10-24 17:46:21", "mode": "live", "event": "buy_unblocked", "coin": "GALA", "why": "guards pass"}
+{"ts": 1792851381.182, "time": "2026-10-24 17:46:21", "mode": "live", "event": "buy_unblocked", "coin": "ENA", "why": "guards pass"}
+{"ts": 1792851383.571, "time": "2026-10-24 17:46:23", "mode": "live", "event": "quote", "coin": "ENA", "side": "BUY", "price": 49491.0, "qty": 6.66, "size_tmn": 329610, "fair_value": 50143.474981, "edge_bps": 130.1, "half_spread_pct": 1.3, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851385.334, "time": "2026-10-24 17:46:25", "mode": "live", "event": "buy_blocked", "coin": "SUI", "why": "fair value fell -40 bps in 60s"}
+{"ts": 1792851385.507, "time": "2026-10-24 17:46:25", "mode": "live", "event": "buy_blocked", "coin": "ENA", "why": "Toman book sliding: premium -29 bps vs 7 bps baseline in 120s"}
+{"ts": 1792851391.222, "time": "2026-10-24 17:46:31", "mode": "live", "event": "buy_blocked", "coin": "XRP", "why": "fair value fell -43 bps in 60s"}
+{"ts": 1792851391.332, "time": "2026-10-24 17:46:31", "mode": "live", "event": "buy_blocked", "coin": "GALA", "why": "fair value fell -88 bps in 60s"}
+{"ts": 1792851391.372, "time": "2026-10-24 17:46:31", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851393.162, "time": "2026-10-24 17:46:33", "mode": "live", "event": "buy_unblocked", "coin": "SUI", "why": "guards pass"}
+{"ts": 1792851393.302, "time": "2026-10-24 17:46:33", "mode": "live", "event": "buy_unblocked", "coin": "GALA", "why": "guards pass"}
+{"ts": 1792851393.356, "time": "2026-10-24 17:46:33", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -256 bps in 60s"}
+{"ts": 1792851397.253, "time": "2026-10-24 17:46:37", "mode": "live", "event": "buy_blocked", "coin": "SUI", "why": "fair value fell -42 bps in 60s"}
+{"ts": 1792851401.116, "time": "2026-10-24 17:46:41", "mode": "live", "event": "buy_unblocked", "coin": "XRP", "why": "guards pass"}
+{"ts": 1792851403.157, "time": "2026-10-24 17:46:43", "mode": "live", "event": "buy_blocked", "coin": "XRP", "why": "fair value fell -44 bps in 60s"}
+{"ts": 1792851405.179, "time": "2026-10-24 17:46:45", "mode": "live", "event": "buy_unblocked", "coin": "XRP", "why": "guards pass"}
+{"ts": 1792851407.121, "time": "2026-10-24 17:46:47", "mode": "live", "event": "buy_blocked", "coin": "XRP", "why": "fair value fell -43 bps in 60s"}
+{"ts": 1792851409.108, "time": "2026-10-24 17:46:49", "mode": "live", "event": "buy_blocked", "coin": "SOL", "why": "Toman book sliding: premium -29 bps vs 11 bps baseline in 120s"}
+{"ts": 1792851411.132, "time": "2026-10-24 17:46:51", "mode": "live", "event": "buy_unblocked", "coin": "SUI", "why": "guards pass"}
+{"ts": 1792851411.245, "time": "2026-10-24 17:46:51", "mode": "live", "event": "buy_blocked", "coin": "CAKE", "why": "fair value fell -58 bps in 60s"}
+{"ts": 1792851411.277, "time": "2026-10-24 17:46:51", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851415.297, "time": "2026-10-24 17:46:55", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -55 bps in 60s"}
+{"ts": 1792851419.181, "time": "2026-10-24 17:46:59", "mode": "live", "event": "buy_blocked", "coin": "SUI", "why": "Toman book sliding: premium -160 bps vs -19 bps baseline in 120s"}
+{"ts": 1792851419.311, "time": "2026-10-24 17:46:59", "mode": "live", "event": "buy_blocked", "coin": "GALA", "why": "Toman book sliding: premium -79 bps vs -46 bps baseline in 120s"}
+{"ts": 1792851421.263, "time": "2026-10-24 17:47:01", "mode": "live", "event": "buy_unblocked", "coin": "AAVE", "why": "guards pass"}
+{"ts": 1792851427.238, "time": "2026-10-24 17:47:07", "mode": "live", "event": "buy_blocked", "coin": "AAVE", "why": "Toman book sliding: premium -25 bps vs 7 bps baseline in 120s"}
+{"ts": 1792851433.232, "time": "2026-10-24 17:47:13", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851437.294, "time": "2026-10-24 17:47:17", "mode": "live", "event": "buy_unblocked", "coin": "XRP", "why": "guards pass"}
+{"ts": 1792851437.418, "time": "2026-10-24 17:47:17", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -333 bps in 60s"}
+{"ts": 1792851439.201, "time": "2026-10-24 17:47:19", "mode": "live", "event": "buy_blocked", "coin": "XRP", "why": "fair value fell -44 bps in 60s"}
+{"ts": 1792851439.314, "time": "2026-10-24 17:47:19", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851441.296, "time": "2026-10-24 17:47:21", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -419 bps in 60s"}
+{"ts": 1792851443.274, "time": "2026-10-24 17:47:23", "mode": "live", "event": "buy_unblocked", "coin": "XRP", "why": "guards pass"}
+{"ts": 1792851445.143, "time": "2026-10-24 17:47:25", "mode": "live", "event": "buy_blocked", "coin": "XRP", "why": "fair value fell -46 bps in 60s"}
+{"ts": 1792851449.236, "time": "2026-10-24 17:47:29", "mode": "live", "event": "buy_unblocked", "coin": "XRP", "why": "guards pass"}
+{"ts": 1792851453.124, "time": "2026-10-24 17:47:33", "mode": "live", "event": "buy_unblocked", "coin": "HYPE", "why": "guards pass"}
+{"ts": 1792851455.303, "time": "2026-10-24 17:47:35", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851457.36, "time": "2026-10-24 17:47:37", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -232 bps in 60s"}
+{"ts": 1792851459.292, "time": "2026-10-24 17:47:39", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851465.286, "time": "2026-10-24 17:47:45", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -225 bps in 60s"}
+{"ts": 1792851469.438, "time": "2026-10-24 17:47:49", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851485.258, "time": "2026-10-24 17:48:05", "mode": "live", "event": "buy_unblocked", "coin": "AVAX", "why": "guards pass"}
+{"ts": 1792851489.135, "time": "2026-10-24 17:48:09", "mode": "live", "event": "buy_blocked", "coin": "AVAX", "why": "fair value fell -43 bps in 60s"}
+{"ts": 1792851491.232, "time": "2026-10-24 17:48:11", "mode": "live", "event": "buy_unblocked", "coin": "AVAX", "why": "guards pass"}
+{"ts": 1792851491.344, "time": "2026-10-24 17:48:11", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -217 bps in 60s"}
+{"ts": 1792851493.392, "time": "2026-10-24 17:48:13", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851495.17, "time": "2026-10-24 17:48:15", "mode": "live", "event": "buy_blocked", "coin": "XRP", "why": "fair value fell -49 bps in 60s"}
+{"ts": 1792851495.2, "time": "2026-10-24 17:48:15", "mode": "live", "event": "buy_blocked", "coin": "HYPE", "why": "Toman book sliding: premium -16 bps vs 15 bps baseline in 120s"}
+{"ts": 1792851495.228, "time": "2026-10-24 17:48:15", "mode": "live", "event": "buy_blocked", "coin": "AVAX", "why": "Toman book sliding: premium -47 bps vs -10 bps baseline in 120s"}
+{"ts": 1792851497.194, "time": "2026-10-24 17:48:17", "mode": "live", "event": "buy_unblocked", "coin": "XRP", "why": "guards pass"}
+{"ts": 1792851501.341, "time": "2026-10-24 17:48:21", "mode": "live", "event": "buy_blocked", "coin": "XRP", "why": "fair value fell -57 bps in 60s"}
+{"ts": 1792851501.48, "time": "2026-10-24 17:48:21", "mode": "live", "event": "buy_unblocked", "coin": "WLD", "why": "guards pass"}
+{"ts": 1792851501.828, "time": "2026-10-24 17:48:21", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 121454.0, "qty": 2.71, "size_tmn": 329140, "fair_value": 123179.06118, "edge_bps": 140.0, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851503.142, "time": "2026-10-24 17:48:23", "mode": "live", "event": "buy_unblocked", "coin": "XRP", "why": "guards pass"}
+{"ts": 1792851503.251, "time": "2026-10-24 17:48:23", "mode": "live", "event": "buy_blocked", "coin": "WLD", "why": "fair value fell -61 bps in 60s"}
+{"ts": 1792851511.283, "time": "2026-10-24 17:48:31", "mode": "live", "event": "buy_unblocked", "coin": "WLD", "why": "guards pass"}
+{"ts": 1792851511.331, "time": "2026-10-24 17:48:31", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -193 bps in 60s"}
+{"ts": 1792851511.609, "time": "2026-10-24 17:48:31", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 121202.0, "qty": 2.72, "size_tmn": 329669, "fair_value": 122923.37619, "edge_bps": 140.0, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851513.296, "time": "2026-10-24 17:48:33", "mode": "live", "event": "buy_blocked", "coin": "WLD", "why": "fair value fell -49 bps in 60s"}
+{"ts": 1792851515.299, "time": "2026-10-24 17:48:35", "mode": "live", "event": "buy_unblocked", "coin": "WLD", "why": "guards pass"}
+{"ts": 1792851515.758, "time": "2026-10-24 17:48:35", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 121202.0, "qty": 2.72, "size_tmn": 329669, "fair_value": 122923.834815, "edge_bps": 140.1, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851517.266, "time": "2026-10-24 17:48:37", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851519.376, "time": "2026-10-24 17:48:39", "mode": "live", "event": "buy_unblocked", "coin": "BCH", "why": "guards pass"}
+{"ts": 1792851519.432, "time": "2026-10-24 17:48:39", "mode": "live", "event": "buy_blocked", "coin": "WLD", "why": "fair value fell -49 bps in 60s"}
+{"ts": 1792851521.337, "time": "2026-10-24 17:48:41", "mode": "live", "event": "buy_unblocked", "coin": "WLD", "why": "guards pass"}
+{"ts": 1792851521.365, "time": "2026-10-24 17:48:41", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -58 bps in 60s"}
+{"ts": 1792851521.63, "time": "2026-10-24 17:48:41", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 121205.0, "qty": 2.72, "size_tmn": 329678, "fair_value": 122926.320938, "edge_bps": 140.0, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851527.283, "time": "2026-10-24 17:48:47", "mode": "live", "event": "buy_blocked", "coin": "WLD", "why": "Toman book sliding: premium -37 bps vs -7 bps baseline in 120s"}
+{"ts": 1792851531.324, "time": "2026-10-24 17:48:51", "mode": "live", "event": "buy_unblocked", "coin": "WLD", "why": "guards pass"}
+{"ts": 1792851531.608, "time": "2026-10-24 17:48:51", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 121493.0, "qty": 2.71, "size_tmn": 329246, "fair_value": 123218.102172, "edge_bps": 140.0, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851533.297, "time": "2026-10-24 17:48:53", "mode": "live", "event": "buy_blocked", "coin": "BCH", "why": "fair value fell -74 bps in 60s"}
+{"ts": 1792851533.358, "time": "2026-10-24 17:48:53", "mode": "live", "event": "buy_blocked", "coin": "WLD", "why": "fair value fell -47 bps in 60s"}
+{"ts": 1792851533.395, "time": "2026-10-24 17:48:53", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851535.273, "time": "2026-10-24 17:48:55", "mode": "live", "event": "buy_unblocked", "coin": "WLD", "why": "guards pass"}
+{"ts": 1792851535.299, "time": "2026-10-24 17:48:55", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -269 bps in 60s"}
+{"ts": 1792851535.575, "time": "2026-10-24 17:48:55", "mode": "live", "event": "quote", "coin": "WLD", "side": "BUY", "price": 121227.0, "qty": 2.72, "size_tmn": 329737, "fair_value": 122948.93738, "edge_bps": 140.1, "half_spread_pct": 1.4, "why": "maker bid below fair value (AI-chosen half-spread, inventory skew)"}
+{"ts": 1792851539.099, "time": "2026-10-24 17:48:59", "mode": "live", "event": "buy_unblocked", "coin": "SUI", "why": "guards pass"}
+{"ts": 1792851541.162, "time": "2026-10-24 17:49:01", "mode": "live", "event": "buy_unblocked", "coin": "SOL", "why": "guards pass"}
+{"ts": 1792851543.405, "time": "2026-10-24 17:49:03", "mode": "live", "event": "buy_blocked", "coin": "WLD", "why": "Toman book sliding: premium -105 bps vs -3 bps baseline in 120s"}
+{"ts": 1792851547.3, "time": "2026-10-24 17:49:07", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851549.368, "time": "2026-10-24 17:49:09", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -55 bps in 60s"}
+{"ts": 1792851553.368, "time": "2026-10-24 17:49:13", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851559.117, "time": "2026-10-24 17:49:19", "mode": "live", "event": "buy_blocked", "coin": "SOL", "why": "Toman book sliding: premium -20 bps vs 11 bps baseline in 120s"}
+{"ts": 1792851577.419, "time": "2026-10-24 17:49:37", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -117 bps in 60s"}
+{"ts": 1792851579.313, "time": "2026-10-24 17:49:39", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851605.436, "time": "2026-10-24 17:50:05", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -132 bps in 60s"}
+{"ts": 1792851607.302, "time": "2026-10-24 17:50:07", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851613.296, "time": "2026-10-24 17:50:13", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -128 bps in 60s"}
+{"ts": 1792851615.388, "time": "2026-10-24 17:50:15", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
+{"ts": 1792851617.189, "time": "2026-10-24 17:50:17", "mode": "live", "event": "buy_unblocked", "coin": "HYPE", "why": "guards pass"}
+{"ts": 1792851617.297, "time": "2026-10-24 17:50:17", "mode": "live", "event": "buy_blocked", "coin": "IMX", "why": "fair value fell -128 bps in 60s"}
+{"ts": 1792851619.218, "time": "2026-10-24 17:50:19", "mode": "live", "event": "buy_unblocked", "coin": "IMX", "why": "guards pass"}
