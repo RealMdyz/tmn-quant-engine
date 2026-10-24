@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,538 TMN** (-1.409%)
+- Equity: **4,929,492 TMN** (-1.410%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 160 (sources: {'llm:boxapi': 160})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 160, 'sleeve_order': 329, 'quote': 4706, 'buy_blocked': 12089, 'buy_unblocked': 12029, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 161 (sources: {'llm:boxapi': 161})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 161, 'sleeve_order': 329, 'quote': 4787, 'buy_blocked': 12142, 'buy_unblocked': 12081, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.1
+    "SUI": 1.0,
+    "BCH": 1.3,
+    "AAVE": 1.5
   },
   "pause": false,
-  "reasoning": "Pick only BCH because it is the only liquid candidate with spread_bps >80 (BCH spread 103.3 bps, vol24h 2.16M TMN) and low fair-value volatility (fv_vol_bps 21.1) which fits our preference for calm, busy markets. Avoid markets with recent losing live round-trips (DOT avg -76.1 bps, PENGU -178.3 bps) and markets with buy blocks / missing FV (FIL and APE flagged buy_blocked). Use a conservative half-spread h = 1.1% because BCH has a healthy Toman spread (103 bps) but we must protect vs adverse selection and maker fees (round trip cost 50 bps); BCH’s low fv_vol supports a modestly tight quote but not too narrow. Set both sleeves to 0.0 exposure because the portfolio regime cap is 0.0 (USDT/TMN 48h -1.89% → exposure cap 0.0) and both sleeves are currently stopped/losing (rial return -3.88%, beta return -5.87%), so we should not add risk.",
+  "reasoning": "Choose SUI (spread 117 bps, usdt_spread 81 bps, low fv_vol 19.3 bps) with h=1.0 — wide enough to avoid pickoffs but tight enough in a busy market (vol24h 6,602M TMN). Keep BCH quoting (spread 113.7 bps, usdt_spread 111.4 bps, quoted_now true) with h=1.3 to protect against its fv_vol 143.9 bps and avoid adverse selection. AAVE is included for its large spread (94.6 bps) and high USDT spread (105.4 bps) but its fv_vol is elevated (566 bps) so h=1.5 to prioritise safety. Pause=false since there is no market-wide shock in news; but we avoid markets with buy_blocked or missing FV (FIL/UNI/PENGU/APE) and we exclude DOT and PENGU because live round trips lost (-76.1 and -178.3 bps). Sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.89% -> exposure cap 0.0), so no capital allocated to rial or beta now.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
