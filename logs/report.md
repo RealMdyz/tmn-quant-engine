@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,507 TMN** (-1.410%)
+- Equity: **4,929,523 TMN** (-1.410%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 159 (sources: {'llm:boxapi': 159})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 159, 'sleeve_order': 329, 'quote': 4697, 'buy_blocked': 12020, 'buy_unblocked': 11960, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 160 (sources: {'llm:boxapi': 160})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 160, 'sleeve_order': 329, 'quote': 4701, 'buy_blocked': 12053, 'buy_unblocked': 11991, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.2
+    "BCH": 1.1
   },
   "pause": false,
-  "reasoning": "I place quotes only in BCH because the bot never bids where spread_bps < 80 and BCH has spread_bps 113.7 with low fv_vol_bps 21.5 (calm fair value) and reasonable 24h volume vol24h_mtmn 2158. FIL (spread 124.3) is blocked (FILUSDT frozen 17 min), so I avoid it; PENGU and DOT produced recent losing live round-trips (realised_pnl_tmn -2109 and -2492, avg_round_trip_bps -178.3 and -76.1) so I avoid quoting them. I set a conservative half-spread h=1.2% (wide end of allowed 0.8–1.5) to protect against adverse selection given earlier backtest losses for narrow quotes. Sleeves are set to 0.0 because the portfolio regime shows USDT/TMN 48h -1.89% -> exposure cap 0.0 and both sleeves are currently stopped/scale_now 0.0 (rial stopped by -5.36% and beta stopped by -7.53%), so no new exposure is taken.",
+  "reasoning": "Pick only BCH because it is the only liquid candidate with spread_bps >80 (BCH spread 103.3 bps, vol24h 2.16M TMN) and low fair-value volatility (fv_vol_bps 21.1) which fits our preference for calm, busy markets. Avoid markets with recent losing live round-trips (DOT avg -76.1 bps, PENGU -178.3 bps) and markets with buy blocks / missing FV (FIL and APE flagged buy_blocked). Use a conservative half-spread h = 1.1% because BCH has a healthy Toman spread (103 bps) but we must protect vs adverse selection and maker fees (round trip cost 50 bps); BCH’s low fv_vol supports a modestly tight quote but not too narrow. Set both sleeves to 0.0 exposure because the portfolio regime cap is 0.0 (USDT/TMN 48h -1.89% → exposure cap 0.0) and both sleeves are currently stopped/losing (rial return -3.88%, beta return -5.87%), so we should not add risk.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
