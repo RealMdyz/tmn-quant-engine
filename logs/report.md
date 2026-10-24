@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,730 TMN** (-1.405%)
+- Equity: **4,929,704 TMN** (-1.406%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,15 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 124 (sources: {'llm:boxapi': 124})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 124, 'sleeve_order': 329, 'quote': 3723, 'buy_blocked': 8722, 'buy_unblocked': 8666, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 125 (sources: {'llm:boxapi': 125})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 125, 'sleeve_order': 329, 'quote': 3723, 'buy_blocked': 8767, 'buy_unblocked': 8710, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {
-    "GALA": 1.5,
-    "WLD": 1.5,
-    "IMX": 1.0
-  },
+  "markets": {},
   "pause": false,
-  "reasoning": "I pick at most three markets with Toman spread >=80 bps: GALA (spread 127.7 bps, vol24h 1,495m TMN, USDT spread 346.8 bps) and WLD (spread 134.7 bps, vol24h 3,502m TMN) are busy and have large Toman spreads so I quote wide (h=1.5%) given their very high fv_vol (GALA fv_vol 978.4 bps, WLD 1,031.3 bps). IMX has the largest Toman spread (227.3 bps) with relatively low fv_vol (73.7 bps) so I quote tighter (h=1.0%) to capture spread while limiting adverse selection. I avoid FIL because its USDT book is frozen for 30 min (buy_blocked) and CHZ despite wide spread has tiny volume (56m) so is lower priority. Sleeves are set to 0.0 exposure because the regime cap is 0.0: USDT/TMN 48h = -0.64% so the engine enforces no sleeve exposure; beta_assets listed are the strategy weights (PEPE, ADA, LINK) if sleeves were active.",
+  "reasoning": "I open no market-making slots now because the portfolio regime cap is 0.0 (USDT/TMN 48h -1.41%), and our recent live round trips show losses (DOT -2,492 TMN, avg -76.1 bps; PENGU -2,109 TMN, avg -178.3 bps). Candidate-wide checks also flag problems: CHZ has its USDT book frozen (16 min) so fair value is unverifiable; FIL and other wide-spread names show Toman-book sliding warnings (FIL premium -58 bps vs -20 bps baseline), so adverse selection risk is high despite FIL’s large spread (150.9 bps). Only IMX and CHZ/IMX had spreads >80 bps (IMX spread 232.6 bps) but IMX’s low 24h volume (211M TMN) and overall thin liquidity plus our recent realised PnL argue for standing down. Given the regime and live losses I keep both sleeves at 0.0 exposure (portfolio cap enforced) and hold no beta assets.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
