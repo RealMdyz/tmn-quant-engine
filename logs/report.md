@@ -35,32 +35,31 @@
 
 ## LIVE
 
-- Equity: **4,932,255 TMN** (-1.355%)
+- Equity: **4,930,454 TMN** (-1.391%)
 - Max drawdown: **3.650%**
-- Traded volume: 564,491 TMN
+- Traded volume: 890,411 TMN
 
 ![equity](equity_live.png)
 
-- Market maker: **2 fills** (2 buys, 0 sells), 1 risk exits, realised PnL **-2,109 TMN**
+- Market maker: **2 fills** (2 buys, 0 sells), 2 risk exits, realised PnL **-4,601 TMN**
 
 | coin | buys | sells | exits | realised PnL TMN |
 |---|---|---|---|---|
-| DOT | 1 | 0 | 0 | 0 |
+| DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 98 (sources: {'llm:boxapi': 98})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 98, 'sleeve_order': 329, 'quote': 2984, 'buy_blocked': 6948, 'buy_unblocked': 6889, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 1, 'sleeve_reweight': 1}
+- AI supervisor decisions: 99 (sources: {'llm:boxapi': 99})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 99, 'sleeve_order': 329, 'quote': 3018, 'buy_blocked': 7000, 'buy_unblocked': 6933, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.4,
-    "DOT": 1.3,
-    "CHZ": 1.5
+    "AVAX": 1.4,
+    "HYPE": 1.2
   },
   "pause": false,
-  "reasoning": "Pick FIL because spread_bps=102.6 and usdt_spread_bps=295.7 with premium_bps=80.4 and moderate fv_vol_bps=82.4 — wide Toman spread and healthy USDT premium justify a wide h=1.4. Pick DOT because spread_bps=213.4, vol24h_mtmn=2875 and fv_vol_bps=58.5 (low FV volatility) so a tighter but still conservative h=1.3 to capture the very wide spread while limiting adverse selection; we also already hold DOT (inventory value 331,523 TMN). Include CHZ as a third slot (spread_bps=162.6, premium_bps=212.7, usdt_spread_bps=659.7) but use h=1.5 because volume is small (vol24h_mtmn=518) so quote very wide. Sleeves kept at 0.0 because regime cap is 0.0 (USDT/TMN 48h +0.71% -> no exposure cap lift), portfolio scale_now shows 0.0 and both sleeve values are already wind-down; beta_assets listed are high-momentum candidates from the beta universe (PEPE, ADA, LINK). Avoided markets with buy_blocked flags and PENGU which produced a -2,109 TMN round trip (avg_round_trip_bps = -178.3).",
+  "reasoning": "I select AVAX and HYPE because both exceed our 80 bps minimum (AVAX spread 162.9 bps, HYPE 144.1 bps) and have reasonable 24h Toman volume (AVAX 3,200M TMN, HYPE 5,050M TMN). I avoid DOT and PENGU which had losing live round trips (DOT avg round trip -76.1 bps, realised -2,492 TMN; PENGU avg -178.3 bps, realised -2,109 TMN) and markets with recent Toman-book sliding or FV shocks (FIL/IMX/CHZ/CAKE show buy_blocked or FV falls). I set wide half-spreads because of elevated FV volatility (AVAX fv_vol 180.2 bps -> h=1.4%) and to protect against adverse selection in HYPE (fv_vol 96.6 bps -> h=1.2%). Sleeves are set to 0.0 because the USDT/TMN 48h change is +0.71% with regime cap 0.0 (portfolio shows cap 0.0), so we must not scale exposures now; beta assets kept as PEPE and ADA (current beta weights) for record and potential later use.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
