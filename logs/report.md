@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,548 TMN** (-1.389%)
+- Equity: **4,930,569 TMN** (-1.389%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 101 (sources: {'llm:boxapi': 101})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 101, 'sleeve_order': 329, 'quote': 3139, 'buy_blocked': 7134, 'buy_unblocked': 7071, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 1}
+- AI supervisor decisions: 102 (sources: {'llm:boxapi': 102})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 102, 'sleeve_order': 329, 'quote': 3175, 'buy_blocked': 7170, 'buy_unblocked': 7107, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.5,
-    "CAKE": 1.4,
-    "GALA": 1.4
+    "SUI": 1.3,
+    "GALA": 1.4,
+    "AVAX": 1.5
   },
   "pause": false,
-  "reasoning": "Pick FIL, CAKE and GALA because their Toman spreads are large (FIL spread_bps 173.6, CAKE 164.9, GALA 145.5) and 24h volumes are reasonable (FIL vol24h_mtmn 3892, CAKE 3020, GALA 1317) so we prefer wide, busy markets. Use wide half-spreads to avoid being picked off (h FIL 1.5%, CAKE 1.4%, GALA 1.4%) given FV vol and past adverse-selection risk. Avoid DOT and PENGU despite their huge spreads because live round trips lost heavily (DOT avg_round_trip_bps -76.1, realised -2492 TMN; PENGU avg_round_trip_bps -178.3, realised -2109 TMN). Sleeves set to zero because USDT/TMN 48h is +0.71% and the regime cap is 0.0 (portfolio.regime.cap 0.0), so we must scale both rial and beta to 0.0; beta asset shortlist keeps PEPE and ADA (current weights) if exposure is resumed later.",
+  "reasoning": "Pick SUI because spread_bps 85.5 (above our 80 bps threshold), vol24h 4,187 M TMN and fv_vol_bps 70.7 (relatively stable fair value) — use h=1.3 to be wide but still competitive. Pick GALA because spread_bps 103.3, fv_vol_bps 141.3 and quoted_now true (liquidity present) — use h=1.4 to prioritise few, profitable fills. Pick AVAX because spread_bps 80.0 meets the floor, vol24h 3,200 M TMN but fv_vol_bps 332.5 (more volatile) so set h=1.5 for maximum protection. Sleeves set to 0.0 because USDT/TMN 48h +0.71% did not hit the >=+1% regime so exposure cap is 0.0; portfolio shows scale_now 0.0 for both sleeves and the regime explicitly sets cap 0.0. I excluded DOT and PENGU because live round trips lost heavily (avg_round_trip_bps -76.1 and -178.3) and several coins have buy_blocked flags (UNI/ENA/BCH/S) so they were avoided.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
