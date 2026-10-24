@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,876 TMN** (-1.402%)
+- Equity: **4,929,853 TMN** (-1.403%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 126 (sources: {'llm:boxapi': 126})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 126, 'sleeve_order': 329, 'quote': 3728, 'buy_blocked': 8849, 'buy_unblocked': 8787, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 127 (sources: {'llm:boxapi': 127})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 127, 'sleeve_order': 329, 'quote': 3745, 'buy_blocked': 8894, 'buy_unblocked': 8830, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 0.9
+    "FIL": 1.3,
+    "GALA": 1.1,
+    "BCH": 1.2
   },
   "pause": false,
-  "reasoning": "Only CHZ meets the rule 'Toman spread >= 80 bps' without a buy-block: spread_bps 139.1 and usdt_spread_bps 472 justify a single, tight quote to capture wide posted spreads so I set h=0.9% (narrow but still conservative). Many top spreads (FIL 219.8, PENGU 138.3, IMX 253.8, GALA 85.1) are currently buy-blocked or show Toman-book sliding, so I avoid them to prevent further adverse fills. USDT/TMN regime cap is 0.0 (48h -1.56%), so both sleeves are cut to 0.0 exposure per the policy; the portfolio shows scale_now 0.0 for rial and beta and the regime 'cap: 0.0' enforces no sleeve buying. I keep beta_assets as the current universe weights (PEPE, ADA, LINK) for consistency if the sleeve is re-enabled; no market-wide pause because there is no single major news event in the headlines and account drawdown (-3.59%) is manageable.",
+  "reasoning": "I pick FIL, GALA and BCH because each has a Toman spread >80 bps (FIL 108.8 bps, GALA 105.5 bps, BCH 83.3 bps) and no active buy block; these fit the rule to prefer wide Toman spreads. I set half-spreads wide since markets show elevated fv or USDT dispersion: FIL h=1.3% (fv_vol 166.1 bps, USDT spread 407.8 bps), GALA h=1.1% (fv_vol 102.2 bps, USDT spread 228.6 bps), BCH h=1.2% (fv_vol 104.6 bps) — wider quotes protect versus adverse selection. I avoid DOT and PENGU which have recent losing live round-trips (DOT realised -2,492 TMN, avg -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and markets with buy_blocked flags (ARB, WLD, APE, IMX, CHZ etc.). Sleeves are set to zero because the USDT/TMN regime cap is 0.0 (48h change -1.56%), so the deterministic exposure cap prevents sleeve scaling now; beta_assets left as the current sleeve universe leaders PEPE/ADA/LINK for tracking if exposures are re-enabled.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
