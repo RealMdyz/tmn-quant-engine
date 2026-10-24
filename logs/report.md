@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,663 TMN** (-1.407%)
+- Equity: **4,929,860 TMN** (-1.403%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,15 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 125 (sources: {'llm:boxapi': 125})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 125, 'sleeve_order': 329, 'quote': 3723, 'buy_blocked': 8793, 'buy_unblocked': 8735, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 126 (sources: {'llm:boxapi': 126})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 126, 'sleeve_order': 329, 'quote': 3727, 'buy_blocked': 8829, 'buy_unblocked': 8763, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {},
+  "markets": {
+    "CHZ": 0.9
+  },
   "pause": false,
-  "reasoning": "I open no market-making slots now because the portfolio regime cap is 0.0 (USDT/TMN 48h -1.41%), and our recent live round trips show losses (DOT -2,492 TMN, avg -76.1 bps; PENGU -2,109 TMN, avg -178.3 bps). Candidate-wide checks also flag problems: CHZ has its USDT book frozen (16 min) so fair value is unverifiable; FIL and other wide-spread names show Toman-book sliding warnings (FIL premium -58 bps vs -20 bps baseline), so adverse selection risk is high despite FIL’s large spread (150.9 bps). Only IMX and CHZ/IMX had spreads >80 bps (IMX spread 232.6 bps) but IMX’s low 24h volume (211M TMN) and overall thin liquidity plus our recent realised PnL argue for standing down. Given the regime and live losses I keep both sleeves at 0.0 exposure (portfolio cap enforced) and hold no beta assets.",
+  "reasoning": "Only CHZ meets the rule 'Toman spread >= 80 bps' without a buy-block: spread_bps 139.1 and usdt_spread_bps 472 justify a single, tight quote to capture wide posted spreads so I set h=0.9% (narrow but still conservative). Many top spreads (FIL 219.8, PENGU 138.3, IMX 253.8, GALA 85.1) are currently buy-blocked or show Toman-book sliding, so I avoid them to prevent further adverse fills. USDT/TMN regime cap is 0.0 (48h -1.56%), so both sleeves are cut to 0.0 exposure per the policy; the portfolio shows scale_now 0.0 for rial and beta and the regime 'cap: 0.0' enforces no sleeve buying. I keep beta_assets as the current universe weights (PEPE, ADA, LINK) for consistency if the sleeve is re-enabled; no market-wide pause because there is no single major news event in the headlines and account drawdown (-3.59%) is manageable.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
