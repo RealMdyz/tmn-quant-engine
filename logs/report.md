@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 121 (sources: {'llm:boxapi': 121})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 121, 'sleeve_order': 329, 'quote': 3614, 'buy_blocked': 8407, 'buy_unblocked': 8343, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 122 (sources: {'llm:boxapi': 122})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 122, 'sleeve_order': 329, 'quote': 3622, 'buy_blocked': 8456, 'buy_unblocked': 8388, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CAKE": 0.9,
-    "BCH": 1.2,
-    "CHZ": 1.5
+    "ENA": 1.2,
+    "GALA": 1.4
   },
   "pause": false,
-  "reasoning": "I pick CAKE because its Toman spread is 99 bps, 24h vol 2,777M TMN and fv_vol only 16.1 bps (calm market) so a tight h=0.9% is appropriate. I add BCH (spread 90.9 bps, vol 2,364M TMN) but set a wider h=1.2% due to very high fv_vol (498.7 bps) and elevated execution risk. I include CHZ for its very wide Toman spread 178.9 bps and huge USDT/TMN gap (488 bps) but give it the maximum h=1.5% because volume is tiny (56M TMN) and fv_vol is elevated. I avoid markets with buy blocks or negative live fills (SOL blocked; DOT and PENGU produced live losses: DOT realised -2,492 TMN avg -76.1 bps, PENGU -2,109 TMN avg -178.3 bps). Sleeves are set to 0.0 because the USDT/TMN 48h is +0.61% and the regime cap is 0.0, so we must not scale the rial or beta sleeves now; beta assets listed are the preferred picks (ADA, LINK, PEPE) if exposure is allowed later.",
+  "reasoning": "Pick ENA because spread_bps=108.8 (>80 bps) with moderate vol24h_mtmn=2074 and fv_vol_bps=71.2, no buy_blocked flags — quote wide (h=1.2%) to avoid being picked off. Add GALA because spread_bps=147.1 and no buy_blocked, despite smaller vol24h_mtmn=1255 and high fv_vol_bps=266.7 so we stay extra-wide (h=1.4%) to protect vs volatility. Avoid DOT and PENGU (both have recent losing live round_trips: DOT realised_pnl_tmn=-2492 avg -76.1 bps; PENGU realised_pnl_tmn=-2109 avg -178.3 bps) and avoid markets with buy_blocked or broken USDT books (SUI, S, FIL, IMX, UNI). Sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.61% -> cap 0.0) so we must not scale the rial or beta sleeves; beta_assets left as the sleeve weights (PEPE, ADA, LINK) in case buying resumes.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
