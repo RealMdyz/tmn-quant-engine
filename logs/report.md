@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,519 TMN** (-1.390%)
+- Equity: **4,930,578 TMN** (-1.388%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 102 (sources: {'llm:boxapi': 102})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 102, 'sleeve_order': 329, 'quote': 3231, 'buy_blocked': 7218, 'buy_unblocked': 7154, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 1}
+- AI supervisor decisions: 103 (sources: {'llm:boxapi': 103})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 103, 'sleeve_order': 329, 'quote': 3259, 'buy_blocked': 7242, 'buy_unblocked': 7180, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.3,
-    "GALA": 1.4,
-    "AVAX": 1.5
+    "SUI": 0.9,
+    "BCH": 1.2
   },
   "pause": false,
-  "reasoning": "Pick SUI because spread_bps 85.5 (above our 80 bps threshold), vol24h 4,187 M TMN and fv_vol_bps 70.7 (relatively stable fair value) — use h=1.3 to be wide but still competitive. Pick GALA because spread_bps 103.3, fv_vol_bps 141.3 and quoted_now true (liquidity present) — use h=1.4 to prioritise few, profitable fills. Pick AVAX because spread_bps 80.0 meets the floor, vol24h 3,200 M TMN but fv_vol_bps 332.5 (more volatile) so set h=1.5 for maximum protection. Sleeves set to 0.0 because USDT/TMN 48h +0.71% did not hit the >=+1% regime so exposure cap is 0.0; portfolio shows scale_now 0.0 for both sleeves and the regime explicitly sets cap 0.0. I excluded DOT and PENGU because live round trips lost heavily (avg_round_trip_bps -76.1 and -178.3) and several coins have buy_blocked flags (UNI/ENA/BCH/S) so they were avoided.",
+  "reasoning": "Pick SUI and BCH only: SUI has spread_bps 86.2 (above our 80 bps cutoff), healthy vol24h_mtmn 4,187 and very low fv_vol_bps 48.5 so we can quote tighter (h=0.9%). BCH has spread_bps 93.9 and decent liquidity (vol24h 2,282M TMN) but higher fv_vol_bps 336, so I widen quotes to h=1.2% to protect versus volatility. I avoid DOT and PENGU because both had live losing round trips (DOT realised -2,492 TMN, avg -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and avoid any candidate with buy_blocked or stale USDT book (several flagged). Sleeves set to 0.0 because USDT/TMN 48h +0.71% gives regime cap 0.0 (portfolio shows cap 0.0 and scale_now 0.0 for both sleeves), so we do not increase exposure now; if regime changes we will resume. Beta assets listed are PEPE and ADA as the preferred high-momentum names from the beta universe should we re-enable exposure.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
