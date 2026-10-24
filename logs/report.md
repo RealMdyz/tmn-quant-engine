@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,933 TMN** (-1.401%)
+- Equity: **4,930,000 TMN** (-1.400%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 127 (sources: {'llm:boxapi': 127})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 127, 'sleeve_order': 329, 'quote': 3749, 'buy_blocked': 8930, 'buy_unblocked': 8870, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 128 (sources: {'llm:boxapi': 128})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 128, 'sleeve_order': 329, 'quote': 3769, 'buy_blocked': 8993, 'buy_unblocked': 8931, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.3,
-    "GALA": 1.1,
-    "BCH": 1.2
+    "FIL": 0.9,
+    "WLD": 1.4,
+    "ENA": 1.3
   },
   "pause": false,
-  "reasoning": "I pick FIL, GALA and BCH because each has a Toman spread >80 bps (FIL 108.8 bps, GALA 105.5 bps, BCH 83.3 bps) and no active buy block; these fit the rule to prefer wide Toman spreads. I set half-spreads wide since markets show elevated fv or USDT dispersion: FIL h=1.3% (fv_vol 166.1 bps, USDT spread 407.8 bps), GALA h=1.1% (fv_vol 102.2 bps, USDT spread 228.6 bps), BCH h=1.2% (fv_vol 104.6 bps) — wider quotes protect versus adverse selection. I avoid DOT and PENGU which have recent losing live round-trips (DOT realised -2,492 TMN, avg -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and markets with buy_blocked flags (ARB, WLD, APE, IMX, CHZ etc.). Sleeves are set to zero because the USDT/TMN regime cap is 0.0 (48h change -1.56%), so the deterministic exposure cap prevents sleeve scaling now; beta_assets left as the current sleeve universe leaders PEPE/ADA/LINK for tracking if exposures are re-enabled.",
+  "reasoning": "I pick FIL, WLD and ENA because the bot never quotes where Toman spread <80bps and these three have spreads well above that (FIL 100.8bps, WLD 112.6bps, ENA 90.8bps). FIL has low FV volatility (fv_vol_bps 58.7) and very wide USDT/TMN spread (442.2bps) so I quote relatively tight at h=0.9% to capture maker spread while avoiding being too aggressive. WLD and ENA show very high fair-value volatility (WLD fv_vol_bps 1452, ENA 956), so I widen quotes to h=1.4% and 1.3% to reduce adverse-selection risk. The portfolio regime cap is 0.0 because USDT/TMN 48h = -0.66% (portfolio.regime.cap 0.0), so both sleeves are set to 0.0 exposure; I list ADA and LINK for beta_assets as preferred names if exposure were allowed (they are in the beta universe and are typical momentum choices). I do not pause: there is no market-wide rial or crypto shock in the news feed and the candidates show coin-specific book issues (e.g., DOT and PENGU are buy-blocked) which I avoid.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
