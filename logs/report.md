@@ -49,7 +49,7 @@
 | PENGU | 1 | 0 | 1 | -2,109 |
 
 - AI supervisor decisions: 113 (sources: {'llm:boxapi': 113})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 113, 'sleeve_order': 329, 'quote': 3438, 'buy_blocked': 7728, 'buy_unblocked': 7666, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 113, 'sleeve_order': 329, 'quote': 3441, 'buy_blocked': 7747, 'buy_unblocked': 7686, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
