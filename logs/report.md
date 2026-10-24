@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,508 TMN** (-1.410%)
+- Equity: **4,929,532 TMN** (-1.409%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 167 (sources: {'llm:boxapi': 167})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 167, 'sleeve_order': 329, 'quote': 4961, 'buy_blocked': 12447, 'buy_unblocked': 12388, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 168 (sources: {'llm:boxapi': 168})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 168, 'sleeve_order': 329, 'quote': 4976, 'buy_blocked': 12488, 'buy_unblocked': 12428, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.3,
-    "BCH": 1.4
+    "FIL": 1.5,
+    "BCH": 1.5,
+    "CHZ": 1.3
   },
   "pause": false,
-  "reasoning": "I pick FIL and BCH only because the bot never bids where spread_bps < 80: FIL spread_bps=91.8 and BCH spread_bps=114.8 meet that rule; other wide candidates (DOT, PENGU) have recent losing live round trips or buy blocks (DOT buy_blocked and realised_pnl_tmn -2492; PENGU avg_round_trip_bps -178.3). FIL has a large USDT_TMN dislocation (usdt_spread_bps 449.4) and a stable short-term fv_vol_bps=38.7, so I quote with a wide half-spread h=1.3% to avoid being picked off. BCH has high fv volatility (fv_vol_bps=129.9) and low volume (vol24h_mtmn=2135) so I set h=1.4% to be conservative. The portfolio regime caps sleeves to 0.0 because USDT/TMN 48h is -1.89% (regime.cap=0.0), so both rial and beta exposures are 0.0; I still list PEPE/ADA/LINK as beta_assets (the sleeve universe and recent weights) but no new sizing will be taken under the current cap.",
+  "reasoning": "Pick FIL and BCH because both have very wide Toman spreads (FIL 92.6 bps, BCH 145.2 bps) and large USDT/TMN dislocations (FIL usdt_spread 442.7 bps, BCH 231.0 bps) so wide maker quotes (h=1.5%) are justified; FIL has reasonable fv_vol (56 bps) and BCH shows high spread vs volume so edge should cover the 0.5% round-trip cost. Add CHZ (spread 204.5 bps) as a third slot with h=1.3%: volume is small (vol24h_mtmn 56) so I keep slightly tighter than max but still wide to avoid being picked off. I avoid DOT and PENGU despite wide spreads because live round trips lost heavily (DOT realised -2492 TMN, avg -76.1 bps; PENGU realised -2109 TMN, avg -178.3 bps) and several markets are buy-blocked (AAVE/HYPE/APE/others) so they are excluded. Sleeves are set to 0.0 because the USDT/TMN regime cap is 0.0 (48h -1.89%) and both sleeves are currently stopped/scale_now 0.0 per portfolio state.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
