@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,786 TMN** (-1.384%)
+- Equity: **4,930,748 TMN** (-1.385%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 109 (sources: {'llm:boxapi': 109})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 109, 'sleeve_order': 329, 'quote': 3402, 'buy_blocked': 7584, 'buy_unblocked': 7524, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 110 (sources: {'llm:boxapi': 110})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 110, 'sleeve_order': 329, 'quote': 3406, 'buy_blocked': 7616, 'buy_unblocked': 7551, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.2,
-    "GALA": 1.3,
-    "WLD": 1.1
+    "FIL": 1.3,
+    "GALA": 1.1
   },
   "pause": false,
-  "reasoning": "Pick FIL (spread_bps 185.4, usdt_spread_bps 235.1, fv_vol_bps 16.0) because it has a very wide Toman spread and low FV volatility. Add GALA (spread_bps 123.0, usdt_spread_bps 279.3, fv_vol_bps 52.9) as a second wide, reasonably busy market. Add WLD (spread_bps 94.5, vol24h_mtmn 3077) for another wide spread slot but keep h conservative because fv_vol_bps is high (256.3). Avoid DOT and PENGU because their live round trips lost (realised_pnl_tmn -2492 and -2109, avg_round_trip_bps -76.1 and -178.3). Set sleeves to 0.0 because regime cap is 0.0 (USDT/TMN 48h +0.71% -> cap 0.0) so we must wind exposures down; beta_assets kept as PEPE/ADA/LINK (existing weights) for possible reactivation later.",
+  "reasoning": "Pick FIL and GALA only. FIL has a very wide Toman spread 158.8 bps and USDT/TMN spread 309.7 bps with low fv_vol 53.9 bps and healthy vol24h 3,843M TMN -> quote wide (h=1.3%) to avoid being picked off while earning the wide spread. GALA has spread 102.5 bps, fv_vol 52.8 bps and reasonable vol24h 1,273M TMN, so we quote but still wide (h=1.1%). We avoid DOT/IMX/CAKE/others because DOTUSDT book is frozen (34 min) and DOT live round trips lost (-2,492 TMN, avg -76.1 bps), IMX/CAKE show Toman-book sliding guards, and CHZ has negligible volume (56M) despite spread ~82 bps. Sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.71% < +1% threshold) and both sleeve scale_now are already 0.0, so we must keep exposures at zero to respect the cap and avoid entering the rial-weakening strategy.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
