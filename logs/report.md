@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,122 TMN** (-1.398%)
+- Equity: **4,930,116 TMN** (-1.398%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 137 (sources: {'llm:boxapi': 137})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 137, 'sleeve_order': 329, 'quote': 4115, 'buy_blocked': 9794, 'buy_unblocked': 9731, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 138 (sources: {'llm:boxapi': 138})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 138, 'sleeve_order': 329, 'quote': 4117, 'buy_blocked': 9836, 'buy_unblocked': 9772, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 0.9,
-    "HYPE": 1.3,
-    "BCH": 1.4
+    "FIL": 1.3
   },
   "pause": false,
-  "reasoning": "Choose FIL because its Toman spread is wide at 117.4 bps, USDT/TMN spread 83.5 bps and fv_vol is low (13.4 bps) — a calm market where tighter quoting (h=0.9%) is justified. HYPE has a Toman spread 83.5 bps and decent 24h volume 4.3kM TMN with moderate fv_vol 87.9 bps, so I quote wider (h=1.3%) to protect against volatility. BCH has spread 85.3 bps but high fv_vol 164.5 bps, so I set h=1.4% to avoid being picked off. I avoid DOT and PENGU because their live round trips lost money (DOT avg -76.1 bps realized -2,492 TMN; PENGU avg -178.3 bps realized -2,109 TMN) and several markets (ARB, ENA, GALA, IMX, PENGU) have buy_blocked or sliding-Toman-book alerts. For sleeves the regime cap is 0.0 (USDT/TMN 48h = -0.62%), so set exposures to 0.0 for both rial and beta; beta_assets are PEPE/ADA/LINK as the sleeve universe favourites if resumed.",
+  "reasoning": "Only FIL meets the bot's minimum Toman spread rule (spread_bps 80.6) while having low fv_vol_bps (17.9) and acceptable 24h volume (vol24h_mtmn 2,578), so I place a single, cautious, wide quote (h=1.3%) to avoid pick-offs. I avoid DOT and PENGU because live round trips lost heavily (avg_round_trip_bps -76.1 and -178.3, realised_pnl_tmn -2,492 and -2,109) and DOT's USDT book is frozen (buy_blocked). I also avoid CHZ/GALA/WLD/BCH and UNI because of buy_blocked alerts or unstable fair-value moves (GALA fair value fell -114 bps; WLD/BCH/UNI show Toman-book sliding). Portfolio sleeves are set to 0.0 because USDT/TMN 48h is -0.65% and the regime cap is 0.0 (portfolio.regime.cap 0.0), so no exposure is allowed now.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
