@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,600 TMN** (-1.388%)
+- Equity: **4,930,528 TMN** (-1.389%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 119 (sources: {'llm:boxapi': 119})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 119, 'sleeve_order': 329, 'quote': 3572, 'buy_blocked': 8251, 'buy_unblocked': 8188, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 120 (sources: {'llm:boxapi': 120})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 120, 'sleeve_order': 329, 'quote': 3580, 'buy_blocked': 8277, 'buy_unblocked': 8220, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SOL": 0.9,
-    "FIL": 1.2,
-    "AVAX": 1.4
+    "CAKE": 0.9,
+    "WLD": 1.4
   },
   "pause": false,
-  "reasoning": "Pick SOL (spread 102.1 bps, vol24h 28,503M TMN, fv_vol 22.9 bps) as a calm, busy market — quote tighter at h=0.9% to be competitive while keeping room for adverse selection. Pick FIL (spread 166.6 bps, usdt_spread 197.8 bps, fv_vol 2.0 bps) with h=1.2%: very wide Toman spread and low fv volatility justify being present but conservative. Pick AVAX (spread 80.6 bps, fv_vol 353.8 bps) with h=1.4% because fair-value volatility is very high so we widen substantially; CHZ/BCH considered but SOL/FIL/AVAX give better volume/spread trade-off. Exclude DOT and PENGU: DOT has a buy_blocked sliding Toman book and prior round-trip loss -2,492 TMN (avg -76.1 bps), PENGU also produced a losing round trip (-2,109 TMN, -178.3 bps). Sleeves set to 0.0 because USDT/TMN 48h is +0.71% so the regime cap is 0.0 (no sleeve exposure allowed); beta assets listed as PEPE/ADA/LINK per the beta universe and momentum preference.",
+  "reasoning": "I choose CAKE and WLD only. CAKE has spread_bps 98.3 (>80) with low fv_vol_bps 21.3 and 24h vol 2.8k MTMN so it is relatively calm — use a tight half‑spread h=0.9% to capture the wide Toman spread while limiting adverse selection. WLD has spread_bps 145.0 and vol24h 3.31k MTMN but very high fv_vol_bps 919.5, so I set a wide h=1.4% to protect against volatility. I avoid SUI/AVAX/FIL/IMX because each shows a buy_blocked sliding Toman book (buy_blocked messages) and DOT/PENGU because live round trips lost (DOT avg_round_trip_bps -76.1, PENGU -178.3). Sleeves are both 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.61% → no sleeve exposure), so no rial or beta exposure now; beta_assets kept as PEPE/ADA/LINK (current universe weights).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
