@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,419 TMN** (-1.392%)
+- Equity: **4,930,277 TMN** (-1.394%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 99 (sources: {'llm:boxapi': 99})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 99, 'sleeve_order': 329, 'quote': 3018, 'buy_blocked': 7024, 'buy_unblocked': 6961, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 1}
+- AI supervisor decisions: 100 (sources: {'llm:boxapi': 100})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 100, 'sleeve_order': 329, 'quote': 3054, 'buy_blocked': 7060, 'buy_unblocked': 6997, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "AVAX": 1.4,
-    "HYPE": 1.2
+    "GALA": 0.9,
+    "BCH": 1.1,
+    "WLD": 1.5
   },
   "pause": false,
-  "reasoning": "I select AVAX and HYPE because both exceed our 80 bps minimum (AVAX spread 162.9 bps, HYPE 144.1 bps) and have reasonable 24h Toman volume (AVAX 3,200M TMN, HYPE 5,050M TMN). I avoid DOT and PENGU which had losing live round trips (DOT avg round trip -76.1 bps, realised -2,492 TMN; PENGU avg -178.3 bps, realised -2,109 TMN) and markets with recent Toman-book sliding or FV shocks (FIL/IMX/CHZ/CAKE show buy_blocked or FV falls). I set wide half-spreads because of elevated FV volatility (AVAX fv_vol 180.2 bps -> h=1.4%) and to protect against adverse selection in HYPE (fv_vol 96.6 bps -> h=1.2%). Sleeves are set to 0.0 because the USDT/TMN 48h change is +0.71% with regime cap 0.0 (portfolio shows cap 0.0), so we must not scale exposures now; beta assets kept as PEPE and ADA (current beta weights) for record and potential later use.",
+  "reasoning": "I pick GALA, BCH and WLD because the bot never quotes where spread_bps <80: GALA has spread_bps=83.2 with fv_vol_bps=60.3 (calm) so a tight h=0.9% is appropriate. BCH meets the >=80 bps rule (spread_bps=80.0) with moderate fv_vol_bps=243.8 and vol24h_mtmn=2302 so a medium h=1.1% balances adverse selection and spread capture. WLD has spread_bps=80.5 but very high fv_vol_bps=1494.5 and vol24h_mtmn=3443, so I widen to h=1.5% for volatility protection. I avoid DOT, PENGU and FIL because live round trips lost (DOT realised_pnl_tmn=-2492, avg_round_trip_bps=-76.1; PENGU realised_pnl_tmn=-2109 avg -178.3) and FIL / several markets show Toman book sliding or missing fair value. Sleeves set to 0.0 because USDT/TMN 48h=+0.71% gives regime cap=0.0 (portfolio.regime.cap=0.0) so we should not scale the rial or beta sleeves now; beta_assets listed (ADA, PEPE, LINK) are from the beta universe and chosen by momentum but will not be bought while cap=0.0.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
