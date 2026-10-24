@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,550 TMN** (-1.389%)
+- Equity: **4,930,617 TMN** (-1.388%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 118 (sources: {'llm:boxapi': 118})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 118, 'sleeve_order': 329, 'quote': 3549, 'buy_blocked': 8105, 'buy_unblocked': 8048, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 119 (sources: {'llm:boxapi': 119})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 119, 'sleeve_order': 329, 'quote': 3569, 'buy_blocked': 8210, 'buy_unblocked': 8152, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "IMX": 1.5,
-    "BCH": 1.2
+    "SOL": 0.9,
+    "FIL": 1.2,
+    "AVAX": 1.4
   },
   "pause": false,
-  "reasoning": "I select IMX and BCH because they are the only candidates with Toman spreads >=80 bps and no USDT-book freeze or buy block: IMX spread 212.0 bps (vol24h 211m TMN) and BCH spread 116.8 bps (vol24h 2012m TMN). IMX shows very high fair-value volatility (fv_vol_bps 668.1) so I set a wide half-spread h=1.5% to avoid being picked off; BCH has moderate FV vol (191.7 bps) so h=1.2% balances fill probability and adverse selection. I avoid DOT and PENGU despite large spreads because DOT has an active buy block and recent losing round trips (realised_pnl -2492 TMN, avg_round_trip_bps -76.1) and PENGU also had a bad live round trip (realised_pnl -2109 TMN, avg_round_trip_bps -178.3). Sleeves are set to 0.0 exposure because the regime cap is 0.0 (USDT/TMN 48h +0.71% < +1% required), so no rial or beta exposure now; beta assets left as PEPE/ADA/LINK per the sleeve weights if exposures resume.",
+  "reasoning": "Pick SOL (spread 102.1 bps, vol24h 28,503M TMN, fv_vol 22.9 bps) as a calm, busy market — quote tighter at h=0.9% to be competitive while keeping room for adverse selection. Pick FIL (spread 166.6 bps, usdt_spread 197.8 bps, fv_vol 2.0 bps) with h=1.2%: very wide Toman spread and low fv volatility justify being present but conservative. Pick AVAX (spread 80.6 bps, fv_vol 353.8 bps) with h=1.4% because fair-value volatility is very high so we widen substantially; CHZ/BCH considered but SOL/FIL/AVAX give better volume/spread trade-off. Exclude DOT and PENGU: DOT has a buy_blocked sliding Toman book and prior round-trip loss -2,492 TMN (avg -76.1 bps), PENGU also produced a losing round trip (-2,109 TMN, -178.3 bps). Sleeves set to 0.0 because USDT/TMN 48h is +0.71% so the regime cap is 0.0 (no sleeve exposure allowed); beta assets listed as PEPE/ADA/LINK per the beta universe and momentum preference.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
