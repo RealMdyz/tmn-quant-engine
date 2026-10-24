@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,050 TMN** (-1.399%)
+- Equity: **4,930,104 TMN** (-1.398%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -49,7 +49,7 @@
 | PENGU | 1 | 0 | 1 | -2,109 |
 
 - AI supervisor decisions: 134 (sources: {'llm:boxapi': 134})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 134, 'sleeve_order': 329, 'quote': 3969, 'buy_blocked': 9414, 'buy_unblocked': 9353, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 134, 'sleeve_order': 329, 'quote': 3995, 'buy_blocked': 9451, 'buy_unblocked': 9393, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
