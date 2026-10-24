@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,496 TMN** (-1.410%)
+- Equity: **4,929,504 TMN** (-1.410%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 161 (sources: {'llm:boxapi': 161})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 161, 'sleeve_order': 329, 'quote': 4818, 'buy_blocked': 12170, 'buy_unblocked': 12110, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 162 (sources: {'llm:boxapi': 162})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 162, 'sleeve_order': 329, 'quote': 4828, 'buy_blocked': 12186, 'buy_unblocked': 12125, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.0,
-    "BCH": 1.3,
-    "AAVE": 1.5
+    "BCH": 1.2,
+    "GALA": 1.3
   },
   "pause": false,
-  "reasoning": "Choose SUI (spread 117 bps, usdt_spread 81 bps, low fv_vol 19.3 bps) with h=1.0 — wide enough to avoid pickoffs but tight enough in a busy market (vol24h 6,602M TMN). Keep BCH quoting (spread 113.7 bps, usdt_spread 111.4 bps, quoted_now true) with h=1.3 to protect against its fv_vol 143.9 bps and avoid adverse selection. AAVE is included for its large spread (94.6 bps) and high USDT spread (105.4 bps) but its fv_vol is elevated (566 bps) so h=1.5 to prioritise safety. Pause=false since there is no market-wide shock in news; but we avoid markets with buy_blocked or missing FV (FIL/UNI/PENGU/APE) and we exclude DOT and PENGU because live round trips lost (-76.1 and -178.3 bps). Sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.89% -> exposure cap 0.0), so no capital allocated to rial or beta now.",
+  "reasoning": "USDT/TMN 48h = -1.89% => regime cap 0.0, so both sleeves are set to 0.0 exposure (portfolio.regime.cap = 0.0). I select BCH (spread_bps 151.4, vol24h_mtmn 2157, fv_vol_bps 175.5) because its Toman spread is wide and 24h volume is reasonable; I quote conservatively with h=1.2% given fv_vol and spread. I also pick GALA (spread_bps 86.2, vol24h_mtmn 1978, premium_bps 133.0, fv_vol_bps 184.8) as the second slot and use h=1.3% to protect from high premium/volatility. I avoid markets with buy_blocked (HYPE), markets with recent losing live round trips (DOT avg_round_trip_bps -76.1, PENGU -178.3), and thin or erratic books (APE, IMX, CHZ low vol or missing FV), and so leave at most two active markets.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
