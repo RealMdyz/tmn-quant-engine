@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,744 TMN** (-1.385%)
+- Equity: **4,930,930 TMN** (-1.381%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 106 (sources: {'llm:boxapi': 106})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 106, 'sleeve_order': 329, 'quote': 3332, 'buy_blocked': 7448, 'buy_unblocked': 7385, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 107 (sources: {'llm:boxapi': 107})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 107, 'sleeve_order': 329, 'quote': 3343, 'buy_blocked': 7480, 'buy_unblocked': 7418, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 0.9,
-    "IMX": 1.4,
-    "CHZ": 1.2
+    "FIL": 1.3,
+    "GALA": 1.0,
+    "CHZ": 1.3
   },
   "pause": false,
-  "reasoning": "I pick FIL, IMX and CHZ because they clear the bot's minimum Toman-spread filter (FIL 202.2 bps, IMX 447.3 bps, CHZ 181.9 bps) and have no recent losing live round trips. FIL has very low fair-value volatility (fv_vol_bps 2.6) and a healthy premium (79.5 bps), so I quote relatively tight at h=0.9%. IMX is thin but very volatile (fv_vol_bps 180.8) and a large premium (114 bps) so I set a wide h=1.4% to avoid adverse selection. CHZ is mid-volatility (fv_vol_bps 49.4) with large spread so I use h=1.2%. I avoid DOT and PENGU despite large spreads because their live round trips lost money (DOT avg_round_trip_bps -76.1, realised -2492 TMN; PENGU avg_round_trip_bps -178.3, realised -2109 TMN). The portfolio sleeves are kept at 0.0 exposure because the regime cap is active (USDT/TMN 48h +0.71% -> cap 0.0) and the engine already shows scale_now 0.0 for both sleeves.",
+  "reasoning": "I pick markets with Toman spread >=80 bps and avoid any with buy_blocked or where our live round trips lost. FIL has spread_bps 173.2, usdt_spread 353.8 and low fv_vol_bps 27.4 so I quote wide (h=1.3%) to capture large nominal spread but protect vs adverse selection. GALA has spread_bps 82.6, vol24h_mtmn 1,287 and fv_vol_bps 40.1 — reasonably busy and calm so I set h=1.0%. CHZ meets the 80 bps cut (spread_bps 82.1) and has premium 162.9 with fv_vol_bps 59.5, so I use h=1.3% to be conservative given low volume. I avoid DOT and PENGU because live round trips lost (avg_round_trip_bps -76.1 and -178.3 with realised losses -2,492 and -2,109 TMN). Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.71% -> exposure cap 0.0), so no scaling into rial or beta now.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
