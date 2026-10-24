@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,776 TMN** (-1.384%)
+- Equity: **4,930,714 TMN** (-1.386%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 104 (sources: {'llm:boxapi': 104})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 104, 'sleeve_order': 329, 'quote': 3294, 'buy_blocked': 7343, 'buy_unblocked': 7284, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 1}
+- AI supervisor decisions: 105 (sources: {'llm:boxapi': 105})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 105, 'sleeve_order': 329, 'quote': 3304, 'buy_blocked': 7373, 'buy_unblocked': 7312, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "ARB": 1.2,
-    "FIL": 1.4,
-    "AVAX": 1.3
+    "FIL": 0.9,
+    "SUI": 0.9,
+    "IMX": 1.5
   },
   "pause": false,
-  "reasoning": "Pick ARB, FIL and AVAX because they clear the bot's minimum Toman spread filter (>80 bps): ARB spread 103.9 bps with high vol24h 25,068M TMN (prefer busy markets), FIL spread 213.8 bps (very wide) with moderate vol 3,892M TMN, and AVAX spread 87.0 bps with vol 3,200M TMN. I set wide half‑spreads because fair‑value volatility is elevated (fv_vol_bps: ARB 326.5, FIL 172.9, AVAX 398.1) and we want to avoid being picked off (h=1.2–1.4%). I avoid SUI/UNI/WLD/ENA which show Toman-book sliding (buy_blocked) and I exclude DOT and PENGU because recent live round trips lost money (DOT avg -76.1 bps, PENGU avg -178.3 bps, realised -2,492 and -2,109 TMN). Sleeves are set to 0.0 because the USDT/TMN 48h move is only +0.71% (portfolio regime cap 0.0) and the engine is in wind‑down: rial scale_now 0.0 and beta scale_now 0.0, so we keep exposures off; beta_assets listed are PEPE and ADA as the preferred high‑momentum candidates if the sleeve is reactivated.",
+  "reasoning": "I pick FIL, SUI and IMX (max 3). FIL has very wide Toman spread 214 bps, low fv_vol 33.3 bps and no live losses, so we can quote relatively tight at h=0.9%. SUI clears the 80 bps threshold (spread 85.1 bps) with low fv_vol 64.4 bps and no buy blocks, so h=0.9% (calm but only marginally wide). IMX has spread 97.8 bps but very high fv_vol (893.4 bps) so I set h=1.5% to protect against volatility. I avoid DOT and PENGU because both had live losing fills (DOT avg round trip -76.1 bps, realised -2492 TMN; PENGU avg -178.3 bps, realised -2109 TMN), and I skip markets with buy_blocked flags (CAKE/CHZ/ARB/etc.). Sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h +0.71% < +1.0%), so no sleeve exposure now; beta_assets chosen from the beta universe (PEPE, ADA, LINK) for when exposure is allowed.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
