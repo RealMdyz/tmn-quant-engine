@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,703 TMN** (-1.386%)
+- Equity: **4,930,573 TMN** (-1.389%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 113 (sources: {'llm:boxapi': 113})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 113, 'sleeve_order': 329, 'quote': 3441, 'buy_blocked': 7747, 'buy_unblocked': 7686, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 114 (sources: {'llm:boxapi': 114})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 114, 'sleeve_order': 329, 'quote': 3450, 'buy_blocked': 7778, 'buy_unblocked': 7721, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
     "FIL": 1.2,
-    "CAKE": 1.0
+    "HYPE": 1.1,
+    "WLD": 1.5
   },
   "pause": false,
-  "reasoning": "I select FIL and CAKE because they are the only unblocked candidates with Toman spreads well above our 80 bps cutoff: FIL spread_bps=165.1 (usdt_spread_bps=329.0) and CAKE spread_bps=141.1 (usdt_spread_bps=149.5). FIL shows low fv_vol_bps=27.1 so I quote moderately wide h=1.2 to capture the large Toman spread while avoiding being picked off; CAKE has very wide spread and low fv_vol_bps=15.9 so I set h=1.0 to be a bit more aggressive there. I avoid DOT, PENGU and IMX because DOT and IMX have buy_blocked sliding premiums and DOT produced a recent losing round trip (realised_pnl_tmn=-2492, avg_round_trip_bps=-76.1) while PENGU also lost (realised_pnl_tmn=-2109). Sleeves are set to 0.0 exposure because the portfolio regime cap is 0.0 (USDT/TMN 48h +0.71% is below the +1% threshold), so the engine should not scale rial or beta now; beta_assets kept as PEPE/ADA/LINK (current universe and weights) for reference.",
+  "reasoning": "Choose FIL (spread_bps 126.4, usdt_spread_bps 146.8, vol24h 3,396m TMN, fv_vol_bps 73.0) because its Toman and USDT spreads are wide and FV volatility is moderate — quote with h=1.2%. Add HYPE (spread_bps 137.1, vol24h 4,631m, fv_vol_bps 63.8) for another wide-spread, busy market — h=1.1% to capture spread while limiting pickoffs. Add WLD despite high fv_vol (1100 bps) because Toman spread is large (171.5 bps) and USDT_book disparity (1,559 bps) gives wide nominal edge; use conservative h=1.5% due to extreme FV volatility. Avoid markets with buy blocks or recent losses (DOT and PENGU had live round-trip losses -2,492 and -2,109 TMN and avg bps -76.1 / -178.3 so they are excluded). Sleeves set to 0.0 because regime cap is 0.0 (USDT/TMN 48h +0.71% -> cap 0.0), so no new exposure despite past sleeve performance.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
