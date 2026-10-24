@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,242 TMN** (-1.415%)
+- Equity: **4,929,430 TMN** (-1.411%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 152 (sources: {'llm:boxapi': 152})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 152, 'sleeve_order': 329, 'quote': 4582, 'buy_blocked': 11256, 'buy_unblocked': 11193, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 153 (sources: {'llm:boxapi': 153})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 153, 'sleeve_order': 329, 'quote': 4586, 'buy_blocked': 11307, 'buy_unblocked': 11242, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CAKE": 1.5,
-    "BCH": 1.4,
-    "GALA": 1.2
+    "GALA": 1.5
   },
   "pause": false,
-  "reasoning": "I pick up to 3 markets with Toman spread >=80 bps and reasonable 24h volume. CAKE (spread 90.6 bps, vol24h 4,835M TMN) has very large fv_vol 1,236.7 bps so I set h=1.5% to be wide. BCH (spread 110.4 bps, vol24h 2,084M TMN) is volatile (fv_vol 825.4 bps) so I set h=1.4% to avoid getting picked off. GALA (spread 152.2 bps, vol24h 2,205M TMN, premium +126.2 bps) looks attractive and is currently quoted, so I place a moderate-wide h=1.2%. I avoid DOT and PENGU because their live round trips lost (-2,492 TMN and -2,109 TMN, avg -76.1 and -178.3 bps) and exclude UNI/GALA buy-blocked books or markets flagged as broken. The portfolio sleeves are set to 0.0 exposure (rial and beta) because USDT/TMN 48h = -1.81% triggers the regime cap = 0.0, and the sleeves are currently stopped/under stop-loss, so no new exposure while the rial regime is inactive.",
+  "reasoning": "Pick GALA only: it has the widest Toman spread (195.7 bps) with decent activity (vol24h 2,204M TMN), very wide USDT/TMN spread (357.1 bps) and a large premium (135 bps) and no buy_blocked flag, so a wide maker quote (h=1.5%) is justified. I avoid most other symbols because the bot rule forbids quoting where spread_bps <80 (e.g. SOL 38.8, FIL 79.6) or because buy is blocked / FV sliding (BCH/CAKE/AVAX/ARB/DOT/PENGU showing book sliding or fair-value falls and DOT/PENGU produced negative live round-trip PnL: -2,492 TMN and -2,109 TMN, avg -76.1 and -178.3 bps). Portfolio sleeves set to zero because the USDT/TMN 48h change is -1.42% and the regime cap is 0.0 (portfolio.regime.cap 0.0), and both sleeves already show scale_now 0.0 / stopped on stop-loss; therefore exposures rial=0.0 and beta=0.0. Beta assets (PEPE, ADA, LINK) are the sleeve weights/universe picks but will not be scaled in due to the regime cap.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
