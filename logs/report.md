@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,200 TMN** (-1.416%)
+- Equity: **4,929,117 TMN** (-1.418%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,15 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 146 (sources: {'llm:boxapi': 146})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 146, 'sleeve_order': 329, 'quote': 4318, 'buy_blocked': 10587, 'buy_unblocked': 10521, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 147 (sources: {'llm:boxapi': 147})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 147, 'sleeve_order': 329, 'quote': 4318, 'buy_blocked': 10619, 'buy_unblocked': 10551, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {
-    "SUI": 1.5,
-    "GALA": 1.5,
-    "CHZ": 1.2
-  },
+  "markets": {},
   "pause": false,
-  "reasoning": "I pick SUI, GALA and CHZ (max 3). SUI has a wide Toman spread 213.8 bps and decent activity (vol24h 5,930M TMN) but moderate fv_vol 111.1 bps, so I use the widest h=1.5% to avoid being picked off. GALA is already quoted_now, with spread 152.2 bps and very high fv_vol 1024.7 bps, so h=1.5% to prioritise safety. CHZ offers a large spread 180.2 bps and manageable fv_vol 152.3 bps so I quote a bit tighter at h=1.2%. I avoid DOT and PENGU because they produced net losers (DOT realised -2,492 TMN, avg round trip -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and several coins are buy-blocked or have sliding Toman books. Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.29%), so rial and beta must be scaled to zero as shown by the portfolio 'cap': 0.0.",
+  "reasoning": "USDT/TMN 48h = -1.21% -> regime cap 0.0 so both sleeves must be scaled to 0 (portfolio.regime.cap = 0.0). Most candidate books fail our minimum spread filter: many coins have spread_bps < 80 (SOL 15.3, XRP 23.8, BNB 8.5, etc.) and the few above 80 are unsafe — DOT (spread 96.6) and PENGU (70.3) show recent losing live round trips (DOT avg -76.1 bps realised_pnl -2492 TMN, PENGU avg -178.3 bps realised_pnl -2109 TMN), FIL (92.9 bps) and several others have buy_blocked or FV shocks (FIL: fair value fell -57 bps; WLD, BNB, BCH have Toman book sliding messages). IMX is the only candidate without buy_block but has tiny 24h volume (vol24h_mtmn = 40) and extremely high fv_vol_bps 3631.1, so I avoid putting quotes. Given low equity (4.93M TMN), prior fills lost -4,601 TMN and drawdown 3.6%, the prudent decision is to not quote any markets now and keep sleeves at 0 until the USDT/TMN regime or market signals improve.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
