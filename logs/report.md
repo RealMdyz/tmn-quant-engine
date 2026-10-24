@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,524 TMN** (-1.410%)
+- Equity: **4,929,304 TMN** (-1.414%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,15 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 142 (sources: {'llm:boxapi': 142})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 142, 'sleeve_order': 329, 'quote': 4201, 'buy_blocked': 10218, 'buy_unblocked': 10152, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 143 (sources: {'llm:boxapi': 143})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 143, 'sleeve_order': 329, 'quote': 4209, 'buy_blocked': 10247, 'buy_unblocked': 10180, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {
-    "GALA": 1.4
-  },
+  "markets": {},
   "pause": false,
-  "reasoning": "Only GALA meets our minimum no-buy-block and wide-spread criteria: spread_bps 107.5, vol24h_mtmn 1444 and usdt_spread_bps 414.2 with buy_blocked null, so I quote it wide (h=1.4%) because fv_vol_bps is high (1438.7). I exclude high-spread but sliding markets (PENGU, DOT, FIL, HYPE, UNI etc.) because they show buy_blocked or quoted_now and DOT/PENGU had losing live round trips (avg_round_trip_bps -76.1 and -178.3, realised_pnl_tmn -2492 and -2109). Portfolio cap forces sleeves flat: USDT/TMN 48h = -1.50% => regime.cap 0.0, portfolio shows scale_now 0.0 for both sleeves, so set rial=0.0 and beta=0.0. I list ADA and LINK for beta_assets as preferred high-momentum picks from the beta universe if exposure is restored later.",
+  "reasoning": "I pick no markets because our minimum working threshold is spread_bps >= 80 and safe non-sliding books. Here most candidates are either below 80 bps (e.g. SOL 23.3, XRP 30.6, BNB 16.7) or show buy_blocked/book sliding (SUI, S, AAVE, FIL, DOT, UNI, CAKE etc.). Several high-spread names carried damage: DOT avg round-trip -76.1 bps with realised PnL -2,492 TMN, PENGU avg -178.3 bps realised -2,109 TMN, and FIL/UNI/others report Toman-book sliding — too risky now. Portfolio regime caps sleeves to 0.0 because USDT/TMN 48h = -1.51% => cap 0.0; sleeves values (rial value 4,716 TMN, beta value 30,390 TMN) and prior losses (rial return -3.3%, beta return -6.05% with stop triggered) justify keeping exposures at 0 until a clear rial-weakening signal or calmer books.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
