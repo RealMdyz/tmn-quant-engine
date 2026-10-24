@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,546 TMN** (-1.389%)
+- Equity: **4,930,545 TMN** (-1.389%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 114 (sources: {'llm:boxapi': 114})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 114, 'sleeve_order': 329, 'quote': 3457, 'buy_blocked': 7806, 'buy_unblocked': 7748, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 115 (sources: {'llm:boxapi': 115})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 115, 'sleeve_order': 329, 'quote': 3463, 'buy_blocked': 7878, 'buy_unblocked': 7818, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.2,
-    "HYPE": 1.1,
-    "WLD": 1.5
+    "FIL": 1.4,
+    "CAKE": 0.9,
+    "GALA": 0.9
   },
   "pause": false,
-  "reasoning": "Choose FIL (spread_bps 126.4, usdt_spread_bps 146.8, vol24h 3,396m TMN, fv_vol_bps 73.0) because its Toman and USDT spreads are wide and FV volatility is moderate — quote with h=1.2%. Add HYPE (spread_bps 137.1, vol24h 4,631m, fv_vol_bps 63.8) for another wide-spread, busy market — h=1.1% to capture spread while limiting pickoffs. Add WLD despite high fv_vol (1100 bps) because Toman spread is large (171.5 bps) and USDT_book disparity (1,559 bps) gives wide nominal edge; use conservative h=1.5% due to extreme FV volatility. Avoid markets with buy blocks or recent losses (DOT and PENGU had live round-trip losses -2,492 and -2,109 TMN and avg bps -76.1 / -178.3 so they are excluded). Sleeves set to 0.0 because regime cap is 0.0 (USDT/TMN 48h +0.71% -> cap 0.0), so no new exposure despite past sleeve performance.",
+  "reasoning": "Pick FIL, CAKE and GALA. FIL has the largest Toman spread (165.7 bps) and a healthy USDT/TMN spread (197.8 bps) so we stay wide (h=1.4%) given fv_vol 99.5 bps and risk of adverse fills. CAKE (spread 105.6 bps, vol24h 2,801 MTMN, fv_vol 24.9 bps) is calmer so we quote tighter (h=0.9%) to capture spread while limiting adverse selection. GALA (spread 124.7 bps, fv_vol 22.4 bps) also looks calm though thin (vol24h 1,267 MTMN), so h=0.9% to balance pickoffs vs. earning wide local spreads. Sleeves set to 0.0 because USDT/TMN 48h = +0.71% gives a regime exposure cap of 0.0, so we must cut rial and beta exposure despite sleeve performance (rial return -1.82%, beta -3.21%). Beta_assets listed as PEPE/ADA/LINK (current universe weights) for use if the regime later allows scaling.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
