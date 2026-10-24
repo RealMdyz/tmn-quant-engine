@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,498 TMN** (-1.410%)
+- Equity: **4,929,505 TMN** (-1.410%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 165 (sources: {'llm:boxapi': 165})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 165, 'sleeve_order': 329, 'quote': 4920, 'buy_blocked': 12347, 'buy_unblocked': 12286, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 166 (sources: {'llm:boxapi': 166})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 166, 'sleeve_order': 329, 'quote': 4942, 'buy_blocked': 12368, 'buy_unblocked': 12307, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
     "AAVE": 1.2,
-    "BCH": 1.4,
-    "IMX": 1.5
+    "BCH": 1.4
   },
   "pause": false,
-  "reasoning": "Pick AAVE (spread_bps 81.5, usdt_spread_bps 91.8) because it meets the >=80 bps Toman spread rule and has no buy_blocked flag; use h=1.2% given fv_vol_bps 90.4. Pick BCH (spread_bps 150.1, fv_vol_bps 152.4) as a wide, busy Toman spread market and set h=1.4% to avoid being picked off. Pick IMX (spread_bps 313.0) only as a last slot despite low vol24h_mtmn 21 and high fv_vol_bps 835.6; set h=1.5% (max) because of high volatility and low liquidity. Do not quote markets with live losing round trips (DOT avg_round_trip_bps -76.1, PENGU -178.3) or with buy_blocked / missing fair value (HYPE, CHZ, APE, CAKE, GALA), and avoid FIL which is already quoted_now. Sleeves kept at 0.0 exposure because USDT/TMN 48h -1.89% gives regime cap 0.0 (portfolio.regime.cap 0.0) and both sleeves are currently stopped/scale 0.0.",
+  "reasoning": "I pick AAVE and BCH only because the bot never quotes where spread_bps <80. AAVE has spread_bps 82.0, vol24h 5,746m TMN and moderate fv_vol_bps 55.4 so it looks like the safest >80-bps candidate (quoted_now=true) — set h=1.2 to be conservative but still competitive. BCH has spread_bps 125.3 and vol24h 2,135m TMN (fv_vol_bps 137.8), so I widen to h=1.4 to protect against its higher FV volatility. I avoid DOT and PENGU because live round trips lost (avg_round_trip_bps -76.1 and -178.3) and avoid FIL/CHZ/ARB/IMX because their USDT-book signals or buy_blocked flags (FIL/CHZ/IMX show very large usdt_spread or book sliding), and AVAX/UNI/ENA have book-sliding buy_blocked alerts. Sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.89% -> cap 0.0) and both rial and beta are already stopped/scale_now=0 in the portfolio.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
