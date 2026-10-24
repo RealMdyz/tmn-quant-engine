@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,930,204 TMN** (-1.396%)
+- Equity: **4,930,064 TMN** (-1.399%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 131 (sources: {'llm:boxapi': 131})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 131, 'sleeve_order': 329, 'quote': 3852, 'buy_blocked': 9297, 'buy_unblocked': 9236, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
+- AI supervisor decisions: 132 (sources: {'llm:boxapi': 132})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 132, 'sleeve_order': 329, 'quote': 3861, 'buy_blocked': 9345, 'buy_unblocked': 9284, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 1}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "GALA": 1.5,
-    "CHZ": 1.5
+    "WLD": 1.2,
+    "CHZ": 1.5,
+    "BCH": 1.3
   },
   "pause": false,
-  "reasoning": "I select only GALA and CHZ because the bot never quotes where Toman spread <80 bps and the only markets above that threshold are GALA (spread_bps 126.3, usdt_spread_bps 344.8, fv_vol_bps 1049.7, quoted_now true) and CHZ (spread_bps 212.2, fv_vol_bps 213.8, quoted_now true). Both are quoted with wide half-spreads h=1.5% because fair-value volatility is high (GALA fv_vol 1049.7 bps) and we prefer wide quotes to avoid being picked off; CHZ also has very wide spread but tiny vol (vol24h_mtmn 25) so we keep size implicit and wide. I avoid FIL (spread_bps 81.8) and other candidates that show buy_blocked or unstable Toman books (FIL, S, PENGU, DOT) — DOT and PENGU had recent losing round trips (realised_pnl_tmn -2492 and -2109, avg_round_trip_bps -76.1 and -178.3) so do not reopen. Sleeves set to zero because the USDT/TMN regime cap is 0.0 (ch48 -0.78%, portfolio.regime.cap 0.0), so we must keep rial and beta exposures at 0; beta assets remain PEPE/ADA/LINK as the sleeve universe and momentum picks if the cap lifts.",
+  "reasoning": "I pick WLD, CHZ and BCH (max 3). WLD has a very wide Toman spread 142.4 bps and healthy vol24h 4,029M TMN with no buy guard, so I quote wide (h=1.2%) given fv_vol 222.3 bps. CHZ has the largest spread 197.7 bps (quoted_now=true) but tiny volume (vol24h 25M TMN) so I set the widest h=1.5% to avoid being picked off. BCH has spread 87.9 bps and acceptable volume 2,006M TMN but high fv_vol (652.7 bps) so I set h=1.3% to protect versus adverse selection. Both sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -0.45% => no rial-weakening regime), and portfolio shows scale_now 0.0 for both sleeves; beta_assets kept as PEPE/ADA/LINK (current universe) but no new buys while cap=0.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
