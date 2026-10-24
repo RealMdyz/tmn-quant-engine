@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,978 TMN** (-1.400%)
+- Equity: **4,929,833 TMN** (-1.403%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 123 (sources: {'llm:boxapi': 123})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 123, 'sleeve_order': 329, 'quote': 3702, 'buy_blocked': 8640, 'buy_unblocked': 8580, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
+- AI supervisor decisions: 124 (sources: {'llm:boxapi': 124})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 124, 'sleeve_order': 329, 'quote': 3711, 'buy_blocked': 8674, 'buy_unblocked': 8616, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.2,
-    "UNI": 1.4
+    "GALA": 1.5,
+    "WLD": 1.5,
+    "IMX": 1.0
   },
   "pause": false,
-  "reasoning": "Pick FIL because spread_bps 86.8 (>80 threshold) and USDT spread 106.4 bps with low fv_vol_bps 30.6 (calm fair value) — prefer a wider h=1.2 given informed-seller risk. Pick UNI because spread_bps 207.9 (very wide) and vol24h_mtmn 5460 supports quoting, but fv_vol_bps 249.7 implies higher risk so use h=1.4 to stay conservative. Avoid DOT and PENGU: they produced live round-trip losses (avg_round_trip_bps -76.1 and -178.3) and should not be quoted. Portfolio sleeves set to 0.0 because regime shows USDT/TMN 48h -0.64% => exposure cap 0.0 (portfolio cap 0.0), and account equity ~4.93M TMN with realised_pnl_tmn -4601 and drawdown 3.58% argues caution.",
+  "reasoning": "I pick at most three markets with Toman spread >=80 bps: GALA (spread 127.7 bps, vol24h 1,495m TMN, USDT spread 346.8 bps) and WLD (spread 134.7 bps, vol24h 3,502m TMN) are busy and have large Toman spreads so I quote wide (h=1.5%) given their very high fv_vol (GALA fv_vol 978.4 bps, WLD 1,031.3 bps). IMX has the largest Toman spread (227.3 bps) with relatively low fv_vol (73.7 bps) so I quote tighter (h=1.0%) to capture spread while limiting adverse selection. I avoid FIL because its USDT book is frozen for 30 min (buy_blocked) and CHZ despite wide spread has tiny volume (56m) so is lower priority. Sleeves are set to 0.0 exposure because the regime cap is 0.0: USDT/TMN 48h = -0.64% so the engine enforces no sleeve exposure; beta_assets listed are the strategy weights (PEPE, ADA, LINK) if sleeves were active.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
