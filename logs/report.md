@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,239 TMN** (-1.415%)
+- Equity: **4,929,290 TMN** (-1.414%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 150 (sources: {'llm:boxapi': 150})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 150, 'sleeve_order': 329, 'quote': 4480, 'buy_blocked': 10982, 'buy_unblocked': 10920, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 151 (sources: {'llm:boxapi': 151})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 151, 'sleeve_order': 329, 'quote': 4511, 'buy_blocked': 11050, 'buy_unblocked': 10989, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.4,
-    "GALA": 1.4,
-    "BCH": 1.3
+    "GALA": 1.2,
+    "SUI": 1.3,
+    "IMX": 1.4
   },
   "pause": false,
-  "reasoning": "I pick at most three wide-spread markets only: FIL (spread 107.1 bps, vol24h 2.85m TMN, premium 98.5 bps) — quoted_now true but fv_vol 602 bps so I use a conservative wide half-spread h=1.4% to avoid picking off informed sellers. GALA (spread 130.4 bps, vol24h 2.29m, premium 124.9 bps) is attractive for wide Toman spread and momentum; USDT spread is large (297.6 bps) so I keep h=1.4% and stay cautious about stale USDT book. BCH (spread 113.3 bps, vol24h 2.09m, usdt_spread 77.6 bps) is the calmer of the wide group so I set h=1.3%. I avoid markets with buy_blocked flags (e.g. S, AAVE, DOT, CHZ) and coins with recent losing live round-trips (PENGU, DOT). Portfolio sleeves are both set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.75% => exposure cap 0.0) and both sleeves show scale_now=0.0/stop-loss states, so no re-sizing; beta_assets kept as the existing universe leaders (PEPE, ADA, LINK) for bookkeeping.",
+  "reasoning": "I pick GALA (spread_bps 152.5, vol24h 2.3m TMN, fv_vol_bps 82.8) with h=1.2 to capture a wide Toman spread in a relatively calm FV market. I include SUI (spread_bps 91.3, vol24h 6.7m TMN, fv_vol_bps 73.3) with h=1.3 because spread>80bps, decent liquidity and moderate FV volatility support wider quotes. I add IMX (spread_bps 142.8) with h=1.4 as a third slot to exploit a large spread despite low volume — I widen further for low liquidity. I avoid markets with buy_blocked or recent losing live round trips (DOT, PENGU, CHZ, ARB, HYPE, UNI) and I do not quote where spread_bps < 80 (e.g. SOL, XRP, BNB). Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.75%), so no sleeve exposure is allowed now.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
