@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,384 TMN** (-1.412%)
+- Equity: **4,929,321 TMN** (-1.414%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 211 (sources: {'llm:boxapi': 211})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 211, 'sleeve_order': 329, 'quote': 5927, 'buy_blocked': 15329, 'buy_unblocked': 15266, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 212 (sources: {'llm:boxapi': 212})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 212, 'sleeve_order': 329, 'quote': 5970, 'buy_blocked': 15434, 'buy_unblocked': 15372, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "ENA": 1.5
+    "ENA": 1.4,
+    "FIL": 1.5
   },
   "pause": false,
-  "reasoning": "Pick only ENA: it is one of the few candidates with Toman spread >= 80 bps (spread_bps 96.2) and decent 24h TMN flow (vol24h_mtmn 2603). I set a wide half-spread h=1.5% because fv_vol_bps is high (546.2) and maker should be conservative after observed adverse selection. I avoid DOT (spread 222.8) because DOTUSDT book is frozen (buy_blocked: fair value unverifiable) and avoid PENGU which has live round-trip losses (realised_pnl_tmn -2109, avg_round_trip_bps -178.3). Regime caps USDT/TMN 48h = -1.01% => exposure cap 0.0, so both sleeves set to 0.0; I still list two beta assets (PEPE, ADA) as the preferred picks if sleeves were allowed, based on their place in the beta universe.",
+  "reasoning": "I choose ENA and FIL only because we never quote where Toman spread <80 bps and these are among the few busy candidates above that threshold: ENA spread_bps=111.8 (vol24h_mtmn=2497) and FIL spread_bps=82.0 (vol24h_mtmn=2854). ENA is quoted_now and has moderate fv_vol_bps=576 so I set a wide half-spread h=1.4%; FIL has very high fv_vol_bps=572 and a large USDT/TMN dislocation (usdt_spread_bps=362.7, premium_bps=104.2) so I set the maximum h=1.5% to avoid pick-offs. I avoid DOT and PENGU because DOT's USDT book is frozen (buy_blocked) and its live round trip lost (avg_round_trip_bps=-76.1, realised_pnl_tmn=-2492), and PENGU has a recent losing live round trip (avg_round_trip_bps=-178.3). The portfolio sleeves are set to zero because the regime cap is 0.0 (USDT/TMN 48h -1.07%), so rial and beta exposures remain 0.0 to respect the rule and current stop-loss states.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
