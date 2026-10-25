@@ -48,18 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 181 (sources: {'llm:boxapi': 181})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 181, 'sleeve_order': 329, 'quote': 5313, 'buy_blocked': 13226, 'buy_unblocked': 13162, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 182 (sources: {'llm:boxapi': 182})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 182, 'sleeve_order': 329, 'quote': 5320, 'buy_blocked': 13240, 'buy_unblocked': 13179, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.3,
-    "CHZ": 1.4
+    "FIL": 1.3
   },
   "pause": false,
-  "reasoning": "I open only conservative maker quotes. BCH has spread_bps 121.5 (>80) and is currently quoted_now with no buy_block; fair-value volatility fv_vol_bps 429.5 suggests a wide half-spread so I set h=1.3%. CHZ also clears the 80 bps rule (spread_bps 117.2) but volume is tiny (vol24h_mtmn 59) and fv_vol_bps 404.9 so I keep it very wide at h=1.4% and small exposure via maker slots. I avoid FIL, DOT, WLD, ARB and others because FIL and APE have frozen/missing USDT books, DOT and PENGU produced losing live round-trips (DOT realised_pnl_tmn -2492 avg_round_trip_bps -76.1, PENGU realised_pnl_tmn -2109 avg_round_trip_bps -178.3) and several markets show Toman-book sliding blocks. Sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.89% => exposure cap 0.0) per portfolio data.",
+  "reasoning": "I choose only FIL because it is the only calm, wide Toman-spread market that meets our >80 bps rule: spread_bps 100.7, fv_vol_bps low at 14.1 (stable fair value) and a large premium 241.9 bps with no buy_blocked or prior losing live fills. I avoid DOT and PENGU despite wide spreads because they produced losing live round trips (DOT realised -2,492 TMN avg -76.1 bps; PENGU realised -2,109 TMN avg -178.3 bps). CHZ and some others are either quoted_now with rapid FV moves (CHZ fair value fell -156 bps in 60s) or have book/fair-value issues, so I don’t quote them. I set h at 1.3% (wide) because informed-seller picks in narrow quotes cost us; backtests showed positive outcomes near the top of the 0.8–1.5% range. Sleeves are set to 0.0 exposure because the regime cap is 0.0 (USDT/TMN 48h = -1.89% → cap 0.0), and both rial and beta are already in wind-down/stop-loss states.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
