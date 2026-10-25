@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,138 TMN** (-1.417%)
+- Equity: **4,929,132 TMN** (-1.417%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 196 (sources: {'llm:boxapi': 196})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 196, 'sleeve_order': 329, 'quote': 5756, 'buy_blocked': 14098, 'buy_unblocked': 14030, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 197 (sources: {'llm:boxapi': 197})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 197, 'sleeve_order': 329, 'quote': 5790, 'buy_blocked': 14130, 'buy_unblocked': 14066, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "AVAX": 1.4,
-    "AAVE": 1.0
+    "SUI": 1.5,
+    "AVAX": 1.2,
+    "CHZ": 0.9
   },
   "pause": false,
-  "reasoning": "I pick AVAX and AAVE only. AVAX has a wide Toman spread 145.0 bps, healthy vol24h 2,834M TMN and acceptable fv_vol 197 bps so I set a wide half-spread h=1.4% to avoid being picked off. AAVE has spread 90.5 bps, good 24h liquidity 4,146M TMN and low fv_vol 80 bps so I quote tighter at h=1.0% to capture spread while volatility is lower. I avoid markets with buy_blocked or recent losing live round-trips (DOT, PENGU, FIL, SUI, HYPE and several others show buy_blocked or realised losses) and I skip very thin/high-noise markets (CHZ vol only 59M TMN). Sleeves are set to 0.0 because the USDT/TMN 48h is -2.47% and the regime cap is 0.0, so the rial and beta sleeves must be wound down; beta assets kept as ADA and LINK (high-momentum names from the beta universe) for tracking but not scaled into while cap=0.0.",
+  "reasoning": "I pick at most 3 markets with Toman spread >= 80 bps and no active buy-block: SUI spread 87.1 bps (fv_vol 514.2 bps) is very noisy so I use the maximum half-spread h=1.5% to protect vs FV swings. AVAX has spread 102.7 bps and fv_vol 302.8 bps and is currently quoted, so I use a wide h=1.2% to prefer safe, rare fills. CHZ has the largest spread 207.0 bps with no buy block (vol24h 59m TMN is low) so I quote cautiously with h=0.9% to capture large spread while limiting adverse selection. I keep pause=false because there is no market-wide shock in news, but I avoid markets with buy_blocked flags (DOT, FIL, GALA, WLD, UNI etc.). Sleeves set to 0.0 for both rial and beta because the regime cap is 0.0 (USDT/TMN 48h -1.61% → exposure cap 0.0) so no new sleeve exposure is allowed; beta_assets listed are the sleeve's universe high-momentum names PEPE/ADA/LINK.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
