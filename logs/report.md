@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,928,970 TMN** (-1.421%)
+- Equity: **4,929,270 TMN** (-1.415%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 199 (sources: {'llm:boxapi': 199})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 199, 'sleeve_order': 329, 'quote': 5803, 'buy_blocked': 14359, 'buy_unblocked': 14299, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 200 (sources: {'llm:boxapi': 200})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 200, 'sleeve_order': 329, 'quote': 5806, 'buy_blocked': 14382, 'buy_unblocked': 14323, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 0.9
+    "GALA": 1.3
   },
   "pause": false,
-  "reasoning": "Only CHZ meets our minimum Toman spread filter with spread_bps 283.7 and no buy block; fv_vol_bps is 155.8 (moderate) so I quote with h=0.9% to sit near the top while keeping protection. I avoid DOT (spread 115.4) because DOTUSDT book is frozen 25 min making FV unverifiable and our last round trip there lost -76.1 bps. I avoid BCH and IMX because Toman book sliding flags (buy_blocked) and FIL because extremely high fv_vol_bps 1567.8 implies crashes/adverse selection risk despite wide spread. Portfolio sleeves kept at 0.0 since USDT/TMN 48h = -1.68% triggers regime cap (cap 0.0) and both sleeves are already stopped/scale_now=0.0 (rial stopped -5.36%, beta stopped -7.53%).",
+  "reasoning": "Choose GALA because its Toman spread is 87.7 bps (above our 80 bps floor), 24h Toman volume is 1,638m TMN and fv_vol_bps is 488 — wide and reasonably busy so a wide quote is warranted. I set h=1.3% (near the top of 0.8–1.5%) to avoid being picked off given elevated fv_vol and the general backtest lesson that narrow quotes lose money. I avoid DOT and CHZ because their USDT/TMN or USDT books are frozen / buy_blocked (DOT: \"DOTUSDT book frozen 45 min\"; CHZ: \"CHZUSDT book frozen 17 min\"), and I avoid PENGU and our DOT live fills which lost (-178.3 and -76.1 bps avg round trips, realised -2,109 and -2,492 TMN). I do not open any sleeve exposure because the USDT/TMN 48h is -1.42% giving an exposure cap 0.0 and both sleeves are currently scale_now=0.0 / stopped (rial and beta stopped by stop-loss).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
