@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,111 TMN** (-1.418%)
+- Equity: **4,929,193 TMN** (-1.416%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,15 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 195 (sources: {'llm:boxapi': 195})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 195, 'sleeve_order': 329, 'quote': 5722, 'buy_blocked': 14020, 'buy_unblocked': 13948, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 196 (sources: {'llm:boxapi': 196})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 196, 'sleeve_order': 329, 'quote': 5737, 'buy_blocked': 14038, 'buy_unblocked': 13973, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {},
+  "markets": {
+    "AVAX": 1.4,
+    "AAVE": 1.0
+  },
   "pause": false,
-  "reasoning": "USDT/TMN 48h = -2.47% sets the regime cap to 0.0 so sleeves are disabled (portfolio.regime.cap 0.0 and both sleeves show scale_now 0.0 and stopped states). No market meets the bot's minimum Toman-spread requirement and clean conditions: most candidates have spread_bps <80 (e.g. SOL 30.1, XRP 32.1, BNB 42.2), and the few wide markets are either buy-blocked or unstable (HYPE spread 148.6 but buy_blocked: premium swung -303 bps; FIL spread 142.3 but buy_blocked: premium -131 bps). Live-performance risks: DOT and PENGU show recent losing round trips (DOT realised_pnl -2492 TMN avg -76.1 bps; PENGU realised_pnl -2109 TMN avg -178.3 bps) and DOTUSDT book is frozen, so avoid quoting. Given the regime cap, market signal weakness and several sliding Toman-books, I keep the engine out of making markets now and hold sleeves at 0 exposure.",
+  "reasoning": "I pick AVAX and AAVE only. AVAX has a wide Toman spread 145.0 bps, healthy vol24h 2,834M TMN and acceptable fv_vol 197 bps so I set a wide half-spread h=1.4% to avoid being picked off. AAVE has spread 90.5 bps, good 24h liquidity 4,146M TMN and low fv_vol 80 bps so I quote tighter at h=1.0% to capture spread while volatility is lower. I avoid markets with buy_blocked or recent losing live round-trips (DOT, PENGU, FIL, SUI, HYPE and several others show buy_blocked or realised losses) and I skip very thin/high-noise markets (CHZ vol only 59M TMN). Sleeves are set to 0.0 because the USDT/TMN 48h is -2.47% and the regime cap is 0.0, so the rial and beta sleeves must be wound down; beta assets kept as ADA and LINK (high-momentum names from the beta universe) for tracking but not scaled into while cap=0.0.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
