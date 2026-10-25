@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,106 TMN** (-1.418%)
+- Equity: **4,929,170 TMN** (-1.417%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 192 (sources: {'llm:boxapi': 192})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 192, 'sleeve_order': 329, 'quote': 5634, 'buy_blocked': 13865, 'buy_unblocked': 13803, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 193 (sources: {'llm:boxapi': 193})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 193, 'sleeve_order': 329, 'quote': 5647, 'buy_blocked': 13881, 'buy_unblocked': 13821, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "AAVE": 0.9,
-    "WLD": 1.3,
-    "CHZ": 1.5
+    "AVAX": 0.8,
+    "CHZ": 1.4
   },
   "pause": false,
-  "reasoning": "Pick AAVE (spread_bps 93.8, usdt_spread_bps 85.9, fv_vol_bps 30.6) as a calm, wide Toman market currently quoted — use relatively tight half-spread h=0.9% to capture spread while limiting adverse selection. Add WLD (spread_bps 126.8, vol24h_mtmn 2280, fv_vol_bps 108.1) as a busy, wider market with moderate volatility so use h=1.3%. Include CHZ (spread_bps 187.8, fv_vol_bps 217.7) for its very wide Toman spread despite low volume — quote wide h=1.5% to avoid being picked off. Exclude markets with buy_blocked or recent losing fills (FIL, CAKE, DOT, PENGU — PENGU RT avg -178.3 bps, DOT RT avg -76.1 bps) and ARB/AVAX/IMX that show book problems. Keep pause=false. Sleeves set to 0.0 because USDT/TMN 48h is -1.89% => regime cap 0.0 (portfolio shows cap 0.0) and both rial and beta are currently stopped/scale_now 0.0, so no new exposure.",
+  "reasoning": "I pick AVAX because spread_bps=98.9 (above the 80 bps floor), vol24h_mtmn=2743 (reasonable liquidity) and fv_vol_bps=16.8 (stable fair value) so we can quote tighter — h=0.8%. I add CHZ because spread_bps=211.7 is very wide and will protect us despite low vol24h_mtmn=59, so I use a wide h=1.4% to avoid adverse selection. I avoid DOT and PENGU because both have recent live round-trip losses (DOT realised -2,492 TMN, avg -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and several markets (FIL/HYPE/CAKE/UNI) show Toman-book sliding/buy_blocked warnings. Sleeves are set to zero because USDT/TMN 48h = -1.89% triggers exposure cap 0.0 (portfolio.regime.cap=0.0) so rial and beta must be 0.0.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
