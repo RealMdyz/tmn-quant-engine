@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,355 TMN** (-1.413%)
+- Equity: **4,929,203 TMN** (-1.416%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 215 (sources: {'llm:boxapi': 215})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 215, 'sleeve_order': 329, 'quote': 6087, 'buy_blocked': 15746, 'buy_unblocked': 15685, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 216 (sources: {'llm:boxapi': 216})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 216, 'sleeve_order': 329, 'quote': 6090, 'buy_blocked': 15783, 'buy_unblocked': 15721, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.5,
-    "GALA": 1.2
+    "SUI": 1.2,
+    "ARB": 1.4
   },
   "pause": false,
-  "reasoning": "Choose FIL because its Toman spread is 176.7 bps and USDT/TMN spread 454.2 bps with premium +51.6 bps; fair-value vol is high (fv_vol_bps 741.2) so use the maximum half-spread h=1.5% to avoid being picked off. Choose GALA because spread_bps 131.0 and vol24h_mtmn 1036 with USDT spread 355 bps and fv_vol_bps 1035 — wide market but slightly lower tradability so h=1.2%. Avoid markets with active buy_blocked warnings (e.g. DOT/PENGU live losses, SUI/ENA/CHZ/HYPE flags) and any with spread_bps <80 (they are wasted slots). Sleeves kept at 0.0 because USDT/TMN 48h = -1.06% sets exposure cap 0.0 (portfolio regime cap and sleeves show scale_now 0.0 and stop-loss states), so no rial or beta exposure now.",
+  "reasoning": "Pick SUI (spread_bps 102.7, vol24h_mtmn 5573, usdt_spread 70 bps) with h=1.2% because the Toman spread is >80 bps, volume is decent and FV volatility is moderate (fv_vol_bps 159.9). Pick ARB (spread_bps 91.9, vol24h_mtmn 12207) with a wider h=1.4% because FV volatility is high (fv_vol_bps 467.3) and its premium is negative (-33.5 bps), so we need extra protection. I exclude markets with buy blocks or recent adverse live fills (FIL, GALA, ENA are buy_blocked; PENGU and DOT had losing round trips: avg_round_trip_bps -178.3 and -76.1 respectively). Sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -0.17% => exposure cap 0.0) and both sleeves are currently stopped/scale_now=0 in the portfolio.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
