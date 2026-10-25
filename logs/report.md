@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,176 TMN** (-1.416%)
+- Equity: **4,929,212 TMN** (-1.416%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 213 (sources: {'llm:boxapi': 213})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 213, 'sleeve_order': 329, 'quote': 6022, 'buy_blocked': 15587, 'buy_unblocked': 15525, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 214 (sources: {'llm:boxapi': 214})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 214, 'sleeve_order': 329, 'quote': 6032, 'buy_blocked': 15618, 'buy_unblocked': 15560, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.4,
+    "SUI": 1.0,
+    "ENA": 1.4,
     "GALA": 1.5
   },
   "pause": false,
-  "reasoning": "I pick SUI and GALA (max 2 of 3 slots) because they clear the 80 bps minimum: SUI spread_bps 160 with vol24h 6,330 MTMN and GALA spread_bps 109.4 with vol24h 2,026 MTMN. Both are volatile so I set wide half-spreads (SUI h=1.4% given fv_vol_bps 141.3, GALA h=1.5% given fv_vol_bps 477.7) to reduce adverse selection; I avoid choppier or buy-blocked markets (FIL, BCH, DOT, ENA flagged buy_blocked) and markets where our live round trips lost (DOT avg_round_trip_bps -76.1, PENGU -178.3). Portfolio exposures are zero because the USDT/TMN 48h is -0.96% which sets the regime cap to 0.0, so both sleeves must be 0.0; I list ADA and LINK as beta_assets (high-momentum picks inside the beta universe) but no deployment due to the cap.",
+  "reasoning": "I choose SUI (spread 406.9 bps, vol24h 6330M TMN, fv_vol 56.1 bps, quoted_now=true) because its Toman spread is very wide and FV is reasonably stable; h=1.0 keeps quotes aggressive but still wide. ENA has spread 144.7 bps and vol24h 2533M with fv_vol 228.7 bps, so I widen to h=1.4 to protect against volatility. GALA (spread 109.6 bps, vol24h 2026M, fv_vol 842 bps, quoted_now=true) is very noisy so I set h=1.5 to avoid being picked off. I avoid markets with buy_blocked or recent losing live round trips (DOT/PENGU/FIL/CHZ) — DOT and PENGU show realised losses (-2492 TMN and -2109 TMN, avg round-trip -76.1 and -178.3 bps). Portfolio sleeves are set to 0.0 because the USDT/TMN 48h is -0.96% -> regime cap 0.0 and both sleeves are already stopped/lossing (rial stopped -5.36%, beta stopped -7.53%), so no new exposure.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
