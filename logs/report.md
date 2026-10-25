@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,299 TMN** (-1.414%)
+- Equity: **4,929,297 TMN** (-1.414%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 189 (sources: {'llm:boxapi': 189})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 189, 'sleeve_order': 329, 'quote': 5578, 'buy_blocked': 13725, 'buy_unblocked': 13662, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 190 (sources: {'llm:boxapi': 190})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 190, 'sleeve_order': 329, 'quote': 5600, 'buy_blocked': 13743, 'buy_unblocked': 13682, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.0,
-    "SUI": 1.4
+    "SUI": 1.4,
+    "BCH": 1.3
   },
   "pause": false,
-  "reasoning": "I pick BCH (spread 122.3 bps, fv_vol 202.8 bps, no buy_blocked and quoted_now) with h=1.0% to be present in a wide, moderate-vol market. I also pick SUI (spread 84.7 bps, usdt_spread 235.8 bps) but set h=1.4% because fv_vol is high (453.1 bps) and I want wide quotes to avoid adverse selection. I avoid DOT and PENGU despite wide spreads because our live round trips there lost heavily (DOT avg -76.1 bps, PENGU avg -178.3 bps) and some markets show Toman-book sliding flags. The portfolio sleeves are set to 0.0 because USDT/TMN 48h = -1.89% gives a regime cap of 0.0 (portfolio.regime.cap 0.0), so no sleeve exposure now; beta_assets listed are the sleeve universe picks (ADA, LINK, PEPE) if exposure were allowed.",
+  "reasoning": "I skip DOT because its live round trip lost -2,492 TMN (avg -76.1 bps) so it is currently a losing venue. I quote SUI (spread 83.6 bps, USDT spread 180 bps) but wide because fv_vol is high (221.6 bps) — h=1.4% to avoid pickoffs. I also quote BCH (spread 85.5 bps, fv_vol 186.1 bps) with h=1.3% — spread and volume (vol24h 1,319M TMN) justify a single calm maker slot. Portfolio exposures are zero: the regime cap is 0.0 since USDT/TMN 48h = -1.89% (portfolio shows cap 0.0), so both rial and beta are set to 0.0; beta_assets chosen are PEPE/ADA/LINK from the sleeve universe if later re-enabled.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
