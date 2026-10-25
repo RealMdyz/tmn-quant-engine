@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,721 TMN** (-1.406%)
+- Equity: **4,929,703 TMN** (-1.406%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 183 (sources: {'llm:boxapi': 183})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 183, 'sleeve_order': 329, 'quote': 5344, 'buy_blocked': 13312, 'buy_unblocked': 13249, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 184 (sources: {'llm:boxapi': 184})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 184, 'sleeve_order': 329, 'quote': 5358, 'buy_blocked': 13351, 'buy_unblocked': 13291, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "AAVE": 1.5,
-    "BCH": 1.2
+    "SOL": 0.9,
+    "BCH": 1.4
   },
   "pause": false,
-  "reasoning": "I pick AAVE and BCH because they are the only busy candidates with Toman spreads comfortably >= 80 bps (AAVE spread 136.2 bps, BCH 124.2 bps). AAVE gets a wide half‑spread h=1.5% because its fv_vol_bps is high at 143.2 and USDT/TMN spread is large (88.7 bps), so we must be defensive. BCH is calmer (fv_vol_bps 49.2) and has a big Toman spread, so a narrower h=1.2% balances capture and adverse‑selection. I avoid DOT and PENGU because our live round trips there lost heavily (DOT avg round trip -76.1 bps, PENGU -178.3 bps) and I avoid nascent/low‑volume candidates (e.g., CHZ vol24h_mtmn only 59M). Sleeves are set to 0.0 because the USDT/TMN regime cap is 0.0 (48h -1.89%), and both rial and beta are currently scaled down (portfolio scale_now = 0.0 and stopped states present).",
+  "reasoning": "Pick SOL and BCH only: SOL has high 24h Toman volume 30,551M and spread_bps 87.9 with very low fv_vol_bps 3.6, so quote tight (h=0.9%) to capture the wide Toman spread while FV is stable. BCH has very wide Toman spread_bps 153.2 (good for maker profits) but high fv_vol_bps 150.2, so keep quotes wide (h=1.4%) to avoid adverse selection. I avoid DOT and PENGU because both produced losing live round trips (DOT realised -2,492 TMN, avg -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and AAVE/AVAX/APE are buy-blocked or FV-unverifiable. Sleeves forced to 0.0 by regime: USDT/TMN 48h -1.89% gives exposure cap 0.0, so set rial=0 and beta=0 and no beta assets.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
