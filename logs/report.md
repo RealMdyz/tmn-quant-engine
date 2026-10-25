@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,153 TMN** (-1.417%)
+- Equity: **4,929,132 TMN** (-1.417%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 201 (sources: {'llm:boxapi': 201})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 201, 'sleeve_order': 329, 'quote': 5824, 'buy_blocked': 14457, 'buy_unblocked': 14394, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 202 (sources: {'llm:boxapi': 202})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 202, 'sleeve_order': 329, 'quote': 5831, 'buy_blocked': 14469, 'buy_unblocked': 14408, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 1.1,
-    "SUI": 1.5,
-    "FIL": 1.5
+    "CHZ": 1.5
   },
   "pause": false,
-  "reasoning": "I pick CHZ because it shows a very wide Toman spread 139.5 bps with low fv_vol 51 bps (calm fair value) so a wide maker quote (h=1.1%) can capture spread without excessive FV volatility. I include SUI (spread 100.1 bps) and FIL (spread 116.1 bps) but set max half-spreads (h=1.5%) because both have very high fv_vol (SUI 314.6 bps, FIL 891.2 bps) and deserve extra protection. I avoid DOT, PENGU and UNI which have buy guards / frozen USDT book or recent losing live round trips (DOT avg rt -76.1 bps, PENGU avg rt -178.3 bps) that indicate adverse selection. Sleeves are set to 0.0 because the USDT/TMN regime cap is 0.0 (48h -1.62%), and both rial and beta sleeves are currently stopped/under wind-down (rial stopped at -5.36%, beta stopped at -7.53%), so no new exposure is taken.",
+  "reasoning": "Only CHZ meets the minimum Toman spread filter: spread_bps 139.5 (>80) with no buy_blocked flag; vol24h_mtmn is small (71) so I keep h wide at 1.5% to avoid being picked off. FIL and DOT look attractive by spread (FIL 106.5, DOT 83.6) but both have active problems: FIL has the Toman book sliding (buy_blocked) and very high fv_vol (1864 bps), DOT's USDT book is frozen 38 min and our last round trip there lost -2,492 TMN (avg -76.1 bps), so I avoid them. The portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.62%, portfolio.cap 0.0) and both sleeves are currently stopped/being winded down (rial stopped: -5.36% stop-loss; beta stopped: -7.53%), so no new exposure. No pause — no market-wide news requiring a halt in quoting now.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
