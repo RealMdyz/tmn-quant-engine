@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,684 TMN** (-1.406%)
+- Equity: **4,929,697 TMN** (-1.406%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 177 (sources: {'llm:boxapi': 177})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 177, 'sleeve_order': 329, 'quote': 5182, 'buy_blocked': 13020, 'buy_unblocked': 12955, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 178 (sources: {'llm:boxapi': 178})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 178, 'sleeve_order': 329, 'quote': 5195, 'buy_blocked': 13072, 'buy_unblocked': 13008, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 0.9,
-    "BCH": 1.3,
-    "CHZ": 1.2
+    "BCH": 1.0,
+    "WLD": 1.2
   },
   "pause": false,
-  "reasoning": "Pick FIL because its Toman spread is 102 bps (above our 80 bps floor), USDT/TMN spread huge 537.9 bps and FV volatility is low (fv_vol_bps 18.4) — market looks wide and stable so quote relatively tight at h=0.9. Pick BCH (spread_bps 120.5) as a second slot but FV volatility is high (fv_vol_bps 466) so widen to h=1.3 to protect against adverse selection. Pick CHZ (spread_bps 114.3, quoted_now=true) as a third despite low volume (vol24h_mtmn 59) because spread is wide; FV volatility 559.7 bps implies a conservative h=1.2. Do not open sleeves: USDT/TMN 48h = -1.89% → regime cap = 0.0 so both rial and beta must be 0.0 exposure; beta_assets listed are the sleeve universe representatives (PEPE, ADA, LINK) if re-enabled later.",
+  "reasoning": "I pick BCH (spread 131.0 bps, vol24h 1,665M TMN, fv_vol 453.1 bps) because its Toman spread is wide and volume is nontrivial; set h=1.0 to quote near the top but protect against fv volatility. I also pick WLD (spread 99.8 bps, vol24h 2,702M TMN, fv_vol 419.1 bps, premium -142.2 bps) with h=1.2 since the large negative premium and elevated fv volatility call for wider quotes. I avoid markets with buy_blocked or recent losing live round trips (DOT avg -76.1 bps, PENGU avg -178.3 bps) and avoid AAVE/UNI/others flagged as sliding or blocked. Portfolio sleeves are zero because USDT/TMN 48h = -1.89% (regime cap 0.0) so no rial/beta exposure; I keep beta_assets as the current universe weights (PEPE, ADA, LINK) for reference.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
