@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,049 TMN** (-1.419%)
+- Equity: **4,929,156 TMN** (-1.417%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,15 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 197 (sources: {'llm:boxapi': 197})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 197, 'sleeve_order': 329, 'quote': 5794, 'buy_blocked': 14167, 'buy_unblocked': 14100, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 198 (sources: {'llm:boxapi': 198})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 198, 'sleeve_order': 329, 'quote': 5796, 'buy_blocked': 14190, 'buy_unblocked': 14124, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {
-    "SUI": 1.5,
-    "AVAX": 1.2,
-    "CHZ": 0.9
-  },
+  "markets": {},
   "pause": false,
-  "reasoning": "I pick at most 3 markets with Toman spread >= 80 bps and no active buy-block: SUI spread 87.1 bps (fv_vol 514.2 bps) is very noisy so I use the maximum half-spread h=1.5% to protect vs FV swings. AVAX has spread 102.7 bps and fv_vol 302.8 bps and is currently quoted, so I use a wide h=1.2% to prefer safe, rare fills. CHZ has the largest spread 207.0 bps with no buy block (vol24h 59m TMN is low) so I quote cautiously with h=0.9% to capture large spread while limiting adverse selection. I keep pause=false because there is no market-wide shock in news, but I avoid markets with buy_blocked flags (DOT, FIL, GALA, WLD, UNI etc.). Sleeves set to 0.0 for both rial and beta because the regime cap is 0.0 (USDT/TMN 48h -1.61% → exposure cap 0.0) so no new sleeve exposure is allowed; beta_assets listed are the sleeve's universe high-momentum names PEPE/ADA/LINK.",
+  "reasoning": "USDT/TMN 48h = -1.68% gives a regime cap of 0.0 so sleeves must not be re-scaled (portfolio.regime.cap 0.0 and both sleeves show scale_now 0.0 and stop-loss active: rial stopped at -5.36%, beta stopped at -7.53%). No candidate is both unblocked and safe: the bot never bids where spread_bps < 80 (most candidates have spread_bps 9–63), and the few with spread >=80 are either buy_blocked (FIL, AVAX, GALA, CHZ, IMX show Toman-book sliding flags) or have recent losing live round-trips (DOT avg_round_trip_bps -76.1, PENGU -178.3 and realised losses -2492 and -2109 TMN). FV volatility is high or unstable for many (FIL fv_vol_bps 2052.6, APE 121864.9, IMX 2522.2), increasing adverse selection risk. Given the regime cap, active buy blocks and recent live losses, I leave the market-making paused (no quotes) and set both sleeves to 0 exposure; beta_assets listed are the sleeve's universe weights (PEPE, ADA, LINK) for reference.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
