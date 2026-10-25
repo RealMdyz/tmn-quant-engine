@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,461 TMN** (-1.411%)
+- Equity: **4,929,371 TMN** (-1.413%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 218 (sources: {'llm:boxapi': 218})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 218, 'sleeve_order': 329, 'quote': 6191, 'buy_blocked': 16074, 'buy_unblocked': 16011, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 219 (sources: {'llm:boxapi': 219})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 219, 'sleeve_order': 329, 'quote': 6201, 'buy_blocked': 16137, 'buy_unblocked': 16075, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.5,
-    "ENA": 1.3
+    "WLD": 1.4
   },
   "pause": false,
-  "reasoning": "I pick FIL and ENA because the bot never quotes where spread_bps < 80 and these have wide Toman spreads (FIL 151.3 bps, ENA 105.0 bps) with decent 24h volumes (FIL 2,035M TMN, ENA 2,626M TMN). FIL's premium is positive (98.1 bps) but fv_vol is large (1,063 bps) so I set a wide half‑spread h=1.5% to protect against volatility; ENA has fv_vol 514 bps so h=1.3% is safer. I avoid DOT and PENGU because live round trips lost (DOT avg -76.1 bps realised -2,492 TMN; PENGU avg -178.3 bps realised -2,109 TMN) and I skip markets with buy_blocked warnings. Sleeve exposures are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -0.12%), and I keep beta_assets as PEPE/ADA/LINK (the sleeve universe weights) for reference.",
+  "reasoning": "Only WLD meets the bot's minimum Toman spread and safety checks: spread_bps 106.0 (>80 bps), vol24h_mtmn 1779 and no buy_blocked, while many wide-spread names (CHZ 212.4, FIL 147.6, PENGU 139.6, GALA 174.3, CAKE 80.5) show buy_blocked or sliding/fv shocks. I set h=1.4% (wide) because FV volatility is elevated (fv_vol_bps 352.5) and the strategy's backtest showed narrower quotes lose while h near the top of the allowed range preserves capital. Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -0.10%), and both sleeves already have scale_now 0.0 and are in end_wind_down; keeping exposures at zero avoids additional losses. Beta_assets list PEPE/ADA/LINK (current universe) for record-keeping; no buying is intended while the exposure cap is zero.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
