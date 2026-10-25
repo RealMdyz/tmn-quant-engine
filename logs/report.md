@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,734 TMN** (-1.405%)
+- Equity: **4,929,753 TMN** (-1.405%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 170 (sources: {'llm:boxapi': 170})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 170, 'sleeve_order': 329, 'quote': 5012, 'buy_blocked': 12652, 'buy_unblocked': 12587, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 171 (sources: {'llm:boxapi': 171})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 171, 'sleeve_order': 329, 'quote': 5020, 'buy_blocked': 12678, 'buy_unblocked': 12613, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.3,
-    "BCH": 1.2
+    "BCH": 1.5
   },
   "pause": false,
-  "reasoning": "USDT/TMN regime caps sleeves (USDT/TMN 48h -1.89%) so portfolio.cap=0.0 and both sleeves set to 0.0. I choose FIL because its Toman spread is wide (167.1 bps) with very large USDT spread (560.5 bps) and no buy block; fair-value vol is moderate-high (fv_vol_bps 489.7) so I keep a wide half-spread h=1.3% to reduce adverse selection. I also choose BCH: spread 117.5 bps, vol24h modest (1.668m TMN) and fv_vol_bps 502.5 — wide market but not blocked, so h=1.2% balances capture and protection. I avoid DOT and PENGU because our live round trips there lost money (DOT realised_pnl -2492 TMN avg -76.1 bps; PENGU realised_pnl -2109 TMN avg -178.3 bps), and I skip markets with buy_blocked or frozen USDT books (CHZ frozen, several coins showing sliding Toman book). No pause — no market-wide news.",
+  "reasoning": "Only BCH meets the >80 bps Toman-spread rule (spread_bps 154.2) and is not buy-blocked; its fv_vol_bps is high (179.8) so I set a wide half-spread h=1.5% to avoid being picked off and to cover maker fees (round-trip cost 0.5%). Many large-spread names are excluded: FIL and CHZ have frozen USDT books (FIL buy_blocked: fair value unverifiable; CHZUSDT frozen 49 min), DOT and PENGU show recent losing live round trips (avg_round_trip_bps -76.1 and -178.3) and also Toman-book sliding alerts. The portfolio regime caps sleeves to 0.0 because USDT/TMN 48h = -1.89% (regime cap 0.0), so rial and beta exposures are set to 0.0 and no beta assets are chosen.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
