@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,441 TMN** (-1.411%)
+- Equity: **4,929,471 TMN** (-1.411%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 217 (sources: {'llm:boxapi': 217})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 217, 'sleeve_order': 329, 'quote': 6135, 'buy_blocked': 15986, 'buy_unblocked': 15923, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 218 (sources: {'llm:boxapi': 218})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 218, 'sleeve_order': 329, 'quote': 6164, 'buy_blocked': 16025, 'buy_unblocked': 15965, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.9,
-    "ARB": 1.4
+    "FIL": 1.5,
+    "ENA": 1.3
   },
   "pause": false,
-  "reasoning": "I pick SUI and ARB only because they are the only candidates with Toman spread >= 80 bps and no active buy block: SUI spread 108.9 bps (fv_vol 53.2 bps) and ARB spread 114.2 bps (but high fv_vol 514.4 bps). SUI is comparatively calm so I use a tighter half‑spread h=0.9% to be more competitive; ARB is very volatile so I widen to h=1.4% to protect vs adverse selection. I avoid DOT and PENGU because our live round trips there lost money (DOT realised -2,492 TMN, avg -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and I skip any market with buy_blocked (FIL/CHZ/ENA/GALA/IMX/etc.). Sleeves are set to 0.0 because the USDT/TMN regime cap is 0.0 (USDT/TMN 48h -0.17%), so the engine enforces no active exposure despite sleeve performance history.",
+  "reasoning": "I pick FIL and ENA because the bot never quotes where spread_bps < 80 and these have wide Toman spreads (FIL 151.3 bps, ENA 105.0 bps) with decent 24h volumes (FIL 2,035M TMN, ENA 2,626M TMN). FIL's premium is positive (98.1 bps) but fv_vol is large (1,063 bps) so I set a wide half‑spread h=1.5% to protect against volatility; ENA has fv_vol 514 bps so h=1.3% is safer. I avoid DOT and PENGU because live round trips lost (DOT avg -76.1 bps realised -2,492 TMN; PENGU avg -178.3 bps realised -2,109 TMN) and I skip markets with buy_blocked warnings. Sleeve exposures are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -0.12%), and I keep beta_assets as PEPE/ADA/LINK (the sleeve universe weights) for reference.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
