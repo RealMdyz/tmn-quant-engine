@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,509 TMN** (-1.410%)
+- Equity: **4,929,453 TMN** (-1.411%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 205 (sources: {'llm:boxapi': 205})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 205, 'sleeve_order': 329, 'quote': 5852, 'buy_blocked': 14720, 'buy_unblocked': 14656, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 206 (sources: {'llm:boxapi': 206})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 206, 'sleeve_order': 329, 'quote': 5861, 'buy_blocked': 14777, 'buy_unblocked': 14715, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "HYPE": 1.4,
-    "CHZ": 1.0
+    "CHZ": 1.5,
+    "GALA": 1.2
   },
   "pause": false,
-  "reasoning": "Pick HYPE and CHZ only: both have very wide Toman spreads (HYPE spread_bps 273.0, CHZ 130.6) and no buy_blocked flags; HYPE volume is acceptable (vol24h_mtmn 4145) and fv_vol_bps 148 so I set a wide half‑spread h=1.4% to avoid adverse selection. CHZ is thin (vol24h_mtmn 71) but spread is large; I choose h=1.0% to stay conservative while meeting the minimum half‑spread (>=0.8%). I avoid DOT/PENGU/GALA/SUI because DOT shows DOTUSDT book frozen and a recent losing live round trip (realised_pnl_tmn -2492, avg_round_trip_bps -76.1), PENGU had a losing round trip (realised_pnl_tmn -2109, avg_round_trip_bps -178.3), and SUI/GALA have Toman book sliding buy_blocked. Portfolio sleeves set to zero because USDT/TMN 48h is -1.58% and regime.cap is 0.0 (no sleeve exposure allowed).",
+  "reasoning": "I pick CHZ (spread_bps 172.1) and GALA (spread_bps 87.0) because they are the only candidates above our 80 bps minimum without recent losing live fills or an active buy block; CHZ gets the widest h=1.5% given its very large Toman spread (172 bps) and elevated fv_vol (306.6 bps). GALA gets h=1.2% because spread is 87 bps but fv_vol is extreme (3783 bps) and premium 64.6 bps, so we must stay wide. I avoid DOT and PENGU because both show recent live round-trip losses (DOT realised -2,492 TMN, avg -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and FIL/others are buy-blocked (sliding premiums). Sleeves are set to zero because the USDT/TMN 48h is -1.45% and the regime cap is 0.0 (portfolio regime disallows sleeve exposure); beta_assets listed are the current beta weights (PEPE, ADA, LINK).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
