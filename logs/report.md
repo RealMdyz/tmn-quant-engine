@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,373 TMN** (-1.413%)
+- Equity: **4,929,396 TMN** (-1.412%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 214 (sources: {'llm:boxapi': 214})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 214, 'sleeve_order': 329, 'quote': 6059, 'buy_blocked': 15668, 'buy_unblocked': 15605, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 215 (sources: {'llm:boxapi': 215})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 215, 'sleeve_order': 329, 'quote': 6079, 'buy_blocked': 15705, 'buy_unblocked': 15644, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.0,
-    "ENA": 1.4,
-    "GALA": 1.5
+    "FIL": 1.5,
+    "GALA": 1.2
   },
   "pause": false,
-  "reasoning": "I choose SUI (spread 406.9 bps, vol24h 6330M TMN, fv_vol 56.1 bps, quoted_now=true) because its Toman spread is very wide and FV is reasonably stable; h=1.0 keeps quotes aggressive but still wide. ENA has spread 144.7 bps and vol24h 2533M with fv_vol 228.7 bps, so I widen to h=1.4 to protect against volatility. GALA (spread 109.6 bps, vol24h 2026M, fv_vol 842 bps, quoted_now=true) is very noisy so I set h=1.5 to avoid being picked off. I avoid markets with buy_blocked or recent losing live round trips (DOT/PENGU/FIL/CHZ) — DOT and PENGU show realised losses (-2492 TMN and -2109 TMN, avg round-trip -76.1 and -178.3 bps). Portfolio sleeves are set to 0.0 because the USDT/TMN 48h is -0.96% -> regime cap 0.0 and both sleeves are already stopped/lossing (rial stopped -5.36%, beta stopped -7.53%), so no new exposure.",
+  "reasoning": "Choose FIL because its Toman spread is 176.7 bps and USDT/TMN spread 454.2 bps with premium +51.6 bps; fair-value vol is high (fv_vol_bps 741.2) so use the maximum half-spread h=1.5% to avoid being picked off. Choose GALA because spread_bps 131.0 and vol24h_mtmn 1036 with USDT spread 355 bps and fv_vol_bps 1035 — wide market but slightly lower tradability so h=1.2%. Avoid markets with active buy_blocked warnings (e.g. DOT/PENGU live losses, SUI/ENA/CHZ/HYPE flags) and any with spread_bps <80 (they are wasted slots). Sleeves kept at 0.0 because USDT/TMN 48h = -1.06% sets exposure cap 0.0 (portfolio regime cap and sleeves show scale_now 0.0 and stop-loss states), so no rial or beta exposure now.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
