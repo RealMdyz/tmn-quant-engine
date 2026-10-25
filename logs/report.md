@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,003 TMN** (-1.420%)
+- Equity: **4,929,001 TMN** (-1.420%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 190 (sources: {'llm:boxapi': 190})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 190, 'sleeve_order': 329, 'quote': 5608, 'buy_blocked': 13780, 'buy_unblocked': 13720, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 191 (sources: {'llm:boxapi': 191})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 191, 'sleeve_order': 329, 'quote': 5609, 'buy_blocked': 13802, 'buy_unblocked': 13741, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.4,
-    "BCH": 1.3
+    "AAVE": 1.2
   },
   "pause": false,
-  "reasoning": "I skip DOT because its live round trip lost -2,492 TMN (avg -76.1 bps) so it is currently a losing venue. I quote SUI (spread 83.6 bps, USDT spread 180 bps) but wide because fv_vol is high (221.6 bps) — h=1.4% to avoid pickoffs. I also quote BCH (spread 85.5 bps, fv_vol 186.1 bps) with h=1.3% — spread and volume (vol24h 1,319M TMN) justify a single calm maker slot. Portfolio exposures are zero: the regime cap is 0.0 since USDT/TMN 48h = -1.89% (portfolio shows cap 0.0), so both rial and beta are set to 0.0; beta_assets chosen are PEPE/ADA/LINK from the sleeve universe if later re-enabled.",
+  "reasoning": "Pick only AAVE: spread_bps 133.3 (well above the 80 bps cutoff) and USDT book spread 102.3 bps with fv_vol_bps 95.9 — a calm enough fair-value (fv_vol under 100 bps) and wide Toman spread supports a relatively wide half-spread. CAKE and CHZ have larger quoted spreads but show Toman-book sliding (CAKE: \"premium -126 bps\", CHZ: \"premium -56 bps\" buy_blocked alerts) so I avoid them. DOT/PENGU had live round-trip losses (DOT realised -2492 TMN, avg -76.1 bps; PENGU realised -2109 TMN, avg -178.3 bps) so they are excluded. Sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.89% => exposure cap 0.0), and both sleeves are currently stopped/scale_now 0.0 (rial stopped at -5.36%, beta stopped -7.53%), so no new exposure is taken.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
