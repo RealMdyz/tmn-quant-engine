@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,699 TMN** (-1.406%)
+- Equity: **4,929,353 TMN** (-1.413%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 186 (sources: {'llm:boxapi': 186})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 186, 'sleeve_order': 329, 'quote': 5427, 'buy_blocked': 13531, 'buy_unblocked': 13462, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 187 (sources: {'llm:boxapi': 187})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 187, 'sleeve_order': 329, 'quote': 5448, 'buy_blocked': 13569, 'buy_unblocked': 13504, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 0.8
+    "GALA": 1.5,
+    "BCH": 1.3
   },
   "pause": false,
-  "reasoning": "I choose SUI only: its Toman spread is 88.4 bps (>80 bps threshold) with low FV volatility (fv_vol_bps 50.7) and a healthy USDT/TMN linked spread (usdt_spread_bps 80.8), so narrow quoting (h=0.8%) is appropriate to capture the wide Toman spread while avoiding adverse selection. I avoid DOT and PENGU because live round trips lost heavily (DOT avg_round_trip_bps -76.1, realised -2492 TMN; PENGU avg_round_trip_bps -178.3, realised -2109 TMN). CHZ/APE/FIL/AVAX/CAKE are either buy-blocked or have broken/stale USDT fair values (CHZ USDT frozen; APE no fair value; FIL/AVAX/CAKE show sliding Toman books), so they are excluded. Portfolio sleeves are set to zero because the USDT/TMN 48h is -1.89% giving regime exposure cap 0.0, and both sleeves are currently stopped/being winded down (rial scale_now 0.0, beta scale_now 0.0). Overall this is conservative: one calm, wide market (SUI) and no sleeve exposure given the rial regime and recent live-round-trip losses.",
+  "reasoning": "Pick GALA and BCH only because the bot never quotes where Toman spread <80 bps and the best candidates without active buy-blocks or recent losing fills are GALA (spread 107.5 bps, vol24h 17,280 MTMN) and BCH (spread 86.3 bps, fv_vol 216.8 bps). I set wide half-spreads (GALA h=1.5%, BCH h=1.3%) because fair-value vol and premiums are large (GALA fv_vol 734.6 bps, BCH fv_vol 216.8 bps) and we must protect against adverse selection after recent losing round-trips (DOT/PENGU had avg -76 to -178 bps). I avoid ARB/HYPE/DOT because ARB and HYPE show Toman-book sliding buy-blocks and DOT produced a realised loss (-2,492 TMN, avg -76.1 bps). Sleeves set to 0.0 because the USDT/TMN regime cap is 0.0 (48h -1.89% => exposure cap 0.0) even though the beta universe is PEPE/ADA/LINK.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
