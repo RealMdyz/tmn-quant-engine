@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,761 TMN** (-1.405%)
+- Equity: **4,929,764 TMN** (-1.405%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 171 (sources: {'llm:boxapi': 171})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 171, 'sleeve_order': 329, 'quote': 5032, 'buy_blocked': 12713, 'buy_unblocked': 12645, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 172 (sources: {'llm:boxapi': 172})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 172, 'sleeve_order': 329, 'quote': 5036, 'buy_blocked': 12737, 'buy_unblocked': 12674, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.5
+    "ARB": 1.4,
+    "BCH": 1.2,
+    "FIL": 1.5
   },
   "pause": false,
-  "reasoning": "Only BCH meets the >80 bps Toman-spread rule (spread_bps 154.2) and is not buy-blocked; its fv_vol_bps is high (179.8) so I set a wide half-spread h=1.5% to avoid being picked off and to cover maker fees (round-trip cost 0.5%). Many large-spread names are excluded: FIL and CHZ have frozen USDT books (FIL buy_blocked: fair value unverifiable; CHZUSDT frozen 49 min), DOT and PENGU show recent losing live round trips (avg_round_trip_bps -76.1 and -178.3) and also Toman-book sliding alerts. The portfolio regime caps sleeves to 0.0 because USDT/TMN 48h = -1.89% (regime cap 0.0), so rial and beta exposures are set to 0.0 and no beta assets are chosen.",
+  "reasoning": "Pick ARB because its Toman spread is wide (spread_bps 103.8) and it is busy (vol24h_mtmn 22777) — give it a wide half‑spread h=1.4% to reduce adverse selection given fv_vol_bps 610 and large usdt_spread_bps 301.9. BCH has spread_bps 111.3 and is currently quoted_now (safer), so use h=1.2% to capture spread while limiting aggression; FIL has an extremely wide spread_bps 200.4 (vol24h_mtmn 1860) but higher fv_vol_bps 345.6 so I set h=1.5% (max) and keep size cautious. Do not quote DOT or PENGU — both produced losing live round trips (DOT avg_round_trip_bps -76.1, realised_pnl_tmn -2492; PENGU avg_round_trip_bps -178.3, realised_pnl_tmn -2109) and DOT/PENGU have book sliding blocks. Sleeves set to 0.0 because regime cap is 0.0 (USDT/TMN 48h -1.89%) and both sleeves are stopped/scale_now 0.0 per portfolio (rial stopped -5.36% and beta stopped -7.53%).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
