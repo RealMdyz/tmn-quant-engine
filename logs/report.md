@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,697 TMN** (-1.406%)
+- Equity: **4,929,720 TMN** (-1.406%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 182 (sources: {'llm:boxapi': 182})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 182, 'sleeve_order': 329, 'quote': 5331, 'buy_blocked': 13259, 'buy_unblocked': 13199, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 183 (sources: {'llm:boxapi': 183})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 183, 'sleeve_order': 329, 'quote': 5333, 'buy_blocked': 13291, 'buy_unblocked': 13229, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "FIL": 1.3
+    "AAVE": 1.5,
+    "BCH": 1.2
   },
   "pause": false,
-  "reasoning": "I choose only FIL because it is the only calm, wide Toman-spread market that meets our >80 bps rule: spread_bps 100.7, fv_vol_bps low at 14.1 (stable fair value) and a large premium 241.9 bps with no buy_blocked or prior losing live fills. I avoid DOT and PENGU despite wide spreads because they produced losing live round trips (DOT realised -2,492 TMN avg -76.1 bps; PENGU realised -2,109 TMN avg -178.3 bps). CHZ and some others are either quoted_now with rapid FV moves (CHZ fair value fell -156 bps in 60s) or have book/fair-value issues, so I don’t quote them. I set h at 1.3% (wide) because informed-seller picks in narrow quotes cost us; backtests showed positive outcomes near the top of the 0.8–1.5% range. Sleeves are set to 0.0 exposure because the regime cap is 0.0 (USDT/TMN 48h = -1.89% → cap 0.0), and both rial and beta are already in wind-down/stop-loss states.",
+  "reasoning": "I pick AAVE and BCH because they are the only busy candidates with Toman spreads comfortably >= 80 bps (AAVE spread 136.2 bps, BCH 124.2 bps). AAVE gets a wide half‑spread h=1.5% because its fv_vol_bps is high at 143.2 and USDT/TMN spread is large (88.7 bps), so we must be defensive. BCH is calmer (fv_vol_bps 49.2) and has a big Toman spread, so a narrower h=1.2% balances capture and adverse‑selection. I avoid DOT and PENGU because our live round trips there lost heavily (DOT avg round trip -76.1 bps, PENGU -178.3 bps) and I avoid nascent/low‑volume candidates (e.g., CHZ vol24h_mtmn only 59M). Sleeves are set to 0.0 because the USDT/TMN regime cap is 0.0 (48h -1.89%), and both rial and beta are currently scaled down (portfolio scale_now = 0.0 and stopped states present).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
