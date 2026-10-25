@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,283 TMN** (-1.414%)
+- Equity: **4,929,395 TMN** (-1.412%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,15 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 210 (sources: {'llm:boxapi': 210})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 210, 'sleeve_order': 329, 'quote': 5921, 'buy_blocked': 15192, 'buy_unblocked': 15131, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 211 (sources: {'llm:boxapi': 211})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 211, 'sleeve_order': 329, 'quote': 5924, 'buy_blocked': 15236, 'buy_unblocked': 15174, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {},
+  "markets": {
+    "ENA": 1.5
+  },
   "pause": false,
-  "reasoning": "USDT/TMN 48h = -1.01% -> regime cap 0.0 so sleeves must be wound down; I set both rial and beta to 0.0. I place no market-making quotes because the bot never bids where Toman spread <80 bps and most candidates with spread >=80 bps are currently blocked or have bad signals (DOT spread 183.7 bps but DOTUSDT book frozen; ENA, HYPE, AAVE, WLD show Toman-book sliding or fair-value shocks). CHZ is the only unblocked market with spread 178.6 bps but volume is tiny (vol24h 71M TMN) and it's already quoted_now, so I avoid adding new quotes. Live-fill evidence also warns: recent round trips lost (DOT avg -76.1 bps, PENGU avg -178.3 bps) and account return is -1.413% with realised PnL -4,601 TMN, so a cautious no-market posture and zero sleeve exposure is appropriate.",
+  "reasoning": "Pick only ENA: it is one of the few candidates with Toman spread >= 80 bps (spread_bps 96.2) and decent 24h TMN flow (vol24h_mtmn 2603). I set a wide half-spread h=1.5% because fv_vol_bps is high (546.2) and maker should be conservative after observed adverse selection. I avoid DOT (spread 222.8) because DOTUSDT book is frozen (buy_blocked: fair value unverifiable) and avoid PENGU which has live round-trip losses (realised_pnl_tmn -2109, avg_round_trip_bps -178.3). Regime caps USDT/TMN 48h = -1.01% => exposure cap 0.0, so both sleeves set to 0.0; I still list two beta assets (PEPE, ADA) as the preferred picks if sleeves were allowed, based on their place in the beta universe.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
