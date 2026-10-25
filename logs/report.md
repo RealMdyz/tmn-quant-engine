@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,343 TMN** (-1.413%)
+- Equity: **4,929,333 TMN** (-1.413%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,15 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 209 (sources: {'llm:boxapi': 209})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 209, 'sleeve_order': 329, 'quote': 5919, 'buy_blocked': 15097, 'buy_unblocked': 15036, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 210 (sources: {'llm:boxapi': 210})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 210, 'sleeve_order': 329, 'quote': 5921, 'buy_blocked': 15137, 'buy_unblocked': 15076, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {
-    "CHZ": 1.5
-  },
+  "markets": {},
   "pause": false,
-  "reasoning": "USDT/TMN 48h = -1.21% gives regime cap 0.0 so I shut sleeves (portfolio.regime.cap=0.0; rial and beta set to 0.0). Live account is slightly down (return -1.41%, drawdown 3.60%), so be conservative. Only CHZ meets the >80 bps rule with spread_bps=181 and no buy_block, so I quote only CHZ with a wide half-spread h=1.5% given tiny vol24h_mtmn=71 (illiquid) to avoid being picked off. IMX is excluded because the Toman book is broken (buy_blocked: 'Toman spread > 5%: book broken'); DOT and PENGU are excluded because they produced losing live round trips (avg_round_trip_bps -76.1 and -178.3, realised_pnl_tmn -2492 and -2109) and several other candidates have spread_bps <80 so are below our threshold.",
+  "reasoning": "USDT/TMN 48h = -1.01% -> regime cap 0.0 so sleeves must be wound down; I set both rial and beta to 0.0. I place no market-making quotes because the bot never bids where Toman spread <80 bps and most candidates with spread >=80 bps are currently blocked or have bad signals (DOT spread 183.7 bps but DOTUSDT book frozen; ENA, HYPE, AAVE, WLD show Toman-book sliding or fair-value shocks). CHZ is the only unblocked market with spread 178.6 bps but volume is tiny (vol24h 71M TMN) and it's already quoted_now, so I avoid adding new quotes. Live-fill evidence also warns: recent round trips lost (DOT avg -76.1 bps, PENGU avg -178.3 bps) and account return is -1.413% with realised PnL -4,601 TMN, so a cautious no-market posture and zero sleeve exposure is appropriate.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
