@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,139 TMN** (-1.417%)
+- Equity: **4,929,224 TMN** (-1.416%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 202 (sources: {'llm:boxapi': 202})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 202, 'sleeve_order': 329, 'quote': 5832, 'buy_blocked': 14484, 'buy_unblocked': 14423, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 203 (sources: {'llm:boxapi': 203})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 203, 'sleeve_order': 329, 'quote': 5834, 'buy_blocked': 14511, 'buy_unblocked': 14447, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CHZ": 1.5
+    "ARB": 1.3
   },
   "pause": false,
-  "reasoning": "Only CHZ meets the minimum Toman spread filter: spread_bps 139.5 (>80) with no buy_blocked flag; vol24h_mtmn is small (71) so I keep h wide at 1.5% to avoid being picked off. FIL and DOT look attractive by spread (FIL 106.5, DOT 83.6) but both have active problems: FIL has the Toman book sliding (buy_blocked) and very high fv_vol (1864 bps), DOT's USDT book is frozen 38 min and our last round trip there lost -2,492 TMN (avg -76.1 bps), so I avoid them. The portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.62%, portfolio.cap 0.0) and both sleeves are currently stopped/being winded down (rial stopped: -5.36% stop-loss; beta stopped: -7.53%), so no new exposure. No pause — no market-wide news requiring a halt in quoting now.",
+  "reasoning": "Only ARB passes our filters: spread_bps 82.7 (above the 80 bps floor) with healthy vol24h_mtmn 15102 and low fv_vol_bps 29.7, so we can quote wide (h=1.3%) to protect vs adverse selection. Many attractive spreads (FIL 134.7, GALA 109.2, HYPE 100.2, CHZ 133.5) have buy_blocked/fair-value shocks in the last 60–120s so we avoid them. DOT and PENGU produced losing live round trips (avg_round_trip_bps -76.1 and -178.3, realised pnl -2492 and -2109 TMN) so we do not quote those. Portfolio sleeves are set to 0.0 because USDT/TMN 48h = -1.59% gives regime cap 0.0 (no exposure); this matches the engine state where both sleeves are currently scaled to 0 and stopped.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
