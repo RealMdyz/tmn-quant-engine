@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,796 TMN** (-1.404%)
+- Equity: **4,929,736 TMN** (-1.405%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 172 (sources: {'llm:boxapi': 172})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 172, 'sleeve_order': 329, 'quote': 5042, 'buy_blocked': 12761, 'buy_unblocked': 12693, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 173 (sources: {'llm:boxapi': 173})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 173, 'sleeve_order': 329, 'quote': 5049, 'buy_blocked': 12784, 'buy_unblocked': 12717, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "ARB": 1.4,
-    "BCH": 1.2,
-    "FIL": 1.5
+    "BNB": 1.1,
+    "BCH": 1.2
   },
   "pause": false,
-  "reasoning": "Pick ARB because its Toman spread is wide (spread_bps 103.8) and it is busy (vol24h_mtmn 22777) — give it a wide half‑spread h=1.4% to reduce adverse selection given fv_vol_bps 610 and large usdt_spread_bps 301.9. BCH has spread_bps 111.3 and is currently quoted_now (safer), so use h=1.2% to capture spread while limiting aggression; FIL has an extremely wide spread_bps 200.4 (vol24h_mtmn 1860) but higher fv_vol_bps 345.6 so I set h=1.5% (max) and keep size cautious. Do not quote DOT or PENGU — both produced losing live round trips (DOT avg_round_trip_bps -76.1, realised_pnl_tmn -2492; PENGU avg_round_trip_bps -178.3, realised_pnl_tmn -2109) and DOT/PENGU have book sliding blocks. Sleeves set to 0.0 because regime cap is 0.0 (USDT/TMN 48h -1.89%) and both sleeves are stopped/scale_now 0.0 per portfolio (rial stopped -5.36% and beta stopped -7.53%).",
+  "reasoning": "Pick BNB and BCH only: BNB has large 24h volume 33,350M TMN and a Toman spread 92.7 bps (above our 80 bps floor) with no buy_blocked flag and reasonable fv_vol 167.6 bps, so I quote with h=1.1% to stay wide. BCH has a wide Toman spread 138.6 bps, moderate vol24h 1,668M TMN and fv_vol 111.2 bps and is quoted_now, so I place slightly wider h=1.2% to protect vs fv movement. I avoid other candidates: many are buy_blocked (DOT, PENGU, ENA, CAKE, HYPE etc.), FIL and DOT had bad live fills (DOT avg round-trip -76.1 bps, FIL earlier bought then fell), and several markets lack fair value or have extreme fv_vol. Sleeves remain 0.0 because USDT/TMN 48h = -1.89% gives regime cap 0.0 and both sleeves are currently stopped (rial return -3.38% with stop-loss triggered; beta stopped -7.53%), so no exposure now.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
