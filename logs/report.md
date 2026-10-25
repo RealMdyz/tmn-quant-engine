@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,744 TMN** (-1.405%)
+- Equity: **4,929,791 TMN** (-1.404%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 221 (sources: {'llm:boxapi': 221})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 221, 'sleeve_order': 329, 'quote': 6243, 'buy_blocked': 16375, 'buy_unblocked': 16312, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 222 (sources: {'llm:boxapi': 222})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 222, 'sleeve_order': 329, 'quote': 6253, 'buy_blocked': 16455, 'buy_unblocked': 16393, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "CAKE": 1.2,
-    "BCH": 1.3
+    "ENA": 1.3
   },
   "pause": false,
-  "reasoning": "I choose CAKE (spread 83.4 bps, vol24h 2,570M TMN, USDT spread 140.8 bps, fv_vol 224.6 bps) because its Toman spread is just above our 80 bps cutoff and the market is reasonably busy; set h=1.2% to be wide given fv_vol ~225 bps. I choose BCH (spread 80.7 bps, vol24h 1,027M TMN, fv_vol 255.9 bps) as the second slot (just meets the 80 bps rule) and set h=1.3% because of slightly higher FV volatility. I avoid markets with active buy blocks or sliding Toman books (FIL, AVAX, ENA, ARB, UNI, GALA flagged) and avoid broken books (IMX) despite large nominal spreads. Portfolio exposures are zero: the USDT/TMN regime cap is 0.0 (48h change +0.03%), so both rial and beta are set to 0.0 per the regime rule; beta_assets kept as PEPE/ADA/LINK (current universe) for reference.",
+  "reasoning": "Only ENA meets the minimum Toman spread rule: spread_bps 80.9 (>=80) with vol24h_mtmn 2584 and USDT spread 148.5 bps; fv_vol_bps 452.8 is elevated so I set a wide half-spread h=1.3% to protect against adverse selection. I avoid GALA and CHZ (spreads 216 and 208 bps) because both show 'Toman book sliding' buy_blocked flags, and WLD/others are similarly sliding; DOT and PENGU delivered negative live round-trip performance (avg -76.1 and -178.3 bps) so we stay conservative. Sleeves are set to zero because the regime cap is 0.0: USDT/TMN 48h only +0.01% so exposure cap = 0.0 and both rial and beta sleeves are currently stopped/scale_now=0.0 (rial stopped -5.36%, beta stopped -7.53%). No pause — no market-wide shock detected, but we remain narrow in active markets and keep risk-off.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
