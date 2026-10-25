@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,405 TMN** (-1.412%)
+- Equity: **4,929,430 TMN** (-1.411%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 216 (sources: {'llm:boxapi': 216})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 216, 'sleeve_order': 329, 'quote': 6098, 'buy_blocked': 15877, 'buy_unblocked': 15813, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 217 (sources: {'llm:boxapi': 217})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 217, 'sleeve_order': 329, 'quote': 6129, 'buy_blocked': 15955, 'buy_unblocked': 15893, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.2,
+    "SUI": 0.9,
     "ARB": 1.4
   },
   "pause": false,
-  "reasoning": "Pick SUI (spread_bps 102.7, vol24h_mtmn 5573, usdt_spread 70 bps) with h=1.2% because the Toman spread is >80 bps, volume is decent and FV volatility is moderate (fv_vol_bps 159.9). Pick ARB (spread_bps 91.9, vol24h_mtmn 12207) with a wider h=1.4% because FV volatility is high (fv_vol_bps 467.3) and its premium is negative (-33.5 bps), so we need extra protection. I exclude markets with buy blocks or recent adverse live fills (FIL, GALA, ENA are buy_blocked; PENGU and DOT had losing round trips: avg_round_trip_bps -178.3 and -76.1 respectively). Sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -0.17% => exposure cap 0.0) and both sleeves are currently stopped/scale_now=0 in the portfolio.",
+  "reasoning": "I pick SUI and ARB only because they are the only candidates with Toman spread >= 80 bps and no active buy block: SUI spread 108.9 bps (fv_vol 53.2 bps) and ARB spread 114.2 bps (but high fv_vol 514.4 bps). SUI is comparatively calm so I use a tighter half‑spread h=0.9% to be more competitive; ARB is very volatile so I widen to h=1.4% to protect vs adverse selection. I avoid DOT and PENGU because our live round trips there lost money (DOT realised -2,492 TMN, avg -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and I skip any market with buy_blocked (FIL/CHZ/ENA/GALA/IMX/etc.). Sleeves are set to 0.0 because the USDT/TMN regime cap is 0.0 (USDT/TMN 48h -0.17%), so the engine enforces no active exposure despite sleeve performance history.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
