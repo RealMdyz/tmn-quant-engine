@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,172 TMN** (-1.417%)
+- Equity: **4,929,086 TMN** (-1.418%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 193 (sources: {'llm:boxapi': 193})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 193, 'sleeve_order': 329, 'quote': 5676, 'buy_blocked': 13899, 'buy_unblocked': 13836, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 194 (sources: {'llm:boxapi': 194})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 194, 'sleeve_order': 329, 'quote': 5701, 'buy_blocked': 13933, 'buy_unblocked': 13868, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "AVAX": 0.8,
-    "CHZ": 1.4
+    "AVAX": 1.2,
+    "UNI": 1.0,
+    "WLD": 1.3
   },
   "pause": false,
-  "reasoning": "I pick AVAX because spread_bps=98.9 (above the 80 bps floor), vol24h_mtmn=2743 (reasonable liquidity) and fv_vol_bps=16.8 (stable fair value) so we can quote tighter — h=0.8%. I add CHZ because spread_bps=211.7 is very wide and will protect us despite low vol24h_mtmn=59, so I use a wide h=1.4% to avoid adverse selection. I avoid DOT and PENGU because both have recent live round-trip losses (DOT realised -2,492 TMN, avg -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and several markets (FIL/HYPE/CAKE/UNI) show Toman-book sliding/buy_blocked warnings. Sleeves are set to zero because USDT/TMN 48h = -1.89% triggers exposure cap 0.0 (portfolio.regime.cap=0.0) so rial and beta must be 0.0.",
+  "reasoning": "I choose AVAX, UNI and WLD because they are the only attractive markets with Toman spreads >=80 bps and no active buy-block: AVAX spread_bps 168.1 (vol24h 3122, fv_vol_bps 105.4) so I quote wide at h=1.2% to avoid being picked off. UNI is marginally above our 80 bps floor (spread_bps 82.4, vol24h 6373) so I quote a conservative h=1.0% to be competitive but protected. WLD has spread_bps 132.6 and fv_vol_bps 288.2 (vol24h 1917) so I set h=1.3% to reflect higher FV volatility. I do not quote DOT or PENGU because live round trips there lost money (DOT avg_round_trip_bps -76.1, realised_pnl_tmn -2492; PENGU avg_round_trip_bps -178.3, realised_pnl_tmn -2109) and I avoid markets with buy_blocked alerts (AAVE/HYPE/FIL/ARB/etc.). Sleeves are set to zero because the regime cap is 0.0 (USDT/TMN 48h -1.89%) so no exposure is allowed; beta_assets list follows the sleeve universe (PEPE, ADA, LINK) though scale is currently 0.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
