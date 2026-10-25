@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,695 TMN** (-1.406%)
+- Equity: **4,929,698 TMN** (-1.406%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 173 (sources: {'llm:boxapi': 173})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 173, 'sleeve_order': 329, 'quote': 5051, 'buy_blocked': 12825, 'buy_unblocked': 12764, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 174 (sources: {'llm:boxapi': 174})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 174, 'sleeve_order': 329, 'quote': 5066, 'buy_blocked': 12874, 'buy_unblocked': 12810, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BNB": 1.1,
-    "BCH": 1.2
+    "BNB": 1.4,
+    "BCH": 1.3,
+    "ENA": 1.2
   },
   "pause": false,
-  "reasoning": "Pick BNB and BCH only: BNB has large 24h volume 33,350M TMN and a Toman spread 92.7 bps (above our 80 bps floor) with no buy_blocked flag and reasonable fv_vol 167.6 bps, so I quote with h=1.1% to stay wide. BCH has a wide Toman spread 138.6 bps, moderate vol24h 1,668M TMN and fv_vol 111.2 bps and is quoted_now, so I place slightly wider h=1.2% to protect vs fv movement. I avoid other candidates: many are buy_blocked (DOT, PENGU, ENA, CAKE, HYPE etc.), FIL and DOT had bad live fills (DOT avg round-trip -76.1 bps, FIL earlier bought then fell), and several markets lack fair value or have extreme fv_vol. Sleeves remain 0.0 because USDT/TMN 48h = -1.89% gives regime cap 0.0 and both sleeves are currently stopped (rial return -3.38% with stop-loss triggered; beta stopped -7.53%), so no exposure now.",
+  "reasoning": "I pick at most three markets with Toman spreads >=80 bps and no active buy blocks. BNB has spread_bps 83.8, high vol24h_mtmn 32,916 (liquidity) but fv_vol_bps 177.8 so I set a wide half-spread h=1.4% to protect against adverse selection. BCH has spread_bps 116.3 and fv_vol_bps 157.0 (good spread but elevated FV volatility) so h=1.3%. ENA has spread_bps 170.8 with fv_vol_bps 121.5 and vol24h_mtmn 1,726, so h=1.2% to capture wide Toman spread while limiting risk. I avoid DOT and PENGU because they show recent losing live round trips (DOT avg_round_trip_bps -76.1, realised_pnl_tmn -2,492; PENGU avg_round_trip_bps -178.3, realised_pnl_tmn -2,109) and several coins where the USDT book or FV is frozen/ sliding (SUI, HYPE, FIL, ARB, CAKE, WLD) are skipped. Sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.89%) so no exposure is allowed; beta_assets kept as PEPE/ADA/LINK (current universe weights) for reference if exposure is re-enabled.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
