@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,414 TMN** (-1.412%)
+- Equity: **4,929,281 TMN** (-1.414%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 208 (sources: {'llm:boxapi': 208})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 208, 'sleeve_order': 329, 'quote': 5905, 'buy_blocked': 14985, 'buy_unblocked': 14925, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 209 (sources: {'llm:boxapi': 209})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 209, 'sleeve_order': 329, 'quote': 5917, 'buy_blocked': 15026, 'buy_unblocked': 14965, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "SUI": 1.5,
-    "ENA": 1.5,
-    "CHZ": 1.0
+    "CHZ": 1.5
   },
   "pause": false,
-  "reasoning": "I pick at most three markets with Toman spread >= 80 bps. SUI (spread 169.3 bps, vol24h 5648M TMN) is wide but fv_vol is large (fv_vol_bps 616.6) so I quote very wide h=1.5% to avoid adverse selection. ENA (spread 186.1 bps, vol24h 2343M TMN) also has elevated fv_vol (394.9 bps) so I set h=1.5% to prioritise few conservative maker fills. CHZ (spread 142.4 bps, fv_vol_bps 81.6) has lower fv volatility so I use a moderate h=1.0% to capture spread while limiting being picked off; CHZ volume is small (71M) so exposure is cautious. I avoid DOT and PENGU because DOT currently shows a buy-block and a recent losing round trip (avg -76.1 bps, realised -2,492 TMN) and PENGU had a losing fill (avg -178.3 bps, realised -2,109 TMN). I also avoid markets with sliding Toman-book guards (FIL/IMX/BCH/GALA/APE) flagged as buy_blocked. Portfolio sleeves set to zero because USDT/TMN 48h is -1.27% and the regime cap is 0.0 (no sleeve exposure); beta_assets are listed per the sleeve universe (PEPE, ADA, LINK) though scale is 0 due to the cap.",
+  "reasoning": "USDT/TMN 48h = -1.21% gives regime cap 0.0 so I shut sleeves (portfolio.regime.cap=0.0; rial and beta set to 0.0). Live account is slightly down (return -1.41%, drawdown 3.60%), so be conservative. Only CHZ meets the >80 bps rule with spread_bps=181 and no buy_block, so I quote only CHZ with a wide half-spread h=1.5% given tiny vol24h_mtmn=71 (illiquid) to avoid being picked off. IMX is excluded because the Toman book is broken (buy_blocked: 'Toman spread > 5%: book broken'); DOT and PENGU are excluded because they produced losing live round trips (avg_round_trip_bps -76.1 and -178.3, realised_pnl_tmn -2492 and -2109) and several other candidates have spread_bps <80 so are below our threshold.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
