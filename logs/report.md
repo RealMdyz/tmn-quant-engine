@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,332 TMN** (-1.413%)
+- Equity: **4,929,243 TMN** (-1.415%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 212 (sources: {'llm:boxapi': 212})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 212, 'sleeve_order': 329, 'quote': 6014, 'buy_blocked': 15515, 'buy_unblocked': 15455, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 213 (sources: {'llm:boxapi': 213})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 213, 'sleeve_order': 329, 'quote': 6018, 'buy_blocked': 15550, 'buy_unblocked': 15490, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "ENA": 1.4,
-    "FIL": 1.5
+    "SUI": 1.4,
+    "GALA": 1.5
   },
   "pause": false,
-  "reasoning": "I choose ENA and FIL only because we never quote where Toman spread <80 bps and these are among the few busy candidates above that threshold: ENA spread_bps=111.8 (vol24h_mtmn=2497) and FIL spread_bps=82.0 (vol24h_mtmn=2854). ENA is quoted_now and has moderate fv_vol_bps=576 so I set a wide half-spread h=1.4%; FIL has very high fv_vol_bps=572 and a large USDT/TMN dislocation (usdt_spread_bps=362.7, premium_bps=104.2) so I set the maximum h=1.5% to avoid pick-offs. I avoid DOT and PENGU because DOT's USDT book is frozen (buy_blocked) and its live round trip lost (avg_round_trip_bps=-76.1, realised_pnl_tmn=-2492), and PENGU has a recent losing live round trip (avg_round_trip_bps=-178.3). The portfolio sleeves are set to zero because the regime cap is 0.0 (USDT/TMN 48h -1.07%), so rial and beta exposures remain 0.0 to respect the rule and current stop-loss states.",
+  "reasoning": "I pick SUI and GALA (max 2 of 3 slots) because they clear the 80 bps minimum: SUI spread_bps 160 with vol24h 6,330 MTMN and GALA spread_bps 109.4 with vol24h 2,026 MTMN. Both are volatile so I set wide half-spreads (SUI h=1.4% given fv_vol_bps 141.3, GALA h=1.5% given fv_vol_bps 477.7) to reduce adverse selection; I avoid choppier or buy-blocked markets (FIL, BCH, DOT, ENA flagged buy_blocked) and markets where our live round trips lost (DOT avg_round_trip_bps -76.1, PENGU -178.3). Portfolio exposures are zero because the USDT/TMN 48h is -0.96% which sets the regime cap to 0.0, so both sleeves must be 0.0; I list ADA and LINK as beta_assets (high-momentum picks inside the beta universe) but no deployment due to the cap.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
