@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,685 TMN** (-1.406%)
+- Equity: **4,929,687 TMN** (-1.406%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 179 (sources: {'llm:boxapi': 179})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 179, 'sleeve_order': 329, 'quote': 5272, 'buy_blocked': 13109, 'buy_unblocked': 13043, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 180 (sources: {'llm:boxapi': 180})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 180, 'sleeve_order': 329, 'quote': 5284, 'buy_blocked': 13134, 'buy_unblocked': 13070, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.5,
-    "CHZ": 1.5
+    "BCH": 1.3
   },
   "pause": false,
-  "reasoning": "I choose BCH and CHZ only. BCH has spread_bps 124.2 and vol24h_mtmn 1609 with fv_vol_bps 181.4 so it meets the wide-spread (>=80 bps) and reasonable activity criteria; given elevated fv_vol I use a conservative wide half‑spread h=1.5%. CHZ shows spread_bps 114.3 (wide) though low vol24h_mtmn 59; its fv_vol_bps 258.7 and large spread justify quoting but conservatively at h=1.5% and only one additional slot. I avoid markets with buy_blocked flags (SUI, AAVE, UNI, FIL, PENGU, IMX, etc.) and those with bad live round-trip performance (DOT avg_round_trip_bps -76.1, PENGU -178.3) to prevent further losses. Sleeves are set to 0.0 because the USDT/TMN regime shows ch48_pct -1.89% and the portfolio cap is 0.0 (regime outside rial‑weakening zone), and both sleeves are currently stopped by their stop-loss rules, so no new exposure is taken. Beta_assets list prefers high‑momentum tokens from the beta universe (PEPE, ADA) if the engine later re-enables the sleeve.",
+  "reasoning": "Only BCH meets the bot's minimum Toman spread filter (spread_bps 124.2) with reasonable 24h volume (vol24h_mtmn 1606) and moderate fv_vol_bps 177.1; I set h=1.3% to sit well outside the top-of-book while remaining tradable. HYPE (spread_bps 188.7) is buy_blocked for a sliding Toman book, and CHZ (spread_bps 146.5) has negligible volume (vol24h_mtmn 59), so I avoid them. I exclude DOT and PENGU because live round trips lost (avg_round_trip_bps -76.1 and -178.3 with realised PNL -2492 and -2109 TMN). Portfolio regime shows USDT/TMN 48h -1.89% and cap 0.0, so both sleeves are set to 0.0 exposure to respect the exposure cap and existing stop-loss states.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
