@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,184 TMN** (-1.416%)
+- Equity: **4,929,310 TMN** (-1.414%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 187 (sources: {'llm:boxapi': 187})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 187, 'sleeve_order': 329, 'quote': 5484, 'buy_blocked': 13595, 'buy_unblocked': 13531, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 188 (sources: {'llm:boxapi': 188})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 188, 'sleeve_order': 329, 'quote': 5499, 'buy_blocked': 13629, 'buy_unblocked': 13566, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "GALA": 1.5,
-    "BCH": 1.3
+    "BCH": 0.9,
+    "ENA": 1.2
   },
   "pause": false,
-  "reasoning": "Pick GALA and BCH only because the bot never quotes where Toman spread <80 bps and the best candidates without active buy-blocks or recent losing fills are GALA (spread 107.5 bps, vol24h 17,280 MTMN) and BCH (spread 86.3 bps, fv_vol 216.8 bps). I set wide half-spreads (GALA h=1.5%, BCH h=1.3%) because fair-value vol and premiums are large (GALA fv_vol 734.6 bps, BCH fv_vol 216.8 bps) and we must protect against adverse selection after recent losing round-trips (DOT/PENGU had avg -76 to -178 bps). I avoid ARB/HYPE/DOT because ARB and HYPE show Toman-book sliding buy-blocks and DOT produced a realised loss (-2,492 TMN, avg -76.1 bps). Sleeves set to 0.0 because the USDT/TMN regime cap is 0.0 (48h -1.89% => exposure cap 0.0) even though the beta universe is PEPE/ADA/LINK.",
+  "reasoning": "USDT/TMN is down (48h -1.89%) so regime cap=0.0 and both sleeves set to 0.0 exposure. I pick BCH because it has a wide Toman spread 118.6 bps, healthy 24h vol 1,416M TMN and moderate fv_vol 289 bps — quote with h=0.9% to be present but not inside too aggressively. I pick ENA because spread is just above our threshold at 81.7 bps with vol24h 1,832M TMN; fv_vol is high (571 bps) so I widen to h=1.2% to protect against volatility. I avoid DOT and PENGU because live round-trips lost money (DOT avg -76.1 bps, realised -2,492 TMN; PENGU avg -178.3 bps, realised -2,109 TMN) and I avoid markets with recent buy blocks or collapsing fair value (SUI, AAVE, FIL, HYPE, IMX).",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
