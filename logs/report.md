@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,721 TMN** (-1.406%)
+- Equity: **4,929,671 TMN** (-1.407%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,19 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 176 (sources: {'llm:boxapi': 176})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 176, 'sleeve_order': 329, 'quote': 5163, 'buy_blocked': 12992, 'buy_unblocked': 12927, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 177 (sources: {'llm:boxapi': 177})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 177, 'sleeve_order': 329, 'quote': 5176, 'buy_blocked': 13009, 'buy_unblocked': 12943, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.2,
-    "BNB": 1.3,
-    "CHZ": 1.5
+    "FIL": 0.9,
+    "BCH": 1.3,
+    "CHZ": 1.2
   },
   "pause": false,
-  "reasoning": "Pick BCH, BNB and CHZ (max 3). BCH has spread_bps 134.8 and vol24h_mtmn 1,665 so attractive liquidity with wide Toman spread; I set h=1.2% to be conservative given fv_vol_bps 178.3. BNB has high volume (vol24h_mtmn 32,951) and spread_bps 84.3 (meets 80 bps floor) so I quote it with h=1.3% given fv_vol_bps 211.1. CHZ shows the widest spread_bps 212.6 (though low vol 59m) so I set the widest h=1.5% to avoid being picked off while still earning the large Toman spread. I do not quote markets with buy_blocked flags (e.g. FIL, DOT, PENGU) or where live round trips lost. Portfolio sleeves set to 0.0 because USDT/TMN 48h = -1.89% (portfolio regime cap 0.0) and both rial and beta are currently stopped/scale_now 0 per the regime.",
+  "reasoning": "Pick FIL because its Toman spread is 102 bps (above our 80 bps floor), USDT/TMN spread huge 537.9 bps and FV volatility is low (fv_vol_bps 18.4) — market looks wide and stable so quote relatively tight at h=0.9. Pick BCH (spread_bps 120.5) as a second slot but FV volatility is high (fv_vol_bps 466) so widen to h=1.3 to protect against adverse selection. Pick CHZ (spread_bps 114.3, quoted_now=true) as a third despite low volume (vol24h_mtmn 59) because spread is wide; FV volatility 559.7 bps implies a conservative h=1.2. Do not open sleeves: USDT/TMN 48h = -1.89% → regime cap = 0.0 so both rial and beta must be 0.0 exposure; beta_assets listed are the sleeve universe representatives (PEPE, ADA, LINK) if re-enabled later.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
