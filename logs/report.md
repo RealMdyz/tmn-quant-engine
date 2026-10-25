@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,296 TMN** (-1.414%)
+- Equity: **4,929,302 TMN** (-1.414%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 188 (sources: {'llm:boxapi': 188})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 188, 'sleeve_order': 329, 'quote': 5517, 'buy_blocked': 13677, 'buy_unblocked': 13614, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 189 (sources: {'llm:boxapi': 189})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 189, 'sleeve_order': 329, 'quote': 5540, 'buy_blocked': 13704, 'buy_unblocked': 13641, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 0.9,
-    "ENA": 1.2
+    "BCH": 1.0,
+    "SUI": 1.4
   },
   "pause": false,
-  "reasoning": "USDT/TMN is down (48h -1.89%) so regime cap=0.0 and both sleeves set to 0.0 exposure. I pick BCH because it has a wide Toman spread 118.6 bps, healthy 24h vol 1,416M TMN and moderate fv_vol 289 bps — quote with h=0.9% to be present but not inside too aggressively. I pick ENA because spread is just above our threshold at 81.7 bps with vol24h 1,832M TMN; fv_vol is high (571 bps) so I widen to h=1.2% to protect against volatility. I avoid DOT and PENGU because live round-trips lost money (DOT avg -76.1 bps, realised -2,492 TMN; PENGU avg -178.3 bps, realised -2,109 TMN) and I avoid markets with recent buy blocks or collapsing fair value (SUI, AAVE, FIL, HYPE, IMX).",
+  "reasoning": "I pick BCH (spread 122.3 bps, fv_vol 202.8 bps, no buy_blocked and quoted_now) with h=1.0% to be present in a wide, moderate-vol market. I also pick SUI (spread 84.7 bps, usdt_spread 235.8 bps) but set h=1.4% because fv_vol is high (453.1 bps) and I want wide quotes to avoid adverse selection. I avoid DOT and PENGU despite wide spreads because our live round trips there lost heavily (DOT avg -76.1 bps, PENGU avg -178.3 bps) and some markets show Toman-book sliding flags. The portfolio sleeves are set to 0.0 because USDT/TMN 48h = -1.89% gives a regime cap of 0.0 (portfolio.regime.cap 0.0), so no sleeve exposure now; beta_assets listed are the sleeve universe picks (ADA, LINK, PEPE) if exposure were allowed.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
