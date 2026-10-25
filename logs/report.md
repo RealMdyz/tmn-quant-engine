@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,684 TMN** (-1.406%)
+- Equity: **4,929,685 TMN** (-1.406%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 178 (sources: {'llm:boxapi': 178})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 178, 'sleeve_order': 329, 'quote': 5233, 'buy_blocked': 13087, 'buy_unblocked': 13023, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 179 (sources: {'llm:boxapi': 179})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 179, 'sleeve_order': 329, 'quote': 5256, 'buy_blocked': 13099, 'buy_unblocked': 13033, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.0,
-    "WLD": 1.2
+    "BCH": 1.5,
+    "CHZ": 1.5
   },
   "pause": false,
-  "reasoning": "I pick BCH (spread 131.0 bps, vol24h 1,665M TMN, fv_vol 453.1 bps) because its Toman spread is wide and volume is nontrivial; set h=1.0 to quote near the top but protect against fv volatility. I also pick WLD (spread 99.8 bps, vol24h 2,702M TMN, fv_vol 419.1 bps, premium -142.2 bps) with h=1.2 since the large negative premium and elevated fv volatility call for wider quotes. I avoid markets with buy_blocked or recent losing live round trips (DOT avg -76.1 bps, PENGU avg -178.3 bps) and avoid AAVE/UNI/others flagged as sliding or blocked. Portfolio sleeves are zero because USDT/TMN 48h = -1.89% (regime cap 0.0) so no rial/beta exposure; I keep beta_assets as the current universe weights (PEPE, ADA, LINK) for reference.",
+  "reasoning": "I choose BCH and CHZ only. BCH has spread_bps 124.2 and vol24h_mtmn 1609 with fv_vol_bps 181.4 so it meets the wide-spread (>=80 bps) and reasonable activity criteria; given elevated fv_vol I use a conservative wide half‑spread h=1.5%. CHZ shows spread_bps 114.3 (wide) though low vol24h_mtmn 59; its fv_vol_bps 258.7 and large spread justify quoting but conservatively at h=1.5% and only one additional slot. I avoid markets with buy_blocked flags (SUI, AAVE, UNI, FIL, PENGU, IMX, etc.) and those with bad live round-trip performance (DOT avg_round_trip_bps -76.1, PENGU -178.3) to prevent further losses. Sleeves are set to 0.0 because the USDT/TMN regime shows ch48_pct -1.89% and the portfolio cap is 0.0 (regime outside rial‑weakening zone), and both sleeves are currently stopped by their stop-loss rules, so no new exposure is taken. Beta_assets list prefers high‑momentum tokens from the beta universe (PEPE, ADA) if the engine later re-enables the sleeve.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
