@@ -48,17 +48,18 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 180 (sources: {'llm:boxapi': 180})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 180, 'sleeve_order': 329, 'quote': 5293, 'buy_blocked': 13144, 'buy_unblocked': 13083, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 181 (sources: {'llm:boxapi': 181})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 181, 'sleeve_order': 329, 'quote': 5301, 'buy_blocked': 13176, 'buy_unblocked': 13111, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.3
+    "BCH": 1.3,
+    "CHZ": 1.4
   },
   "pause": false,
-  "reasoning": "Only BCH meets the bot's minimum Toman spread filter (spread_bps 124.2) with reasonable 24h volume (vol24h_mtmn 1606) and moderate fv_vol_bps 177.1; I set h=1.3% to sit well outside the top-of-book while remaining tradable. HYPE (spread_bps 188.7) is buy_blocked for a sliding Toman book, and CHZ (spread_bps 146.5) has negligible volume (vol24h_mtmn 59), so I avoid them. I exclude DOT and PENGU because live round trips lost (avg_round_trip_bps -76.1 and -178.3 with realised PNL -2492 and -2109 TMN). Portfolio regime shows USDT/TMN 48h -1.89% and cap 0.0, so both sleeves are set to 0.0 exposure to respect the exposure cap and existing stop-loss states.",
+  "reasoning": "I open only conservative maker quotes. BCH has spread_bps 121.5 (>80) and is currently quoted_now with no buy_block; fair-value volatility fv_vol_bps 429.5 suggests a wide half-spread so I set h=1.3%. CHZ also clears the 80 bps rule (spread_bps 117.2) but volume is tiny (vol24h_mtmn 59) and fv_vol_bps 404.9 so I keep it very wide at h=1.4% and small exposure via maker slots. I avoid FIL, DOT, WLD, ARB and others because FIL and APE have frozen/missing USDT books, DOT and PENGU produced losing live round-trips (DOT realised_pnl_tmn -2492 avg_round_trip_bps -76.1, PENGU realised_pnl_tmn -2109 avg_round_trip_bps -178.3) and several markets show Toman-book sliding blocks. Sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.89% => exposure cap 0.0) per portfolio data.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
