@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,361 TMN** (-1.413%)
+- Equity: **4,929,306 TMN** (-1.414%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,18 +48,15 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 206 (sources: {'llm:boxapi': 206})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 206, 'sleeve_order': 329, 'quote': 5866, 'buy_blocked': 14831, 'buy_unblocked': 14769, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 207 (sources: {'llm:boxapi': 207})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 207, 'sleeve_order': 329, 'quote': 5869, 'buy_blocked': 14901, 'buy_unblocked': 14833, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {
-    "CHZ": 1.5,
-    "GALA": 1.2
-  },
+  "markets": {},
   "pause": false,
-  "reasoning": "I pick CHZ (spread_bps 172.1) and GALA (spread_bps 87.0) because they are the only candidates above our 80 bps minimum without recent losing live fills or an active buy block; CHZ gets the widest h=1.5% given its very large Toman spread (172 bps) and elevated fv_vol (306.6 bps). GALA gets h=1.2% because spread is 87 bps but fv_vol is extreme (3783 bps) and premium 64.6 bps, so we must stay wide. I avoid DOT and PENGU because both show recent live round-trip losses (DOT realised -2,492 TMN, avg -76.1 bps; PENGU realised -2,109 TMN, avg -178.3 bps) and FIL/others are buy-blocked (sliding premiums). Sleeves are set to zero because the USDT/TMN 48h is -1.45% and the regime cap is 0.0 (portfolio regime disallows sleeve exposure); beta_assets listed are the current beta weights (PEPE, ADA, LINK).",
+  "reasoning": "I open no market-making slots: few candidates meet the bot's minimum Toman spread threshold in a safe way — many wide spreads (DOT 184.8 bps, PENGU 141.1 bps, CHZ 142.4 bps) are contaminated by bad signals (DOT: DOTUSDT book frozen 33 min and a recent round trip lost -2,492 TMN, avg -76.1 bps; PENGU: recent round trip lost -2,109 TMN, avg -178.3 bps; CHZ has very low vol24h 71M TMN and is currently quoted). Several other coins with decent spreads are buy-blocked or show extreme FV volatility (FIL spread 81.9 bps but Toman book sliding; APE and SUI show massive FV moves). Portfolio sleeves are set to zero because the regime cap is 0.0 (USDT/TMN 48h -1.27%), so both 'rial' and 'beta' must be 0.0; beta_assets left empty accordingly.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
