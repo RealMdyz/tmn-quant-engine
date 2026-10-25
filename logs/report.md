@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,216 TMN** (-1.416%)
+- Equity: **4,929,199 TMN** (-1.416%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 200 (sources: {'llm:boxapi': 200})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 200, 'sleeve_order': 329, 'quote': 5810, 'buy_blocked': 14414, 'buy_unblocked': 14353, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 201 (sources: {'llm:boxapi': 201})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 201, 'sleeve_order': 329, 'quote': 5815, 'buy_blocked': 14436, 'buy_unblocked': 14375, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "GALA": 1.3
+    "CHZ": 1.1,
+    "SUI": 1.5,
+    "FIL": 1.5
   },
   "pause": false,
-  "reasoning": "Choose GALA because its Toman spread is 87.7 bps (above our 80 bps floor), 24h Toman volume is 1,638m TMN and fv_vol_bps is 488 — wide and reasonably busy so a wide quote is warranted. I set h=1.3% (near the top of 0.8–1.5%) to avoid being picked off given elevated fv_vol and the general backtest lesson that narrow quotes lose money. I avoid DOT and CHZ because their USDT/TMN or USDT books are frozen / buy_blocked (DOT: \"DOTUSDT book frozen 45 min\"; CHZ: \"CHZUSDT book frozen 17 min\"), and I avoid PENGU and our DOT live fills which lost (-178.3 and -76.1 bps avg round trips, realised -2,109 and -2,492 TMN). I do not open any sleeve exposure because the USDT/TMN 48h is -1.42% giving an exposure cap 0.0 and both sleeves are currently scale_now=0.0 / stopped (rial and beta stopped by stop-loss).",
+  "reasoning": "I pick CHZ because it shows a very wide Toman spread 139.5 bps with low fv_vol 51 bps (calm fair value) so a wide maker quote (h=1.1%) can capture spread without excessive FV volatility. I include SUI (spread 100.1 bps) and FIL (spread 116.1 bps) but set max half-spreads (h=1.5%) because both have very high fv_vol (SUI 314.6 bps, FIL 891.2 bps) and deserve extra protection. I avoid DOT, PENGU and UNI which have buy guards / frozen USDT book or recent losing live round trips (DOT avg rt -76.1 bps, PENGU avg rt -178.3 bps) that indicate adverse selection. Sleeves are set to 0.0 because the USDT/TMN regime cap is 0.0 (48h -1.62%), and both rial and beta sleeves are currently stopped/under wind-down (rial stopped at -5.36%, beta stopped at -7.53%), so no new exposure is taken.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
