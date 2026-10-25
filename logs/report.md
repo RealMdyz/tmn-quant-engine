@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,426 TMN** (-1.411%)
+- Equity: **4,929,501 TMN** (-1.410%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,15 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 219 (sources: {'llm:boxapi': 219})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 219, 'sleeve_order': 329, 'quote': 6206, 'buy_blocked': 16195, 'buy_unblocked': 16135, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 220 (sources: {'llm:boxapi': 220})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 220, 'sleeve_order': 329, 'quote': 6207, 'buy_blocked': 16220, 'buy_unblocked': 16159, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
-  "markets": {
-    "WLD": 1.4
-  },
+  "markets": {},
   "pause": false,
-  "reasoning": "Only WLD meets the bot's minimum Toman spread and safety checks: spread_bps 106.0 (>80 bps), vol24h_mtmn 1779 and no buy_blocked, while many wide-spread names (CHZ 212.4, FIL 147.6, PENGU 139.6, GALA 174.3, CAKE 80.5) show buy_blocked or sliding/fv shocks. I set h=1.4% (wide) because FV volatility is elevated (fv_vol_bps 352.5) and the strategy's backtest showed narrower quotes lose while h near the top of the allowed range preserves capital. Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -0.10%), and both sleeves already have scale_now 0.0 and are in end_wind_down; keeping exposures at zero avoids additional losses. Beta_assets list PEPE/ADA/LINK (current universe) for record-keeping; no buying is intended while the exposure cap is zero.",
+  "reasoning": "I place no market-making quotes: almost all liquid coins have Toman spreads below our 80 bps threshold (SOL 22.3, XRP 5.1, S 29.7, BNB 35.5 etc.), and the ones with wide spreads are flagged or risky (FIL spread 143 bps but FV volatility 1527.5 bps and recent FV drop -69 bps in 60s; GALA spread 174 bps and buy_blocked for premium -413 bps; IMX spread 629 bps but buy_blocked for premium -345 bps). Live round-trip performance also warns: DOT and PENGU had losing round trips (DOT avg -76.1 bps, realised -2,492 TMN; PENGU avg -178.3 bps, realised -2,109 TMN), so I avoid markets with recent losses. Portfolio sleeves set to 0.0 because the USDT/TMN regime cap is 0.0 (48h change -0.10% -> no sleeve exposure), and both sleeves are currently stopped by their internal stop-loss states (rial sleeve stopped; beta sleeve stopped), so keeping exposures at zero conserves capital (equity 4,929,491 TMN, return -1.41%, drawdown 3.592%). Overall the order-book signals (many buy_blocked messages and very high FV vol on candidates) and the live negative round trips justify standing down until market noise subsides.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
