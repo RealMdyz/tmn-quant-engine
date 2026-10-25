@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,109 TMN** (-1.418%)
+- Equity: **4,929,100 TMN** (-1.418%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,19 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 191 (sources: {'llm:boxapi': 191})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 191, 'sleeve_order': 329, 'quote': 5611, 'buy_blocked': 13820, 'buy_unblocked': 13761, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 192 (sources: {'llm:boxapi': 192})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 192, 'sleeve_order': 329, 'quote': 5622, 'buy_blocked': 13841, 'buy_unblocked': 13781, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "AAVE": 1.2
+    "AAVE": 0.9,
+    "WLD": 1.3,
+    "CHZ": 1.5
   },
   "pause": false,
-  "reasoning": "Pick only AAVE: spread_bps 133.3 (well above the 80 bps cutoff) and USDT book spread 102.3 bps with fv_vol_bps 95.9 — a calm enough fair-value (fv_vol under 100 bps) and wide Toman spread supports a relatively wide half-spread. CAKE and CHZ have larger quoted spreads but show Toman-book sliding (CAKE: \"premium -126 bps\", CHZ: \"premium -56 bps\" buy_blocked alerts) so I avoid them. DOT/PENGU had live round-trip losses (DOT realised -2492 TMN, avg -76.1 bps; PENGU realised -2109 TMN, avg -178.3 bps) so they are excluded. Sleeves set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h -1.89% => exposure cap 0.0), and both sleeves are currently stopped/scale_now 0.0 (rial stopped at -5.36%, beta stopped -7.53%), so no new exposure is taken.",
+  "reasoning": "Pick AAVE (spread_bps 93.8, usdt_spread_bps 85.9, fv_vol_bps 30.6) as a calm, wide Toman market currently quoted — use relatively tight half-spread h=0.9% to capture spread while limiting adverse selection. Add WLD (spread_bps 126.8, vol24h_mtmn 2280, fv_vol_bps 108.1) as a busy, wider market with moderate volatility so use h=1.3%. Include CHZ (spread_bps 187.8, fv_vol_bps 217.7) for its very wide Toman spread despite low volume — quote wide h=1.5% to avoid being picked off. Exclude markets with buy_blocked or recent losing fills (FIL, CAKE, DOT, PENGU — PENGU RT avg -178.3 bps, DOT RT avg -76.1 bps) and ARB/AVAX/IMX that show book problems. Keep pause=false. Sleeves set to 0.0 because USDT/TMN 48h is -1.89% => regime cap 0.0 (portfolio shows cap 0.0) and both rial and beta are currently stopped/scale_now 0.0, so no new exposure.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
