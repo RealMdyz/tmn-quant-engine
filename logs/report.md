@@ -35,7 +35,7 @@
 
 ## LIVE
 
-- Equity: **4,929,701 TMN** (-1.406%)
+- Equity: **4,929,702 TMN** (-1.406%)
 - Max drawdown: **3.650%**
 - Traded volume: 890,411 TMN
 
@@ -48,17 +48,17 @@
 | DOT | 1 | 0 | 1 | -2,492 |
 | PENGU | 1 | 0 | 1 | -2,109 |
 
-- AI supervisor decisions: 185 (sources: {'llm:boxapi': 185})
-- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 185, 'sleeve_order': 329, 'quote': 5419, 'buy_blocked': 13463, 'buy_unblocked': 13406, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
+- AI supervisor decisions: 186 (sources: {'llm:boxapi': 186})
+- Events: {'coin_skipped': 441, 'live_self_test': 63, 'cancel_all': 11, 'startup': 11, 'regime': 14, 'policy': 186, 'sleeve_order': 329, 'quote': 5423, 'buy_blocked': 13506, 'buy_unblocked': 13444, 'state_restored': 62, 'sleeve_fill': 30, 'orphan_adopted': 1, 'fill': 2, 'exit': 2, 'sleeve_reweight': 2, 'sleeve_stop': 2}
 
 ### Latest AI decision
 ```json
 {
   "markets": {
-    "BCH": 1.3
+    "SUI": 0.8
   },
   "pause": false,
-  "reasoning": "Only BCH passes the bot's minimum Toman spread filter with spread_bps=151 and a healthy USDT-book spread 103.1bps; FV volatility is high (fv_vol_bps=209) so I widen quotes to h=1.3% to avoid being picked off. I avoid ARB/AVAX/CHZ/FIL because their Toman books are sliding / buy_blocked (e.g. ARB buy_blocked due to premium moving -23bps vs 120bps baseline) and APE has no fair value. Portfolio sleeves are set to 0.0 because the regime cap is 0.0 (USDT/TMN 48h = -1.89%, regime why: exposure cap 0.0), so both 'rial' and 'beta' must be zero despite the beta universe choice; I list PEPE/ADA/LINK as the preferred beta assets if sleeves are re-enabled. No pause — there is no market-wide news requiring a full stop.",
+  "reasoning": "I choose SUI only: its Toman spread is 88.4 bps (>80 bps threshold) with low FV volatility (fv_vol_bps 50.7) and a healthy USDT/TMN linked spread (usdt_spread_bps 80.8), so narrow quoting (h=0.8%) is appropriate to capture the wide Toman spread while avoiding adverse selection. I avoid DOT and PENGU because live round trips lost heavily (DOT avg_round_trip_bps -76.1, realised -2492 TMN; PENGU avg_round_trip_bps -178.3, realised -2109 TMN). CHZ/APE/FIL/AVAX/CAKE are either buy-blocked or have broken/stale USDT fair values (CHZ USDT frozen; APE no fair value; FIL/AVAX/CAKE show sliding Toman books), so they are excluded. Portfolio sleeves are set to zero because the USDT/TMN 48h is -1.89% giving regime exposure cap 0.0, and both sleeves are currently stopped/being winded down (rial scale_now 0.0, beta scale_now 0.0). Overall this is conservative: one calm, wide market (SUI) and no sleeve exposure given the rial regime and recent live-round-trip losses.",
   "tool_trace": [],
   "source": "llm:boxapi"
 }
